@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="referrer" content="no-referrer">
+
+    <meta name="author" content="Zachary Block">
+
+
+
+
+
+<title>Python基础-内置模块 | Zachary Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Zachary Blog" type="application/atom+xml">
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Zachary&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Zachary&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Python基础-内置模块</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Zachary Block</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">12 月 31 日&nbsp;&nbsp;17:28:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Python%E5%9F%BA%E7%A1%80/">Python基础</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="内置模块"><a href="#内置模块" class="headerlink" title="内置模块"></a>内置模块</h1><p>系统内置模块就是安装 Python 解释器之后，系统给提供的模块，在需要的时候可以导入使用</p>
+<h2 id="序列化模块"><a href="#序列化模块" class="headerlink" title="序列化模块"></a>序列化模块</h2><p>序列化模块指的是可以把 Python 中的数据，以文本或二进制的方式进行转换，并且还能反序列化为原来的数据 为什么需要序列化：一般来说数据在程序与网络中进行传输和存储时，需要以更加方便的形式进行存储和传输，因此需要对数据进行序列化</p>
+<ul>
+<li>文本序列化模块 json</li>
+<li>二进制序列化模块 pickle</li>
+</ul>
+<h3 id="pickle-序列化"><a href="#pickle-序列化" class="headerlink" title="pickle 序列化"></a>pickle 序列化</h3><ul>
+<li>pickle 模块提供的函数<ul>
+<li>dumps() 序列化，返回一个序列化后的结果，可以把一个 Python 的任意对象序列化成为一个二进制</li>
+<li>loads() 反序列化，返回一个反序列化后的 Python 对象，可以把一个序列化后的二进制数据反序列化为 Python 对象</li>
+<li>dump(var,fp) 序列化，把一个数据对象进行序列化并写入到文件中<ul>
+<li>参数 1 var 需要序列化的数据对象</li>
+<li>参数 2 fp 写入的文件对象</li>
+</ul>
+</li>
+<li>load(fp) 反序列化，在一个文件中读取序列化的数据，并且完成一个反序列化<ul>
+<li>fp 带读取的文件对象</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"></span><br><span class="line">var = <span class="string">&#x27;I miss you&#x27;</span></span><br><span class="line">res1 = pickle.dumps(var)</span><br><span class="line"><span class="built_in">print</span>(res1, <span class="built_in">type</span>(res1))  <span class="comment"># b&#x27;\x80\x03X\n\x00\x00\x00I miss youq\x00.&#x27; &lt;class &#x27;bytes&#x27;&gt;</span></span><br><span class="line"></span><br><span class="line">var = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">res2 = pickle.dumps(var)</span><br><span class="line"><span class="built_in">print</span>(res2)  <span class="comment"># b&#x27;\x80\x03]q\x00(K\x01K\x02K\x03K\x04e.&#x27;</span></span><br><span class="line"></span><br><span class="line">res1 = pickle.loads(res1)</span><br><span class="line">res2 = pickle.loads(res2)</span><br><span class="line"><span class="built_in">print</span>(res1)  <span class="comment"># I miss you</span></span><br><span class="line"><span class="built_in">print</span>(res2)  <span class="comment"># [1, 2, 3, 4]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 把一个Python数据进行序列化后写入文件</span></span><br><span class="line"><span class="comment"># 使用普通的dumps方法完成</span></span><br><span class="line">var = &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;duanduan&#x27;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">24</span>, <span class="string">&#x27;boyfriend&#x27;</span>: <span class="string">&#x27;huanghuang&#x27;</span>&#125;</span><br><span class="line">res = pickle.dumps(var)</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./data.txt&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    fp.write(res)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取一个反序列化的二进制文件读取处理，并完成反序列化</span></span><br><span class="line"><span class="comment"># 使用普通的loads方法完成</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./data.txt&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    res = fp.read()</span><br><span class="line">    res = pickle.loads(res)</span><br><span class="line">    <span class="built_in">print</span>(res)  <span class="comment"># &#123;&#x27;name&#x27;: &#x27;duanduan&#x27;, &#x27;age&#x27;: 24, &#x27;boyfriend&#x27;: &#x27;huanghuang&#x27;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 把一个Python数据进行序列化后写入文件</span></span><br><span class="line"><span class="comment"># 使用dump方法完成</span></span><br><span class="line">var = &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;duanduan&#x27;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">24</span>, <span class="string">&#x27;boyfriend&#x27;</span>: <span class="string">&#x27;huanghuang&#x27;</span>&#125;</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./data2.txt&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    pickle.dump(var, fp)</span><br><span class="line"><span class="comment"># 使用load方法读取</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./data2.txt&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    newdict = pickle.load(fp)</span><br><span class="line"><span class="built_in">print</span>(newdict)  <span class="comment"># &#123;&#x27;name&#x27;: &#x27;duanduan&#x27;, &#x27;age&#x27;: 24, &#x27;boyfriend&#x27;: &#x27;huanghuang&#x27;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="json-序列化"><a href="#json-序列化" class="headerlink" title="json 序列化"></a>json 序列化</h3><p>JSON(JavaScript Object Notation) 是一个轻量级数据交换格式 JSON 在 JavaScript 中是一个对象的表示方法，和 Python 中的字典的定义规则和语法都很像 在互联网中是一种通用的数据交换、数据传输、数据定义的一种数据格式</p>
+<ul>
+<li>Python 中提供 json 模块，可以把一些符合转换的 python 数据对象，转换为 json 格式的数据<ul>
+<li>json.dumps() 将一个 Python 数据序列化为 json 格式</li>
+<li>json.loads() 将一个序列化后的 json 对象反序列化为 Python 格式</li>
+<li>json.dump() 将一个 Python 数据序列化为 json 格式并写入文件</li>
+<li>json.load() 将一个 json 序列化后的文件反序列化回 Python 的格式</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">vardict = &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;duanduan&#x27;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">24</span>, <span class="string">&#x27;boyfriend&#x27;</span>: <span class="string">&#x27;huanghuang&#x27;</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(vardict, <span class="built_in">type</span>(vardict))  <span class="comment"># &#123;&#x27;name&#x27;: &#x27;duanduan&#x27;, &#x27;age&#x27;: 24, &#x27;boyfriend&#x27;: &#x27;huanghuang&#x27;&#125; &lt;class &#x27;dict&#x27;&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># json序列化</span></span><br><span class="line">res = json.dumps(vardict)</span><br><span class="line"><span class="built_in">print</span>(res, <span class="built_in">type</span>(res))  <span class="comment"># &#123;&quot;name&quot;: &quot;duanduan&quot;, &quot;age&quot;: 24, &quot;boyfriend&quot;: &quot;huanghuang&quot;&#125; &lt;class &#x27;str&#x27;&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># json反序列化</span></span><br><span class="line">res = json.loads(res)</span><br><span class="line"><span class="built_in">print</span>(res, <span class="built_in">type</span>(res))  <span class="comment"># &#123;&#x27;name&#x27;: &#x27;duanduan&#x27;, &#x27;age&#x27;: 24, &#x27;boyfriend&#x27;: &#x27;huanghuang&#x27;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用json写文件</span></span><br><span class="line">vardict = [&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;duanduan&#x27;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">24</span>, <span class="string">&#x27;boyfriend&#x27;</span>: <span class="string">&#x27;huanghuang&#x27;</span>&#125;,</span><br><span class="line">           &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;duanduan&#x27;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">24</span>, <span class="string">&#x27;boyfriend&#x27;</span>: <span class="string">&#x27;huanghuang&#x27;</span>&#125;]</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./data3.json&#x27;</span>, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    json.dump(vardict, fp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./data3.json&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    newdict = json.load(fp)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(</span><br><span class="line">    newdict)  <span class="comment"># [&#123;&#x27;name&#x27;: &#x27;duanduan&#x27;, &#x27;age&#x27;: 24, &#x27;boyfriend&#x27;: &#x27;huanghuang&#x27;&#125;, &#123;&#x27;name&#x27;: &#x27;duanduan&#x27;, &#x27;age&#x27;: 24, &#x27;boyfriend&#x27;: &#x27;huanghuang&#x27;&#125;]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="数学模块-math"><a href="#数学模块-math" class="headerlink" title="数学模块-math"></a>数学模块-math</h2><ul>
+<li>math 模块下的一些函数<ul>
+<li>math.ceil() 向上取整 内置函数中的 round() 是四舍五入</li>
+<li>math.floor() 向下取整</li>
+<li>math.pow() 计算数值的 n 次方，结果是浮点</li>
+<li>math.sqrt() 开平方运算，结果是浮点</li>
+<li>math.fabs() 计算绝对值，结果是浮点</li>
+<li>math.modf() 把一个数值拆分成小数和整数组成的元组</li>
+<li>math.copysign() 将第二个参数的正负号，赋值给第一个参数</li>
+<li>math.fsum() 对一个容器类型数据进行求和，结果是浮点数</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line">r1 = math.ceil(<span class="number">2.25</span>)</span><br><span class="line">r2 = <span class="built_in">round</span>(<span class="number">2.25</span>)</span><br><span class="line"><span class="built_in">print</span>(r1, r2)  <span class="comment"># 3 2</span></span><br><span class="line"></span><br><span class="line">r1 = math.floor(<span class="number">2.25</span>)</span><br><span class="line"><span class="built_in">print</span>(r1, r2)  <span class="comment"># 2 2</span></span><br><span class="line"></span><br><span class="line">res = math.<span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># 8.0</span></span><br><span class="line"></span><br><span class="line">res = math.sqrt(<span class="number">16</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># 4.0</span></span><br><span class="line"></span><br><span class="line">res = math.fabs(-<span class="number">3.14</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># 3.14</span></span><br><span class="line"></span><br><span class="line">res = math.modf(<span class="number">3.14</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># (0.14000000000000012, 3.0)</span></span><br><span class="line"></span><br><span class="line">res = math.copysign(<span class="number">3.14</span>, -<span class="number">9.9</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># -3.14</span></span><br><span class="line"></span><br><span class="line">res = math.fsum([<span class="number">1.14</span>, <span class="number">2.35</span>, <span class="number">3.46</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># 15.95</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="随机模块-random"><a href="#随机模块-random" class="headerlink" title="随机模块-random"></a>随机模块-random</h2><p>导入 random 模块之后</p>
+<ul>
+<li>random.random() 返回 0-1（左闭右开） 之间的随机小数</li>
+<li>random.randrange(开始值,结束值[,步进值]) 随机获取指定范围内的整数</li>
+<li>random.randint() 随机产生指定范围内的随机整数</li>
+<li>random.uniform() 随机产生指定范围内的随机小数</li>
+<li>random.choice() 随机获取容器类型中的值</li>
+<li>random.shuffle() 随机打乱一个容器的值，无返回值</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">res = random.random()</span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line"></span><br><span class="line">res = random.randrange(<span class="number">5</span>)</span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line">res = random.randrange(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line">res = random.randrange(<span class="number">5</span>,<span class="number">10</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line"></span><br><span class="line">res = random.randint(<span class="number">2</span>,<span class="number">8</span>)</span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line"></span><br><span class="line">res = random.uniform(<span class="number">3</span>,<span class="number">9</span>)</span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line"></span><br><span class="line">varlist = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>]</span><br><span class="line">res = random.choice(varlist)</span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line"></span><br><span class="line">random.shuffle(varlist)</span><br><span class="line"><span class="built_in">print</span>(varlist)</span><br></pre></td></tr></table></figure>
+
+<h2 id="系统接口模块-os"><a href="#系统接口模块-os" class="headerlink" title="系统接口模块-os"></a>系统接口模块-os</h2><ul>
+<li>os.getcwd() 返回当前文件工作目录&#x2F;路径</li>
+<li>os.chdir() 修改当前工作目录，类似于 linux 的 cd 命令</li>
+<li>os.listdir() 查看指定目录下所有文件 类似于 ls 命令，不指定目录时候，即当前目录下的</li>
+<li>os.mkdir(path,mode&#x3D;0o777,dir_fd&#x3D;None) 在指定位置创建一个文件夹，只能一个，若不指定位置，则在当前目录下创建一个文件夹<ul>
+<li>path:为所要创建的文件夹名称，默认在当前工作目录下，但也可以先使用 os.chdir()，修改工作目录，可以是直接在 name 处写入要新建文件夹的位置路径带上新建文件夹名称</li>
+<li>mode&#x3D;0o777:这个是一个系统权限，分别代表着文件所有人（user）、文件所属组（group）、其他人（other），所有数字加起来就是 777，参数必须带上 0o</li>
+<li>但是这里有问题，无法真的给到权限 777，因为 python 无法传讲一个比自己这个进程权限还要高的文件</li>
+<li>可以使用 linux 命令 sudo chmod -R 777 文件名</li>
+</ul>
+</li>
+<li>os.makedirs(name,mode)<ul>
+<li>name：所要创建的文件路径 这次可以递归创建啦，就算存在没有的文件夹，也可以迭代创建好</li>
+<li>mode：同样是权限</li>
+</ul>
+</li>
+<li>os.rmdir() 删除空文件夹，不能递归调用，否则报错</li>
+<li>os.removedirs() 递归删除空文件夹，若叶子目录被删除掉，会尝试删除父目录，若父目录也是空的目录，则会删除，直到该目录不是空的<ul>
+<li>但是！！ 因为 mac 系统下创建一个文件夹后会在该目录下创建一个.DS_Store 隐藏文件，因此这个文件夹不再是空文件夹了</li>
+</ul>
+</li>
+<li>os.remove() 删除文件</li>
+<li>os.rename() 修改文件或文件夹的名字<ul>
+<li>os.rename(‘.&#x2F;a’,’.&#x2F;AAA’)</li>
+</ul>
+</li>
+<li>os.system() 可以执行系统命令比如 linux 下的 ls cd 命令等等</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">res = os.getcwd()</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># /Users/zachary/PycharmProjects/Python教程阶段1/code</span></span><br><span class="line"></span><br><span class="line">os.chdir(<span class="string">&#x27;/Users/zachary&#x27;</span>)</span><br><span class="line">res = os.getcwd()</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># /Users/zachary</span></span><br><span class="line"></span><br><span class="line">res = os.listdir()</span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line">res = os.listdir(path=<span class="string">&#x27;/Users/zachary/PycharmProjects/Python教程阶段1/code&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line"></span><br><span class="line">os.mkdir(path=<span class="string">&#x27;/Users/zachary/PycharmProjects/Python教程阶段1/code/newdir&#x27;</span>,mode=<span class="number">0o777</span>)</span><br><span class="line"></span><br><span class="line">os.makedirs(<span class="string">&#x27;/Users/zachary/PycharmProjects/Python教程阶段1/code/newdir/a/b/c&#x27;</span>)</span><br><span class="line"></span><br><span class="line">os.system(<span class="string">&#x27;ls&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>关于系统中的权限 -rw-r–r– 1 zachary staff 120 2 28 21:24 data3.txt drwxr-xr-x 5 zachary staff 160 2 28 15:22 file 第一位 d 代表这个是一个文件夹&#x2F;目录，如果是-代表是一个文件 前三位代表文件所有人（user） 中间三位代表文件所属组（group） 最后三位代表其他人（other） 其中 r w x 代表不同的操作权限 r 表示可读 &#x3D;&#x3D;&#x3D;&#x3D; 4 w 表示可写 &#x3D;&#x3D;&#x3D;&#x3D; 2 x 表示可执行 &#x3D;&#x3D;&#x3D; 1</p>
+<h2 id="系统接口模块-os-path"><a href="#系统接口模块-os-path" class="headerlink" title="系统接口模块-os.path"></a>系统接口模块-os.path</h2><ul>
+<li>os.path 是系统模块中的路径<ul>
+<li>os.path.abspath() 该方法可以把一个相对路径转换成一个绝对路径</li>
+<li>os.path.basename() 返回路径中的最后一个部分</li>
+<li>os.path.dirname() 获取路径中的路径部分 返回路径中最后一个部分之前的部分</li>
+<li>os.path.join() 链接多个路径、组成一个新的路径</li>
+<li>os.path.split() 将一个路径拆分成主体和最后两个部分，以元组返回</li>
+<li>os.path.splitext() 将一个路径拆分成主体和后缀两部分，后缀为文件后缀</li>
+<li>os.path.getsize() 将返回路径所在文件的文件大小，返回值为字节</li>
+<li>os.path.isdir() 检测文件夹是否存在</li>
+<li>os.path.isfile() 检测文件是否存在</li>
+<li>os.path.exists() 检测文件或者路径是否存在</li>
+<li>os.path.samefile() 检测两个文件路径是否指向同一个目标位置(两个路径必须真实)</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">res = os.path.abspath(<span class="string">&#x27;./&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># /Users/zachary/PycharmProjects/Python教程阶段1/code</span></span><br><span class="line"></span><br><span class="line">res = os.path.basename(<span class="string">&#x27;/Users/zachary/PycharmProjects/Python教程阶段1/code&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># code</span></span><br><span class="line"></span><br><span class="line">res = os.path.dirname(<span class="string">&#x27;/Users/zachary/PycharmProjects/Python教程阶段1/code&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># /Users/zachary/PycharmProjects/Python教程阶段1</span></span><br><span class="line"></span><br><span class="line">res = os.path.join(<span class="string">&#x27;./newdir/a/&#x27;</span>, <span class="string">&#x27;2.jpg&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># ./newdir/a/2.jpg</span></span><br><span class="line"></span><br><span class="line">res = os.path.split(<span class="string">&#x27;./newdir/a/b/c&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># (&#x27;./newdir/a/b&#x27;, &#x27;c&#x27;)</span></span><br><span class="line"></span><br><span class="line">res = os.path.splitext(<span class="string">&#x27;./newdir/a/2.jpg&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># (&#x27;./newdir/a/2&#x27;, &#x27;.jpg&#x27;)</span></span><br><span class="line"></span><br><span class="line">res = os.path.getsize(<span class="string">&#x27;./83系统接口模块-os.py&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># 534</span></span><br><span class="line"></span><br><span class="line">res = os.path.isdir(<span class="string">&#x27;./newdir/a/b/c&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># True</span></span><br><span class="line"></span><br><span class="line">res = os.path.isfile(<span class="string">&#x27;./83系统接口模块-os.py&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># True</span></span><br><span class="line"></span><br><span class="line">res = os.path.exists(<span class="string">&#x27;./newdir/a/b/c&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># True</span></span><br><span class="line"></span><br><span class="line">a = <span class="string">&#x27;./newdir/a/b/c&#x27;</span></span><br><span class="line">b = <span class="string">&#x27;./newdir/a/../a/b/c&#x27;</span></span><br><span class="line">res = os.path.samefile(a, b)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># True</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="高级文件操作模块-shutil"><a href="#高级文件操作模块-shutil" class="headerlink" title="高级文件操作模块-shutil"></a>高级文件操作模块-shutil</h2><ul>
+<li>shutil.copy(A,B) 将路径 A 下的文件 copy 到路径 B 下的文件，在 B 下可以重命名</li>
+<li>shutil.copy2(A,B) 与 copy 方法相似，但是会将原文件的信息(操作时间和权限等)一并复制</li>
+<li>shutil.copyfile(A,B) 功能类似上述方法，但是 过程是打开文件 A，读取 A 中内容，并且写入到新的文件 B 中</li>
+<li>shutil.copytree(A,B) 将整个 A 的目录结构和文件，拷贝到 B 去，B 必须不存在</li>
+<li>shutil.rmtree() 删除整个文件夹</li>
+<li>shutil.move(A,B) 将整个 A 移动到 B 去</li>
+<li>shutil.make_archive(A,B,C)<ul>
+<li>A: 创建的压缩文件名称</li>
+<li>B: 指定压缩格式（zip、tar）</li>
+<li>C: 要压缩的文件或者文件夹路径</li>
+<li>例子: shutil.make_archive(‘a’,’zip’,’.&#x2F;‘)</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">shutil.copy(<span class="string">&#x27;./data3.json&#x27;</span>,<span class="string">&#x27;./newdir/a/data3_copy.json&#x27;</span>)</span><br><span class="line"></span><br><span class="line">shutil.copy2(<span class="string">&#x27;./data3.json&#x27;</span>,<span class="string">&#x27;./newdir/a/b/data3_same.json&#x27;</span>)</span><br><span class="line"></span><br><span class="line">res = shutil.copyfile(<span class="string">&#x27;./data3.json&#x27;</span>,<span class="string">&#x27;./newdir/a/b/data3_same.json&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(res)</span><br></pre></td></tr></table></figure>
+
+<h2 id="压缩模块-zipfile"><a href="#压缩模块-zipfile" class="headerlink" title="压缩模块-zipfile"></a>压缩模块-zipfile</h2><ul>
+<li>zipfile.ZipFile(路径包名，模式，压缩或打包)<ul>
+<li>压缩的使用格式<ul>
+<li>zipfile.ZipFile(‘data.zip’,’w’,zipfile.ZIP_DEFLATED)</li>
+</ul>
+</li>
+<li>解压缩的使用格式<ul>
+<li>zipfile.ZipFile(‘data.zip’,’r’)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> zipfile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 压缩文件</span></span><br><span class="line"><span class="keyword">with</span> zipfile.ZipFile(<span class="string">&#x27;data.zip&#x27;</span>,<span class="string">&#x27;w&#x27;</span>,zipfile.ZIP_DEFLATED) <span class="keyword">as</span> myzip:</span><br><span class="line">    myzip.write(<span class="string">&#x27;data.txt&#x27;</span>)</span><br><span class="line">    myzip.write(<span class="string">&#x27;data2.txt&#x27;</span>)</span><br><span class="line">    myzip.write(<span class="string">&#x27;data3.json&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压缩文件</span></span><br><span class="line"><span class="keyword">with</span> zipfile.ZipFile(<span class="string">&#x27;data.zip&#x27;</span>,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> myzip:</span><br><span class="line">    myzip.extractall(<span class="string">&#x27;./&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 压缩文件夹下全部文件</span></span><br><span class="line"><span class="keyword">with</span> zipfile.ZipFile(<span class="string">&#x27;data.zip&#x27;</span>,<span class="string">&#x27;w&#x27;</span>,zipfile.ZIP_DEFLATED) <span class="keyword">as</span> myzip:</span><br><span class="line">    arr = os.listdir(<span class="string">&#x27;./&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> arr:</span><br><span class="line">        myzip.write(i)</span><br></pre></td></tr></table></figure>
+
+<h2 id="时间模块-time"><a href="#时间模块-time" class="headerlink" title="时间模块-time"></a>时间模块-time</h2><ul>
+<li>time.time() 时间戳，返回从 1970 年 1 月 1 日至此时此刻的秒数,可以加参数给定时间戳，返回对应时间</li>
+<li>time.ctime() 返回系统时间，字符串,可以加参数给定时间戳，返回对应时间</li>
+<li>time.localtime() 返回系统时间，元组,可以加参数给定时间戳，返回对应时间</li>
+<li>time.strftime() 格式化输出时间</li>
+<li>time.sleep(s) 可以暂停当前线程的执行</li>
+<li>time.perf_counter() 计算一个程序的执行时间</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">res = time.time()</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># 1646289842.415093</span></span><br><span class="line"></span><br><span class="line">res = time.ctime()</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># Thu Mar  3 14:46:59 2022</span></span><br><span class="line"></span><br><span class="line">res = time.localtime()</span><br><span class="line"><span class="built_in">print</span>(</span><br><span class="line">    res)  <span class="comment"># time.struct_time(tm_year=2022, tm_mon=3, tm_mday=3, tm_hour=14, tm_min=49, tm_sec=29, tm_wday=3, tm_yday=62, tm_isdst=0)</span></span><br><span class="line"></span><br><span class="line">t = <span class="number">1640000009.7300968</span></span><br><span class="line">res = time.ctime(t)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># Mon Dec 20 19:33:29 2021</span></span><br><span class="line">res = time.localtime(t)</span><br><span class="line"><span class="built_in">print</span>(</span><br><span class="line">    res)  <span class="comment"># time.struct_time(tm_year=2021, tm_mon=12, tm_mday=20, tm_hour=19, tm_min=33, tm_sec=29, tm_wday=0, tm_yday=354, tm_isdst=0)</span></span><br><span class="line"></span><br><span class="line">res = time.strftime(<span class="string">&#x27;%Y-%m-%d %H:%M:%S %w&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># 2022-03-03 15:02:04 4</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;start&#x27;</span>)</span><br><span class="line">time.sleep(<span class="number">5</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;over&#x27;</span>)</span><br><span class="line"></span><br><span class="line">count = <span class="number">0</span></span><br><span class="line">start = time.perf_counter()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10000000</span>):</span><br><span class="line">    count += <span class="number">1</span></span><br><span class="line">end = time.perf_counter()</span><br><span class="line"><span class="built_in">print</span>(end - start)  <span class="comment"># 0.9241935030000006</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="日历模块-calendar"><a href="#日历模块-calendar" class="headerlink" title="日历模块-calendar"></a>日历模块-calendar</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> calendar</span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回指定年月的数据 月份的第一天是周几，和月份的总天数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">calendar_my</span>(<span class="params">year,month</span>):</span><br><span class="line">    res = calendar.monthrange(year, month)</span><br><span class="line">    <span class="built_in">print</span>(res)  <span class="comment"># (1,31)</span></span><br><span class="line"></span><br><span class="line">    week = res[<span class="number">0</span>] + <span class="number">1</span></span><br><span class="line">    days = res[<span class="number">1</span>]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;一\t二\t三\t四\t五\t六\t日&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    d = <span class="number">1</span></span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> count &lt; week - <span class="number">1</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;\t&#x27;</span>, end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> d &lt;= days:</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">8</span>):</span><br><span class="line">            <span class="keyword">if</span> d &gt; days:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&#x27;\t&#x27;</span>, end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="built_in">print</span>(d, end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">                count += <span class="number">1</span></span><br><span class="line">            d += <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> count % <span class="number">7</span> == <span class="number">0</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line">calendar_my(<span class="number">2022</span>,<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>更新: 2023-12-31 17:28:38<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/zacharyblock/cx2om6/zo1eq941xoagbnig">https://www.yuque.com/zacharyblock/cx2om6/zo1eq941xoagbnig</a></p>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Zachary Block</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2022/12/31/Python%E5%9F%BA%E7%A1%80/%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/">http://example.com/2022/12/31/Python%E5%9F%BA%E7%A1%80/%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Python/"># Python</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/12/31/Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80/">Python面向对象-面向对象基础</a>
+            
+            
+            <a class="next" rel="next" href="/2022/12/31/Python%E5%9F%BA%E7%A1%80/%E6%96%87%E4%BB%B6/">Python基础-文件</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Zachary Block | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

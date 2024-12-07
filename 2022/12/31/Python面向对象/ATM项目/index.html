@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="referrer" content="no-referrer">
+
+    <meta name="author" content="Zachary Block">
+
+
+
+
+
+<title>Python面向对象-ATM 项目 | Zachary Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Zachary Blog" type="application/atom+xml">
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Zachary&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Zachary&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Python面向对象-ATM 项目</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Zachary Block</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">12 月 31 日&nbsp;&nbsp;17:46:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">Python面向对象</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="ATM-项目"><a href="#ATM-项目" class="headerlink" title="ATM 项目"></a>ATM 项目</h1><h1 id="ATM-系统项目说明文档"><a href="#ATM-系统项目说明文档" class="headerlink" title="ATM 系统项目说明文档"></a>ATM 系统项目说明文档</h1><p>运用基础阶段所学的 Python 知识，来模拟出银行的 ATM 系统。 要求：使用面向对象编程来完成这个项目</p>
+<p>ATM 系统的主要功能：</p>
+<ol>
+<li>注册：用户名，手机号，身份证号（18 位），密码（两次确认，长度 6 位）</li>
+<li>查询：账号必须存在，密码（3 次机会，不对就锁卡）</li>
+<li>取款：账号必须存在，密码（3 次机会，不对就锁卡），取款金额不能大于存款</li>
+<li>存款：账号必须存在，存款金额不能低于 0 元</li>
+<li>转账：您的账户，转款账户都必须存在，密码（3 次机会，不对就锁卡），转账金额不能超过余额</li>
+<li>锁卡：账号必须存在，可以使用密码冻结，还可以使用身份证号冻结</li>
+<li>解卡：账号必须存在，只能使用身份证号进行解锁</li>
+<li>补卡：使用身份证进行补卡，每个身份证只能有一张卡，之前的卡作废</li>
+<li>改密：原密码进行改密，也可以使用身份证进行改密</li>
+<li>退出：保存数据</li>
+</ol>
+<h2 id="项目分析"><a href="#项目分析" class="headerlink" title="项目分析"></a>项目分析</h2><p>根据需求进行分析，思考如何对项目进行设计和架构</p>
+<h3 id="思考问题一：如何使用面向对象编程思想来完成"><a href="#思考问题一：如何使用面向对象编程思想来完成" class="headerlink" title="思考问题一：如何使用面向对象编程思想来完成"></a>思考问题一：如何使用面向对象编程思想来完成</h3><p>当前的项目功能和项目演示中，有几个对象？</p>
+<h4 id="银行卡对象-Card-存储银行卡信息"><a href="#银行卡对象-Card-存储银行卡信息" class="headerlink" title="银行卡对象: Card 存储银行卡信息"></a>银行卡对象: Card 存储银行卡信息</h4><ul>
+<li>卡号: cardid</li>
+<li>密码: password</li>
+<li>余额: money</li>
+<li>是否锁卡: islock</li>
+</ul>
+<h4 id="用户对象-Person-存储用户信息"><a href="#用户对象-Person-存储用户信息" class="headerlink" title="用户对象: Person 存储用户信息"></a>用户对象: Person 存储用户信息</h4><ul>
+<li>用户名: name</li>
+<li>身份证号: userid</li>
+<li>手机号: phone</li>
+<li>卡号: card</li>
+</ul>
+<h4 id="控制器对象-Controller-具体的操作控制类"><a href="#控制器对象-Controller-具体的操作控制类" class="headerlink" title="控制器对象: Controller 具体的操作控制类"></a>控制器对象: Controller 具体的操作控制类</h4><p>控制器对象中主要就是去实现 ATM 这个系统中的操作 在上面定义的呐十个方法</p>
+<ul>
+<li>注册：register</li>
+<li>查询：query</li>
+<li>取款：get_money</li>
+<li>存款：add_money</li>
+<li>转账：save_money</li>
+<li>锁卡：lock</li>
+<li>解卡：unlock</li>
+<li>补卡：new_card</li>
+<li>改密：change_pwd</li>
+<li>退出：save</li>
+</ul>
+<h4 id="视图对象：Views-显示操作界面"><a href="#视图对象：Views-显示操作界面" class="headerlink" title="视图对象：Views 显示操作界面"></a>视图对象：Views 显示操作界面</h4><p>欢迎界面，操作界面</p>
+<h3 id="思考问题二：如何存储数据"><a href="#思考问题二：如何存储数据" class="headerlink" title="思考问题二：如何存储数据"></a>思考问题二：如何存储数据</h3><p>肯定是用文件进行存储</p>
+<ul>
+<li>卡号：用户 &#x3D;&#x3D;&#x3D;&gt; user_dict &#x3D;&#x3D;&#x3D;&gt; user.txt</li>
+<li>身份证：卡号 &#x3D;&#x3D;&#x3D;&gt; user_id_dict &#x3D;&#x3D;&#x3D;&gt; userid.txt</li>
+</ul>
+<h2 id="项目基本结构搭建"><a href="#项目基本结构搭建" class="headerlink" title="项目基本结构搭建"></a>项目基本结构搭建</h2><h1 id="ATM"><a href="#ATM" class="headerlink" title="ATM"></a>ATM</h1><p>项目说明文档</p>
+<h2 id="项目基本功能"><a href="#项目基本功能" class="headerlink" title="项目基本功能"></a>项目基本功能</h2><p>当前的 ATM 系统模拟实现银行 ATM 机的操作系统功能</p>
+<ul>
+<li>注册：register</li>
+<li>查询：query</li>
+<li>取款：get_money</li>
+<li>存款：add_money</li>
+<li>转账：save_money</li>
+<li>锁卡：lock</li>
+<li>解卡：unlock</li>
+<li>补卡：new_card</li>
+<li>改密：change_pwd</li>
+<li>退出：save</li>
+</ul>
+<h2 id="项目基本结构"><a href="#项目基本结构" class="headerlink" title="项目基本结构"></a>项目基本结构</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">├── ATM/                        <span class="comment"># 项目目录</span></span><br><span class="line">│   ├── README.md               <span class="comment"># 项目文档</span></span><br><span class="line">│   ├── databases/              <span class="comment"># 数据存储目录</span></span><br><span class="line">│   │   ├── user.txt            <span class="comment"># 卡号</span></span><br><span class="line">│   │   └── userid.txt          <span class="comment"># 身份证</span></span><br><span class="line">│   ├── main.py                 <span class="comment"># 程序单入口文件</span></span><br><span class="line">│   └── packages/               <span class="comment"># 包</span></span><br><span class="line">│       ├── __init__.py</span><br><span class="line">│       ├── cardclass.py        <span class="comment"># 银行卡类</span></span><br><span class="line">│       ├── controllerclass.py  <span class="comment"># 操作控制类</span></span><br><span class="line">│       ├── personclass.py      <span class="comment"># 用户类</span></span><br><span class="line">│       └── viewsclass.py       <span class="comment"># 视图显示类</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h2><ul>
+<li>系统：windows、Mac OS、Linux</li>
+<li>版本：python3.5+</li>
+<li>其他：无</li>
+</ul>
+<h2 id="迭代计划"><a href="#迭代计划" class="headerlink" title="迭代计划"></a>迭代计划</h2><ul>
+<li>增加银行操作日志</li>
+<li>将数据存储更改为数据库 MySQL</li>
+</ul>
+<h2 id="详细内容见代码"><a href="#详细内容见代码" class="headerlink" title="详细内容见代码"></a>详细内容见代码</h2><p><a target="_blank" rel="noopener" href="https://github.com/BlockZachary/Python_oop/tree/master/ATM">https://github.com/BlockZachary/Python_oop&#x2F;tree&#x2F;master&#x2F;ATM</a></p>
+<blockquote>
+<p>更新: 2024-01-10 22:46:43<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/zacharyblock/cx2om6/ozwmftr5d8430maz">https://www.yuque.com/zacharyblock/cx2om6/ozwmftr5d8430maz</a></p>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Zachary Block</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2022/12/31/Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/ATM%E9%A1%B9%E7%9B%AE/">http://example.com/2022/12/31/Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/ATM%E9%A1%B9%E7%9B%AE/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Python/"># Python</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2023/01/08/Python%E8%BF%9B%E9%98%B6/%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%99%A8/">Python进阶-上下文管理器</a>
+            
+            
+            <a class="next" rel="next" href="/2022/12/31/Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/%E5%BC%82%E5%B8%B8%E3%80%81%E6%A8%A1%E5%9D%97%E3%80%81%E5%8C%85/">Python面向对象-异常、模块、包</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Zachary Block | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

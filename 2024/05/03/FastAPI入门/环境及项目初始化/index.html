@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="referrer" content="no-referrer">
+
+    <meta name="author" content="Zachary Block">
+
+
+
+
+
+<title>FastAPI入门-环境及项目初始化 | Zachary Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Zachary Blog" type="application/atom+xml">
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Zachary&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Zachary&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">FastAPI入门-环境及项目初始化</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Zachary Block</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">5 月 3 日&nbsp;&nbsp;21:00:30</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/FastAPI%E5%85%A5%E9%97%A8/">FastAPI入门</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="环境及项目初始化"><a href="#环境及项目初始化" class="headerlink" title="环境及项目初始化"></a>环境及项目初始化</h1><h1 id="环境介绍"><a href="#环境介绍" class="headerlink" title="环境介绍"></a>环境介绍</h1><p>开发环境版本：</p>
+<p><font style="color:rgb(63, 74, 84);">Python3.10.11、Node.js16.9.0、Vue3、MySQL5.7.31</font></p>
+<h1 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a><font style="color:rgb(63, 74, 84);">官方文档</font></h1><p>Node.js：<a target="_blank" rel="noopener" href="https://nodejs.org/en">https://nodejs.org/en</a></p>
+<p>Vue：<a target="_blank" rel="noopener" href="https://cn.vuejs.org/">https://cn.vuejs.org/</a></p>
+<p>Vite：<a target="_blank" rel="noopener" href="https://cn.vitejs.dev/guide/">https://cn.vitejs.dev/guide/</a></p>
+<p>Element-Plus：<a target="_blank" rel="noopener" href="https://element-plus.org/zh-CN/">https://element-plus.org/zh-CN/</a></p>
+<p>FastAPI：<a target="_blank" rel="noopener" href="https://fastapi.tiangolo.com/zh/">https://fastapi.tiangolo.com/zh/</a></p>
+<p>SQLAlchemy：<a target="_blank" rel="noopener" href="https://docs.sqlalchemy.org/en/20/dialects/mysql.html#module-sqlalchemy.dialects.mysql.mysqldb">https://docs.sqlalchemy.org/en/20/dialects/mysql.html#module-sqlalchemy.dialects.mysql.mysqldb</a></p>
+<p>图片素材库：<a target="_blank" rel="noopener" href="https://iconscout.com/">https://iconscout.com/</a></p>
+<h1 id="前端-Vue"><a href="#前端-Vue" class="headerlink" title="前端 Vue"></a>前端 Vue</h1><h3 id="安装-Node-js"><a href="#安装-Node-js" class="headerlink" title="安装 Node.js"></a>安装 Node.js</h3><p>进入官网 <a target="_blank" rel="noopener" href="https://nodejs.org/download/release/v16.19.0/">https://nodejs.org/download/release/v16.19.0/</a>安装好 node.js</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710063799995-b795f9b2-b844-4281-aa06-797eaeb7540e.png"></p>
+<h3 id="安装-vue-cli"><a href="#安装-vue-cli" class="headerlink" title="安装 vue-cli"></a>安装 vue-cli</h3><p>然后使用<code>npm install -g @vue/cli</code>命令安装 vue-cli</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710064251821-6359ed25-0048-4327-9665-92d9427cc4c4.png"></p>
+<h3 id="创建-vue-项目"><a href="#创建-vue-项目" class="headerlink" title="创建 vue 项目"></a>创建 vue 项目</h3><p>使用 vite 进行构建</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710064798538-2fcb3e12-aba3-4b83-8f7a-22bbcd4bb066.png"></p>
+<p>通过<code>npm create vite@latest studentfontend -- --template vue</code>构建前端项目</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ cd Documents/PythonCode</span><br><span class="line">➜  PythonCode mkdir studentProject</span><br><span class="line">➜  PythonCode cd studentProject</span><br><span class="line">➜  studentProject npm create vite@latest studentfontend -- --template vue</span><br><span class="line"></span><br><span class="line">Scaffolding project in /Users/zachary/Documents/PythonCode/studentProject/studentfontend...</span><br><span class="line"></span><br><span class="line">Done. Now run:</span><br><span class="line"></span><br><span class="line">  cd studentfontend</span><br><span class="line">  npm install</span><br><span class="line">  npm run dev</span><br><span class="line"></span><br><span class="line">➜  studentProject cd studentfontend</span><br><span class="line">➜  studentfontend ls</span><br><span class="line">README.md      package.json   src</span><br><span class="line">index.html     public         vite.config.js</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710065004239-161031a6-9bc3-4c47-8591-6a6cf76114a5.png"></p>
+<h3 id="npm-源"><a href="#npm-源" class="headerlink" title="npm 源"></a>npm 源</h3><p>如果 npm 命令运行的时候很卡的话，尝试换源</p>
+<p><code>npm config set registry [https://registry.npmmirror.com](https://registry.npmmirror.com)</code></p>
+<h3 id="打开-vue-项目"><a href="#打开-vue-项目" class="headerlink" title="打开 vue 项目"></a>打开 vue 项目</h3><p>使用 WebStorm 打开创建好的前端项目</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710065436602-f66e538b-cdcc-4f8a-a0b0-1fde6cc990e9.png"></p>
+<p>先什么都不做，尝试把项目运行起来</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">➜  studentfontend npm install</span><br><span class="line">npm WARN EBADENGINE Unsupported engine &#123;</span><br><span class="line">npm WARN EBADENGINE   package: &#x27;@vitejs/plugin-vue@5.0.4&#x27;,</span><br><span class="line">npm WARN EBADENGINE   required: &#123; node: &#x27;^18.0.0 || &gt;=20.0.0&#x27; &#125;,</span><br><span class="line">npm WARN EBADENGINE   current: &#123; node: &#x27;v16.19.0&#x27;, npm: &#x27;8.19.3&#x27; &#125;</span><br><span class="line">npm WARN EBADENGINE &#125;</span><br><span class="line">npm WARN EBADENGINE Unsupported engine &#123;</span><br><span class="line">npm WARN EBADENGINE   package: &#x27;rollup@4.12.1&#x27;,</span><br><span class="line">npm WARN EBADENGINE   required: &#123; node: &#x27;&gt;=18.0.0&#x27;, npm: &#x27;&gt;=8.0.0&#x27; &#125;,</span><br><span class="line">npm WARN EBADENGINE   current: &#123; node: &#x27;v16.19.0&#x27;, npm: &#x27;8.19.3&#x27; &#125;</span><br><span class="line">npm WARN EBADENGINE &#125;</span><br><span class="line">npm WARN EBADENGINE Unsupported engine &#123;</span><br><span class="line">npm WARN EBADENGINE   package: &#x27;vite@5.1.5&#x27;,</span><br><span class="line">npm WARN EBADENGINE   required: &#123; node: &#x27;^18.0.0 || &gt;=20.0.0&#x27; &#125;,</span><br><span class="line">npm WARN EBADENGINE   current: &#123; node: &#x27;v16.19.0&#x27;, npm: &#x27;8.19.3&#x27; &#125;</span><br><span class="line">npm WARN EBADENGINE &#125;</span><br><span class="line"></span><br><span class="line">up to date in 649ms</span><br><span class="line">➜  studentfontend npm run dev</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">studentfontend@0.0.0 dev</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">vite</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  VITE v5.1.5  ready in 814 ms</span><br><span class="line"></span><br><span class="line">  ➜  Local:   http://127.0.0.1:5173/</span><br><span class="line">  ➜  Network: use --host to expose</span><br><span class="line">  ➜  press h + enter to show help</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710065907865-bf45b0ec-1f33-4399-8013-ee1cd9a85c30.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710065926633-560bff63-2de0-4f09-bcd8-921fdad2ad7a.png"></p>
+<h3 id="项目整改"><a href="#项目整改" class="headerlink" title="项目整改"></a>项目整改</h3><p>现在我们把这个项目做好看些，为了学生信息管理系统做准备的，</p>
+<p>需要把路由写好，同时修改主题色，还有 request http 的请求封装，选择一个自己喜欢的页面标题及 icon</p>
+<h4 id="index-html"><a href="#index-html" class="headerlink" title="index.html"></a>index.html</h4><p>修改项目下的 index.html 文件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;icon&quot;</span> <span class="attr">href</span>=<span class="string">&quot;/favicon.ico&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>学生信息管理系统<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;module&quot;</span> <span class="attr">src</span>=<span class="string">&quot;/src/main.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="css-imgs"><a href="#css-imgs" class="headerlink" title="css&amp;imgs"></a>css&amp;imgs</h4><p>删除<code>/assets</code>下的<code>vue.svg</code></p>
+<p>在<code>/src/assets</code>路径下创建一个<code>css</code>和<code>imgs</code>目录</p>
+<p>在创建好的<code>/css</code>目录下分别创建<code>global.css</code>和<code>index.scss</code></p>
+<p>全局 css 样式</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">* &#123;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#252424</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">text-decoration</span>: none;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.card</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgb</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>);</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">5px</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">10px</span> <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>主题色配置文件</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@forward</span> <span class="string">&quot;element-plus/theme-chalk/src/common/var.scss&quot;</span> with (</span><br><span class="line">  $<span class="attribute">colors</span>: (</span><br><span class="line">    <span class="string">&quot;primary&quot;</span>: (</span><br><span class="line">      <span class="string">&quot;base&quot;</span>: #<span class="number">0</span>a7fce</span><br><span class="line">    ),</span><br><span class="line">    <span class="string">&quot;success&quot;</span>: (</span><br><span class="line">      <span class="string">&quot;base&quot;</span>: #<span class="number">08</span>b41f</span><br><span class="line">    ),</span><br><span class="line">    <span class="string">&quot;warning&quot;</span>: (</span><br><span class="line">      <span class="string">&quot;base&quot;</span>: #e8af56</span><br><span class="line">    ),</span><br><span class="line">    <span class="string">&quot;danger&quot;</span>: (</span><br><span class="line">      <span class="string">&quot;base&quot;</span>: #ef3030</span><br><span class="line">    ),</span><br><span class="line">    <span class="string">&quot;info&quot;</span>: (</span><br><span class="line">      <span class="string">&quot;base&quot;</span>: #<span class="number">5</span>d66ea</span><br><span class="line">    )</span><br><span class="line">  )</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h4 id="路由设置"><a href="#路由设置" class="headerlink" title="路由设置"></a>路由设置</h4><p>在<code>/src</code>路径下创建一个<code>router</code>目录，在其中创建一个<code>index.js</code>文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createRouter, createWebHistory &#125; <span class="keyword">from</span> <span class="string">&quot;vue-router&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="title function_">createRouter</span>(&#123;</span><br><span class="line">  <span class="attr">history</span>: <span class="title function_">createWebHistory</span>(<span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">env</span>.<span class="property">BASE_URL</span>),</span><br><span class="line">  <span class="attr">routes</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">path</span>: <span class="string">&quot;/&quot;</span>,</span><br><span class="line">      <span class="attr">name</span>: <span class="string">&quot;Manager&quot;</span>,</span><br><span class="line">      <span class="attr">component</span>: <span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&quot;@/views/Manager.vue&quot;</span>),</span><br><span class="line">      <span class="attr">redirect</span>: <span class="string">&quot;/home&quot;</span>,</span><br><span class="line">      <span class="attr">children</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">path</span>: <span class="string">&quot;home&quot;</span>,</span><br><span class="line">          <span class="attr">name</span>: <span class="string">&quot;Home&quot;</span>,</span><br><span class="line">          <span class="attr">component</span>: <span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&quot;@/views/manager/Home.vue&quot;</span>),</span><br><span class="line">        &#125;,</span><br><span class="line">      ],</span><br><span class="line">    &#125;,</span><br><span class="line">  ],</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br></pre></td></tr></table></figure>
+
+<h4 id="request-请求"><a href="#request-请求" class="headerlink" title="request 请求"></a>request 请求</h4><p><code>/src</code>路径下创建一个<code>utils</code>目录，在其中创建一个<code>request.js</code>文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">ElMessage</span> &#125; <span class="keyword">from</span> <span class="string">&quot;element-plus&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">&quot;../router&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&quot;axios&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> request = axios.<span class="title function_">create</span>(&#123;</span><br><span class="line">  <span class="attr">baseURL</span>: <span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">env</span>.<span class="property">VITE_BASE_URL</span>,</span><br><span class="line">  <span class="attr">timeout</span>: <span class="number">30000</span>, <span class="comment">// 后台接口超时时间设置</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// request 拦截器</span></span><br><span class="line"><span class="comment">// 可以自请求发送前对请求做一些处理</span></span><br><span class="line">request.<span class="property">interceptors</span>.<span class="property">request</span>.<span class="title function_">use</span>(</span><br><span class="line">  <span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</span><br><span class="line">    config.<span class="property">headers</span>[<span class="string">&quot;Content-Type&quot;</span>] = <span class="string">&quot;application/json;charset=utf-8&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> config;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Promise</span>.<span class="title function_">reject</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// response 拦截器</span></span><br><span class="line"><span class="comment">// 可以在接口响应后统一处理结果</span></span><br><span class="line">request.<span class="property">interceptors</span>.<span class="property">response</span>.<span class="title function_">use</span>(</span><br><span class="line">  <span class="function">(<span class="params">response</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> res = response.<span class="property">data</span>;</span><br><span class="line">    <span class="comment">// 如果是返回的文件</span></span><br><span class="line">    <span class="keyword">if</span> (response.<span class="property">config</span>.<span class="property">responseType</span> === <span class="string">&quot;blob&quot;</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 兼容服务端返回的字符串数据</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> res === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">      res = res ? <span class="title class_">JSON</span>.<span class="title function_">parse</span>(res) : res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 当权限验证不通过的时候给出提示</span></span><br><span class="line">    <span class="keyword">if</span> (res.<span class="property">code</span> === <span class="string">&quot;401&quot;</span>) &#123;</span><br><span class="line">      <span class="title class_">ElMessage</span>.<span class="title function_">error</span>(res.<span class="property">msg</span>);</span><br><span class="line">      router.<span class="title function_">push</span>(<span class="string">&quot;/login&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;err&quot;</span> + error);</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Promise</span>.<span class="title function_">reject</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> request;</span><br></pre></td></tr></table></figure>
+
+<h4 id="views"><a href="#views" class="headerlink" title="views"></a>views</h4><p><code>/src</code>路径下的<code>/components</code>修改为<code>/views</code>目录，将其中的<code>HelloWorld.vue</code>修改成<code>Manager.vue</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;div</span><br><span class="line">      style=&quot;height: 60px; background-color: #eae8e8; display: flex; align-items: center; border-bottom: 1px solid #c4c2c2&quot;</span><br><span class="line">    &gt;</span><br><span class="line">      &lt;div style=&quot;flex: 1&quot;&gt;</span><br><span class="line">        &lt;div style=&quot;padding-left: 20px; display: flex; align-items: center&quot;&gt;</span><br><span class="line">          &lt;img src=&quot;@/assets/imgs/logo.png&quot; alt=&quot;&quot; style=&quot;width: 40px&quot; /&gt;</span><br><span class="line">          &lt;div style=&quot;font-weight: bold; font-size: 24px; margin-left: 5px&quot;&gt;</span><br><span class="line">            学生信息管理系统</span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">      &lt;div</span><br><span class="line">        style=&quot;width: fit-content; padding-right: 10px; display: flex; align-items: center;&quot;</span><br><span class="line">      &gt;</span><br><span class="line">        &lt;img</span><br><span class="line">          src=&quot;https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png&quot;</span><br><span class="line">          alt=&quot;&quot;</span><br><span class="line">          style=&quot;width: 40px; height: 40px&quot;</span><br><span class="line">        /&gt;</span><br><span class="line">        &lt;span style=&quot;margin-left: 5px&quot;&gt;管理员&lt;/span&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div style=&quot;display: flex&quot;&gt;</span><br><span class="line">      &lt;div</span><br><span class="line">        style=&quot;width: 200px; border-right: 1px solid #f3eeee; min-height: calc(100vh - 60px)&quot;</span><br><span class="line">      &gt;</span><br><span class="line">        &lt;el-menu</span><br><span class="line">          router</span><br><span class="line">          style=&quot;border: none&quot;</span><br><span class="line">          :default-active=&quot;$route.path&quot;</span><br><span class="line">          :default-openeds=&quot;[&#x27;/home&#x27;]&quot;</span><br><span class="line">        &gt;</span><br><span class="line">          &lt;el-menu-item index=&quot;/home&quot;&gt;</span><br><span class="line">            &lt;el-icon&gt;&lt;HomeFilled /&gt;&lt;/el-icon&gt;</span><br><span class="line">            &lt;span&gt;系统首页&lt;/span&gt;</span><br><span class="line">          &lt;/el-menu-item&gt;</span><br><span class="line">          &lt;el-menu-item index=&quot;/person&quot;&gt;</span><br><span class="line">            &lt;el-icon&gt;&lt;User /&gt;&lt;/el-icon&gt;</span><br><span class="line">            &lt;span&gt;个人资料&lt;/span&gt;</span><br><span class="line">          &lt;/el-menu-item&gt;</span><br><span class="line">          &lt;el-menu-item index=&quot;login&quot; @click=&quot;logout&quot;&gt;</span><br><span class="line">            &lt;el-icon&gt;&lt;SwitchButton /&gt;&lt;/el-icon&gt;</span><br><span class="line">            &lt;span&gt;退出系统&lt;/span&gt;</span><br><span class="line">          &lt;/el-menu-item&gt;</span><br><span class="line">        &lt;/el-menu&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">      &lt;div style=&quot;flex: 1; width: 0; background-color: #eaeaee; padding: 10px&quot;&gt;</span><br><span class="line">        &lt;router-view /&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script setup&gt;</span><br><span class="line">import &#123; useRoute &#125; from &quot;vue-router&quot;;</span><br><span class="line">const $route = useRoute();</span><br><span class="line">console.log($route.path);</span><br><span class="line"></span><br><span class="line">const logout = () =&gt; &#123;</span><br><span class="line">  localStorage.removeItem(&quot;student-user&quot;);</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">.el-menu-item.is-active &#123;</span><br><span class="line">  background-color: #c3d7d3 !important;</span><br><span class="line">&#125;</span><br><span class="line">.el-menu-item:hover &#123;</span><br><span class="line">  color: #0c98d5;</span><br><span class="line">&#125;</span><br><span class="line">:deep(th) &#123;</span><br><span class="line">  color: #333;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>接着在<code>/src/views</code>路径下创建一个<code>manager</code>目录，在其中创建一个<code>Home.vue</code>文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;welcome-container&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;custom-card bg-white shadow rounded p-4 mb-5&quot;&gt;</span><br><span class="line">      &lt;h2 class=&quot;text-center text-primary&quot;&gt;欢迎来到本系统&lt;/h2&gt;</span><br><span class="line">      &lt;p class=&quot;text-center mt-3&quot;&gt;</span><br><span class="line">        您好 &lt;span :style=&quot;&#123; color: &#x27;#116ca9&#x27; &#125;&quot;&gt;&#123;&#123; user.username &#125;&#125;&lt;/span</span><br><span class="line">        &gt;，祝您使用愉快！</span><br><span class="line">      &lt;/p&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script setup&gt;</span><br><span class="line">import request from &quot;@/utils/request&quot;;</span><br><span class="line"></span><br><span class="line">const user = JSON.parse(localStorage.getItem(&quot;student-user&quot;) || &quot;&#123;&#125;&quot;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">.welcome-container &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  justify-content: center;</span><br><span class="line">  align-items: center;</span><br><span class="line">  min-height: calc(100vh - 100px); /* 根据实际项目需要调整高度 */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.custom-card &#123;</span><br><span class="line">  max-width: 400px;</span><br><span class="line">  border: none;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="App-vue"><a href="#App-vue" class="headerlink" title="App.vue"></a>App.vue</h4><p>修改项目中的<code>/src/App.vue</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;RouterView /&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="main-js"><a href="#main-js" class="headerlink" title="main.js"></a>main.js</h4><p>修改项目中的<code>/src/main.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createApp &#125; <span class="keyword">from</span> <span class="string">&quot;vue&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">App</span> <span class="keyword">from</span> <span class="string">&quot;./App.vue&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">&quot;./router&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">ElementPlus</span> <span class="keyword">from</span> <span class="string">&quot;element-plus&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> zhCn <span class="keyword">from</span> <span class="string">&quot;element-plus/dist/locale/zh-cn.mjs&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">ElementPlusIconsVue</span> <span class="keyword">from</span> <span class="string">&quot;@element-plus/icons-vue&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;@/assets/css/global.css&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">createApp</span>(<span class="title class_">App</span>);</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(router);</span><br><span class="line">app.<span class="title function_">use</span>(<span class="title class_">ElementPlus</span>, &#123;</span><br><span class="line">  <span class="attr">locale</span>: zhCn,</span><br><span class="line">&#125;);</span><br><span class="line">app.<span class="title function_">mount</span>(<span class="string">&quot;#app&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> [key, component] <span class="keyword">of</span> <span class="title class_">Object</span>.<span class="title function_">entries</span>(<span class="title class_">ElementPlusIconsVue</span>)) &#123;</span><br><span class="line">  app.<span class="title function_">component</span>(key, component);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="env"><a href="#env" class="headerlink" title=".env"></a>.env</h4><p>在项目路径下创建两个文件<code>.env.development</code>、<code>.env.production</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VITE_BASE_URL=&#x27;http://localhost:9090&#x27;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VITE_BASE_URL=&#x27;http://:9090&#x27;</span><br></pre></td></tr></table></figure>
+
+<h4 id="json-配置"><a href="#json-配置" class="headerlink" title="json 配置"></a>json 配置</h4><p>修改项目路径下的文件：<code>package.json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;studentfontend&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;private&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;dev&quot;</span><span class="punctuation">:</span> <span class="string">&quot;vite&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;build&quot;</span><span class="punctuation">:</span> <span class="string">&quot;vite build&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;preview&quot;</span><span class="punctuation">:</span> <span class="string">&quot;vite preview&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@element-plus/icons-vue&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^2.1.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;axios&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^1.6.2&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;element-plus&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^2.4.2&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;sass&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^1.69.5&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;unplugin-element-plus&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.8.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;vue&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^3.3.4&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;vue-router&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^4.2.5&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;devDependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@vitejs/plugin-vue&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^4.4.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;unplugin-auto-import&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.16.7&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;unplugin-vue-components&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.25.2&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;vite&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^4.4.11&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="vite-config-js"><a href="#vite-config-js" class="headerlink" title="vite.config.js"></a>vite.config.js</h4><p>修改项目路径下的文件：<code>vite.config.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; fileURLToPath, <span class="variable constant_">URL</span> &#125; <span class="keyword">from</span> <span class="string">&quot;node:url&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; defineConfig &#125; <span class="keyword">from</span> <span class="string">&quot;vite&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> vue <span class="keyword">from</span> <span class="string">&quot;@vitejs/plugin-vue&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">AutoImport</span> <span class="keyword">from</span> <span class="string">&quot;unplugin-auto-import/vite&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Components</span> <span class="keyword">from</span> <span class="string">&quot;unplugin-vue-components/vite&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">ElementPlusResolver</span> &#125; <span class="keyword">from</span> <span class="string">&quot;unplugin-vue-components/resolvers&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">ElementPlus</span> <span class="keyword">from</span> <span class="string">&quot;unplugin-element-plus/vite&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">defineConfig</span>(&#123;</span><br><span class="line">  <span class="attr">plugins</span>: [</span><br><span class="line">    <span class="title function_">vue</span>(),</span><br><span class="line">    <span class="title class_">AutoImport</span>(&#123;</span><br><span class="line">      <span class="attr">resolvers</span>: [<span class="title class_">ElementPlusResolver</span>(&#123; <span class="attr">importStyle</span>: <span class="string">&quot;sass&quot;</span> &#125;)],</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="title class_">Components</span>(&#123;</span><br><span class="line">      <span class="attr">resolvers</span>: [<span class="title class_">ElementPlusResolver</span>(&#123; <span class="attr">importStyle</span>: <span class="string">&quot;sass&quot;</span> &#125;)],</span><br><span class="line">    &#125;),</span><br><span class="line"></span><br><span class="line">    <span class="title class_">ElementPlus</span>(&#123;</span><br><span class="line">      <span class="attr">useSource</span>: <span class="literal">true</span>,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">resolve</span>: &#123;</span><br><span class="line">    <span class="attr">alias</span>: &#123;</span><br><span class="line">      <span class="string">&quot;@&quot;</span>: <span class="title function_">fileURLToPath</span>(<span class="keyword">new</span> <span class="title function_">URL</span>(<span class="string">&quot;./src&quot;</span>, <span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">url</span>)),</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">css</span>: &#123;</span><br><span class="line">    <span class="attr">preprocessorOptions</span>: &#123;</span><br><span class="line">      <span class="attr">scss</span>: &#123;</span><br><span class="line">        <span class="attr">additionalData</span>: <span class="string">`</span></span><br><span class="line"><span class="string">          @use &quot;@/assets/css/index.scss&quot; as *;</span></span><br><span class="line"><span class="string">        `</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="logo"><a href="#logo" class="headerlink" title="logo"></a>logo</h4><p>修改一下 logo 和标题的 icon</p>
+<p>分别放在<code>/public/favicon.ico</code>和<code>/src/assets/imgs/logo.png</code>路径下</p>
+<p>删除<code>/public/vite.svg</code></p>
+<p>可以去这个网站下载<a target="_blank" rel="noopener" href="https://iconscout.com/icons">https://iconscout.com/icons</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710072944856-06f0b813-035e-47a6-97bb-4cef728d4d96.png"></p>
+<p><a target="_blank" rel="noopener" href="https://iconscout.com/free-icon/library-2642818">https://iconscout.com/free-icon/library-2642818</a>，将该图片保存为<code>/src/assets/imgs/logo.png</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710072841938-4d2b4f5c-bdcc-44b1-a9e1-547acad96314.png"></p>
+<p>或者<a target="_blank" rel="noopener" href="https://iconscout.com/free-icon/student-79">https://iconscout.com/free-icon/student-79</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710073182135-0de083f0-80ed-4581-88cd-4206625351d2.png"></p>
+<p><a target="_blank" rel="noopener" href="https://iconscout.com/free-icon/student-reading-2909468">https://iconscout.com/free-icon/student-reading-2909468</a>，保存为<code>/public/favicon.ico</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710073454459-14d7fe76-e2e9-42ba-bf66-b053b3361d8b.png"></p>
+<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><h4 id="命令运行"><a href="#命令运行" class="headerlink" title="命令运行"></a>命令运行</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">➜  studentfontend npm install</span><br><span class="line"></span><br><span class="line">added 93 packages, removed 1 package, and changed 5 packages in 16s</span><br><span class="line">➜  studentfontend npm run dev</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">studentfontend@0.0.0 dev</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">vite</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  VITE v4.5.2  ready in 1169 ms</span><br><span class="line"></span><br><span class="line">  ➜  Local:   http://127.0.0.1:5173/</span><br><span class="line">  ➜  Network: use --host to expose</span><br><span class="line">  ➜  press h to show help</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710073748592-e493c9f4-d4e2-4bd4-85b4-8453500970bc.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710081458951-c6a801f9-8eae-46bb-b325-6a19fca7e328.png"></p>
+<h4 id="一键运行"><a href="#一键运行" class="headerlink" title="一键运行"></a>一键运行</h4><p>通过配置一个启动项，便捷运行项目</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710073954088-25c7af70-0be2-4565-bb0e-177becbcb268.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710074006858-4dd1ac08-6ee9-4d53-bfc5-453e64efb6ce.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710074069281-da351ef0-e419-4e68-b63b-039792a9a967.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710074171111-8ac13c5e-13ab-4976-921a-4060b9ff8427.png"></p>
+<hr>
+<h1 id="后端-FastAPI"><a href="#后端-FastAPI" class="headerlink" title="后端 FastAPI"></a>后端 FastAPI</h1><h3 id="创建空项目"><a href="#创建空项目" class="headerlink" title="创建空项目"></a>创建空项目</h3><p>新建一个项目进入 FastAPI 的世界</p>
+<p>先创建项目文件夹</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  studentProject ll</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x@ 16 zachary  staff   512B  3 10 20:25 studentfontend</span><br><span class="line">➜  studentProject mkdir studentbackend</span><br><span class="line">➜  studentProject ll</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x@  2 zachary  staff    64B  3 10 20:41 studentbackend</span><br><span class="line">drwxr-xr-x@ 16 zachary  staff   512B  3 10 20:25 studentfontend</span><br></pre></td></tr></table></figure>
+
+<p>然后使用 Pycharm 创建一个空项目</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710074648550-44040fe2-4fd2-4567-bd0f-7f7144e8b28c.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710074693683-58e58844-db50-485e-8141-f77ba005143b.png"></p>
+<h3 id="依赖包安装"><a href="#依赖包安装" class="headerlink" title="依赖包安装"></a>依赖包安装</h3><p>需要安装一个 FastAPI 的依赖包</p>
+<h4 id="命令安装"><a href="#命令安装" class="headerlink" title="命令安装"></a>命令安装</h4><p><code>pip install fastapi[all]</code></p>
+<h4 id="requirements-txt-安装"><a href="#requirements-txt-安装" class="headerlink" title="requirements.txt 安装"></a>requirements.txt 安装</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastapi[all]</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710075023414-21bae007-671a-4c15-86ed-a8266626db4f.png"></p>
+<h3 id="实现一个-api"><a href="#实现一个-api" class="headerlink" title="实现一个 api"></a>实现一个 api</h3><h4 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h4><p>项目目录下创建一个<code>main.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> FastAPI</span><br><span class="line"></span><br><span class="line">app = FastAPI()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.get(<span class="params"><span class="string">&quot;/&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">hello</span>():</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;message&quot;</span>: <span class="string">&quot;Hello World&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="运行-1"><a href="#运行-1" class="headerlink" title="运行"></a>运行</h4><p>需要使用 fastapi 提供的一个<code>uvicorn</code>ASGI 网关服务器来启动 api 服务</p>
+<h5 id="命令运行-1"><a href="#命令运行-1" class="headerlink" title="命令运行"></a>命令运行</h5><p><code>uvicorn main:app --reload</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710075474004-85328fc1-6c65-419b-a642-556a371c6d4e.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710075491989-b1ebc0c3-4d85-4e46-acca-76e439fb32f7.png"></p>
+<h5 id="一键运行-1"><a href="#一键运行-1" class="headerlink" title="一键运行"></a>一键运行</h5><ul>
+<li>配置 main 函数</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">import</span> uvicorn</span><br><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> FastAPI</span><br><span class="line"></span><br><span class="line">app = FastAPI()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.get(<span class="params"><span class="string">&quot;/&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">hello</span>():</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;message&quot;</span>: <span class="string">&quot;Hello World&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    uvicorn.run(<span class="string">&quot;main:app&quot;</span>, reload=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710075648021-89cf5781-dc93-4ff2-ae28-3569b7b92cd4.png"></p>
+<ul>
+<li>启动配置项</li>
+</ul>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710075761116-bff52145-5d69-49fc-b6e4-130f05f659a4.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710075846696-632b2590-c791-48cd-a5f6-1b8ff86cf9df.png"></p>
+<p>以上两种方式均可以实现，具体看个人习惯</p>
+<h3 id="项目整改-1"><a href="#项目整改-1" class="headerlink" title="项目整改"></a>项目整改</h3><h4 id="env-1"><a href="#env-1" class="headerlink" title=".env"></a>.env</h4><p>这个文件用于存放环境变量，包括项目的运行 ip、端口号等，后面的数据库环境变量也在这里存放</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HOST = &quot;localhost&quot;</span><br><span class="line">PORT = &quot;9090&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="common"><a href="#common" class="headerlink" title="common"></a>common</h4><p>在项目路径下创建一个<code>/common</code>的 package，用于实现公共类或者公共方法</p>
+<h5 id="环境变量配置文件"><a href="#环境变量配置文件" class="headerlink" title="环境变量配置文件"></a>环境变量配置文件</h5><p>在<code>/common</code>包下创建一个<code>config.py</code>文件，实现对环境变量的获取</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</span><br><span class="line"><span class="keyword">from</span> dotenv <span class="keyword">import</span> load_dotenv</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Config</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        dotenv_path = Path(__file__).parent.parent / <span class="string">&quot;.env&quot;</span></span><br><span class="line">        load_dotenv(dotenv_path=dotenv_path)</span><br><span class="line">        <span class="variable language_">self</span>._env = <span class="built_in">dict</span>(os.environ)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">env</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>._env</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">config = Config()</span><br></pre></td></tr></table></figure>
+
+<p>在<code>/common</code>包下创建一个<code>constant.py</code>文件，用于配置常量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> common.config <span class="keyword">import</span> config</span><br><span class="line"></span><br><span class="line">HOST = config.env.get(<span class="string">&quot;HOST&quot;</span>)</span><br><span class="line">PORT = config.env.get(<span class="string">&quot;PORT&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h5 id="返回类-Result"><a href="#返回类-Result" class="headerlink" title="返回类 Result"></a>返回类 Result</h5><p>实现一下 api 的通用返回类，在<code>/common</code>包下创建一个<code>result.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">from</span> pydantic <span class="keyword">import</span> BaseModel</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ResultBase</span>:</span><br><span class="line">    code: <span class="built_in">str</span></span><br><span class="line">    msg: <span class="built_in">str</span></span><br><span class="line">    data: <span class="built_in">dict</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ResultModel</span>(BaseModel, ResultBase):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Result</span>(<span class="title class_ inherited__">ResultBase</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, code, msg, data</span>):</span><br><span class="line">        <span class="variable language_">self</span>.code = code</span><br><span class="line">        <span class="variable language_">self</span>.msg = msg</span><br><span class="line">        <span class="variable language_">self</span>.data = data</span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">success</span>(<span class="params">cls, data: <span class="built_in">object</span> = <span class="literal">None</span>, code: <span class="built_in">str</span> = <span class="string">&quot;200&quot;</span>, msg: <span class="built_in">str</span> = <span class="string">&quot;success&quot;</span></span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> data:</span><br><span class="line">            data = &#123;&#125;</span><br><span class="line">        <span class="keyword">return</span> cls(code, msg, data)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">error</span>(<span class="params">cls, data: <span class="built_in">object</span> = <span class="literal">None</span>, code: <span class="built_in">str</span> = <span class="string">&quot;500&quot;</span>, msg: <span class="built_in">str</span> = <span class="string">&quot;error&quot;</span></span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> data:</span><br><span class="line">            data = &#123;&#125;</span><br><span class="line">        <span class="keyword">return</span> cls(code, msg, data)</span><br></pre></td></tr></table></figure>
+
+<h4 id="exception"><a href="#exception" class="headerlink" title="exception"></a>exception</h4><p>创建一个<code>/exception</code>的 package 用于自定义异常</p>
+<h4 id="api"><a href="#api" class="headerlink" title="api"></a>api</h4><p>创建一个<code>/api</code>的 package，用于创建后端的 API，实际就是 Controller 层</p>
+<h5 id="init-py"><a href="#init-py" class="headerlink" title="init.py"></a><strong>init</strong>.py</h5><p>用于创建 FastAPI 应用初始化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> FastAPI</span><br><span class="line"></span><br><span class="line">app = FastAPI()</span><br></pre></td></tr></table></figure>
+
+<h5 id="adminApi-py"><a href="#adminApi-py" class="headerlink" title="adminApi.py"></a>adminApi.py</h5><p>创建一个 hello fastapi 接口测试一下项目</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> api <span class="keyword">import</span> app</span><br><span class="line"><span class="keyword">from</span> common.result <span class="keyword">import</span> Result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.get(<span class="params"><span class="string">&quot;/&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">hello</span>():</span><br><span class="line">    <span class="keyword">return</span> Result.success()</span><br></pre></td></tr></table></figure>
+
+<p>然后新增了一个 api 文件之后需要给 api 的<strong>init</strong>.py 说明一下新增了一个 api 文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> FastAPI</span><br><span class="line"></span><br><span class="line">app = FastAPI()</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> api <span class="keyword">import</span> adminApi</span><br></pre></td></tr></table></figure>
+
+<h4 id="service"><a href="#service" class="headerlink" title="service"></a>service</h4><p>创建一个<code>/service</code>的 package 用于实现 Service 层的业务代码</p>
+<h4 id="model"><a href="#model" class="headerlink" title="model"></a>model</h4><p>创建一个<code>/model</code>的 package 用于实现数据库的映射类</p>
+<h4 id="main"><a href="#main" class="headerlink" title="main"></a>main</h4><p>用于启动 FastAPI 的主入口程序</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> api <span class="keyword">import</span> app</span><br><span class="line"><span class="keyword">import</span> uvicorn</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> common.constant <span class="keyword">import</span> HOST, PORT</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    uvicorn.run(<span class="string">&quot;main:app&quot;</span>, host=HOST, port=<span class="built_in">int</span>(PORT), reload=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="运行-2"><a href="#运行-2" class="headerlink" title="运行"></a>运行</h3><p>直接运行 main.py 文件即可</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710079493940-afe468b5-57b5-4875-b3c0-03ff2cf75b03.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710085301150-7c6b0c7b-a89a-4bc5-b314-c090850cfcac.png"></p>
+<p>出现这个就是访问成功啦</p>
+<p>至此，我们的前端后端项目就都初始化好了</p>
+<hr>
+<blockquote>
+<p>更新: 2024-05-03 22:13:04<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/zacharyblock/iacda/sengqtgphw3hc0hv">https://www.yuque.com/zacharyblock/iacda/sengqtgphw3hc0hv</a></p>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Zachary Block</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/%E7%8E%AF%E5%A2%83%E5%8F%8A%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96/">http://example.com/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/%E7%8E%AF%E5%A2%83%E5%8F%8A%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Python/"># Python</a>
+                    
+                        <a href="/tags/Vue3/"># Vue3</a>
+                    
+                        <a href="/tags/FastAPI/"># FastAPI</a>
+                    
+                        <a href="/tags/%E5%AE%9E%E6%88%98/"># 实战</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/%E7%AE%A1%E7%90%86%E5%91%98%E7%99%BB%E5%BD%95/">FastAPI入门-管理员登录</a>
+            
+            
+            <a class="next" rel="next" href="/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D/">FastAPI入门-项目介绍</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Zachary Block | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

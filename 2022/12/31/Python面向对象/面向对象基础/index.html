@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="referrer" content="no-referrer">
+
+    <meta name="author" content="Zachary Block">
+
+
+
+
+
+<title>Python面向对象-面向对象基础 | Zachary Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Zachary Blog" type="application/atom+xml">
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Zachary&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Zachary&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Python面向对象-面向对象基础</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Zachary Block</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">12 月 31 日&nbsp;&nbsp;17:29:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">Python面向对象</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="面向对象基础"><a href="#面向对象基础" class="headerlink" title="面向对象基础"></a>面向对象基础</h1><h1 id="课程介绍"><a href="#课程介绍" class="headerlink" title="课程介绍"></a>课程介绍</h1><ul>
+<li>面向对象基础</li>
+<li>面向对象高阶</li>
+<li>异常</li>
+<li>模块与包</li>
+<li>项目（ATM&#x2F;Library）</li>
+</ul>
+<h1 id="面向对象是什么"><a href="#面向对象是什么" class="headerlink" title="面向对象是什么"></a>面向对象是什么</h1><p>面向对象编程 ——（Object Oriented Programming，简称 OOP），是一种以对象为中心的程序设计思想</p>
+<p>面向过程编程 ——（Procedure Oriented Programming，简称 POP），是一种以过程为中心的程序设计思想</p>
+<h1 id="面向对象的总结和类与对象"><a href="#面向对象的总结和类与对象" class="headerlink" title="面向对象的总结和类与对象"></a>面向对象的总结和类与对象</h1><h2 id="面向过程"><a href="#面向过程" class="headerlink" title="面向过程"></a>面向过程</h2><p>面向过程的核心是<strong>过程</strong>，过程就是只解决问题的步骤</p>
+<ul>
+<li>优缺点<ul>
+<li>优点：将负责的问题流程化，进而实现简单化</li>
+<li>缺点：扩展性差（更新、维护、迭代）</li>
+</ul>
+</li>
+</ul>
+<p>总结：再去完成一些简单的程序时，可以使用面向过程去解决，但是如果有复杂的程序或任务，而且需要不断的进行迭代和维护，那么肯定是优先选择面向对象的编程思想</p>
+<h2 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h2><p>面向对象的核心是对象，是一个特征和功能的综合体</p>
+<ul>
+<li>优缺点<ul>
+<li>优点：可扩展性高</li>
+<li>缺点：变成复杂度相对面向过程高一些，指的是在计算机在执行面向对象的程序时的性能表现</li>
+</ul>
+</li>
+</ul>
+<h3 id="面向对象中的一些名称-术语"><a href="#面向对象中的一些名称-术语" class="headerlink" title="面向对象中的一些名称(术语)"></a>面向对象中的一些名称(术语)</h3><ul>
+<li>类：类是对象的一个抽象的概念</li>
+<li>对象：对象是类创建的一个实例</li>
+<li>类和对象的关系就是：模具和铸件<ul>
+<li>类是由对象总结而来的，总结的这个过程叫做抽象</li>
+<li>对象是由类具体实施出来的，这个过程叫做实例化</li>
+</ul>
+</li>
+</ul>
+<h1 id="面向对象-基本实现"><a href="#面向对象-基本实现" class="headerlink" title="面向对象-基本实现"></a>面向对象-基本实现</h1><p>如果需要实例一个对象，那么需要先抽象一个类</p>
+<ul>
+<li>类名的书写规范：使用驼峰命名法<ul>
+<li>大驼峰：MyCar、XiaoMi</li>
+<li>小驼峰：myCar、xiaoMi</li>
+</ul>
+</li>
+</ul>
+<p>例如需要创建一个汽车对象，先要创建一个汽车类</p>
+<ul>
+<li>使用 class 定义一个类</li>
+<li>一个类中有属性和方法<ul>
+<li>属性：就是特征，即变量，类中称为属性；分为类属性和实例属性</li>
+<li>方法：就是功能，即函数，在类中称为方法；分为类方法和实例方法</li>
+</ul>
+</li>
+<li>类中的属性一般定义在方法前面</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Cart</span>():</span><br><span class="line">    <span class="comment"># 属性</span></span><br><span class="line">    color = <span class="string">&#x27;白色&#x27;</span></span><br><span class="line">    brand = <span class="string">&#x27;Audi&#x27;</span></span><br><span class="line">    pailiang = <span class="number">2.4</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">lahuo</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;self.color&#125;</span>的<span class="subst">&#123;self.brand&#125;</span>能拉货&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">doufeng</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;排量<span class="subst">&#123;self.pailiang&#125;</span>能兜风&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mycar = Cart()</span><br><span class="line"><span class="built_in">print</span>(mycar, <span class="built_in">type</span>(mycar))  <span class="comment"># &lt;__main__.Cart object at 0x100b338d0&gt; &lt;class &#x27;__main__.Cart&#x27;&gt;</span></span><br><span class="line"><span class="built_in">print</span>(mycar.brand)  <span class="comment"># Audi</span></span><br><span class="line">mycar.lahuo()  <span class="comment"># 白色的Audi能拉货</span></span><br><span class="line">mycar.doufeng()  <span class="comment"># 排量2.4能兜风</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="对象成员的操作"><a href="#对象成员的操作" class="headerlink" title="对象成员的操作"></a>对象成员的操作</h1><p>什么是对象的成员？ 一个对象通过实例化之后，在类中定义的属性和方法，可以使用实例化的对象进行操作 类中定义的属性就是成员属性，类中定义的方法就是成员方法</p>
+<h2 id="对象的成员操作："><a href="#对象的成员操作：" class="headerlink" title="对象的成员操作："></a>对象的成员操作：</h2><ul>
+<li>在类的外部，使用对象操作成员<ul>
+<li>通过对象访问类中的属性<ul>
+<li>先访问对象自己的属性</li>
+<li>若对象自己没有这个属性，就去访问对象的类的属性</li>
+</ul>
+</li>
+<li>修改对象访问的类的属性<ul>
+<li>实际上修改的并不是对象的类的属性</li>
+<li>而是创建了一个对象自己的属性并赋值</li>
+</ul>
+</li>
+<li>给对象添加属性<ul>
+<li>这是给对象创建了自己的属性 不是对象的类的属性</li>
+</ul>
+</li>
+<li>删除属性<ul>
+<li>只能删除对象属性，不能删除对象访问的类属性</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>在类的外部 通过对象，访问类中的方法<ul>
+<li>访问对象的方法<ul>
+<li>先访问对象自己的方法</li>
+<li>若对象自己没有这个方法，则访问对象的类的方法</li>
+</ul>
+</li>
+<li>修改对象的方法<ul>
+<li>实际上修改的并不是对象的类方法</li>
+<li>而是创建了一个对象的方法并调用</li>
+</ul>
+</li>
+<li>给对象添加方法<ul>
+<li>这创建的是对象的新方法，并没有给对象的类创建方法</li>
+</ul>
+</li>
+<li>删除对象的方法<ul>
+<li>同样只能删除对象的方法，对象的类的方法无法删除</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>总结：一个类定义类成员属性和成员方法，那么通过这个类实例化的对象，也具备这些方法和属性嘛？<ul>
+<li>实际上，在创建对象的时候，并不会把类中的属性和方法也复制一份给对象，实际上是在对象中引用类的方法，所以不同对象调用同一个属性或方法，是相通的。</li>
+<li>因此在访问对象的属性时，会先去寻找对象自己的属性，如果没有去找类的属性和方法</li>
+<li>而如果给对象的属性或方法进行修改或者添加的时候，等于给对象创建了一个自己的属性和方法，并不调用类的，而且删除的时候也只能删除对象本身的添加或修改的那个属性和方法。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Cart</span>():</span><br><span class="line">    <span class="comment"># 属性</span></span><br><span class="line">    color = <span class="string">&#x27;白色&#x27;</span></span><br><span class="line">    brand = <span class="string">&#x27;Audi&#x27;</span></span><br><span class="line">    pailiang = <span class="number">2.4</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">lahuo</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;self.color&#125;</span>的<span class="subst">&#123;self.brand&#125;</span>能拉货&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">doufeng</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;排量<span class="subst">&#123;self.pailiang&#125;</span>能兜风&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">a = Cart()</span><br><span class="line">b = Cart()</span><br><span class="line"><span class="built_in">print</span>(a)  <span class="comment"># &lt;__main__.Cart object at 0x104e27250&gt;</span></span><br><span class="line"><span class="built_in">print</span>(b)  <span class="comment"># &lt;__main__.Cart object at 0x104e31450&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过对象访问类中的属性</span></span><br><span class="line">res = a.color</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># 白色</span></span><br><span class="line">res = b.color</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># 白色</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改对象的属性</span></span><br><span class="line">a.color = <span class="string">&#x27;黑色&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(a.color)  <span class="comment"># 黑色</span></span><br><span class="line"><span class="built_in">print</span>(b.color)  <span class="comment"># 白色</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 给对象添加属性</span></span><br><span class="line">a.name = <span class="string">&#x27;A6L&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(a.name)  <span class="comment"># A6L</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="built_in">print</span>(b.name)  <span class="comment"># b不存在</span></span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;b不存在&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除属性，只能删除对象属性，不能删除对象访问的类属性</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">del</span> a.name</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;成功&#x27;</span>)  <span class="comment"># 成功</span></span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;不成功&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">del</span> a.brand  <span class="comment"># 不能删除对象的类属性</span></span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;不能删除对象的类属性&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问对象的方法</span></span><br><span class="line">a.doufeng()  <span class="comment"># 排量2.4能兜风</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改对象的方法</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">newfunc</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;这是一个新的方法&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">a.doufeng = newfunc</span><br><span class="line">a.doufeng()  <span class="comment"># 这是一个新的方法</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 给对象添加方法</span></span><br><span class="line">a.xiuche = newfunc</span><br><span class="line">a.xiuche()  <span class="comment"># 这是一个新的方法</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除对象的方法</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">del</span> a.brand  <span class="comment"># 不能删除类方法</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;可以删除类方法&#x27;</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;不能删除类方法&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">del</span> a.xiuche  <span class="comment"># 可以删除对象的方法</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;可以删除对象的方法&#x27;</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;不能删除对象的方法&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="类成员的操作"><a href="#类成员的操作" class="headerlink" title="类成员的操作"></a>类成员的操作</h1><ul>
+<li>访问类成员属性、方法<ul>
+<li>使用类名.类属性进行访问</li>
+<li>使用 <code>getattr()</code>方法</li>
+<li>使用类名.类方法(类名)进行访问</li>
+</ul>
+</li>
+<li>修改类成员属性、方法<ul>
+<li>使用类名.类属性&#x3D;新值进行修改</li>
+<li>使用 <code>setattr()</code>方法</li>
+<li>使用类名.类方法&#x3D;新方法()进行修改</li>
+<li>修改后的类成员属性、方法就会彻底更新，创建一个新的对象调用类属性、方法，属性、方法会更新</li>
+</ul>
+</li>
+<li>添加类成员属性、方法<ul>
+<li>使用类名.新类属性&#x3D;新值进行新增</li>
+<li>使用 <code>setattr()</code>方法</li>
+<li>使用类名.新类方法&#x3D;新方法()进行新增</li>
+<li>新增的类属性、类方法，可以被创建的对象访问到</li>
+</ul>
+</li>
+<li>删除类成员属性、方法<ul>
+<li>使用 del 类名.类属性删除类成员属性</li>
+<li>使用 <code>delattr()</code>方法</li>
+<li>使用 del 类名.类方法删除类成员方法</li>
+<li>删除之后再使用对象访问类属性、方法会访问不到</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Cart</span>():</span><br><span class="line">    <span class="comment"># 属性</span></span><br><span class="line">    color = <span class="string">&#x27;白色&#x27;</span></span><br><span class="line">    brand = <span class="string">&#x27;Audi&#x27;</span></span><br><span class="line">    pailiang = <span class="number">2.4</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">lahuo</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;self.color&#125;</span>的<span class="subst">&#123;self.brand&#125;</span>能拉货&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">doufeng</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;排量<span class="subst">&#123;self.pailiang&#125;</span>能兜风&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问类成员属性</span></span><br><span class="line"><span class="built_in">print</span>(Cart.brand)  <span class="comment"># Audi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改类成员属性</span></span><br><span class="line">Cart.brand = <span class="string">&#x27;宝马&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(Cart.brand)  <span class="comment"># 宝马</span></span><br><span class="line">opp = Cart()</span><br><span class="line"><span class="built_in">print</span>(opp.brand)  <span class="comment"># 宝马</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加类成员属性</span></span><br><span class="line">Cart.name = <span class="string">&#x27;A7&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(Cart.name)  <span class="comment"># A7</span></span><br><span class="line">opp = Cart()</span><br><span class="line"><span class="built_in">print</span>(opp.name)  <span class="comment"># A7</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除类成员属性</span></span><br><span class="line"><span class="keyword">del</span> Cart.brand</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    opp = Cart()</span><br><span class="line">    <span class="built_in">print</span>(opp.brand)  <span class="comment"># opp没有brand</span></span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;opp没有brand&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问类成员方法</span></span><br><span class="line">Cart.doufeng(Cart)  <span class="comment"># 排量2.4能兜风</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改类成员方法</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">newm</span>(<span class="params">self</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;这是一个新的方法&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Cart.doufeng = newm</span><br><span class="line">Cart.doufeng(Cart)  <span class="comment"># 这是一个新的方法</span></span><br><span class="line">opp = Cart()</span><br><span class="line">opp.doufeng()  <span class="comment"># 这是一个新的方法</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加类成员方法</span></span><br><span class="line">Cart.xinfangfa = newm</span><br><span class="line">Cart.xinfangfa(Cart)  <span class="comment"># 这是一个新的方法</span></span><br><span class="line">opp = Cart()</span><br><span class="line">opp.xinfangfa()  <span class="comment"># 这是一个新的方法</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除类成员方法</span></span><br><span class="line"><span class="keyword">del</span> Cart.doufeng</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    Cart.doufeng()  <span class="comment"># 类的成员对象已删除</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;类的成员对象&#x27;</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;类的成员对象已删除&#x27;</span>)</span><br><span class="line"></span><br><span class="line">opp = Cart()</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    opp.doufeng()  <span class="comment"># 对象没有doufeng</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;对象还有doufeng&#x27;</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;对象没有doufeng&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="类与对象的总结"><a href="#类与对象的总结" class="headerlink" title="类与对象的总结"></a>类与对象的总结</h1><ul>
+<li>一个类可以实例化出多个对象，每个对象在内存中都独立存在</li>
+<li>当通过类实例化对象时，并不会把类中的成员复制一份给对象，而去给对象了一个引用</li>
+<li>访问对象成员的时候，如果对象自己没有这个成员，对象会向实例化它的类去查找</li>
+<li>对象成员的添加和修改，都只会影响当前对象自己，不会影响类和其他对象</li>
+<li>删除对象的成员时，必须是该对象自己具备的成员才可以</li>
+<li>对类的成员操作，会影响通过这个类创建的对象，包括之前创建的</li>
+</ul>
+<h1 id="self-详解"><a href="#self-详解" class="headerlink" title="self 详解"></a>self 详解</h1><ul>
+<li>self 在方法中只是一个形参，并不是关键字</li>
+<li>self 在方法中代表的是当前这个对象自身</li>
+<li>self 在方法中代表对象可以去操作成员，可以使用 self 在类的内部访问成员</li>
+<li>只要是对象能完成的事情，self 都可以</li>
+<li>在类中定义的方法，都需要有一个形参 self，<ul>
+<li>这样的方法称为非绑定类方法</li>
+<li>可以使用对象和类去访问</li>
+</ul>
+</li>
+<li>否则，类中的方法没有形参 self，对象将无法调用这个方法，但是可以使用类去调用<ul>
+<li>这样的方法称为绑定类方法</li>
+<li>只能使用类去访问</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span>():</span><br><span class="line">    name = <span class="string">&#x27;xiaoduan&#x27;</span></span><br><span class="line">    age = <span class="number">23</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 非绑定类方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">introduce</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;i am <span class="subst">&#123;self.name&#125;</span> <span class="subst">&#123;self.age&#125;</span> years old&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 绑定类方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">func</span>():</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;这是一个绑定类方法&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">duan = Person()</span><br><span class="line">duan.introduce()  <span class="comment"># i am xiaoduan 23 years old</span></span><br><span class="line">Person.func()  <span class="comment"># 这是一个绑定类方法</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="初始化方法-魔术方法"><a href="#初始化方法-魔术方法" class="headerlink" title="初始化方法_魔术方法"></a>初始化方法_魔术方法</h1><p>魔术方法：</p>
+<p>魔术方法也和普通方法一样都是类中定义的成员方法 就是不需要去手动调用的，会在某种情况下自动触发（自动执行） 特殊点：多数的魔术方法 前后都有两个连续的下划线 魔术方法不是我们自己定义的，是系统定义好的，我们使用</p>
+<ul>
+<li><strong>init</strong> 初始化方法<ul>
+<li>通过类实例化对象之后，自动触发的一个方法</li>
+<li>作用：可以在对象实例化之后完成对象的初始化（属性的赋值，方法的调用）</li>
+<li>应用场景：文件的打开，数据的获取</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span>():</span><br><span class="line">    name = <span class="string">&#x27;xiaoduan&#x27;</span></span><br><span class="line">    age = <span class="number">23</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;这是一个初始化方法&#x27;</span>)</span><br><span class="line">        <span class="variable language_">self</span>.introduce()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">introduce</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;i am <span class="subst">&#123;self.name&#125;</span> <span class="subst">&#123;self.age&#125;</span> years old&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person2</span>():</span><br><span class="line">    name = <span class="literal">None</span></span><br><span class="line">    age = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name, age</span>):</span><br><span class="line">        <span class="variable language_">self</span>.name = name</span><br><span class="line">        <span class="variable language_">self</span>.age = age</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;i am <span class="subst">&#123;self.name&#125;</span> <span class="subst">&#123;self.age&#125;</span> years old&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">duan = Person()  <span class="comment"># 这是一个初始化方法</span></span><br><span class="line"><span class="comment"># i am xiaoduan 23 years old</span></span><br><span class="line">huang = Person2(<span class="string">&#x27;huang&#x27;</span>, <span class="number">24</span>)  <span class="comment"># i am huang 24 years old</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="析构方法"><a href="#析构方法" class="headerlink" title="析构方法"></a>析构方法</h1><ul>
+<li><strong>del</strong> 析构方法<ul>
+<li>当前类实例化的对象被销毁时，自动触发</li>
+<li>作用：可以在析构方法中完成一些特殊任务，关闭一些打开的资源，比如在初始化方法中打开的文件，可以在析构方法中关闭</li>
+<li>注意：对象被销毁时，触发了这个方法，而不是这个方法销毁了对象</li>
+<li>对象在哪些情况会被销毁：<ul>
+<li>当程序执行完毕，内存中所有的资源都会被销毁</li>
+<li>使用 del 删除对象</li>
+<li>对象不再被引用时，会自动销毁</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">writeLog</span>():</span><br><span class="line">    <span class="comment"># 成员属性</span></span><br><span class="line">    <span class="comment"># 文件的路径</span></span><br><span class="line">    fileurl = <span class="string">&#x27;./&#x27;</span></span><br><span class="line">    <span class="comment"># 文件的名称</span></span><br><span class="line">    filename = <span class="string">&#x27;2022-3-9&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;写入日志初始化方法&#x27;</span>)</span><br><span class="line">        <span class="variable language_">self</span>.fileobj = <span class="built_in">open</span>(<span class="variable language_">self</span>.fileurl+<span class="variable language_">self</span>.filename,<span class="string">&#x27;a+&#x27;</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">log</span>(<span class="params">self,s</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;日志内容为：<span class="subst">&#123;s&#125;</span>&#x27;</span>)</span><br><span class="line">        <span class="variable language_">self</span>.fileobj.write(s)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__del__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;析构方法触发&#x27;</span>)</span><br><span class="line">        <span class="variable language_">self</span>.fileobj.close()</span><br><span class="line"></span><br><span class="line">obj = writeLog()</span><br><span class="line">obj.log(<span class="string">&#x27;今天温度适宜出行&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="日志类的封装"><a href="#日志类的封装" class="headerlink" title="日志类的封装"></a>日志类的封装</h1><ul>
+<li>日志类<ul>
+<li>class Mylog</li>
+<li>功能：能够随时写入一个日志信息</li>
+</ul>
+</li>
+<li>分析<ul>
+<li>日志文件在什么地方？ 默认在当前目录</li>
+<li>日志文件名是什么？ 当前日期 2022-03-11.log</li>
+<li>日志的格式是什么样的？ 2022-03-11 12:12:12 错误信息</li>
+<li>属性：成员属性的作用就是存储信息，供成员方法来使用<ul>
+<li>fileurl 日志文件的地址</li>
+<li>filename 日志文件的名称</li>
+<li>fileobj 打开的文件对象</li>
+</ul>
+</li>
+<li>方法：具体完成的一个功能的过程<ul>
+<li><strong>init</strong>() &#x3D;&#x3D;&gt; 初始化方法，完成对象的初始化，并打开文件</li>
+<li>wlog() &#x3D;&#x3D;&gt; 负责接受用户给的日志信息，并写入到日志文件中</li>
+<li><strong>del</strong>() &#x3D;&#x3D;&gt; 析构方法，在对象被销毁时，关闭打开的文件</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Mylog</span>():</span><br><span class="line">    fileurl = <span class="string">&#x27;./&#x27;</span></span><br><span class="line">    filename = <span class="built_in">str</span>(time.strftime(<span class="string">&#x27;%Y-%m-%d&#x27;</span>)) + <span class="string">&#x27;.log&#x27;</span></span><br><span class="line">    fileobj = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 打开文件</span></span><br><span class="line">        <span class="variable language_">self</span>.fileobj = <span class="built_in">open</span>(<span class="variable language_">self</span>.fileurl+<span class="variable language_">self</span>.filename,<span class="string">&#x27;a+&#x27;</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wlog</span>(<span class="params">self,s</span>):</span><br><span class="line">        date = time.strftime(<span class="string">&#x27;%Y-%m-%d %H:%M:%S&#x27;</span>)</span><br><span class="line">        msg = date+<span class="string">&#x27; &#x27;</span>+s+<span class="string">&#x27;\n&#x27;</span></span><br><span class="line">        <span class="variable language_">self</span>.fileobj.write(msg)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__del__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 关闭打开的文件</span></span><br><span class="line">        <span class="variable language_">self</span>.fileobj.close()</span><br><span class="line"></span><br><span class="line">log = Mylog()</span><br><span class="line">log.wlog(<span class="string">&#x27;变量赋值错误&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="面向对象的三大特性：封装、继承、多态"><a href="#面向对象的三大特性：封装、继承、多态" class="headerlink" title="面向对象的三大特性：封装、继承、多态"></a>面向对象的三大特性：封装、继承、多态</h1><h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><p>封装就是使用特殊的语法,对成员属性和成员方法进行包装，达到保护和隐藏的目的 但是封装是为了限制一些访问和操作，但是不能全部都限制（不能不让使用） 被封装的成员只是限制了访问权限，并不是不让访问 通常情况下，被封装的成员主要是供内部使用</p>
+<h3 id="封装的级别"><a href="#封装的级别" class="headerlink" title="封装的级别"></a>封装的级别</h3><ul>
+<li>公有的 public<ul>
+<li>就是类中普通的成员属性</li>
+</ul>
+</li>
+<li>受保护的 protected<ul>
+<li>在类中的成员属性前 加一个 _ 受保护的成员</li>
+</ul>
+</li>
+<li>私有的 private<ul>
+<li>在类中的成员属性前 加两个 __ 私有的成员</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>封装的级别</th>
+<th>公有的 public</th>
+<th>受保护的 protected</th>
+<th>私有的 private</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>在类的内部</td>
+<td>OK</td>
+<td>OK</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>在类的外部</td>
+<td>OK</td>
+<td>NO(Python 可以)</td>
+<td>NO</td>
+</tr>
+</tbody></table>
+<p>实际上私有是这么实现的 对于<strong>成员属性 &#x3D;&#x3D;&#x3D;&gt; _类名</strong>成员属性 进行了改写</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Resume</span>():</span><br><span class="line">    <span class="comment"># 成员属性</span></span><br><span class="line">    name = <span class="literal">None</span></span><br><span class="line">    _age = <span class="literal">None</span></span><br><span class="line">    __gender = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name, age, gender</span>):</span><br><span class="line">        <span class="variable language_">self</span>.name = name</span><br><span class="line">        <span class="variable language_">self</span>._age = age</span><br><span class="line">        <span class="variable language_">self</span>.__gender = gender</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 成员方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">introduce</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;This is <span class="subst">&#123;self.name&#125;</span>&#x27;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="variable language_">self</span>.__gender)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">_experience</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;I am <span class="subst">&#123;self._age&#125;</span> years old&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__superior</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;I am a <span class="subst">&#123;self.__gender&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 实例化对象</span></span><br><span class="line">duanduan = Resume(<span class="string">&#x27;duanduan&#x27;</span>, <span class="number">23</span>, <span class="string">&#x27;female&#x27;</span>)</span><br><span class="line"><span class="comment"># 查看对象的所有属性</span></span><br><span class="line"><span class="built_in">print</span>(duanduan.__dict__)</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="built_in">print</span>(duanduan.name)</span><br><span class="line">    <span class="built_in">print</span>(duanduan._age)</span><br><span class="line">    <span class="comment"># print(duanduan.__gender) # 在类的外部不能操作私有成员</span></span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;NO&#x27;</span>)</span><br><span class="line"></span><br><span class="line">duanduan._experience()  <span class="comment"># I am 23 years old</span></span><br><span class="line"><span class="comment"># duanduan.__superior()  # 在类的外部不能操作私有成员</span></span><br><span class="line">duanduan.introduce()</span><br><span class="line"><span class="comment"># This is duanduan</span></span><br><span class="line"><span class="comment"># female</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><h3 id="单继承"><a href="#单继承" class="headerlink" title="单继承"></a>单继承</h3><p>什么是继承？ 在面向对象中，一个类去继承父类，这个类就拥有了父类的所有成员(除了私有成员)</p>
+<p>概念</p>
+<ul>
+<li>被其他类继承的类，这个类称为父类 也叫做基类 或者 超类</li>
+<li>继承其他类的类，这个类称为子类 也叫做派生类</li>
+<li>子类可以有自己独立的成员，也可以没有</li>
+<li>在不指定继承的父类时，所有类都继承自 object 类（系统提供）</li>
+<li>子类继承了父类之后，就拥有了父类中所有的成员包括魔术方法（除了私有成员）</li>
+<li>子类继承父类后，重新定义了父类中的方法，这种情况称为对父类方法的重写<ul>
+<li>在子类中可以直接调用父类中定义的方法<code>super().父类方法名()</code></li>
+</ul>
+</li>
+<li>子类继承父类后，定义了父类中没有的方法，这种情况称为对父类的扩展</li>
+<li>一个父类可以被多个子类继承</li>
+<li>子类调用父类方法时，如果该方法有参数要求，也需要传递参数</li>
+</ul>
+<p>继承的意义 提高代码的重用性，建立新的类与类的关系，方便其他逻辑的操作</p>
+<p>继承语法格式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">父类</span>():</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">子类</span>(<span class="title class_ inherited__">父类</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">maoke</span>():</span><br><span class="line">    <span class="comment"># 属性</span></span><br><span class="line">    maose = <span class="string">&#x27;猫纹&#x27;</span></span><br><span class="line">    sex = <span class="string">&#x27;m&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">pao</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;走猫步&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">pa</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;能上树&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义猫类 继承 猫科</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">mao</span>(<span class="title class_ inherited__">maoke</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">zhua</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;喜欢抓老鼠&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">pa</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().pa()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;可以上树很快&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">bao</span>(<span class="title class_ inherited__">maoke</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">h = mao()</span><br><span class="line"><span class="built_in">print</span>(h.__dict__)  <span class="comment"># &#123;&#125;</span></span><br><span class="line"><span class="built_in">print</span>(h.maose)  <span class="comment"># 猫纹</span></span><br><span class="line">h.zhua()  <span class="comment"># 喜欢抓老鼠</span></span><br><span class="line">h.pa()</span><br><span class="line"><span class="comment"># 能上树</span></span><br><span class="line"><span class="comment"># 可以上树很快</span></span><br><span class="line"></span><br><span class="line">b = bao()</span><br><span class="line">b.pa()  <span class="comment"># 能上树</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="多继承"><a href="#多继承" class="headerlink" title="多继承"></a>多继承</h3><ul>
+<li>单继承<ul>
+<li>一个类只能继承一个父类</li>
+</ul>
+</li>
+<li>多继承<ul>
+<li>一个类可以去继承多个父类</li>
+</ul>
+</li>
+</ul>
+<p>多继承语法格式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">父亲</span>():</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">母亲</span>():</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">子类</span>(父亲,母亲):</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果在多继承的时候使用了<code>super()</code>，这个时候继承的方法优先是是第一个父类的，若第一个父类没有，寻找下一个父类</li>
+<li>同时，在多继承时，若想指定某个父类的方法，使用<code>父类.方法名(self)</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 父亲类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">F</span>():</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">eat</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;魁梧、强壮&#x27;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">hello</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;F hello&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 母亲类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">M</span>():</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">eat</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;温文、尔雅&#x27;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">hello</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;M hello&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 子类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">C</span>(F, M):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">eat</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().eat()  <span class="comment"># 魁梧、强壮</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;挑食、闹腾&#x27;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">hello</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 指定使用父类的hello方法</span></span><br><span class="line">        F.hello(<span class="variable language_">self</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;C hello&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">c = C()</span><br><span class="line">c.eat()  <span class="comment"># 挑食、闹腾</span></span><br><span class="line">c.hello()</span><br></pre></td></tr></table></figure>
+
+<h3 id="菱形继承（钻石继承）"><a href="#菱形继承（钻石继承）" class="headerlink" title="菱形继承（钻石继承）"></a>菱形继承（钻石继承）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A</span><br><span class="line">B   C</span><br><span class="line">  D</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>可以使用 mro 方法获取 MRO 列表，就是类的继承关系<ul>
+<li>使用 super 去调用父级的方法时，实际上是在用 super 调用 MRO 列表中的上一级中的方法</li>
+<li>使用 super 去访问父级的属性时，实际上是在用 super 访问 MRO 列表中的上一级中的属性</li>
+</ul>
+</li>
+<li>super()本身调用父级方法时，传递的 self 对象，就是这个方法中的那个 self 对象自己</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 人类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Human</span>():</span><br><span class="line">    num = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">eat</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="variable language_">self</span>.num)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;最最年长&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 父亲类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">F</span>(<span class="title class_ inherited__">Human</span>):</span><br><span class="line">    num = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">eat</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().eat()</span><br><span class="line">        <span class="built_in">print</span>(<span class="built_in">super</span>().num)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;魁梧、强壮&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 母亲类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">M</span>(<span class="title class_ inherited__">Human</span>):</span><br><span class="line">    num = <span class="number">3</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">eat</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().eat()</span><br><span class="line">        <span class="comment"># print(super().num)</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;温文、尔雅&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 子类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">C</span>(F,M):</span><br><span class="line">    num = <span class="number">4</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">eat</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().eat()  <span class="comment"># 魁梧、强壮</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="built_in">super</span>().num)  <span class="comment"># 2</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;挑食、闹腾&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">c = C()</span><br><span class="line">c.eat()</span><br><span class="line"><span class="comment"># 4</span></span><br><span class="line"><span class="comment"># 最最年长</span></span><br><span class="line"><span class="comment"># 温文、尔雅</span></span><br><span class="line"><span class="comment"># 3</span></span><br><span class="line"><span class="comment"># 魁梧、强壮</span></span><br><span class="line"><span class="comment"># 2</span></span><br><span class="line"><span class="comment"># 挑食、闹腾</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(C.mro()) <span class="comment">#[&lt;class &#x27;__main__.C&#x27;&gt;, &lt;class &#x27;__main__.F&#x27;&gt;, &lt;class &#x27;__main__.M&#x27;&gt;, &lt;class &#x27;__main__.Human&#x27;&gt;, &lt;class &#x27;object&#x27;&gt;]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="继承关系检测"><a href="#继承关系检测" class="headerlink" title="继承关系检测"></a>继承关系检测</h3><p>在实现继承的语法之后，程序会自动生成一个继承的列表(MRO（Method Realtion Order) 方法关系列表</p>
+<ul>
+<li>MRO 列表生成原则：</li>
+</ul>
+<ol>
+<li>子类永远在父类前</li>
+<li>同一等级的类，按照子类中的继承顺序摆放</li>
+<li>先子类，后父类的顺序原则，最终的类是系统提供的 object 类</li>
+</ol>
+<p>[&lt;class ‘**main**.C’&gt;, &lt;class ‘**main**.F’&gt;, &lt;class ‘**main**.M’&gt;, &lt;class ‘**main**.Human’&gt;, &lt;class ‘object’&gt;]</p>
+<p>super()在调用的时候，并不是查找父类，而是去 MRO 列表上找上一个类 super()方法在调用时，会自动把当前 self 传入到上一级的类的方法中</p>
+<p>类关系检测 issubclass() issubclass() 是一个类是否是另一个类的子类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 沿用之前的类</span></span><br><span class="line"><span class="built_in">print</span>(</span><br><span class="line">    C.mro())  <span class="comment"># [&lt;class &#x27;__main__.C&#x27;&gt;, &lt;class &#x27;__main__.F&#x27;&gt;, &lt;class &#x27;__main__.M&#x27;&gt;, &lt;class &#x27;__main__.Human&#x27;&gt;, &lt;class &#x27;object&#x27;&gt;]</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">issubclass</span>(C, (F, M)))  <span class="comment"># True</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">issubclass</span>(F, M))  <span class="comment"># False</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">issubclass</span>(C, Human))  <span class="comment"># True</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p>对于同一个方法，由于调用的对象不同，产生了不同形态的结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Computer</span>():</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">usb</span>(<span class="params">self, obj</span>):</span><br><span class="line">        obj.start()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Mouse</span>():</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">start</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;鼠标启动成功&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">KeyBoard</span>():</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">start</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;键盘启动成功&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Udisk</span>():</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">start</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;U盘启动了&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">c = Computer()</span><br><span class="line">m = Mouse()</span><br><span class="line">k = KeyBoard()</span><br><span class="line">u = Udisk()</span><br><span class="line"></span><br><span class="line">c.usb(m)  <span class="comment"># 鼠标启动成功</span></span><br><span class="line">c.usb(k)  <span class="comment"># 键盘启动成功</span></span><br><span class="line">c.usb(u)  <span class="comment"># U盘启动了</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="多态——继承版"><a href="#多态——继承版" class="headerlink" title="多态——继承版"></a>多态——继承版</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">USB</span>():</span><br><span class="line">    <span class="comment"># 在USB类中定义一个规范的接口方法，但是不实现任何功能</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">start</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Mouse</span>(<span class="title class_ inherited__">USB</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">start</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;鼠标启动成功&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">KeyBoard</span>(<span class="title class_ inherited__">USB</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">start</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;键盘启动成功&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Udisk</span>(<span class="title class_ inherited__">USB</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">start</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;U盘启动了&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">m = Mouse()</span><br><span class="line">k = KeyBoard()</span><br><span class="line">u = Udisk()</span><br><span class="line"></span><br><span class="line">m.start()  <span class="comment"># 鼠标启动成功</span></span><br><span class="line">k.start()  <span class="comment"># 键盘启动成功</span></span><br><span class="line">u.start()  <span class="comment"># U盘启动了</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>更新: 2024-01-23 06:42:42<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/zacharyblock/cx2om6/vak1xgsu38h6xhbv">https://www.yuque.com/zacharyblock/cx2om6/vak1xgsu38h6xhbv</a></p>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Zachary Block</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2022/12/31/Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80/">http://example.com/2022/12/31/Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Python/"># Python</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/12/31/Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E9%98%B6/">Python面向对象-面向对象高阶</a>
+            
+            
+            <a class="next" rel="next" href="/2022/12/31/Python%E5%9F%BA%E7%A1%80/%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/">Python基础-内置模块</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Zachary Block | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

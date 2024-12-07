@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="referrer" content="no-referrer">
+
+    <meta name="author" content="Zachary Block">
+
+
+
+
+
+<title>FastAPI入门-API鉴权 | Zachary Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Zachary Blog" type="application/atom+xml">
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Zachary&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Zachary&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">FastAPI入门-API鉴权</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Zachary Block</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">5 月 3 日&nbsp;&nbsp;22:10:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/FastAPI%E5%85%A5%E9%97%A8/">FastAPI入门</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="API-鉴权"><a href="#API-鉴权" class="headerlink" title="API 鉴权"></a>API 鉴权</h1><p>为了不允许，任何人都可以调用后端的 api 接口，现在给 api 接口加上权限校验，只有登录过的才能调用后端的 api 接口，之前在<code>auth.py</code>中实现了一个校验，通过依赖注入给 api 直接加上即可</p>
+<h2 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h2><p>比如给<code>courseApi.py</code>的所有接口加上 token 校验的依赖</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">Optional</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> APIRouter, Query, Depends</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> api <span class="keyword">import</span> app</span><br><span class="line"><span class="keyword">from</span> common.auth <span class="keyword">import</span> auth_handler</span><br><span class="line"><span class="keyword">from</span> common.pageHelper <span class="keyword">import</span> PageHelper</span><br><span class="line"><span class="keyword">from</span> common.result <span class="keyword">import</span> ResultModel, Result</span><br><span class="line"><span class="keyword">from</span> model <span class="keyword">import</span> Session, get_db_session</span><br><span class="line"><span class="keyword">from</span> model.course <span class="keyword">import</span> CourseSearch, CourseCreate, CourseUpdate</span><br><span class="line"><span class="keyword">from</span> service.courseService <span class="keyword">import</span> CourseService</span><br><span class="line"></span><br><span class="line">course_router = APIRouter(prefix=<span class="string">&quot;/course&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@course_router.get(<span class="params"><span class="string">&quot;/selectPage&quot;</span>, response_model=ResultModel, dependencies=[Depends(<span class="params">auth_handler.auth_required</span>)]</span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">select_page</span>(<span class="params">page: <span class="built_in">int</span> = Query(<span class="params"><span class="number">1</span>, ge=<span class="number">1</span>, alias=<span class="string">&quot;pageNum&quot;</span>, description=<span class="string">&quot;Page number&quot;</span></span>),</span></span><br><span class="line"><span class="params">                      size: <span class="built_in">int</span> = Query(<span class="params"><span class="number">5</span>, gt=<span class="number">0</span>, le=<span class="number">100</span>, alias=<span class="string">&quot;pageSize&quot;</span>, description=<span class="string">&quot;Page size&quot;</span></span>),</span></span><br><span class="line"><span class="params">                      name: <span class="type">Optional</span>[<span class="built_in">str</span>] = Query(<span class="params"><span class="literal">None</span>, description=<span class="string">&quot;Course name&quot;</span></span>),</span></span><br><span class="line"><span class="params">                      number: <span class="type">Optional</span>[<span class="built_in">str</span>] = Query(<span class="params"><span class="literal">None</span>, description=<span class="string">&quot;Course number&quot;</span></span>),</span></span><br><span class="line"><span class="params">                      teacher: <span class="type">Optional</span>[<span class="built_in">str</span>] = Query(<span class="params"><span class="literal">None</span>, description=<span class="string">&quot;Course teacher&quot;</span></span>),</span></span><br><span class="line"><span class="params">                      db_session: Session = Depends(<span class="params">get_db_session</span>)</span>):</span><br><span class="line">    pageInfo = PageHelper.startPage(page, size)</span><br><span class="line">    course_search = CourseSearch(name=name, number=number, teacher=teacher)</span><br><span class="line">    course_list = CourseService.select_page(course_search, db_session)</span><br><span class="line">    result = Result.success(pageInfo.of(course_list))</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@course_router.post(<span class="params"><span class="string">&quot;/add&quot;</span>, response_model=ResultModel, dependencies=[Depends(<span class="params">auth_handler.auth_required</span>)]</span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">course: CourseCreate, db_session: Session = Depends(<span class="params">get_db_session</span>)</span>):</span><br><span class="line">    CourseService.add_course(course, db_session)</span><br><span class="line">    result = Result.success()</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@course_router.put(<span class="params"><span class="string">&quot;/update&quot;</span>, response_model=ResultModel, dependencies=[Depends(<span class="params">auth_handler.auth_required</span>)]</span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">update</span>(<span class="params">course: CourseUpdate, db_session: Session = Depends(<span class="params">get_db_session</span>)</span>):</span><br><span class="line">    CourseService.update_by_id(course, db_session)</span><br><span class="line">    result = Result.success()</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@course_router.delete(<span class="params"><span class="string">&quot;/delete/&#123;id&#125;&quot;</span>, response_model=ResultModel, dependencies=[Depends(<span class="params">auth_handler.auth_required</span>)]</span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">delete</span>(<span class="params"><span class="built_in">id</span>: <span class="built_in">int</span>, db_session: Session = Depends(<span class="params">get_db_session</span>)</span>):</span><br><span class="line">    CourseService.delete_by_id(<span class="built_in">id</span>, db_session)</span><br><span class="line">    result = Result.success()</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">app.include_router(course_router)</span><br></pre></td></tr></table></figure>
+
+<p>或者给整个&#x2F;course 下的 api 都注入依赖，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">Optional</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> APIRouter, Depends, Query</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> api <span class="keyword">import</span> app</span><br><span class="line"><span class="keyword">from</span> common.auth <span class="keyword">import</span> auth_handler</span><br><span class="line"><span class="keyword">from</span> common.pageHelper <span class="keyword">import</span> PageHelper</span><br><span class="line"><span class="keyword">from</span> common.result <span class="keyword">import</span> ResultModel, Result</span><br><span class="line"><span class="keyword">from</span> model <span class="keyword">import</span> Session, get_db_session</span><br><span class="line"><span class="keyword">from</span> model.course <span class="keyword">import</span> CourseSearch, CourseCreate, CourseUpdate</span><br><span class="line"><span class="keyword">from</span> service.courseService <span class="keyword">import</span> CourseService</span><br><span class="line"></span><br><span class="line">course_router = APIRouter(prefix=<span class="string">&#x27;/course&#x27;</span>, dependencies=[Depends(auth_handler.auth_required)])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@course_router.get(<span class="params"><span class="string">&quot;/selectPage&quot;</span>, response_model=ResultModel</span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">select_page</span>(<span class="params">page: <span class="built_in">int</span> = Query(<span class="params"><span class="number">1</span>, ge=<span class="number">1</span>, alias=<span class="string">&quot;pageNum&quot;</span>, description=<span class="string">&quot;Page number&quot;</span></span>),</span></span><br><span class="line"><span class="params">                      size: <span class="built_in">int</span> = Query(<span class="params"><span class="number">5</span>, gt=<span class="number">0</span>, le=<span class="number">100</span>, alias=<span class="string">&quot;pageSize&quot;</span>, description=<span class="string">&quot;Page size&quot;</span></span>),</span></span><br><span class="line"><span class="params">                      name: <span class="type">Optional</span>[<span class="built_in">str</span>] = Query(<span class="params"><span class="literal">None</span>, description=<span class="string">&quot;Course name&quot;</span></span>),</span></span><br><span class="line"><span class="params">                      number: <span class="type">Optional</span>[<span class="built_in">str</span>] = Query(<span class="params"><span class="literal">None</span>, description=<span class="string">&quot;Course number&quot;</span></span>),</span></span><br><span class="line"><span class="params">                      teacher: <span class="type">Optional</span>[<span class="built_in">str</span>] = Query(<span class="params"><span class="literal">None</span>, description=<span class="string">&quot;Course teacher&quot;</span></span>),</span></span><br><span class="line"><span class="params">                      db_session: Session = Depends(<span class="params">get_db_session</span>)</span>):</span><br><span class="line">    pageInfo = PageHelper.startPage(page, size)</span><br><span class="line">    course_search = CourseSearch(name=name, number=number, teacher=teacher)</span><br><span class="line">    course_list = CourseService.select_page(course_search, db_session)</span><br><span class="line">    result = Result.success(pageInfo.of(course_list))</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@course_router.post(<span class="params"><span class="string">&quot;/add&quot;</span>, response_model=ResultModel</span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">course: CourseCreate, db_session: Session = Depends(<span class="params">get_db_session</span>)</span>):</span><br><span class="line">    CourseService.add_course(course, db_session)</span><br><span class="line">    result = Result.success()</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@course_router.put(<span class="params"><span class="string">&quot;/update&quot;</span>, response_model=ResultModel</span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">update</span>(<span class="params">course: CourseUpdate, db_session: Session = Depends(<span class="params">get_db_session</span>)</span>):</span><br><span class="line">    CourseService.update_by_id(course, db_session)</span><br><span class="line">    result = Result.success()</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@course_router.delete(<span class="params"><span class="string">&quot;/delete/&#123;id&#125;&quot;</span>, response_model=ResultModel</span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">delete</span>(<span class="params"><span class="built_in">id</span>: <span class="built_in">int</span>, db_session: Session = Depends(<span class="params">get_db_session</span>)</span>):</span><br><span class="line">    CourseService.delete_by_id(<span class="built_in">id</span>, db_session)</span><br><span class="line">    result = Result.success()</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">app.include_router(course_router)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这样如果没有登录的情况下，直接用 postman 是无法调用接口的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710427325734-11834e2f-d189-420d-8d57-8b67386e6943.png"></p>
+<h2 id="登录-token"><a href="#登录-token" class="headerlink" title="登录 token"></a>登录 token</h2><p>虽然现在前端页面上已经登录了，但由于请求头没有带上 token，所以无法获取数据</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710419406685-19044c40-990d-496d-9cad-a0b7dbde9e49.png"></p>
+<p>为了让浏览器拿到后端生成的这个 token，需要改变一下登录后的返回结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> select</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> common.auth <span class="keyword">import</span> auth_handler</span><br><span class="line"><span class="keyword">from</span> exception.customException <span class="keyword">import</span> UserNotFoundException, PasswordNotMatchException</span><br><span class="line"><span class="keyword">from</span> model <span class="keyword">import</span> Session</span><br><span class="line"><span class="keyword">from</span> model.admin <span class="keyword">import</span> Admin, AdminModel, AdminLoginResponse</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AdminService</span>:</span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">login</span>(<span class="params">admin: AdminModel, db_session: Session</span>) -&gt; Admin:</span><br><span class="line">        query = select(Admin).where(Admin.username == admin.username)</span><br><span class="line">        exist_admin: Admin = db_session.execute(query).scalars().first()</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> exist_admin:</span><br><span class="line">            <span class="keyword">raise</span> UserNotFoundException(<span class="string">&quot;用户不存在&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> auth_handler.verify_password(admin.password, exist_admin.password):</span><br><span class="line">            <span class="keyword">raise</span> PasswordNotMatchException(<span class="string">&quot;身份验证未通过&quot;</span>)</span><br><span class="line">        admin_login_response = AdminLoginResponse(<span class="built_in">id</span>=exist_admin.<span class="built_in">id</span>, username=exist_admin.username,</span><br><span class="line">                                                  token=auth_handler.encode_token(exist_admin.<span class="built_in">id</span>))</span><br><span class="line">        <span class="keyword">return</span> admin_login_response</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">import</span> bcrypt</span><br><span class="line"><span class="keyword">from</span> pydantic <span class="keyword">import</span> BaseModel</span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> Integer, String</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> Mapped, mapped_column</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> model <span class="keyword">import</span> Base</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Admin</span>(<span class="title class_ inherited__">Base</span>):</span><br><span class="line">    __tablename__ = <span class="string">&quot;admin&quot;</span></span><br><span class="line">    <span class="built_in">id</span>: Mapped[<span class="built_in">int</span>] = mapped_column(Integer, primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line">    username: Mapped[<span class="built_in">str</span>] = mapped_column(String(<span class="number">255</span>), nullable=<span class="literal">False</span>)</span><br><span class="line">    password: Mapped[<span class="built_in">str</span>] = mapped_column(String(<span class="number">255</span>), nullable=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AdminModel</span>(<span class="title class_ inherited__">BaseModel</span>):</span><br><span class="line">    username: <span class="built_in">str</span></span><br><span class="line">    password: <span class="built_in">str</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AdminLoginResponse</span>(<span class="title class_ inherited__">BaseModel</span>):</span><br><span class="line">    <span class="built_in">id</span>: <span class="built_in">int</span></span><br><span class="line">    username: <span class="built_in">str</span></span><br><span class="line">    token: <span class="built_in">str</span></span><br></pre></td></tr></table></figure>
+
+<p>这样子在重新登录之后就可以获得后端返回的 token，前端 axios 会在发起请求之前，将 token 放到请求头中，再向后端请求 api 接口</p>
+<p>登录后会返回 token：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710420080541-20a155e1-15a0-4052-ae34-c60a582e6b41.png"></p>
+<p>能正确获取数据：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710427424832-4e162436-19bc-4d6d-b51a-e81eae83e769.png"></p>
+<h2 id="token-超时失效"><a href="#token-超时失效" class="headerlink" title="token 超时失效"></a>token 超时失效</h2><p>为了让前端的 token 失效之后，自动回到 Login 页面，需要做些调整</p>
+<p>当请求 api 接口的时候返回的状态值为 401 的时候，移除存储的 student-user，这样就会自动跳转回 login 页面重新进行登录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;div class=&quot;card&quot; style=&quot;margin-bottom: 10px&quot;&gt;</span><br><span class="line">      &lt;el-input</span><br><span class="line">        @input=&quot;load&quot;</span><br><span class="line">        style=&quot;width: 260px&quot;</span><br><span class="line">        v-model=&quot;data.name&quot;</span><br><span class="line">        placeholder=&quot;请输入要查询的课程名称&quot;</span><br><span class="line">        :prefix-icon=&quot;Search&quot;</span><br><span class="line">      /&gt;</span><br><span class="line">      &lt;el-input</span><br><span class="line">        @input=&quot;load&quot;</span><br><span class="line">        style=&quot;margin-left:10px; width: 260px&quot;</span><br><span class="line">        v-model=&quot;data.number&quot;</span><br><span class="line">        placeholder=&quot;请输入课程编号&quot;</span><br><span class="line">        :prefix-icon=&quot;Search&quot;</span><br><span class="line">      /&gt;</span><br><span class="line">      &lt;el-input</span><br><span class="line">        @input=&quot;load&quot;</span><br><span class="line">        style=&quot;margin-left:10px; width: 260px&quot;</span><br><span class="line">        v-model=&quot;data.teacher&quot;</span><br><span class="line">        placeholder=&quot;请输入任课老师&quot;</span><br><span class="line">        :prefix-icon=&quot;Search&quot;</span><br><span class="line">      /&gt;</span><br><span class="line">      &lt;el-button type=&quot;info&quot; plain style=&quot;margin: 0 0 0 10px&quot; @click=&quot;reset&quot;</span><br><span class="line">        &gt;重置&lt;/el-button</span><br><span class="line">      &gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div class=&quot;card&quot; style=&quot;margin-bottom: 10px&quot;&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;el-button</span><br><span class="line">          type=&quot;primary&quot;</span><br><span class="line">          style=&quot;margin-bottom: 5px&quot;</span><br><span class="line">          plain</span><br><span class="line">          @click=&quot;handleAdd&quot;</span><br><span class="line">          &gt;新增&lt;/el-button</span><br><span class="line">        &gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;el-table :data=&quot;data.tableData&quot; stripe style=&quot;width: 100%&quot;&gt;</span><br><span class="line">          &lt;el-table-column prop=&quot;id&quot; label=&quot;ID&quot; width=&quot;80&quot; /&gt;</span><br><span class="line">          &lt;el-table-column prop=&quot;name&quot; label=&quot;课程名称&quot; width=&quot;180&quot; /&gt;</span><br><span class="line">          &lt;el-table-column prop=&quot;number&quot; label=&quot;课程编号&quot; width=&quot;180&quot; /&gt;</span><br><span class="line">          &lt;el-table-column prop=&quot;description&quot; label=&quot;课程描述&quot; width=&quot;240&quot; /&gt;</span><br><span class="line">          &lt;el-table-column prop=&quot;periods&quot; label=&quot;课时&quot; width=&quot;180&quot; /&gt;</span><br><span class="line">          &lt;el-table-column prop=&quot;teacher&quot; label=&quot;任课教师&quot; /&gt;</span><br><span class="line">          &lt;el-table-column label=&quot;操作&quot; align=&quot;center&quot;&gt;</span><br><span class="line">            &lt;template #default=&quot;scope&quot;&gt;</span><br><span class="line">              &lt;el-button</span><br><span class="line">                type=&quot;primary&quot;</span><br><span class="line">                size=&quot;small&quot;</span><br><span class="line">                plain</span><br><span class="line">                @click=&quot;handleEdit(scope.row)&quot;</span><br><span class="line">                &gt;编辑&lt;/el-button</span><br><span class="line">              &gt;</span><br><span class="line">              &lt;el-button</span><br><span class="line">                type=&quot;danger&quot;</span><br><span class="line">                size=&quot;small&quot;</span><br><span class="line">                plain</span><br><span class="line">                @click=&quot;handleDelete(scope.row.id)&quot;</span><br><span class="line">                &gt;删除&lt;/el-button</span><br><span class="line">              &gt;</span><br><span class="line">            &lt;/template&gt;</span><br><span class="line">          &lt;/el-table-column&gt;</span><br><span class="line">        &lt;/el-table&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div class=&quot;card&quot;&gt;</span><br><span class="line">      &lt;el-pagination</span><br><span class="line">        v-model:current-page=&quot;data.pageNum&quot;</span><br><span class="line">        v-model:page-size=&quot;data.pageSize&quot;</span><br><span class="line">        @current-change=&quot;handleCurrentChange&quot;</span><br><span class="line">        background</span><br><span class="line">        layout=&quot;prev, pager, next&quot;</span><br><span class="line">        :total=&quot;data.total&quot;</span><br><span class="line">      /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;el-dialog width=&quot;35%&quot; v-model=&quot;data.formVisible&quot; title=&quot;课程信息&quot;&gt;</span><br><span class="line">      &lt;el-form</span><br><span class="line">        :model=&quot;data.form&quot;</span><br><span class="line">        label-width=&quot;100px&quot;</span><br><span class="line">        label-position=&quot;right&quot;</span><br><span class="line">        style=&quot;padding-right: 45px&quot;</span><br><span class="line">      &gt;</span><br><span class="line">        &lt;el-form-item label=&quot;课程名称&quot;&gt;</span><br><span class="line">          &lt;el-input v-model=&quot;data.form.name&quot; autocomplete=&quot;off&quot; /&gt;</span><br><span class="line">        &lt;/el-form-item&gt;</span><br><span class="line">        &lt;el-form-item label=&quot;课程编号&quot;&gt;</span><br><span class="line">          &lt;el-input v-model=&quot;data.form.number&quot; autocomplete=&quot;off&quot; /&gt;</span><br><span class="line">        &lt;/el-form-item&gt;</span><br><span class="line">        &lt;el-form-item label=&quot;课程描述&quot;&gt;</span><br><span class="line">          &lt;el-input v-model=&quot;data.form.description&quot; autocomplete=&quot;off&quot; /&gt;</span><br><span class="line">        &lt;/el-form-item&gt;</span><br><span class="line">        &lt;el-form-item label=&quot;课时&quot;&gt;</span><br><span class="line">          &lt;el-input v-model=&quot;data.form.periods&quot; autocomplete=&quot;off&quot; /&gt;</span><br><span class="line">        &lt;/el-form-item&gt;</span><br><span class="line">        &lt;el-form-item label=&quot;任课教师&quot;&gt;</span><br><span class="line">          &lt;el-input v-model=&quot;data.form.teacher&quot; autocomplete=&quot;off&quot; /&gt;</span><br><span class="line">        &lt;/el-form-item&gt;</span><br><span class="line">      &lt;/el-form&gt;</span><br><span class="line">      &lt;template #footer&gt;</span><br><span class="line">        &lt;span class=&quot;dialog-footer&quot;&gt;</span><br><span class="line">          &lt;el-button @click=&quot;data.formVisible = false&quot; plain&gt;取消&lt;/el-button&gt;</span><br><span class="line">          &lt;el-button type=&quot;primary&quot; @click=&quot;save&quot; plain&gt;保存&lt;/el-button&gt;</span><br><span class="line">        &lt;/span&gt;</span><br><span class="line">      &lt;/template&gt;</span><br><span class="line">    &lt;/el-dialog&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script setup&gt;</span><br><span class="line">import &#123; reactive &#125; from &quot;vue&quot;;</span><br><span class="line">import &#123; Search &#125; from &quot;@element-plus/icons-vue&quot;;</span><br><span class="line">import request from &quot;@/utils/request&quot;;</span><br><span class="line">import &#123; ElMessage, ElMessageBox &#125; from &quot;element-plus&quot;;</span><br><span class="line">import router from &quot;@/router&quot;;</span><br><span class="line"></span><br><span class="line">const data = reactive(&#123;</span><br><span class="line">  name: &quot;&quot;,</span><br><span class="line">  number: &quot;&quot;,</span><br><span class="line">  teacher: &quot;&quot;,</span><br><span class="line">  tableData: [],</span><br><span class="line">  total: 0,</span><br><span class="line">  pageNum: 1,</span><br><span class="line">  pageSize: 5,</span><br><span class="line">  formVisible: false,</span><br><span class="line">  form: &#123;&#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">const load = () =&gt; &#123;</span><br><span class="line">  request</span><br><span class="line">    .get(&quot;/course/selectPage&quot;, &#123;</span><br><span class="line">      params: &#123;</span><br><span class="line">        pageNum: data.pageNum,</span><br><span class="line">        pageSize: data.pageSize,</span><br><span class="line">        name: data.name,</span><br><span class="line">        number: data.number,</span><br><span class="line">        teacher: data.teacher,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;)</span><br><span class="line">    .then((res) =&gt; &#123;</span><br><span class="line">      if (res.code === &quot;200&quot;) &#123;</span><br><span class="line">        data.tableData = res.data?.list || [];</span><br><span class="line">        data.total = res.data?.total || 0;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        ElMessage.error(res.msg);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch((err) =&gt; &#123;</span><br><span class="line">      if (err.response?.data?.code === &quot;401&quot;) &#123;</span><br><span class="line">        localStorage.removeItem(&quot;student-user&quot;);</span><br><span class="line">      &#125;</span><br><span class="line">      ElMessage.error(err.response?.data?.msg || err.message);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 加载一次 获取课程数据</span><br><span class="line">load();</span><br><span class="line"></span><br><span class="line">const handleCurrentChange = () =&gt; &#123;</span><br><span class="line">  // 当翻页的时候重新加载数据</span><br><span class="line">  load();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const reset = () =&gt; &#123;</span><br><span class="line">  data.name = &quot;&quot;;</span><br><span class="line">  data.number = &quot;&quot;;</span><br><span class="line">  data.teacher = &quot;&quot;;</span><br><span class="line">  load();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const handleAdd = () =&gt; &#123;</span><br><span class="line">  data.formVisible = true;</span><br><span class="line">  data.form = &#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const save = () =&gt; &#123;</span><br><span class="line">  request</span><br><span class="line">    .request(&#123;</span><br><span class="line">      url: data.form.id ? &quot;/course/update&quot; : &quot;/course/add&quot;,</span><br><span class="line">      method: data.form.id ? &quot;put&quot; : &quot;post&quot;,</span><br><span class="line">      data: data.form,</span><br><span class="line">    &#125;)</span><br><span class="line">    .then((res) =&gt; &#123;</span><br><span class="line">      if (res.code === &quot;200&quot;) &#123;</span><br><span class="line">        ElMessage.success(&quot;操作成功&quot;);</span><br><span class="line">        data.formVisible = false;</span><br><span class="line">        load();</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        ElMessage.error(res.msg);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch((err) =&gt; &#123;</span><br><span class="line">      if (err.response?.data?.code === &quot;401&quot;) &#123;</span><br><span class="line">        localStorage.removeItem(&quot;student-user&quot;);</span><br><span class="line">      &#125;</span><br><span class="line">      ElMessage.error(err.response?.data?.msg || err.message);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const handleEdit = (row) =&gt; &#123;</span><br><span class="line">  data.form = JSON.parse(JSON.stringify(row));</span><br><span class="line">  data.formVisible = true;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const handleDelete = (id) =&gt; &#123;</span><br><span class="line">  ElMessageBox.confirm(&quot;删除后内容将无法恢复，您确认删除嘛？&quot;, &quot;删除确认&quot;, &#123;</span><br><span class="line">    type: &quot;warning&quot;,</span><br><span class="line">  &#125;)</span><br><span class="line">    .then((res) =&gt; &#123;</span><br><span class="line">      request.delete(&quot;/course/delete/&quot; + id).then((res) =&gt; &#123;</span><br><span class="line">        if (res.code === &quot;200&quot;) &#123;</span><br><span class="line">          ElMessage.success(&quot;删除成功&quot;);</span><br><span class="line">          load();</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">          ElMessage.error(res.msg);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch((err) =&gt; &#123;</span><br><span class="line">      ElMessage.error(err.response?.data?.msg || err.message);</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch((err) =&gt; &#123;</span><br><span class="line">      if (err.response?.data?.code === &quot;401&quot;) &#123;</span><br><span class="line">        localStorage.removeItem(&quot;student-user&quot;);</span><br><span class="line">      &#125;</span><br><span class="line">      ElMessage.error(err.response?.data?.msg || err.message);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p> <img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710445924935-211ab920-04f6-4bd6-ae07-b125be316f6b.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1710445934776-e2d6aab9-287b-4cdd-be66-61b04249bb07.png"></p>
+<h2 id="token-超时配置"><a href="#token-超时配置" class="headerlink" title="token 超时配置"></a>token 超时配置</h2><p>为了更便捷地配置 token 的超时时间，设置一下超时时间常量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> common.config <span class="keyword">import</span> config</span><br><span class="line"></span><br><span class="line">HOST = config.env.get(<span class="string">&quot;HOST&quot;</span>)</span><br><span class="line">PORT = config.env.get(<span class="string">&quot;PORT&quot;</span>)</span><br><span class="line"></span><br><span class="line">MYSQL_DIALECT = config.env.get(<span class="string">&quot;MYSQL_DIALECT&quot;</span>)</span><br><span class="line">MYSQL_HOST = config.env.get(<span class="string">&quot;MYSQL_HOST&quot;</span>)</span><br><span class="line">MYSQL_PORT = config.env.get(<span class="string">&quot;MYSQL_PORT&quot;</span>)</span><br><span class="line">MYSQL_USER = config.env.get(<span class="string">&quot;MYSQL_USER&quot;</span>)</span><br><span class="line">MYSQL_PASSWORD = config.env.get(<span class="string">&quot;MYSQL_PASSWORD&quot;</span>)</span><br><span class="line">MYSQL_DATABASE = config.env.get(<span class="string">&quot;MYSQL_DATABASE&quot;</span>)</span><br><span class="line"></span><br><span class="line">TOKEN_EXPIRE_DAYS = <span class="number">7</span></span><br><span class="line">TOKEN_EXPIRE_MINUTES = <span class="number">0</span></span><br><span class="line">TOKEN_EXPIRE_SECONDS = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime, timedelta</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> Security</span><br><span class="line"><span class="keyword">from</span> fastapi.security <span class="keyword">import</span> HTTPBearer, HTTPAuthorizationCredentials</span><br><span class="line"><span class="keyword">from</span> passlib.context <span class="keyword">import</span> CryptContext</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> common.constant <span class="keyword">import</span> TOKEN_EXPIRE_DAYS, TOKEN_EXPIRE_MINUTES, TOKEN_EXPIRE_SECONDS</span><br><span class="line"><span class="keyword">from</span> exception.customException <span class="keyword">import</span> TokenException</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AuthHandler</span>:</span><br><span class="line">    security = HTTPBearer()</span><br><span class="line">    pwd_context = CryptContext(schemes=[<span class="string">&quot;bcrypt&quot;</span>], deprecated=<span class="string">&quot;auto&quot;</span>)</span><br><span class="line">    secret = <span class="string">&quot;SECRET&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_password_hash</span>(<span class="params">self, password</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.pwd_context.<span class="built_in">hash</span>(password)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">verify_password</span>(<span class="params">self, plain_password, hashed_password</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.pwd_context.verify(plain_password, hashed_password)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">encode_token</span>(<span class="params">self, user_id</span>):</span><br><span class="line">        payload = &#123;</span><br><span class="line">            <span class="string">&#x27;exp&#x27;</span>: datetime.utcnow() + timedelta(days=TOKEN_EXPIRE_DAYS, minutes=TOKEN_EXPIRE_MINUTES,</span><br><span class="line">                                                 seconds=TOKEN_EXPIRE_SECONDS),</span><br><span class="line">            <span class="string">&#x27;iat&#x27;</span>: datetime.utcnow(),</span><br><span class="line">            <span class="string">&#x27;sub&#x27;</span>: user_id</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> jwt.encode(</span><br><span class="line">            payload,</span><br><span class="line">            <span class="variable language_">self</span>.secret,</span><br><span class="line">            algorithm=<span class="string">&#x27;HS256&#x27;</span></span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">decode_token</span>(<span class="params">self, token</span>):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            payload = jwt.decode(token, <span class="variable language_">self</span>.secret, algorithms=[<span class="string">&#x27;HS256&#x27;</span>])</span><br><span class="line">            <span class="keyword">return</span> payload[<span class="string">&#x27;sub&#x27;</span>]</span><br><span class="line">        <span class="keyword">except</span> jwt.ExpiredSignatureError:</span><br><span class="line">            <span class="keyword">raise</span> TokenException(<span class="string">&quot;token过期&quot;</span>)</span><br><span class="line">        <span class="keyword">except</span> jwt.InvalidTokenError:</span><br><span class="line">            <span class="keyword">raise</span> TokenException(<span class="string">&quot;无效token&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">auth_required</span>(<span class="params">self, auth: HTTPAuthorizationCredentials = Security(<span class="params">security</span>)</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.decode_token(auth.credentials)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">auth_handler = AuthHandler()</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>更新: 2024-05-03 21:07:51<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/zacharyblock/iacda/po1gqzqal77c94sl">https://www.yuque.com/zacharyblock/iacda/po1gqzqal77c94sl</a></p>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Zachary Block</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/API%E9%89%B4%E6%9D%83/">http://example.com/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/API%E9%89%B4%E6%9D%83/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Python/"># Python</a>
+                    
+                        <a href="/tags/Vue3/"># Vue3</a>
+                    
+                        <a href="/tags/FastAPI/"># FastAPI</a>
+                    
+                        <a href="/tags/%E5%AE%9E%E6%88%98/"># 实战</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/05/20/FastAPI%E5%85%A5%E9%97%A8/%E5%AD%A6%E7%94%9F%E7%AE%A1%E7%90%86/">FastAPI入门-学生管理</a>
+            
+            
+            <a class="next" rel="next" href="/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/%E8%AF%BE%E7%A8%8B%E7%AE%A1%E7%90%86/">FastAPI入门-课程管理</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Zachary Block | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
