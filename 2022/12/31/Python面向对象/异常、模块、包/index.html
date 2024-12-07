@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="referrer" content="no-referrer">
+    <title>
+        Zachary Blog
+    </title>
+    
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Zachary Blog" type="application/atom+xml">
+</head>
+
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            Python面向对象-异常、模块、包
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h1 id="异常、模块、包"><a href="#异常、模块、包" class="headerlink" title="异常、模块、包"></a>异常、模块、包</h1><h1 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h1><h2 id="什么是异常"><a href="#什么是异常" class="headerlink" title="什么是异常"></a>什么是异常</h2><p>异常就是 非正常 没有达到预期目标 的非语法错误，会影响程序正常执行，Python 解释器不能正常处理的问题</p>
+<ul>
+<li>异常分两种：<ul>
+<li>语法错误导致的异常</li>
+<li>逻辑错误导致的异常</li>
+</ul>
+</li>
+<li>对于不可预知的异常错误，可以使用 try…except…对异常进行处理</li>
+</ul>
+<p>常用的异常类继承关系</p>
+<p><img src="https://cdn.nlark.com/yuque/__puml/22ab22e4bbe5119fc89ca6ff8c61ea37.svg"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    可能发生异常错误的代码</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    如果发生了异常则进入<span class="keyword">except</span>代码块</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 异常例子</span></span><br><span class="line">varlist = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="built_in">print</span>(varlist[<span class="number">3</span>])</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">运行结果为：</span></span><br><span class="line"><span class="string">Traceback (most recent call last):</span></span><br><span class="line"><span class="string">  File &quot;/Users/zachary/PycharmProjects/Python教程阶段1/code_oop/41什么是异常.py&quot;, line 6, in &lt;module&gt;</span></span><br><span class="line"><span class="string">    print(varlist[3])</span></span><br><span class="line"><span class="string">IndexError: list index out of range</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">其中：</span></span><br><span class="line"><span class="string">IndexError  异常类</span></span><br><span class="line"><span class="string">list index out of range  异常信息</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 异常处理除法</span></span><br><span class="line">val = <span class="built_in">input</span>(<span class="string">&quot;请输入一个数字:&quot;</span>)</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    num = <span class="built_in">int</span>(val)</span><br><span class="line">    res = <span class="number">10</span> / num</span><br><span class="line">    <span class="built_in">print</span>(res)</span><br><span class="line"><span class="keyword">except</span> ValueError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;not input number value&quot;</span>)</span><br><span class="line"><span class="keyword">except</span> ZeroDivisionError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;can not input 0&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 异常处理文件</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./user.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">        res = file.read()</span><br><span class="line">        <span class="built_in">print</span>(res)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;file not exist&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;other program&#x27;</span>)</span><br><span class="line"><span class="comment"># file not exist</span></span><br><span class="line"><span class="comment"># other program</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="try-except-else-finally"><a href="#try-except-else-finally" class="headerlink" title="try_except_else_finally"></a>try_except_else_finally</h2><ul>
+<li>try 执行可能会引发错误的代码块</li>
+<li>except 捕获异常并输出</li>
+<li>else 如果 try 代码块没有出错就会执行</li>
+<li>finally 无论 try 有无错误都会执行</li>
+<li>raise 可以抛出一个异常</li>
+<li>assert 断言，后面的表达式如果正确 什么也不做，如果表达式错误，则抛出异常</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.处理指定的异常，引发了非指定的异常，无法处理</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    varlist = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">    <span class="built_in">print</span>(varlist[<span class="number">3</span>])</span><br><span class="line"><span class="keyword">except</span> IndexError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(e)  <span class="comment"># list index out of range</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.多分支处理异常</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s = <span class="string">&#x27;duanduan&#x27;</span></span><br><span class="line">    res = <span class="built_in">int</span>(s)</span><br><span class="line"><span class="keyword">except</span> ValueError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;ValueError&#x27;</span>, e)</span><br><span class="line"><span class="keyword">except</span> KeyError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;KeyError&#x27;</span>, e)</span><br><span class="line"><span class="keyword">except</span> IndexError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;IndexError&#x27;</span>, e)</span><br><span class="line"><span class="comment"># ValueError invalid literal for int() with base 10: &#x27;duanduan&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3.通用异常类 Exception</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s = <span class="string">&#x27;duanduan&#x27;</span></span><br><span class="line">    res = s[<span class="number">10</span>]</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Exception&#x27;</span>, e)</span><br><span class="line"><span class="comment"># Exception string index out of range</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4.多分支异常类+通用异常类</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s = <span class="string">&#x27;duanduan&#x27;</span></span><br><span class="line">    res = <span class="built_in">int</span>(s)</span><br><span class="line"><span class="keyword">except</span> KeyError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;KeyError&#x27;</span>, e)</span><br><span class="line"><span class="keyword">except</span> IndexError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;IndexError&#x27;</span>, e)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Exception&#x27;</span>, e)</span><br><span class="line"><span class="comment"># Exception invalid literal for int() with base 10: &#x27;duanduan&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 5.try except else</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s = <span class="string">&#x27;duandaun&#x27;</span></span><br><span class="line">    res = <span class="built_in">str</span>(s)</span><br><span class="line"><span class="keyword">except</span> KeyError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;KeyError&#x27;</span>, e)</span><br><span class="line"><span class="keyword">except</span> IndexError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;IndexError&#x27;</span>, e)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Exception&#x27;</span>, e)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;try中没有错误&#x27;</span>)</span><br><span class="line"><span class="comment"># try中没有错误</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 6.try except else finally</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s = <span class="string">&#x27;duandaun&#x27;</span></span><br><span class="line">    res = <span class="built_in">str</span>(s)</span><br><span class="line"><span class="keyword">except</span> KeyError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;KeyError&#x27;</span>, e)</span><br><span class="line"><span class="keyword">except</span> IndexError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;IndexError&#x27;</span>, e)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Exception&#x27;</span>, e)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;try中没有错误&#x27;</span>)</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;代码执行完毕，这句肯定输出&#x27;</span>)</span><br><span class="line"><span class="comment"># try中没有错误</span></span><br><span class="line"><span class="comment"># 代码执行完毕，这句肯定输出</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 7. 主动抛出异常 raise</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">raise</span> Exception()</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Exception&#x27;</span>, e)</span><br><span class="line"><span class="comment"># Exception</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 8. assert 断言 后面的表达式正确什么耶不做 错误的话 抛出异常</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">assert</span> <span class="number">1</span> == <span class="number">2</span></span><br><span class="line"><span class="keyword">except</span> AssertionError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;AssertionError&#x27;</span>, e)</span><br><span class="line"><span class="comment"># AssertionError</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="自定义异常类"><a href="#自定义异常类" class="headerlink" title="自定义异常类"></a>自定义异常类</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">InvalidInputArgument</span>(<span class="title class_ inherited__">Exception</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,*args</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(args)</span><br></pre></td></tr></table></figure>
+
+<p>当异常出现时，对异常信息写入日志</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">在出现异常后，对异常进行处理，并且把异常信息写入日志</span></span><br><span class="line"><span class="string">日志的基本格式：</span></span><br><span class="line"><span class="string">    日期时间 异常的级别</span></span><br><span class="line"><span class="string">    异常信息：引发的异常类，异常的信息，文件及行号</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> traceback</span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Myexception</span>():</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># logging 基本配置</span></span><br><span class="line">        logging.basicConfig(</span><br><span class="line">            filename=<span class="string">&#x27;./error.log&#x27;</span>, <span class="comment"># 日志存储的文件目录</span></span><br><span class="line">            <span class="built_in">format</span>=<span class="string">&#x27;%(asctime)s %(levelname)s \n %(message)s&#x27;</span>,</span><br><span class="line">            datefmt=<span class="string">&#x27;%Y-%m-%d %H:%M:%S&#x27;</span></span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 写入日志</span></span><br><span class="line">        logging.error(traceback.format_exc())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    res = <span class="built_in">int</span>(<span class="string">&#x27;duanduan&#x27;</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    Myexception()</span><br></pre></td></tr></table></figure>
+
+<h1 id="模块与包"><a href="#模块与包" class="headerlink" title="模块与包"></a>模块与包</h1><p>定义的一个 python 文件，<a target="_blank" rel="noopener" href="http://后缀名为.py/">后缀名为.py</a> 这个文件被称为模块 模块中通常会定义一些相似的类，函数等代码内容，提供给别的程序引入后使用</p>
+<ul>
+<li>系统模块<ul>
+<li>系统模块就是一个 python 的程序脚本，专门提供给我们自己的程序使用。</li>
+<li>它们是安装好 python 环境的时候，就已经存在的，需要的时候可以使用 import 导入到程序中使用</li>
+<li>import logging, json, math, time</li>
+</ul>
+</li>
+<li>自定义模块<ul>
+<li>就是自己创建的一个 python 脚本，定义一些类或方法，供别的脚本导入后使用</li>
+</ul>
+</li>
+</ul>
+<h2 id="自定义模块的使用"><a href="#自定义模块的使用" class="headerlink" title="自定义模块的使用"></a>自定义模块的使用</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用方式之一</span></span><br><span class="line"><span class="keyword">import</span> Exception</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    res = <span class="built_in">int</span>(<span class="string">&#x27;duanduan&#x27;</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    Exception.MyException()</span><br><span class="line">    Exception.output()</span><br><span class="line">    <span class="built_in">print</span>(Exception.var)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用方式之二</span></span><br><span class="line"><span class="keyword">from</span> Exception <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    res = <span class="built_in">int</span>(<span class="string">&#x27;duanduan&#x27;</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    MyException()</span><br><span class="line">    output()</span><br><span class="line">    <span class="built_in">print</span>(var)</span><br></pre></td></tr></table></figure>
+
+<h2 id="自定义包和使用"><a href="#自定义包和使用" class="headerlink" title="自定义包和使用"></a>自定义包和使用</h2><p>包可以理解为是一个文件夹，里面包含了多个 python 文件</p>
+<ul>
+<li>包的结构</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">└── package_fa</span><br><span class="line">    ├── __init__.py   <span class="comment"># 包的标志性文件（可以有内容，也可以没有）</span></span><br><span class="line">    ├── a.py         <span class="comment"># a模块（文件）</span></span><br><span class="line">    ├── b.py         <span class="comment"># b模块（文件）</span></span><br><span class="line">    └── package_son</span><br><span class="line">        ├── __init__.py</span><br><span class="line">        ├── c.py</span><br><span class="line">        └── d.py</span><br></pre></td></tr></table></figure>
+
+<p>实际上，*<strong>*init</strong>.py 可以实现一个功能在导入包的时候，想要使用<strong>from package_fa import <strong>*的时候</strong>需要在 package_fa</strong>下的*<strong>*init</strong>.py<strong>下写入：**<strong>all</strong> &#x3D; [‘module1’,’module2’,…]<strong>这里的</strong>module1，2 指的就是在 package_fa</strong>下的模块名称**</p>
+<p>来做一个测试叭，首先在当前项目文件夹下创建一个类似上述的目录结构 之后编写代码进行测试</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用1：导入指定的包中的模块</span></span><br><span class="line"><span class="keyword">from</span> package_fa <span class="keyword">import</span> a</span><br><span class="line"></span><br><span class="line">a.funca()  <span class="comment"># funca</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用2：从指定包的指定模块导入指定的内容</span></span><br><span class="line"><span class="keyword">from</span> package_fa.b <span class="keyword">import</span> funcb</span><br><span class="line"></span><br><span class="line">funcb()  <span class="comment"># funcb</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用3：从指定包的子包中导入模块</span></span><br><span class="line"><span class="keyword">from</span> package_fa.package_son <span class="keyword">import</span> c</span><br><span class="line"></span><br><span class="line">c.funcc()  <span class="comment"># funcc</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用4：从指定包的子包的指定模块导入指定内容</span></span><br><span class="line"><span class="keyword">from</span> package_fa.package_son.d <span class="keyword">import</span> funcd</span><br><span class="line"></span><br><span class="line">funcd()  <span class="comment"># funcd</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用5: 需要在package_fa 中的__init__.py写入模块列表</span></span><br><span class="line"><span class="comment"># 格式为: __init__.py ===&gt;  __all__ = [&#x27;a&#x27;,&#x27;b&#x27;]</span></span><br><span class="line"><span class="keyword">from</span> package_fa <span class="keyword">import</span> *</span><br><span class="line">a.funca()</span><br></pre></td></tr></table></figure>
+
+<p>可以讲一下：<strong>name</strong> &#x3D; <strong>main</strong>,</p>
+<h2 id="导入方式的分类"><a href="#导入方式的分类" class="headerlink" title="导入方式的分类"></a>导入方式的分类</h2><h3 id="绝对导入"><a href="#绝对导入" class="headerlink" title="绝对导入"></a>绝对导入</h3><ul>
+<li>会使用[搜索路径]去查找和导入指定的包或模块 import module import package import package.module from module import content from package import module from package.module import content</li>
+</ul>
+<h3 id="相对导入"><a href="#相对导入" class="headerlink" title="相对导入"></a>相对导入</h3><p>from .package&#x2F;module import module&#x2F;content from ..package&#x2F;module import module&#x2F;content</p>
+<p>. 表示当前目录 .. 表示上一级目录</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">funcc</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;funcc&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 假设在c.py中需要d.py 可以使用相对导入，但是不要直接运行c.py</span></span><br><span class="line"><span class="keyword">from</span> .d <span class="keyword">import</span> funcd</span><br><span class="line">funcd()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 假设想要在c中使用上一级的a</span></span><br><span class="line"><span class="keyword">from</span> .. <span class="keyword">import</span> a</span><br><span class="line">a.funca()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> package_fa.package_son <span class="keyword">import</span> c</span><br><span class="line"><span class="comment"># funcd</span></span><br><span class="line"><span class="comment"># funca</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="单入口程序"><a href="#单入口程序" class="headerlink" title="单入口程序"></a>单入口程序</h2><p>单入口程序指的是整个程序都是经过一个主程序文件在运行，其他程序都封装成了包或模块</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ATM</span><br><span class="line">└── main.py   <span class="comment"># 当前程序的主入口文件，单入口文件，唯一直接运行的文件</span></span><br><span class="line">├── package/   <span class="comment"># 主要程序模块包</span></span><br><span class="line">    ├── __init__.py     <span class="comment"># 包的初始化文件</span></span><br><span class="line">    ├── View.py         <span class="comment"># 视图函数模块</span></span><br><span class="line">    ├── Controller.py    <span class="comment"># 控制器模块</span></span><br><span class="line">    ├── Card.py         <span class="comment"># 银行卡模块</span></span><br><span class="line">    └── User.py         <span class="comment"># 用户模块</span></span><br><span class="line">└── databases/  <span class="comment"># 数据存储文件夹</span></span><br><span class="line">    ├── user.txt</span><br><span class="line">    └── user_id_card.txt</span><br></pre></td></tr></table></figure>
+
+<h1 id="Python-中的第三方库的管理-pip"><a href="#Python-中的第三方库的管理-pip" class="headerlink" title="Python 中的第三方库的管理 pip"></a>Python 中的第三方库的管理 pip</h1><p>第三方库的管理网站<a target="_blank" rel="noopener" href="https://pypi.org/">https://pypi.org/</a></p>
+<p>pip 的使用</p>
+<ul>
+<li>查看 pip 版本 <code>pip -V</code></li>
+<li>安装 <code>pip install -i &lt;仓库镜像的地址&gt; 包名(库名)</code><ul>
+<li><code>pip3 install -i [http://mirrors.aliyun.com/pypi/simple/](http://mirrors.aliyun.com/pypi/simple/) --trusted-host mirrors.aliyun.com mysqlclient==2.1.1</code></li>
+</ul>
+</li>
+<li>常用镜像地址<ul>
+<li>阿里云 <code>http://mirrors.aliyun.com/pypi/simple/</code></li>
+<li>豆瓣 <code>http://pypi.douban.com/simple/</code></li>
+<li>清华大学 <code>https://pypi.tuna.tsinghua.edu.cn/simple/</code></li>
+<li>中国科学技术大学 <code>http://pypi.mirrors.ustc.edu.cn/simple/</code></li>
+<li>华中科技大学 <code>http://pypi.hustunique.com/</code></li>
+</ul>
+</li>
+<li>安装指定版本的包 <code>pip install &lt;package&gt;==&lt;版本&gt;</code></li>
+<li>查看已经安装的 package <code>pip list</code></li>
+<li>检查 package 是否已经过期 <code>pip list outdated</code></li>
+<li>卸载 package <code>pip uninstall &lt;包名&gt;</code></li>
+<li>查看 package 的依赖 <code>pip show &lt;包名&gt;</code></li>
+</ul>
+<h1 id="Python-中的虚拟环境-venv"><a href="#Python-中的虚拟环境-venv" class="headerlink" title="Python 中的虚拟环境 venv"></a>Python 中的虚拟环境 venv</h1><p>虚拟环境就是在当前的系统环境中，去配置另外一个 python 的运行环境，是可以创建多个不同的虚拟环境 python 的虚拟环境相互独立，互不影响</p>
+<ul>
+<li>虚拟环境中可以在没有权限的情况下安装库（Linux 系统中可能会出现的问题）</li>
+<li>不同的应用可以使用不同的库或者不同的版本</li>
+<li>虚拟环境中的库升级也不影响其他环境</li>
+<li>虚拟环境可以作为一个项目的专有环境，在需要部署的时候，可以一键导出项目所需要的包</li>
+<li>如何创建一个虚拟环境<ul>
+<li>使用 pycharm 创建</li>
+<li>自己安装独立的虚拟环境<ul>
+<li>安装虚拟环境工具 <code>pip install virtualenv</code></li>
+<li>创建虚拟环境 <code>python3 -m venv &lt;虚拟环境名称&gt;</code></li>
+<li>激活虚拟环境 <code>source &lt;虚拟环境名称&gt;/bin/activate</code></li>
+<li>退出虚拟环境 <code>deactivate</code></li>
+<li>导出当前环境项目包 <code>pip freeze &gt; ./requirements.txt</code></li>
+<li>通过 requirement 安装依赖包 <code>pip install -r requirement.txt</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>更新: 2024-01-27 22:21:03<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/zacharyblock/cx2om6/ql4zdyscp3ffck91">https://www.yuque.com/zacharyblock/cx2om6/ql4zdyscp3ffck91</a></p>
+</blockquote>
+
+    </div>
+
+    
+</div>
+    <div class="footer" id="footer">
+    <p>Welcome <a class="flink" target="_blank" rel="noopener" href="https://hexo.io">Blog of</a>-<a class="flink" target="_blank" rel="noopener" href="https://github.com/BlockZachary">Zachary</a>.
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+<!--         <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+        </script> -->
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="CmCti21ooOOIzFOhEyFkFvR0-gzGzoHsz">
+<input type="hidden" id="valine_appKey" value="FqiyUqbg7McKN2eG0MCewupf">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+</body>
+
+</html>
