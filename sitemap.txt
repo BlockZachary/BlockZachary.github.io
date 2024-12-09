@@ -81,8 +81,8 @@ https://blockzachary.github.io/categories/FastAPI%E5%85%A5%E9%97%A8/
 https://blockzachary.github.io/categories/Git/
 https://blockzachary.github.io/categories/Linux/
 https://blockzachary.github.io/categories/MySQL/
-https://blockzachary.github.io/categories/Python-MySQL/
 https://blockzachary.github.io/categories/Python-Web/
+https://blockzachary.github.io/categories/Python-MySQL/
 https://blockzachary.github.io/categories/Python%E5%9F%BA%E7%A1%80/
 https://blockzachary.github.io/categories/Python-%E6%B5%8B%E8%AF%95/
 https://blockzachary.github.io/categories/Python%E8%BF%9B%E9%98%B6/
