@@ -236,6 +236,15 @@
   </url>
   
   <url>
+    <loc>https://blockzachary.github.io/2024/01/27/Docker/docker-ERROR_Versionin_._docker-compose.yaml_isunsupported./</loc>
+    
+    <lastmod>2024-01-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blockzachary.github.io/2024/01/27/Docker/docker-%E5%90%AF%E5%8A%A8wordpress%E5%92%8Cmysql%E5%AE%B9%E5%99%A8%E8%BF%9E%E6%8E%A5%E5%87%BA%E9%94%99/</loc>
     
     <lastmod>2024-01-27</lastmod>
@@ -257,6 +266,33 @@
     <loc>https://blockzachary.github.io/2024/01/26/PythonWeb/Flask/</loc>
     
     <lastmod>2024-01-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blockzachary.github.io/2024/01/25/Docker/docker-apt-get%E6%8A%A5%E9%94%99E_Unabletolocatepackage/</loc>
+    
+    <lastmod>2024-01-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blockzachary.github.io/2024/01/25/Git/git-GnuTLSrecverror(-110)_TheTLSconnectionwasnon-properlyterminated./</loc>
+    
+    <lastmod>2024-01-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blockzachary.github.io/2024/01/24/Git/git-Failedtoconnectto127.0.0.1port7890_%E6%8B%92%E7%BB%9D%E8%BF%9E%E6%8E%A5/</loc>
+    
+    <lastmod>2024-01-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -514,6 +550,13 @@
   </url>
   
   <url>
+    <loc>https://blockzachary.github.io/tags/Git/</loc>
+    <lastmod>2024-12-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://blockzachary.github.io/tags/Linux/</loc>
     <lastmod>2024-12-09</lastmod>
     <changefreq>weekly</changefreq>
@@ -529,6 +572,13 @@
   
   <url>
     <loc>https://blockzachary.github.io/tags/MySQL/</loc>
+    <lastmod>2024-12-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blockzachary.github.io/tags/SQLAlchemy/</loc>
     <lastmod>2024-12-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -557,13 +607,6 @@
   
   <url>
     <loc>https://blockzachary.github.io/tags/Django/</loc>
-    <lastmod>2024-12-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blockzachary.github.io/tags/SQLAlchemy/</loc>
     <lastmod>2024-12-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -629,6 +672,13 @@
   
   <url>
     <loc>https://blockzachary.github.io/categories/FastAPI%E5%85%A5%E9%97%A8/</loc>
+    <lastmod>2024-12-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blockzachary.github.io/categories/Git/</loc>
     <lastmod>2024-12-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
