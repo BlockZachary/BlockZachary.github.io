@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="referrer" content="no-referrer">
+
+    <meta name="author" content="Zachary Block">
+
+
+    <meta name="subtitle" content="这里是副标题">
+
+
+
+
+<title>Python - 文件 | Zachary Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Zachary Blog" type="application/atom+xml">
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Zachary&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Zachary&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Python - 文件</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Zachary Block</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">12 月 31 日&nbsp;&nbsp;17:27:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Python%E5%9F%BA%E7%A1%80/">Python基础</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h1><h2 id="基础操作-文件写入、文件打开的模式详解"><a href="#基础操作-文件写入、文件打开的模式详解" class="headerlink" title="基础操作-文件写入、文件打开的模式详解"></a>基础操作-文件写入、文件打开的模式详解</h2><p>针对磁盘中的文件的读写。文件 I&#x2F;O I-input O-output</p>
+<p>文件操作步骤 1.打开文件 2.读写文件 3.关闭文件</p>
+<ul>
+<li>写入文件的操作<ul>
+<li>1.打开文件 open()</li>
+<li>2.写入内容 write()</li>
+<li>3.关闭文件 close()</li>
+</ul>
+</li>
+<li>读取文件的操作<ul>
+<li>1.打开文件 open()</li>
+<li>2.读取内容 read()</li>
+<li>3.关闭文件 close()</li>
+</ul>
+</li>
+</ul>
+<h3 id="open-打开文件"><a href="#open-打开文件" class="headerlink" title="open()打开文件"></a>open()打开文件</h3><p>格式：open(文件的路径，打开的方式，[字符集])</p>
+<p>参数</p>
+<ul>
+<li>文件路径：<ul>
+<li>路径 url 统一资源定位符</li>
+<li>相对路径：相当于给别人指路的时候，在那条街对面<ul>
+<li>针对文件的相对路径表示，从当前目录开始计算<ul>
+<li>1.txt &#x3D;&#x3D;&#x3D;&gt; 没有具体指明的话与.&#x2F;1.txt 是一个位置</li>
+<li>.&#x2F;1.txt &#x3D;&#x3D;&#x3D;&gt; .&#x2F;代表当前目录中的 1.txt</li>
+<li>..&#x2F;1.txt &#x3D;&#x3D;&#x3D;&gt; ..&#x2F;代表当前目录中的上一级目录下的 1.txt</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>绝对路径：类似于地址，具体到某个省市区街道小区门牌号<ul>
+<li>windows: c:&#x2F;users&#x2F;appdata&#x2F;1.txt</li>
+<li>linux: &#x2F;user&#x2F;home&#x2F;1.txt</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>打开方式：<ul>
+<li>基础模式： w r x a<ul>
+<li><strong>w</strong> w 模式 write 写入<ul>
+<li>文件如果不存在，则创建这个文件</li>
+<li>文件如果存在，则打开这个文件，并清空里面的东西</li>
+<li>文件打开后，文件的指针在文件的最前面</li>
+</ul>
+</li>
+<li><strong>r</strong> r 模式 read 读取<ul>
+<li>文件如果不存在，则报错</li>
+<li>文件如果存在，则打开文件</li>
+<li>文件指针在文件的最前面</li>
+</ul>
+</li>
+<li><strong>x</strong> x 模式 xor 异或模式<ul>
+<li>文件如果不存在，则创建这个文件</li>
+<li>文件如果存在，则报错（防止覆盖）</li>
+<li>文件指针在文件的最前面</li>
+</ul>
+</li>
+<li><strong>a</strong> a 模式 append 追加模式<ul>
+<li>文件如果不存在，则创建文件</li>
+<li>文件如果存在，则打开文件</li>
+<li>文件指针在文件的最后</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>扩展模式： b<ul>
+<li><strong>b</strong> b 模式 bytes 二进制</li>
+<li><strong>+</strong> +模式 plus 增强模式（可读可写）</li>
+</ul>
+</li>
+<li>文件操作模式的组合<ul>
+<li>w,r,a,x</li>
+<li>wb,rb,ab,xb</li>
+<li>w+,r+,a+,x+</li>
+<li>wb+,rb+,ab+,xb+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>可选参数：字符集 encoding 设置文件的字符集<ul>
+<li>如果是一个二进制的文件，不需要设置字符集</li>
+<li>encoding&#x3D;’utf-8’</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fp = <span class="built_in">open</span>(<span class="string">&#x27;./1.txt&#x27;</span>,<span class="string">&#x27;w&#x27;</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(fp,<span class="built_in">type</span>(fp)) <span class="comment"># &lt;_io.TextIOWrapper name=&#x27;./1.txt&#x27; mode=&#x27;w&#x27; encoding=&#x27;utf-8&#x27;&gt; &lt;class &#x27;_io.TextIOWrapper&#x27;&gt;</span></span><br><span class="line"></span><br><span class="line">fp.write(<span class="string">&quot;Hello Python file&quot;</span>)</span><br><span class="line">fp.close()</span><br></pre></td></tr></table></figure>
+
+<p>结果会在当前目录下出现一个 1.txt 的文件，内容就是有一行 Hello Python file</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38881094/1704014832612-814d27c0-a70f-44ca-95ca-a07ce558a397.png"></p>
+<h2 id="打开模式的演示操作"><a href="#打开模式的演示操作" class="headerlink" title="打开模式的演示操作"></a>打开模式的演示操作</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 写入文件操作</span></span><br><span class="line">fp = <span class="built_in">open</span>(<span class="string">&#x27;./1.txt&#x27;</span>,<span class="string">&#x27;a&#x27;</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">fp.write(<span class="string">&#x27;\n你好&#x27;</span>)</span><br><span class="line">fp.close()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38881094/1704014832611-9f858891-5a4a-4a52-ac96-229ec96c9e47.png"></p>
+<p><strong>文件操作的高级写法</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">with open(文件路径，打开方式) as 变量:</span><br><span class="line">    变量.操作</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./1.txt&#x27;</span>,<span class="string">&#x27;r+&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    res = fp.read()</span><br><span class="line">    <span class="built_in">print</span>(res)</span><br><span class="line">    fp.write(res)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38881094/1704014832613-6814e397-e4b8-488a-af66-8e6d3a346ee9.png"></p>
+<p>设置指针的位置 seek(0) 设置在最开始的位置</p>
+<h2 id="文件操作的相关函数"><a href="#文件操作的相关函数" class="headerlink" title="文件操作的相关函数"></a>文件操作的相关函数</h2><h4 id="write-写入文件"><a href="#write-写入文件" class="headerlink" title="write() 写入文件"></a>write() 写入文件</h4><p>格式：文件对象.write(内容)</p>
+<ul>
+<li>write() 写入文件<ul>
+<li>内容必须是字符串类型</li>
+</ul>
+</li>
+<li>writeline() 写入文件<ul>
+<li>内容是一个容器,容器中的数据类型也必须是字符串</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">varlist = [<span class="string">&#x27;hello&#x27;</span>,<span class="string">&#x27;this&#x27;</span>,<span class="string">&#x27;is&#x27;</span>,<span class="string">&#x27;content&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./file/1.txt&#x27;</span>,<span class="string">&#x27;w&#x27;</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    fp.writelines(varlist)</span><br></pre></td></tr></table></figure>
+
+<h4 id="read-读取文件"><a href="#read-读取文件" class="headerlink" title="read() 读取文件"></a>read() 读取文件</h4><ul>
+<li>read()<ul>
+<li>格式：文件对象.read() 从当前指针位置读取到最后</li>
+<li>格式：文件对象.read(读取的字节数) 可以读取指定长度的字符</li>
+</ul>
+</li>
+<li>readline() 读取一行<ul>
+<li>格式：文件对象.readline() 一次读取一行</li>
+<li>格式：文件对象.readline(读取的字节数) 可以读取一行指定的字符个数</li>
+</ul>
+</li>
+<li>readlines() 读取多行后，保存成一个列表返回</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./file/2.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    res1 = fp.read()</span><br><span class="line">    fp.seek(<span class="number">3</span>)</span><br><span class="line">    res2 = fp.read()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(res1)  <span class="comment"># newmessage</span></span><br><span class="line"><span class="built_in">print</span>(res2)  <span class="comment"># message</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./file/3.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    res = fp.readline()</span><br><span class="line">    <span class="built_in">print</span>(res)  <span class="comment"># Pycharm是一款开发Python常用</span></span><br><span class="line">    res = fp.readline(<span class="number">3</span>)</span><br><span class="line">    <span class="built_in">print</span>(res)  <span class="comment"># 并且十</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./file/3.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    res = fp.readlines()</span><br><span class="line">    <span class="built_in">print</span>(res)  <span class="comment"># [&#x27;Pycharm是一款开发Python常用\n&#x27;, &#x27;并且十分便捷的集成开发环境\n&#x27;]</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="seek-文件指针"><a href="#seek-文件指针" class="headerlink" title="seek() 文件指针"></a>seek() 文件指针</h4><ul>
+<li>可以使用文件指针 seek 设置指针位置<ul>
+<li>seek(0)：在开头位置</li>
+<li>seek(0,2)：在末尾位置</li>
+<li>seek(num)：在 num 位置</li>
+</ul>
+</li>
+</ul>
+<h4 id="truncate-截断文件内容"><a href="#truncate-截断文件内容" class="headerlink" title="truncate() 截断文件内容"></a>truncate() 截断文件内容</h4><ul>
+<li>按照所需要的数据，截断文件的内容</li>
+</ul>
+<h4 id="close-关闭文件"><a href="#close-关闭文件" class="headerlink" title="close() 关闭文件"></a>close() 关闭文件</h4><p>格式：文件对象.close() 关闭打开的文件</p>
+<h2 id="访问文件夹"><a href="#访问文件夹" class="headerlink" title="访问文件夹"></a>访问文件夹</h2><ul>
+<li>获取当前路径 <code>os.getcwd()</code></li>
+<li>改变当前路径 <code>os.chdir()</code></li>
+<li>创建新文件夹 <code>os.mkdir()</code></li>
+<li>修改文件夹名称 <code>os.rename()</code></li>
+<li>删除文件夹 <code>os.rmdir()</code></li>
+<li>遍历文件夹 <code>os.walk()</code></li>
+<li></li>
+</ul>
+<h2 id="练习题-注册和登录功能"><a href="#练习题-注册和登录功能" class="headerlink" title="练习题-注册和登录功能"></a>练习题-注册和登录功能</h2><ul>
+<li>注册功能<ul>
+<li>需要用户名和密码以及确认密码</li>
+<li>注册时如果用户名已经存在，则不能再次注册</li>
+</ul>
+</li>
+<li>登录功能<ul>
+<li>需要使用已经注册的用户信息登录</li>
+<li>密码输入错误 3 次后，锁定账户信息（不能再使用该账户进行操作）</li>
+</ul>
+</li>
+</ul>
+<h3 id="注册功能"><a href="#注册功能" class="headerlink" title="注册功能"></a>注册功能</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">userlist = []</span><br><span class="line">pwdlist = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./user.txt&#x27;</span>,<span class="string">&#x27;a+&#x27;</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    fp.seek(<span class="number">0</span>)</span><br><span class="line">    res = fp.readlines()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">        r = i.strip()  <span class="comment"># 去掉了左右两侧的多余空格和换行</span></span><br><span class="line">        arr = r.split(<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">        userlist.append(arr[<span class="number">0</span>])</span><br><span class="line">        pwdlist.append(arr[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">register</span>():</span><br><span class="line">    <span class="comment"># 输入用户名</span></span><br><span class="line">    flag = <span class="literal">True</span></span><br><span class="line">    <span class="keyword">while</span> flag:</span><br><span class="line">        username = <span class="built_in">input</span>(<span class="string">&#x27;欢迎注册，请输入要注册的用户名：&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> username <span class="keyword">in</span> userlist:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;用户已存在，请登录或重新输入用户名&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 输入密码</span></span><br><span class="line">            <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">                pwd = <span class="built_in">input</span>(<span class="string">&#x27;请设置用户名密码：&#x27;</span>)</span><br><span class="line">                <span class="keyword">if</span> <span class="built_in">len</span>(pwd) &gt;= <span class="number">3</span>:</span><br><span class="line">                    repwd = <span class="built_in">input</span>(<span class="string">&#x27;请确认密码：&#x27;</span>)</span><br><span class="line">                    <span class="keyword">if</span> pwd == repwd:</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">&#x27;注册成功&#x27;</span>)</span><br><span class="line">                        flag = <span class="literal">False</span></span><br><span class="line">                        <span class="built_in">print</span>(username, pwd, repwd)</span><br><span class="line">                        <span class="comment"># 打开文件写入数据</span></span><br><span class="line">                        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./user.txt&#x27;</span>,<span class="string">&#x27;a+&#x27;</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">                            fp.write(<span class="string">f&#x27;<span class="subst">&#123;username&#125;</span>:<span class="subst">&#123;pwd&#125;</span>\n&#x27;</span>)</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">&#x27;两次密码不一致，请重新输入&#x27;</span>)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&#x27;密码长度过短，请重新输入&#x27;</span>)</span><br><span class="line"></span><br><span class="line">register()</span><br></pre></td></tr></table></figure>
+
+<h3 id="登录功能"><a href="#登录功能" class="headerlink" title="登录功能"></a>登录功能</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">blacklist = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./black.txt&#x27;</span>, <span class="string">&#x27;a+&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    fp.seek(<span class="number">0</span>)</span><br><span class="line">    result = fp.readlines()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> result:</span><br><span class="line">        r = i.strip()  <span class="comment"># 去掉了左右两侧的多余空格和换行</span></span><br><span class="line">        blacklist.append(r)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">login</span>():</span><br><span class="line">    flag = <span class="literal">True</span></span><br><span class="line">    <span class="keyword">while</span> flag:</span><br><span class="line">        username = <span class="built_in">input</span>(<span class="string">&#x27;欢迎登录，请输入要登录的用户名：&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> username <span class="keyword">in</span> blacklist:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;您的账号已被锁定请联系管理员&#x27;</span>)</span><br><span class="line">            flag = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">elif</span> username <span class="keyword">in</span> userlist:</span><br><span class="line">            i = userlist.index(username)</span><br><span class="line">            count = <span class="number">3</span></span><br><span class="line">            <span class="keyword">while</span> count:</span><br><span class="line">                pwd = <span class="built_in">input</span>(<span class="string">&#x27;请输入密码：&#x27;</span>)</span><br><span class="line">                <span class="keyword">if</span> pwd == pwdlist[i]:</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&#x27;登录成功！&#x27;</span>)</span><br><span class="line">                    flag = <span class="literal">False</span></span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    count -= <span class="number">1</span></span><br><span class="line">                    <span class="keyword">if</span> count == <span class="number">2</span>:</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">&#x27;密码输入错误，还有2次重新输入机会&#x27;</span>)</span><br><span class="line">                    <span class="keyword">elif</span> count == <span class="number">1</span>:</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">&#x27;粗心大意咯，只剩1次输入密码的机会啦&#x27;</span>)</span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">&#x27;登录失败啦，账号被你锁定啦&#x27;</span>)</span><br><span class="line">                        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./black.txt&#x27;</span>,<span class="string">&#x27;a+&#x27;</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">                            fp.write(<span class="string">f&#x27;<span class="subst">&#123;username&#125;</span>\n&#x27;</span>)</span><br><span class="line">                        flag = <span class="literal">False</span></span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;用户名输入错误，请重新输入&#x27;</span>)</span><br><span class="line"></span><br><span class="line">login()</span><br></pre></td></tr></table></figure>
+
+<h3 id="登录与注册功能的合并"><a href="#登录与注册功能的合并" class="headerlink" title="登录与注册功能的合并"></a>登录与注册功能的合并</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">register</span>():</span><br><span class="line">    <span class="comment"># 输入用户名</span></span><br><span class="line">    flag = <span class="literal">True</span></span><br><span class="line">    <span class="keyword">while</span> flag:</span><br><span class="line">        username = <span class="built_in">input</span>(<span class="string">&#x27;欢迎注册，请输入要注册的用户名：&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> username <span class="keyword">in</span> userlist:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;用户已存在，请登录或重新输入用户名&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 输入密码</span></span><br><span class="line">            <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">                pwd = <span class="built_in">input</span>(<span class="string">&#x27;请设置用户名密码：&#x27;</span>)</span><br><span class="line">                <span class="keyword">if</span> <span class="built_in">len</span>(pwd) &gt;= <span class="number">3</span>:</span><br><span class="line">                    repwd = <span class="built_in">input</span>(<span class="string">&#x27;请确认密码：&#x27;</span>)</span><br><span class="line">                    <span class="keyword">if</span> pwd == repwd:</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">&#x27;注册成功&#x27;</span>)</span><br><span class="line">                        flag = <span class="literal">False</span></span><br><span class="line">                        <span class="built_in">print</span>(username, pwd, repwd)</span><br><span class="line">                        <span class="comment"># 打开文件写入数据</span></span><br><span class="line">                        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./user.txt&#x27;</span>,<span class="string">&#x27;a+&#x27;</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">                            fp.write(<span class="string">f&#x27;<span class="subst">&#123;username&#125;</span>:<span class="subst">&#123;pwd&#125;</span>\n&#x27;</span>)</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">&#x27;两次密码不一致，请重新输入&#x27;</span>)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&#x27;密码长度过短，请重新输入&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">login</span>():</span><br><span class="line">    flag = <span class="literal">True</span></span><br><span class="line">    <span class="keyword">while</span> flag:</span><br><span class="line">        username = <span class="built_in">input</span>(<span class="string">&#x27;欢迎登录，请输入要登录的用户名：&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> username <span class="keyword">in</span> blacklist:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;您的账号已被锁定请联系管理员&#x27;</span>)</span><br><span class="line">            flag = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">elif</span> username <span class="keyword">in</span> userlist:</span><br><span class="line">            i = userlist.index(username)</span><br><span class="line">            count = <span class="number">3</span></span><br><span class="line">            <span class="keyword">while</span> count:</span><br><span class="line">                pwd = <span class="built_in">input</span>(<span class="string">&#x27;请输入密码：&#x27;</span>)</span><br><span class="line">                <span class="keyword">if</span> pwd == pwdlist[i]:</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&#x27;登录成功！&#x27;</span>)</span><br><span class="line">                    flag = <span class="literal">False</span></span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    count -= <span class="number">1</span></span><br><span class="line">                    <span class="keyword">if</span> count == <span class="number">2</span>:</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">&#x27;密码输入错误，还有2次重新输入机会&#x27;</span>)</span><br><span class="line">                    <span class="keyword">elif</span> count == <span class="number">1</span>:</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">&#x27;粗心大意咯，只剩1次输入密码的机会啦&#x27;</span>)</span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">&#x27;登录失败啦，账号被你锁定啦&#x27;</span>)</span><br><span class="line">                        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./black.txt&#x27;</span>,<span class="string">&#x27;a+&#x27;</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">                            fp.write(<span class="string">f&#x27;<span class="subst">&#123;username&#125;</span>\n&#x27;</span>)</span><br><span class="line">                        flag = <span class="literal">False</span></span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;用户名输入错误，请重新输入&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        userlist = []</span><br><span class="line">        pwdlist = []</span><br><span class="line">        blacklist = []</span><br><span class="line"></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./user.txt&#x27;</span>, <span class="string">&#x27;a+&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">            fp.seek(<span class="number">0</span>)</span><br><span class="line">            res = fp.readlines()</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">                r = i.strip()  <span class="comment"># 去掉了左右两侧的多余空格和换行</span></span><br><span class="line">                arr = r.split(<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">                userlist.append(arr[<span class="number">0</span>])</span><br><span class="line">                pwdlist.append(arr[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./black.txt&#x27;</span>, <span class="string">&#x27;a+&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">            fp.seek(<span class="number">0</span>)</span><br><span class="line">            result = fp.readlines()</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> result:</span><br><span class="line">                r = i.strip()  <span class="comment"># 去掉了左右两侧的多余空格和换行</span></span><br><span class="line">                blacklist.append(r)</span><br><span class="line">        choice = <span class="built_in">input</span>(<span class="string">&#x27;欢迎来到我的网站，请输入你的要进行的功能\n1.注册\n2.登录\n3.退出\n&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> choice == <span class="string">&#x27;1&#x27;</span>:</span><br><span class="line">            register()</span><br><span class="line">        <span class="keyword">elif</span> choice == <span class="string">&#x27;2&#x27;</span>:</span><br><span class="line">            login()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>更新: 2024-01-03 23:56:04<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/zacharyblock/cx2om6/gbqyc0puv2x9dims">https://www.yuque.com/zacharyblock/cx2om6/gbqyc0puv2x9dims</a></p>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Zachary Block</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://blockzachary.github.io/blog/256934058/">https://blockzachary.github.io/blog/256934058/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Python/"># Python</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/blog/2123167896/">Python - 内置模块</a>
+            
+            
+            <a class="next" rel="next" href="/blog/2855414916/">Python - 函数</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+<script src="/js/clipboard.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var codeBlocks = document.querySelectorAll('article .code pre');
+
+        codeBlocks.forEach(function (codeBlock) {
+            var copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+            copyButton.innerText = 'Copy';
+
+            // Check if the code block is in the article content
+            if (codeBlock.closest('article')) {
+                codeBlock.parentNode.style.position = 'relative';
+                codeBlock.parentNode.appendChild(copyButton); // 将按钮添加到 codeBlock 的父节点内
+
+                var isCopying = false;
+
+                copyButton.addEventListener('click', function () {
+                    if (!isCopying) {
+                        var codeText = codeBlock.innerText;
+                        navigator.clipboard.writeText(codeText).then(function () {
+                            copyButton.innerText = 'Copied!';
+                            isCopying = true;
+                            setTimeout(function () {
+                                copyButton.innerText = 'Copy';
+                                isCopying = false;
+                            }, 1500);
+                        }).catch(function (err) {
+                            console.error('Copy failed', err);
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+<style>
+    .copy-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #2d96bd;
+        color: #fff;
+        border: none;
+        border-radius: 10%;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+</style>
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Zachary Block | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

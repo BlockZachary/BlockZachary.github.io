@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="referrer" content="no-referrer">
+
+    <meta name="author" content="Zachary Block">
+
+
+    <meta name="subtitle" content="这里是副标题">
+
+
+
+
+<title>面经 | Zachary Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Zachary Blog" type="application/atom+xml">
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Zachary&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Zachary&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">面经</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Zachary Block</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">3 月 18 日&nbsp;&nbsp;23:42:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Python-%E9%9D%A2%E7%BB%8F/">Python 面经</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><h4 id="一面"><a href="#一面" class="headerlink" title="一面"></a>一面</h4><h5 id="网络和操作系统方面"><a href="#网络和操作系统方面" class="headerlink" title="网络和操作系统方面"></a>网络和操作系统方面</h5><ul>
+<li>说一下 TCP 的三次握手？</li>
+<li>什么时候用多线程？多线程的优势是什么？为什么用多线程不用多进程？python 的多线程 start 以后立马能起来吗？</li>
+<li>讲一下 IO 多路复用？</li>
+</ul>
+<h5 id="flask-方面"><a href="#flask-方面" class="headerlink" title="flask 方面"></a>flask 方面</h5><ul>
+<li>Flask 的底层原理讲一下？描述一下 flask 是怎么处理 url 请求的，整个底层流程是怎么样大概说下就行；</li>
+<li>endpoint 是啥，讲一下？</li>
+<li>before request 有用过吗？触发 before request 钩子是在 view function 以前还是以后？</li>
+<li>常用的 rest 接口有哪些？你是怎么写类视图的？例子讲一下；</li>
+<li>大概就这么多，其他问题的想不起来了</li>
+</ul>
+<h5 id="mysql-方面"><a href="#mysql-方面" class="headerlink" title="mysql 方面"></a>mysql 方面</h5><ul>
+<li>讲下聚簇索引？</li>
+<li>聚簇索引的优点？</li>
+<li>为什么使用 B+树作为索引数据结构？</li>
+<li>你是怎么 sql 或者索引调优的？慢查询日志里面的内容是啥？</li>
+</ul>
+<p>数据库方面问的不多，比较简单，如果忘了可以看我右边这篇博客<a target="_blank" rel="noopener" href="https://github.com/ewenliu/Learning_Note/blob/master/Mysql%E7%83%AD%E7%82%B9%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93.md">Github-Mysql 热点问题总结</a></p>
+<h5 id="redis-方面"><a href="#redis-方面" class="headerlink" title="redis 方面"></a>redis 方面</h5><ul>
+<li>redis 常用的数据类型有哪些？</li>
+<li>持久化 rdb 和 aof 讲一下</li>
+<li>知道 redis 中 list 的底层实现原理吗？</li>
+</ul>
+<p>redis 问也比较基础，如果忘了可以看右边这篇博客<a target="_blank" rel="noopener" href="https://github.com/ewenliu/Learning_Note/blob/master/Redis%E7%83%AD%E7%82%B9%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93.md">Github-Redis 热点问题总结</a></p>
+<h5 id="python-基础"><a href="#python-基础" class="headerlink" title="python 基础"></a>python 基础</h5><ul>
+<li>用的是 python2 还是 3？为什么用 3？知道最新的稳定版本是哪个吗？</li>
+<li>知道 python3 的新特性吗？</li>
+<li>迭代器和生成器说一下？</li>
+<li>类方法用过吗？<strong>str</strong>和<strong>repr</strong>区别？</li>
+<li>类里面怎么实现<strong>iter</strong>？</li>
+<li>GIL 讲一下？讲一下多线程下 GIL 和线程的关系？</li>
+<li>协程用过吗？yield 讲一下</li>
+</ul>
+<h4 id="二面"><a href="#二面" class="headerlink" title="二面"></a>二面</h4><ul>
+<li>未来有什么职业规划？</li>
+<li>觉得杭州怎么样？</li>
+<li>觉得技术该如何深入？哪方面深入有想过吗？</li>
+<li>觉得 python 未来怎么样？python 机会这么少有考虑以后怎么深入学习吗？</li>
+<li>聊一下高并发下缓存和数据库双写一致问题？</li>
+<li>你有什么要问我的吗</li>
+</ul>
+<h3 id="https-zhuanlan-zhihu-com-p-657610494"><a href="#https-zhuanlan-zhihu-com-p-657610494" class="headerlink" title="https://zhuanlan.zhihu.com/p/657610494"></a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/657610494">https://zhuanlan.zhihu.com/p/657610494</a></h3><blockquote>
+<p>更新: 2024-03-19 00:02:17<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/zacharyblock/cx2om6/htbuqvxbegprrme6">https://www.yuque.com/zacharyblock/cx2om6/htbuqvxbegprrme6</a></p>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Zachary Block</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://blockzachary.github.io/blog/2565273121/">https://blockzachary.github.io/blog/2565273121/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Python/"># Python</a>
+                    
+                        <a href="/tags/%E9%9D%A2%E7%BB%8F/"># 面经</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/blog/1445218469/">面经2</a>
+            
+            
+            <a class="next" rel="next" href="/blog/1376120437/">面试题</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+<script src="/js/clipboard.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var codeBlocks = document.querySelectorAll('article .code pre');
+
+        codeBlocks.forEach(function (codeBlock) {
+            var copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+            copyButton.innerText = 'Copy';
+
+            // Check if the code block is in the article content
+            if (codeBlock.closest('article')) {
+                codeBlock.parentNode.style.position = 'relative';
+                codeBlock.parentNode.appendChild(copyButton); // 将按钮添加到 codeBlock 的父节点内
+
+                var isCopying = false;
+
+                copyButton.addEventListener('click', function () {
+                    if (!isCopying) {
+                        var codeText = codeBlock.innerText;
+                        navigator.clipboard.writeText(codeText).then(function () {
+                            copyButton.innerText = 'Copied!';
+                            isCopying = true;
+                            setTimeout(function () {
+                                copyButton.innerText = 'Copy';
+                                isCopying = false;
+                            }, 1500);
+                        }).catch(function (err) {
+                            console.error('Copy failed', err);
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+<style>
+    .copy-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #2d96bd;
+        color: #fff;
+        border: none;
+        border-radius: 10%;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+</style>
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Zachary Block | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

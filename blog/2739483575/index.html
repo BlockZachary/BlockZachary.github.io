@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="referrer" content="no-referrer">
+
+    <meta name="author" content="Zachary Block">
+
+
+    <meta name="subtitle" content="这里是副标题">
+
+
+
+
+<title>DML 与 DQL | Zachary Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Zachary Blog" type="application/atom+xml">
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Zachary&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Zachary&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">DML 与 DQL</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Zachary Block</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">12 月 31 日&nbsp;&nbsp;17:52:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/MySQL/">MySQL</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="DML-与-DQL"><a href="#DML-与-DQL" class="headerlink" title="DML 与 DQL"></a>DML 与 DQL</h1><h1 id="DML-操作-数据的增删改"><a href="#DML-操作-数据的增删改" class="headerlink" title="DML 操作-数据的增删改"></a>DML 操作-数据的增删改</h1><h2 id="添加数据"><a href="#添加数据" class="headerlink" title="添加数据"></a>添加数据</h2><p>格式 <strong>insert into 表名[(字段列表)] values(值列表);</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">-- 标准添加（指定所有字段，给定所有的值）</span><br><span class="line">mysql&gt; insert into users(id,name,age,gender) values(4,&#x27;duan&#x27;,23,&#x27;女&#x27;);</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from users;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  1 | 段段   |   24 | 女     |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |</span><br><span class="line">|  3 | 图图   |    1 | 女     |</span><br><span class="line">|  4 | duan   |   23 | 女     |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 指定部分字段添加值</span><br><span class="line">mysql&gt; insert into users(name,age) values(&#x27;zach&#x27;,23);</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from users;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  1 | 段段   |   24 | 女     |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |</span><br><span class="line">|  3 | 图图   |    1 | 女     |</span><br><span class="line">|  4 | duan   |   23 | 女     |</span><br><span class="line">|  5 | zach   |   23 | NULL   |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">5 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 不指定字段值添加</span><br><span class="line">mysql&gt; insert into users values(null,&#x27;user&#x27;,18,&#x27;男&#x27;);</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from users;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  1 | 段段   |   24 | 女     |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |</span><br><span class="line">|  3 | 图图   |    1 | 女     |</span><br><span class="line">|  4 | duan   |   23 | 女     |</span><br><span class="line">|  5 | zach   |   23 | NULL   |</span><br><span class="line">|  6 | user   |   18 | 男     |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">6 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 批量添加值</span><br><span class="line">mysql&gt; insert into users values</span><br><span class="line">    -&gt; (null,&#x27;stu1&#x27;,16,&#x27;女&#x27;),</span><br><span class="line">    -&gt; (null,&#x27;stu2&#x27;,16,&#x27;男&#x27;),</span><br><span class="line">    -&gt; (null,&#x27;stu3&#x27;,16,&#x27;女&#x27;);</span><br><span class="line">Query OK, 3 rows affected (0.01 sec)</span><br><span class="line">Records: 3  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from users;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  1 | 段段   |   24 | 女     |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |</span><br><span class="line">|  3 | 图图   |    1 | 女     |</span><br><span class="line">|  4 | duan   |   23 | 女     |</span><br><span class="line">|  5 | zach   |   23 | NULL   |</span><br><span class="line">|  6 | user   |   18 | 男     |</span><br><span class="line">|  7 | stu1   |   16 | 女     |</span><br><span class="line">|  8 | stu2   |   16 | 男     |</span><br><span class="line">|  9 | stu3   |   16 | 女     |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">9 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h2><p>格式 <strong>update 表名 set 字段 1&#x3D;值 1，字段 2&#x3D;值 2 (where 条件);</strong> 不加条件默认修改所有的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">-- 将id为6的age修改为25，gender改为女</span><br><span class="line">mysql&gt; update users set age=25,gender=&#x27;女&#x27; where id=6;</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from users;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  1 | 段段   |   24 | 女     |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |</span><br><span class="line">|  3 | 图图   |    1 | 女     |</span><br><span class="line">|  4 | duan   |   23 | 女     |</span><br><span class="line">|  5 | zach   |   23 | NULL   |</span><br><span class="line">|  6 | user   |   25 | 女     |</span><br><span class="line">|  7 | stu1   |   16 | 女     |</span><br><span class="line">|  8 | stu2   |   16 | 男     |</span><br><span class="line">|  9 | stu3   |   16 | 女     |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">9 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 将id为7,8,9的数据年龄+1</span><br><span class="line">mysql&gt; update users set age=age+1 where id=7 or id=8 or id=9;</span><br><span class="line">Query OK, 3 rows affected (0.00 sec)</span><br><span class="line">Rows matched: 3  Changed: 3  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from users;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  1 | 段段   |   24 | 女     |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |</span><br><span class="line">|  3 | 图图   |    1 | 女     |</span><br><span class="line">|  4 | duan   |   23 | 女     |</span><br><span class="line">|  5 | zach   |   23 | NULL   |</span><br><span class="line">|  6 | user   |   25 | 女     |</span><br><span class="line">|  7 | stu1   |   17 | 女     |</span><br><span class="line">|  8 | stu2   |   17 | 男     |</span><br><span class="line">|  9 | stu3   |   17 | 女     |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">9 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h2><p>格式 <strong>delete from 表名 (where 条件);</strong> 不写条件就会删除表中所有数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">-- 删除users表中gender为空的数据</span><br><span class="line">mysql&gt; delete from users where gender is NULL;</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from users;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  1 | 段段   |   24 | 女     |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |</span><br><span class="line">|  3 | 图图   |    1 | 女     |</span><br><span class="line">|  4 | duan   |   23 | 女     |</span><br><span class="line">|  6 | user   |   25 | 女     |</span><br><span class="line">|  7 | stu1   |   17 | 女     |</span><br><span class="line">|  8 | stu2   |   17 | 男     |</span><br><span class="line">|  9 | stu3   |   17 | 女     |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">8 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 删除users表中年龄在15到20之间的数据</span><br><span class="line">mysql&gt; delete from users where age between 15 and 20;</span><br><span class="line">Query OK, 3 rows affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from users;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  1 | 段段   |   24 | 女     |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |</span><br><span class="line">|  3 | 图图   |    1 | 女     |</span><br><span class="line">|  4 | duan   |   23 | 女     |</span><br><span class="line">|  6 | user   |   25 | 女     |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">5 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h1 id="DQL-MySQL-数据查询-SQL"><a href="#DQL-MySQL-数据查询-SQL" class="headerlink" title="DQL-MySQL 数据查询 SQL"></a>DQL-MySQL 数据查询 SQL</h1><p>语法格式： <strong>select 字段列表|* from 表名**</strong>[where 条件]*<strong>*[group by 分组字段 [having 分组条件]]**</strong>[order by 排序字段 排序规则]*<strong>*[limit 分页参数]</strong></p>
+<h2 id="基础查询"><a href="#基础查询" class="headerlink" title="基础查询"></a>基础查询</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">-- 查询表中所有的列 所有数据</span><br><span class="line">mysql&gt; select * from users;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  1 | 段段   |   24 | 女     |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |</span><br><span class="line">|  3 | 图图   |    1 | 女     |</span><br><span class="line">|  4 | duan   |   23 | 女     |</span><br><span class="line">|  6 | user   |   25 | 女     |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">5 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 查询表中的指定字段</span><br><span class="line">mysql&gt; select name,age from users;</span><br><span class="line">+--------+------+</span><br><span class="line">| name   | age  |</span><br><span class="line">+--------+------+</span><br><span class="line">| 段段   |   24 |</span><br><span class="line">| 黄黄   |   23 |</span><br><span class="line">| 图图   |    1 |</span><br><span class="line">| duan   |   23 |</span><br><span class="line">| user   |   25 |</span><br><span class="line">+--------+------+</span><br><span class="line">5 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="where-条件查询"><a href="#where-条件查询" class="headerlink" title="where 条件查询"></a>where 条件查询</h2><ul>
+<li>可以在 where 子句中指定任何条件</li>
+<li>可以使用 and or 等指定多个条件</li>
+<li>where 条件也可以应用在 update 和 delete 语句的后面</li>
+<li>where 子句类似程序语言中 if 条件，根据 MySQL 表中的字段值来进行数据的过滤</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">-- 查询users表中 age&gt;20的数据</span><br><span class="line">mysql&gt; select * from users where age &gt; 20;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  1 | 段段   |   24 | 女     |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |</span><br><span class="line">|  4 | duan   |   23 | 女     |</span><br><span class="line">|  6 | user   |   25 | 女     |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 查询users表中，name是段段的数据</span><br><span class="line">mysql&gt; select * from users where name = &#x27;段段&#x27;;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  1 | 段段   |   24 | 女     |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 查询在users表中 年龄在22-24的数据</span><br><span class="line">mysql&gt; select * from users where age between 22 and 24;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  1 | 段段   |   24 | 女     |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |</span><br><span class="line">|  4 | duan   |   23 | 女     |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 查询在users表中 年龄在22-24的女生数据</span><br><span class="line">mysql&gt; select * from users where gender = &#x27;女&#x27; and age between 22 and 24;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  1 | 段段   |   24 | 女     |</span><br><span class="line">|  4 | duan   |   23 | 女     |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">2 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="and-和-or-使用注意"><a href="#and-和-or-使用注意" class="headerlink" title="and 和 or 使用注意"></a>and 和 or 使用注意</h3><p>举个例子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-- 查询在users表中 年龄为22或23的女生信息</span><br><span class="line">mysql&gt; select * from users where gender = &#x27;女&#x27; and age = 22 or age =23;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |</span><br><span class="line">|  4 | duan   |   23 | 女     |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>可以看出 实际查询结果并不符合要求，这时的结果是：查询年龄为 22 的人，或者年龄为 23 的女生</p>
+<ul>
+<li>and 与 or 同时存在时，sql 语句执行的顺序是 and &gt; or</li>
+<li>解决办法：实用小括号</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users where gender = &#x27;女&#x27; and (age = 22 or age =23);</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">| id | name | age  | gender |</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">|  4 | duan |   23 | 女     |</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="like-子句"><a href="#like-子句" class="headerlink" title="like 子句"></a>like 子句</h3><p>可以使用 like 语句进行某个字段的模糊搜索 <strong>like 可以等价于 &#x3D;</strong> 可以使用 % 进行模糊匹配，**%可以代表任意字符** 可以使用 <strong>_ 表示一个任意字符</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">-- 查询姓名是duan的数据</span><br><span class="line">mysql&gt; select * from users where name like &#x27;duan&#x27;;</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">| id | name | age  | gender |</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">|  4 | duan |   23 | 女     |</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 查询姓名中 包含n字符的数据</span><br><span class="line">mysql&gt; select * from users where name like &#x27;%n%&#x27;;</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">| id | name | age  | gender |</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">|  4 | duan |   23 | 女     |</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 查询姓名中姓段的数据</span><br><span class="line">mysql&gt; select * from users where name like &#x27;段%&#x27;;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  1 | 段段   |   24 | 女     |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 查询姓名中最后一个字为黄的</span><br><span class="line">mysql&gt; select * from users where name like &#x27;%黄&#x27;;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 查询姓名中 第二个字符为 n 的</span><br><span class="line">mysql&gt; select * from users where name like &#x27;_u%&#x27;;</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">| id | name | age  | gender |</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">|  4 | duan |   23 | 女     |</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 查询姓名是 两个字符的数据</span><br><span class="line">mysql&gt; select * from users where name like &#x27;__&#x27;;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  1 | 段段   |   24 | 女     |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |</span><br><span class="line">|  3 | 图图   |    1 | 女     |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：where 子句中的 like 的_或者% 进行模糊搜索时，效率不高</strong></p>
+<ul>
+<li>尽可能不去使用_或%</li>
+<li>如果需要使用，也尽可能不要把通配符放在开头处</li>
+</ul>
+<h2 id="MySQL-中的聚合函数（统计函数）"><a href="#MySQL-中的聚合函数（统计函数）" class="headerlink" title="MySQL 中的聚合函数（统计函数）"></a>MySQL 中的聚合函数（统计函数）</h2><ul>
+<li>max()</li>
+<li>min()</li>
+<li>count()</li>
+<li>sum()</li>
+<li>avg()</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">-- 计算users表中 最大年龄，最小年龄，年龄和，平均年龄</span><br><span class="line">mysql&gt; select max(age),min(age),sum(age),avg(age) from users;</span><br><span class="line">+----------+----------+----------+----------+</span><br><span class="line">| max(age) | min(age) | sum(age) | avg(age) |</span><br><span class="line">+----------+----------+----------+----------+</span><br><span class="line">|       25 |        1 |       96 |  19.2000 |</span><br><span class="line">+----------+----------+----------+----------+</span><br><span class="line">1 row in set (0.01 sec)</span><br><span class="line"></span><br><span class="line">-- 美化字段名</span><br><span class="line">mysql&gt; select max(age) as max_age , min(age) min_age,sum(age) as sum_age,avg(age</span><br><span class="line">) avg_age from users;</span><br><span class="line">+---------+---------+---------+---------+</span><br><span class="line">| max_age | min_age | sum_age | avg_age |</span><br><span class="line">+---------+---------+---------+---------+</span><br><span class="line">|      25 |       1 |      96 | 19.2000 |</span><br><span class="line">+---------+---------+---------+---------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 统计users表中数据量</span><br><span class="line">mysql&gt; select count(*) from users;</span><br><span class="line">+----------+</span><br><span class="line">| count(*) |</span><br><span class="line">+----------+</span><br><span class="line">|        5 |</span><br><span class="line">+----------+</span><br><span class="line">1 row in set (0.05 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select count(id) from users;</span><br><span class="line">+-----------+</span><br><span class="line">| count(id) |</span><br><span class="line">+-----------+</span><br><span class="line">|         5 |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>两个统计的区别</p>
+<ul>
+<li><strong>count(*)</strong> 按照表中所有的列进行数据统计，只要其中一列上有数据，就可以计算</li>
+<li><strong>count(id)</strong> 是按照指定的 id 字段进行统计，也可以使用别的字段进行统计，但是注意，如果指定的列上出现了 NULL 值，那么为 NULL 的这个数据不会被统计</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; update users set age = NULL where id = 6;</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from users;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  1 | 段段   |   24 | 女     |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |</span><br><span class="line">|  3 | 图图   |    1 | 女     |</span><br><span class="line">|  4 | duan   |   23 | 女     |</span><br><span class="line">|  6 | user   | NULL | 女     |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">5 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select count(age) from users;</span><br><span class="line">+------------+</span><br><span class="line">| count(age) |</span><br><span class="line">+------------+</span><br><span class="line">|          4 |</span><br><span class="line">+------------+</span><br><span class="line">1 row in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Group-BY-分组"><a href="#Group-BY-分组" class="headerlink" title="Group BY 分组"></a>Group BY 分组</h2><p>group by 语句根据一个或者多个列对结果集进行分组 一般情况下，用于数据的统计或计算，配合聚合函数使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; update users set age = 28 where id = 6;</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from users;</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">| id | name   | age  | gender |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">|  1 | 段段   |   24 | 女     |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |</span><br><span class="line">|  3 | 图图   |    1 | 女     |</span><br><span class="line">|  4 | duan   |   23 | 女     |</span><br><span class="line">|  6 | user   |   28 | 女     |</span><br><span class="line">+----+--------+------+--------+</span><br><span class="line">5 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 统计 users 表中 男生女生人数 使用分组统计</span><br><span class="line">mysql&gt; select gender,count(*) from users group by gender;</span><br><span class="line">+--------+----------+</span><br><span class="line">| gender | count(*) |</span><br><span class="line">+--------+----------+</span><br><span class="line">| 女     |        4 |</span><br><span class="line">| 男     |        1 |</span><br><span class="line">+--------+----------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 分别统计每个班级的男女生人数</span><br><span class="line">mysql&gt; select class_id,gender,count(*) from users group by class_id,gender;</span><br><span class="line">+----------+--------+----------+</span><br><span class="line">| class_id | gender | count(*) |</span><br><span class="line">+----------+--------+----------+</span><br><span class="line">|        1 | 女     |        1 |</span><br><span class="line">|        1 | 男     |        1 |</span><br><span class="line">|        2 | 女     |        2 |</span><br><span class="line">|        2 | 男     |        1 |</span><br><span class="line">+----------+--------+----------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>注意啦！一般在使用 group by 语句的时候，除了聚合函数，其他在 select 后面出现的字段列都需要出现在 group by 后面</p>
+<p><strong>having</strong> 的用法 在分组聚合计算之后，对结果再一次进行过滤，类似于 where where 过滤的是行数据，having 过滤的是分组数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-- 统计班级人数，并且找出班级超过2人的班级</span><br><span class="line">mysql&gt; select class_id,count(*) from users group by class_id having count(*)&gt;2;</span><br><span class="line">+----------+----------+</span><br><span class="line">| class_id | count(*) |</span><br><span class="line">+----------+----------+</span><br><span class="line">|        2 |        3 |</span><br><span class="line">+----------+----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="order-by-排序"><a href="#order-by-排序" class="headerlink" title="order by 排序"></a>order by 排序</h2><p>在 MySQL 中使用 select 的语句查询的数据结果是根据数据在底层文件的结构来排序的 首先不要依赖默认的排序，另外在需要排序时，要使用 order by 对返回的结果进行排序</p>
+<ul>
+<li><strong>asc 升序</strong></li>
+<li><strong>desc 降序</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">-- 按照年龄对结果进行排序 从大到小</span><br><span class="line">mysql&gt; select * from users order by age desc;</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">| id | name   | age  | gender | class_id |</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">|  6 | user   |   28 | 男     |        2 |</span><br><span class="line">|  1 | 段段   |   24 | 女     |        1 |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |        1 |</span><br><span class="line">|  4 | duan   |   23 | 女     |        2 |</span><br><span class="line">|  3 | 图图   |    1 | 女     |        2 |</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">5 rows in set (0.01 sec)</span><br><span class="line"></span><br><span class="line">-- 按照年龄对结果进行排序 从小到大</span><br><span class="line">mysql&gt; select * from users order by age;</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">| id | name   | age  | gender | class_id |</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">|  3 | 图图   |    1 | 女     |        2 |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |        1 |</span><br><span class="line">|  4 | duan   |   23 | 女     |        2 |</span><br><span class="line">|  1 | 段段   |   24 | 女     |        1 |</span><br><span class="line">|  6 | user   |   28 | 男     |        2 |</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">5 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 多个字段的排序，先按照age字段从小到大排序，age相同的情况下，按照id排序 从小到大</span><br><span class="line">mysql&gt; select * from users order by age,id;</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">| id | name   | age  | gender | class_id |</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">|  3 | 图图   |    1 | 女     |        2 |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |        1 |</span><br><span class="line">|  4 | duan   |   23 | 女     |        2 |</span><br><span class="line">|  1 | 段段   |   24 | 女     |        1 |</span><br><span class="line">|  6 | user   |   28 | 男     |        2 |</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">5 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 多个字段的排序，按照age从小到大排序，在age相同的情况下 按照id从大到小排序</span><br><span class="line">mysql&gt; select * from users order by age,id desc;</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">| id | name   | age  | gender | class_id |</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">|  3 | 图图   |    1 | 女     |        2 |</span><br><span class="line">|  4 | duan   |   23 | 女     |        2 |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |        1 |</span><br><span class="line">|  1 | 段段   |   24 | 女     |        1 |</span><br><span class="line">|  6 | user   |   28 | 男     |        2 |</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">5 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="limit-数据分页"><a href="#limit-数据分页" class="headerlink" title="limit 数据分页"></a>limit 数据分页</h2><ul>
+<li><strong>limit n</strong> 提取 n 条数据</li>
+<li><strong>limit m,n</strong> 跳过 m 条数据 提取 n 条数据</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">-- 查询users表中的前三条数据</span><br><span class="line">mysql&gt; select * from users limit 3;</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">| id | name   | age  | gender | class_id |</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">|  1 | 段段   |   24 | 女     |        1 |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |        1 |</span><br><span class="line">|  3 | 图图   |    1 | 女     |        2 |</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 查询users表中跳过前两条，取三条数据</span><br><span class="line">mysql&gt; select * from users limit 2,3;</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">| id | name   | age  | gender | class_id |</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">|  3 | 图图   |    1 | 女     |        2 |</span><br><span class="line">|  4 | duan   |   23 | 女     |        2 |</span><br><span class="line">|  6 | user   |   28 | 男     |        2 |</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- limit的应用，</span><br><span class="line">-- 每页显示10条数据</span><br><span class="line">limit 0,10</span><br><span class="line">limit 10,10</span><br><span class="line">limit 20,10</span><br><span class="line">limit 30,10</span><br><span class="line"></span><br><span class="line">-- 提取 users表中年龄最大的三个用户数据</span><br><span class="line">mysql&gt; select * from users order by age desc limit 3;</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">| id | name   | age  | gender | class_id |</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">|  6 | user   |   28 | 男     |        2 |</span><br><span class="line">|  1 | 段段   |   24 | 女     |        1 |</span><br><span class="line">|  2 | 黄黄   |   23 | 男     |        1 |</span><br><span class="line">+----+--------+------+--------+----------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>课后练习题</p>
+<ol>
+<li>class_id 为 2 的男女生人数</li>
+<li>获取每个 class 平均年龄，并按照平均年龄从大到小排序</li>
+<li>统计每个班级的人数 按照从大到小排序</li>
+<li>获取班级人数最多的，班级 id 信息</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">-- 1</span><br><span class="line">mysql&gt; select class_id,gender,count(*) from users where class_id = 2 group by ge</span><br><span class="line">nder;</span><br><span class="line">+----------+--------+----------+</span><br><span class="line">| class_id | gender | count(*) |</span><br><span class="line">+----------+--------+----------+</span><br><span class="line">|        2 | 女     |        2 |</span><br><span class="line">|        2 | 男     |        1 |</span><br><span class="line">+----------+--------+----------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 2</span><br><span class="line">mysql&gt; select class_id,avg(age) from users group by class_id order by avg(age) desc;</span><br><span class="line">+----------+----------+</span><br><span class="line">| class_id | avg(age) |</span><br><span class="line">+----------+----------+</span><br><span class="line">|        1 |  23.5000 |</span><br><span class="line">|        2 |  17.3333 |</span><br><span class="line">+----------+----------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 3</span><br><span class="line">mysql&gt; select class_id,count(*) from users group by class_id order by count(*) desc;</span><br><span class="line">+----------+----------+</span><br><span class="line">| class_id | count(*) |</span><br><span class="line">+----------+----------+</span><br><span class="line">|        2 |        3 |</span><br><span class="line">|        1 |        2 |</span><br><span class="line">+----------+----------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">-- 4</span><br><span class="line">mysql&gt; select class_id,count(*) from users group by class_id order by count(*) desc limit 1;</span><br><span class="line">+----------+----------+</span><br><span class="line">| class_id | count(*) |</span><br><span class="line">+----------+----------+</span><br><span class="line">|        2 |        3 |</span><br><span class="line">+----------+----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h1 id="MySQL-数据库导入导出和授权-CCL"><a href="#MySQL-数据库导入导出和授权-CCL" class="headerlink" title="MySQL 数据库导入导出和授权 (CCL)"></a>MySQL 数据库导入导出和授权 (CCL)</h1><h2 id="数据的导出"><a href="#数据的导出" class="headerlink" title="数据的导出"></a>数据的导出</h2><h3 id="1-数据库的导出"><a href="#1-数据库的导出" class="headerlink" title="1.数据库的导出"></a>1.数据库的导出</h3><p>语法格式： <strong>mysqldump -u root -p 数据库名 &gt; 要保存的路径&#x2F;tlxy.sql</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">zachary@MacBook-Pro ~ % mysqldump -u root -p tlxy &gt; /Users/zachary/Desktop/tlxy.sql</span><br><span class="line">Enter password:</span><br><span class="line">zachary@MacBook-Pro ~ %</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-数据表的导出"><a href="#2-数据表的导出" class="headerlink" title="2.数据表的导出"></a>2.数据表的导出</h3><p>语法格式： <strong>mysqldump -u root -p 数据库名 数据表名 &gt; 要保存的路径&#x2F;tlxy.sql</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">zachary@MacBook-Pro ~ % mysqldump -u root -p tlxy users &gt; /Users/zachary/Desktop/tlxy.sql</span><br><span class="line">Enter password:</span><br><span class="line">zachary@MacBook-Pro ~ %</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据的导入"><a href="#数据的导入" class="headerlink" title="数据的导入"></a>数据的导入</h2><h3 id="1-数据库的导入"><a href="#1-数据库的导入" class="headerlink" title="1.数据库的导入"></a>1.数据库的导入</h3><p>将导出的数据库的所有的表，导入到本地的一个数据库内 语法格式： <strong>mysql -u root -p 新数据库 &lt; 要导入的数据库路径</strong></p>
+<h3 id="2-数据表的导入"><a href="#2-数据表的导入" class="headerlink" title="2.数据表的导入"></a>2.数据表的导入</h3><p>将导出的一张数据包，导入到某个已存在的数据库中 <strong>mysql -u root -p 数据库 &lt; 要导入的数据表</strong></p>
+<h2 id="权限管理"><a href="#权限管理" class="headerlink" title="权限管理"></a>权限管理</h2><p>mysql 中的 root 用户是数据库中权限最高的用户，千万不要用在项目中 可以给不同的用户，或者项目，创建不同的 MySQL 用户，并适当的授权，完成数据库的相关操作 这样就一定程度上保证了数据库的安全</p>
+<ul>
+<li>查看数据库中所有的用户</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use mysql</span><br><span class="line">Reading table information for completion of table and column names</span><br><span class="line">You can turn off this feature to get a quicker startup with -A</span><br><span class="line"></span><br><span class="line">Database changed</span><br><span class="line">mysql&gt; select host,user from user;</span><br><span class="line">+-----------+------------------+</span><br><span class="line">| host      | user             |</span><br><span class="line">+-----------+------------------+</span><br><span class="line">| %         | zachary          |</span><br><span class="line">| localhost | mysql.infoschema |</span><br><span class="line">| localhost | mysql.session    |</span><br><span class="line">| localhost | mysql.sys        |</span><br><span class="line">| localhost | root             |</span><br><span class="line">+-----------+------------------+</span><br><span class="line">5 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>创建用户的语法格式： <strong>grant 授权的操作 on 授权的库.授权的表 to 账户@登录地址 identified by ‘密码’</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-- 在mysql中 创建一个 zachary 用户， 授权可以对tlxy这个库的所有表进行添加和查询的权限</span><br><span class="line">grant select,insert on tlxy.* to zachary@&#x27;%&#x27; identified by &#x27;123456&#x27;;</span><br><span class="line"></span><br><span class="line">-- 给duan授权对tlxy这个库的所有表的所有权限</span><br><span class="line">grant all on tlxy.* to duan@&#x27;%&#x27; identified by &#x27;123456&#x27;;</span><br><span class="line"></span><br><span class="line">-- 删除用户</span><br><span class="line">drop user &#x27;zachary&#x27;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>更新: 2024-01-23 06:39:32<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/zacharyblock/cx2om6/lidc7icq01wycq94">https://www.yuque.com/zacharyblock/cx2om6/lidc7icq01wycq94</a></p>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Zachary Block</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://blockzachary.github.io/blog/2739483575/">https://blockzachary.github.io/blog/2739483575/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/MySQL/"># MySQL</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/blog/2532370537/">PyMySQL</a>
+            
+            
+            <a class="next" rel="next" href="/blog/3942895021/">数据库基础</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+<script src="/js/clipboard.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var codeBlocks = document.querySelectorAll('article .code pre');
+
+        codeBlocks.forEach(function (codeBlock) {
+            var copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+            copyButton.innerText = 'Copy';
+
+            // Check if the code block is in the article content
+            if (codeBlock.closest('article')) {
+                codeBlock.parentNode.style.position = 'relative';
+                codeBlock.parentNode.appendChild(copyButton); // 将按钮添加到 codeBlock 的父节点内
+
+                var isCopying = false;
+
+                copyButton.addEventListener('click', function () {
+                    if (!isCopying) {
+                        var codeText = codeBlock.innerText;
+                        navigator.clipboard.writeText(codeText).then(function () {
+                            copyButton.innerText = 'Copied!';
+                            isCopying = true;
+                            setTimeout(function () {
+                                copyButton.innerText = 'Copy';
+                                isCopying = false;
+                            }, 1500);
+                        }).catch(function (err) {
+                            console.error('Copy failed', err);
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+<style>
+    .copy-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #2d96bd;
+        color: #fff;
+        border: none;
+        border-radius: 10%;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+</style>
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Zachary Block | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

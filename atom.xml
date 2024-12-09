@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Zachary Blog</title>
   
-  
+  <subtitle>这里是副标题</subtitle>
   <link href="https://blockzachary.github.io/atom.xml" rel="self"/>
   
   <link href="https://blockzachary.github.io/"/>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Shell</title>
-    <link href="https://blockzachary.github.io/2024/08/08/Linux/Shell/"/>
-    <id>https://blockzachary.github.io/2024/08/08/Linux/Shell/</id>
+    <link href="https://blockzachary.github.io/blog/2220072441/"/>
+    <id>https://blockzachary.github.io/blog/2220072441/</id>
     <published>2024-08-08T20:46:00.000Z</published>
     <updated>2024-08-08T20:46:00.000Z</updated>
     
@@ -44,8 +44,8 @@
   
   <entry>
     <title>拉一个 docker 的 mysql</title>
-    <link href="https://blockzachary.github.io/2024/08/04/Docker/%E6%8B%89%E4%B8%80%E4%B8%AAdocker%E7%9A%84mysql/"/>
-    <id>https://blockzachary.github.io/2024/08/04/Docker/%E6%8B%89%E4%B8%80%E4%B8%AAdocker%E7%9A%84mysql/</id>
+    <link href="https://blockzachary.github.io/blog/3658481920/"/>
+    <id>https://blockzachary.github.io/blog/3658481920/</id>
     <published>2024-08-04T21:36:00.000Z</published>
     <updated>2024-08-04T21:36:00.000Z</updated>
     
@@ -68,8 +68,8 @@
   
   <entry>
     <title>Django-Ninja Takeout</title>
-    <link href="https://blockzachary.github.io/2024/07/15/PythonWeb/Django-NinjaTakeout/"/>
-    <id>https://blockzachary.github.io/2024/07/15/PythonWeb/Django-NinjaTakeout/</id>
+    <link href="https://blockzachary.github.io/blog/3297479333/"/>
+    <id>https://blockzachary.github.io/blog/3297479333/</id>
     <published>2024-07-15T19:23:00.000Z</published>
     <updated>2024-07-15T19:23:00.000Z</updated>
     
@@ -94,8 +94,8 @@
   
   <entry>
     <title>Django-Ninja</title>
-    <link href="https://blockzachary.github.io/2024/07/12/PythonWeb/DjangoNinja%E5%85%A5%E9%97%A8/"/>
-    <id>https://blockzachary.github.io/2024/07/12/PythonWeb/DjangoNinja%E5%85%A5%E9%97%A8/</id>
+    <link href="https://blockzachary.github.io/blog/179197962/"/>
+    <id>https://blockzachary.github.io/blog/179197962/</id>
     <published>2024-07-12T23:22:00.000Z</published>
     <updated>2024-07-12T23:22:00.000Z</updated>
     
@@ -120,8 +120,8 @@
   
   <entry>
     <title>Django 实现 RESTful API</title>
-    <link href="https://blockzachary.github.io/2024/07/10/PythonWeb/Django%E5%86%99RESTfulAPI/"/>
-    <id>https://blockzachary.github.io/2024/07/10/PythonWeb/Django%E5%86%99RESTfulAPI/</id>
+    <link href="https://blockzachary.github.io/blog/3684614663/"/>
+    <id>https://blockzachary.github.io/blog/3684614663/</id>
     <published>2024-07-10T20:02:00.000Z</published>
     <updated>2024-07-10T20:02:00.000Z</updated>
     
@@ -148,8 +148,8 @@
   
   <entry>
     <title>学生成绩管理</title>
-    <link href="https://blockzachary.github.io/2024/05/26/FastAPI%E5%85%A5%E9%97%A8/%E5%AD%A6%E7%94%9F%E6%88%90%E7%BB%A9%E7%AE%A1%E7%90%86/"/>
-    <id>https://blockzachary.github.io/2024/05/26/FastAPI%E5%85%A5%E9%97%A8/%E5%AD%A6%E7%94%9F%E6%88%90%E7%BB%A9%E7%AE%A1%E7%90%86/</id>
+    <link href="https://blockzachary.github.io/blog/1210368491/"/>
+    <id>https://blockzachary.github.io/blog/1210368491/</id>
     <published>2024-05-26T21:20:00.000Z</published>
     <updated>2024-05-26T21:20:00.000Z</updated>
     
@@ -178,8 +178,8 @@
   
   <entry>
     <title>学生选课功能</title>
-    <link href="https://blockzachary.github.io/2024/05/26/FastAPI%E5%85%A5%E9%97%A8/%E5%AD%A6%E7%94%9F%E9%80%89%E8%AF%BE%E5%8A%9F%E8%83%BD/"/>
-    <id>https://blockzachary.github.io/2024/05/26/FastAPI%E5%85%A5%E9%97%A8/%E5%AD%A6%E7%94%9F%E9%80%89%E8%AF%BE%E5%8A%9F%E8%83%BD/</id>
+    <link href="https://blockzachary.github.io/blog/1815875435/"/>
+    <id>https://blockzachary.github.io/blog/1815875435/</id>
     <published>2024-05-26T18:51:00.000Z</published>
     <updated>2024-05-26T18:51:00.000Z</updated>
     
@@ -208,8 +208,8 @@
   
   <entry>
     <title>个人页面</title>
-    <link href="https://blockzachary.github.io/2024/05/23/FastAPI%E5%85%A5%E9%97%A8/%E4%B8%AA%E4%BA%BA%E9%A1%B5%E9%9D%A2/"/>
-    <id>https://blockzachary.github.io/2024/05/23/FastAPI%E5%85%A5%E9%97%A8/%E4%B8%AA%E4%BA%BA%E9%A1%B5%E9%9D%A2/</id>
+    <link href="https://blockzachary.github.io/blog/3275320888/"/>
+    <id>https://blockzachary.github.io/blog/3275320888/</id>
     <published>2024-05-23T04:41:00.000Z</published>
     <updated>2024-05-23T04:41:00.000Z</updated>
     
@@ -238,8 +238,8 @@
   
   <entry>
     <title>学生管理</title>
-    <link href="https://blockzachary.github.io/2024/05/20/FastAPI%E5%85%A5%E9%97%A8/%E5%AD%A6%E7%94%9F%E7%AE%A1%E7%90%86/"/>
-    <id>https://blockzachary.github.io/2024/05/20/FastAPI%E5%85%A5%E9%97%A8/%E5%AD%A6%E7%94%9F%E7%AE%A1%E7%90%86/</id>
+    <link href="https://blockzachary.github.io/blog/837251381/"/>
+    <id>https://blockzachary.github.io/blog/837251381/</id>
     <published>2024-05-20T00:10:00.000Z</published>
     <updated>2024-05-20T00:10:00.000Z</updated>
     
@@ -268,8 +268,8 @@
   
   <entry>
     <title>Linux手册</title>
-    <link href="https://blockzachary.github.io/2024/05/16/Linux/%E6%89%8B%E5%86%8C/"/>
-    <id>https://blockzachary.github.io/2024/05/16/Linux/%E6%89%8B%E5%86%8C/</id>
+    <link href="https://blockzachary.github.io/blog/1442625339/"/>
+    <id>https://blockzachary.github.io/blog/1442625339/</id>
     <published>2024-05-16T00:12:00.000Z</published>
     <updated>2024-05-16T00:12:00.000Z</updated>
     
@@ -292,8 +292,8 @@
   
   <entry>
     <title>Linux基础</title>
-    <link href="https://blockzachary.github.io/2024/05/16/Linux/Linux%E5%9F%BA%E7%A1%80/"/>
-    <id>https://blockzachary.github.io/2024/05/16/Linux/Linux%E5%9F%BA%E7%A1%80/</id>
+    <link href="https://blockzachary.github.io/blog/2762478163/"/>
+    <id>https://blockzachary.github.io/blog/2762478163/</id>
     <published>2024-05-16T00:00:00.000Z</published>
     <updated>2024-05-16T00:00:00.000Z</updated>
     
@@ -316,8 +316,8 @@
   
   <entry>
     <title>API鉴权</title>
-    <link href="https://blockzachary.github.io/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/API%E9%89%B4%E6%9D%83/"/>
-    <id>https://blockzachary.github.io/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/API%E9%89%B4%E6%9D%83/</id>
+    <link href="https://blockzachary.github.io/blog/2848525117/"/>
+    <id>https://blockzachary.github.io/blog/2848525117/</id>
     <published>2024-05-03T22:10:00.000Z</published>
     <updated>2024-05-03T22:10:00.000Z</updated>
     
@@ -346,8 +346,8 @@
   
   <entry>
     <title>课程管理</title>
-    <link href="https://blockzachary.github.io/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/%E8%AF%BE%E7%A8%8B%E7%AE%A1%E7%90%86/"/>
-    <id>https://blockzachary.github.io/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/%E8%AF%BE%E7%A8%8B%E7%AE%A1%E7%90%86/</id>
+    <link href="https://blockzachary.github.io/blog/2192504553/"/>
+    <id>https://blockzachary.github.io/blog/2192504553/</id>
     <published>2024-05-03T22:00:00.000Z</published>
     <updated>2024-05-03T22:00:00.000Z</updated>
     
@@ -377,8 +377,8 @@
   
   <entry>
     <title>JWT权限校验</title>
-    <link href="https://blockzachary.github.io/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/JWT%E6%9D%83%E9%99%90%E6%A0%A1%E9%AA%8C/"/>
-    <id>https://blockzachary.github.io/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/JWT%E6%9D%83%E9%99%90%E6%A0%A1%E9%AA%8C/</id>
+    <link href="https://blockzachary.github.io/blog/1398871575/"/>
+    <id>https://blockzachary.github.io/blog/1398871575/</id>
     <published>2024-05-03T21:50:00.000Z</published>
     <updated>2024-05-03T21:50:00.000Z</updated>
     
@@ -407,8 +407,8 @@
   
   <entry>
     <title>管理员登录</title>
-    <link href="https://blockzachary.github.io/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/%E7%AE%A1%E7%90%86%E5%91%98%E7%99%BB%E5%BD%95/"/>
-    <id>https://blockzachary.github.io/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/%E7%AE%A1%E7%90%86%E5%91%98%E7%99%BB%E5%BD%95/</id>
+    <link href="https://blockzachary.github.io/blog/701228072/"/>
+    <id>https://blockzachary.github.io/blog/701228072/</id>
     <published>2024-05-03T21:30:00.000Z</published>
     <updated>2024-05-03T21:30:00.000Z</updated>
     
@@ -437,8 +437,8 @@
   
   <entry>
     <title>环境及项目初始化</title>
-    <link href="https://blockzachary.github.io/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/%E7%8E%AF%E5%A2%83%E5%8F%8A%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96/"/>
-    <id>https://blockzachary.github.io/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/%E7%8E%AF%E5%A2%83%E5%8F%8A%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96/</id>
+    <link href="https://blockzachary.github.io/blog/3296237781/"/>
+    <id>https://blockzachary.github.io/blog/3296237781/</id>
     <published>2024-05-03T21:00:30.000Z</published>
     <updated>2024-05-03T21:00:30.000Z</updated>
     
@@ -467,8 +467,8 @@
   
   <entry>
     <title>项目介绍</title>
-    <link href="https://blockzachary.github.io/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D/"/>
-    <id>https://blockzachary.github.io/2024/05/03/FastAPI%E5%85%A5%E9%97%A8/%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D/</id>
+    <link href="https://blockzachary.github.io/blog/1071630779/"/>
+    <id>https://blockzachary.github.io/blog/1071630779/</id>
     <published>2024-05-03T20:30:00.000Z</published>
     <updated>2024-05-03T20:30:00.000Z</updated>
     
@@ -497,8 +497,8 @@
   
   <entry>
     <title>面经2</title>
-    <link href="https://blockzachary.github.io/2024/03/19/%E9%9D%A2%E7%BB%8F_%E9%9D%A2%E8%AF%95%E9%A2%98/%E9%9D%A2%E7%BB%8F2/"/>
-    <id>https://blockzachary.github.io/2024/03/19/%E9%9D%A2%E7%BB%8F_%E9%9D%A2%E8%AF%95%E9%A2%98/%E9%9D%A2%E7%BB%8F2/</id>
+    <link href="https://blockzachary.github.io/blog/1445218469/"/>
+    <id>https://blockzachary.github.io/blog/1445218469/</id>
     <published>2024-03-19T00:10:00.000Z</published>
     <updated>2024-03-19T00:10:00.000Z</updated>
     
@@ -523,8 +523,8 @@
   
   <entry>
     <title>面经</title>
-    <link href="https://blockzachary.github.io/2024/03/18/%E9%9D%A2%E7%BB%8F_%E9%9D%A2%E8%AF%95%E9%A2%98/%E9%9D%A2%E7%BB%8F/"/>
-    <id>https://blockzachary.github.io/2024/03/18/%E9%9D%A2%E7%BB%8F_%E9%9D%A2%E8%AF%95%E9%A2%98/%E9%9D%A2%E7%BB%8F/</id>
+    <link href="https://blockzachary.github.io/blog/2565273121/"/>
+    <id>https://blockzachary.github.io/blog/2565273121/</id>
     <published>2024-03-18T23:42:00.000Z</published>
     <updated>2024-03-18T23:42:00.000Z</updated>
     
@@ -549,8 +549,8 @@
   
   <entry>
     <title>面试题</title>
-    <link href="https://blockzachary.github.io/2024/03/18/%E9%9D%A2%E7%BB%8F_%E9%9D%A2%E8%AF%95%E9%A2%98/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
-    <id>https://blockzachary.github.io/2024/03/18/%E9%9D%A2%E7%BB%8F_%E9%9D%A2%E8%AF%95%E9%A2%98/%E9%9D%A2%E8%AF%95%E9%A2%98/</id>
+    <link href="https://blockzachary.github.io/blog/1376120437/"/>
+    <id>https://blockzachary.github.io/blog/1376120437/</id>
     <published>2024-03-18T23:37:00.000Z</published>
     <updated>2024-03-18T23:37:00.000Z</updated>
     

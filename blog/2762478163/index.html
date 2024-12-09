@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="referrer" content="no-referrer">
+
+    <meta name="author" content="Zachary Block">
+
+
+    <meta name="subtitle" content="这里是副标题">
+
+
+
+
+<title>Linux基础 | Zachary Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Zachary Blog" type="application/atom+xml">
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Zachary&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Zachary&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Linux基础</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Zachary Block</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">5 月 16 日&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Linux/">Linux</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="Linux-基础"><a href="#Linux-基础" class="headerlink" title="Linux 基础"></a>Linux 基础</h1><h2 id="安装-Ubuntu-系统"><a href="#安装-Ubuntu-系统" class="headerlink" title="安装 Ubuntu 系统"></a>安装 Ubuntu 系统</h2><p>这里我们就以安装虚拟机的方式在我们的电脑上安装 Linux 操作系统，我们选用 Ubuntu 作为教程，如果有经济实力，可以在腾讯云、阿里云之类的服务商购买一台云服务器，并选择预装 Ubuntu 系统；如果你还想搞嵌入式开发之类的工作，可以购买一台树莓派服务器，也可以在上面安装 Ubuntu 系统，相当于一台迷你主机。在你已经有云服务器的情况下，可以直接跳过虚拟机安装教学。</p>
+<p>官网下载：<a target="_blank" rel="noopener" href="https://cn.ubuntu.com/download/server/step1">https://cn.ubuntu.com/download/server/step1</a></p>
+<p>注意是下载服务器版本，不是桌面版本。</p>
+<h3 id="在虚拟机中安装"><a href="#在虚拟机中安装" class="headerlink" title="在虚拟机中安装"></a>在虚拟机中安装</h3><p>这里我们使用 VMware 进行安装，VMware 是一个虚拟化应用程序，它可以在我们当前运行的操作系统之上，创建一个虚线的主机，相当于创建了一台电脑，而我们就可以在这台电脑上安装各种各样的操作系统，并且我们可以自由为其分配 CPU 核心和内存以及硬盘容量（如果你接触过云计算相关内容，应该会对虚拟化技术有所了解）</p>
+<p>官网下载：<a target="_blank" rel="noopener" href="https://www.vmware.com/cn/products/workstation-pro/workstation-pro-evaluation.html">https://www.vmware.com/cn/products/workstation-pro/workstation-pro-evaluation.html</a></p>
+<p>安装完成后，会出现一个类似于 CMD 的命令窗口，而我们就是通过输入命令来操作我们的操作系统。</p>
+<h3 id="使用-SSH-远程连接"><a href="#使用-SSH-远程连接" class="headerlink" title="使用 SSH 远程连接"></a>使用 SSH 远程连接</h3><p>如果你使用的是树莓派或是云服务器，那么你会得到一个公网的 IP 地址，以及默认的用户名和密码，由于服务器安装的 Ubuntu 并不是在我们的电脑上运行的，那么我们怎么去远程操作呢？</p>
+<p>比如我们要远程操作一台 Windows 电脑，直接使用远程桌面连接即可，但是 Ubuntu 上来就是命令行，这种情况下要实现远程连接就只能使用 SSH 终端。</p>
+<p>SSH 是一种网络协议，用于计算机之间的加密登录。如果一个用户从本地计算机，使用 SSH 协议登录另一台远程计算机，我们就可以认为，这种登录是安全的，即使被中途截获，密码也不会泄露。最早的时候，互联网通信都是明文通信，一旦被截获，内容就暴露无疑。1995 年，芬兰学者 Tatu Ylonen 设计了 SSH 协议，将登录信息全部加密，成为互联网安全的一个基本解决方案，迅速在全世界获得推广，目前已经成为 Linux 系统的标准配置。</p>
+<p>云服务器上安装的 Ubuntu 默认都是自带了 OpenSSH 服务端的，我们可以直接连接，如果你的 Ubuntu 服务器上没有安装 OpenSSH 服务器端，那么可以输入命令进行安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install openssh-server</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">输入后还需要你输入当前用户的密码才可以执行，至于为什么我们后面会说</span></span><br></pre></td></tr></table></figure>
+
+<p>ssh 的开启命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service ssh start</span><br></pre></td></tr></table></figure>
+
+<p>查看 ssh 进程</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -e|grep ssh</span><br></pre></td></tr></table></figure>
+
+<p>非 root 用户如果登录不上 ssh</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown zachary:zachary -R /home/zachary</span><br></pre></td></tr></table></figure>
+
+<p>这里我们使用 XShell 来进行 SSH 登陆，官网：<a target="_blank" rel="noopener" href="https://www.netsarang.com/zh/free-for-home-school/">https://www.netsarang.com/zh/free-for-home-school/</a></p>
+<p>直接使用 mac 下的终端进行登录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh zachary@172.16.59.130</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1715788970979-7ffb2b99-91b5-4fe8-be57-3491b1bc05df.png"></p>
+<h3 id="文件系统介绍"><a href="#文件系统介绍" class="headerlink" title="文件系统介绍"></a>文件系统介绍</h3><p>在 Windows 下，我们的整个硬盘实际上可以被分为多个磁盘驱动器：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1715788970973-a60f796b-3065-4a85-8473-32d627ba4e75.png"></p>
+<p>我们一般习惯将软件装到 D 盘，文件数据存在 E 盘，系统和一些环境安装在 C 盘，根据不同的盘符进行划分，并且每个盘都有各自的存储容量大小。而在 Linux 中，没有这个概念，所有的文件都是位于根目录下的：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/webp/38881094/1715788971071-ea8ff465-d9f5-4c69-8225-23c612491976.webp"></p>
+<p>我们可以看到根目录下有很多个文件夹，它们都有着各自的划分：</p>
+<ul>
+<li>&#x2F;bin 可执行二进制文件的目录，如常用的命令 ls、tar、mv、cat 等实际上都是一些小的应用程序</li>
+<li>&#x2F;home 普通用户的主目录，对应 Windows 下的 C:&#x2F;Users&#x2F;用户名&#x2F;</li>
+<li>&#x2F;root root 用户的主目录（root 用户是具有最高权限的用户，之后会讲）</li>
+<li>&#x2F;boot 内核文件的引导目录, 放置 linux 系统启动时用到的一些文件</li>
+<li>&#x2F;sbing 超级用户使用的指令文件</li>
+<li>&#x2F;tmp 临时文件目录，一般用户或正在执行的程序临时存放文件的目录，任何人都可以访问，重要数据不可放置在此目录下。</li>
+<li>&#x2F;dev 设备文件目录，在 Linux 中万物皆文件，实际上你插入的 U 盘等设备都会在 dev 目录下生成一个文件，我们可以很方便地通过文件 IO 方式去操作外设，对嵌入式开发极为友好。</li>
+<li>&#x2F;lib 共享库，系统使用的函数库的目录，程序在执行过程中，需要调用一些额外的参数时需要函数库的协助。</li>
+<li>&#x2F;usr 第三方 程序目录</li>
+<li>&#x2F;etc 配置程序目录，系统配置文件存放的目录</li>
+<li>&#x2F;var 可变文件，放置系统执行过程中经常变化的文件</li>
+<li>&#x2F;opt 用户使用目录，给主机额外安装软件所摆放的目录。</li>
+</ul>
+<p>我们可以直接输入命令来查看目录下的所有文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#只显示文件名称，且不显示隐藏文件</span></span><br><span class="line"><span class="built_in">ls</span></span><br><span class="line"><span class="comment">#显示隐藏文件以及文件详细信息</span></span><br><span class="line">ll</span><br></pre></td></tr></table></figure>
+
+<p>那么我们如何才能像 Windows 那样方便的管理 Linux 中的文件呢？我们可以使用 FTP 管理工具，默认情况下 Ubuntu 是安装了 SFTP 服务器的。</p>
+<p>这里我们使用 Xftp 来进行管理，官网：<a target="_blank" rel="noopener" href="https://www.netsarang.com/zh/free-for-home-school/">https://www.netsarang.com/zh/free-for-home-school/</a></p>
+<hr>
+<h2 id="用户和用户组"><a href="#用户和用户组" class="headerlink" title="用户和用户组"></a>用户和用户组</h2><p>我们整个 Linux 阶段的学习主要是以实操为主，大量的命令需要大量的使用才能记得更牢固。</p>
+<p>Linux 系统是一个多用户多任务的分时操作系统，任何一个要使用系统的用户，都必须申请一个账号，然后以这个账号的身份进入系统。比如我们之前就是使用我们在创建服务器时申请的初始用户 test，通过输入用户名和密码登录到系统中，之后才能使用各种命令进行操作。其实用户机制和我们的 Windows 比较类似。一般的普通用户只能做一些比较基本的操作，并且只能在自己的目录（如&#x2F;home&#x2F;test）中进行文件的创建和删除操作。</p>
+<p>我们可以看到，当前状态信息分为三段：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$</span><br></pre></td></tr></table></figure>
+
+<p>格式为：用户名@服务器名称:当前所处的目录$，其中~代表用户目录，如果不是用户目录，会显示当前的绝对路径地址。我们也可以使用 pwd 命令来直接查看当前所处的目录。</p>
+<p>在 Linux 中默认存在一个超级用户 root，而此用户拥有最高执行权限，它能够修改任何的内容，甚至可以删除整个 Linux 内核，正常情况下不会使用 root 用户进行登陆，只有在特殊情况下才会使用 root 用户来进行一些操作，root 用户非常危险，哪怕一个小小的命令都能够毁掉整个 Linux 系统，比如 rm -rf &#x2F;*，感兴趣的话我们可以放在最后来演示（在以前老是听说安卓手机 root，实际上就是获取安卓系统底层 Linux 系统的 root 权限，以实现修改系统文件的目的）</p>
+<p>我们可以使用 sudo -s 并输入当前用户的密码切换到 root 用户，可以看到出现了一些变化：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$</span><br><span class="line"></span><br><span class="line">root@ubuntu-server:/home/test#</span><br></pre></td></tr></table></figure>
+
+<p>我们发现$符号变成了#符号，注意此符号表示当前的用户权限等级，并且 test 也变为了 root，在此用户下，我们可以随意修改 test 用户文件夹以外的内容，而 test 用户下则无法修改。如果需要退出 root 用户，直接输入 exit 即可。</p>
+<p>接着我们来看一下，如何进行用户的管理操作，进行用户管理，包括添加用户和删除用户都需要 root 权限才可以执行，但是现在我们是 test 用户，我们可以在命令前面添加 sudo 来暂时以管理员身份执行此命令，比如说我们现在想要添加一个新的用户：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> useradd study</span><br></pre></td></tr></table></figure>
+
+<p>其中 study 就是我们想要创建的新用户，useradd 命令就是创建新用户的命令，同样的，删除用户：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> userdel study</span><br></pre></td></tr></table></figure>
+
+<p>Linux 中的命令一般都可以携带一些参数来以更多特地的方式执行，我们可以在创建用户时，添加一些额外的参数来进行更多高级操作：</p>
+<ul>
+<li>-d&lt;登录目录&gt; 指定用户登录时的起始目录。</li>
+<li>-g&lt;群组&gt; 指定用户所属的群组。</li>
+<li>-G&lt;群组&gt; 指定用户所属的附加群组。</li>
+<li>-m 自动建立用户的登入目录。</li>
+<li>-M 不要自动建立用户的登入目录。</li>
+<li>-s 指定 Shell，一般指定为&#x2F;bin&#x2F;bash</li>
+</ul>
+<p>如果还想查看更多命令，可以直接使用 man 来查看命令的详细参数列表，比如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">man useradd</span><br></pre></td></tr></table></figure>
+
+<p>比如我们现在需要在用户创建时顺便创建用户的文件夹，并指定 shell（任意一种命令解释程序，用于处理我们输入的命令）为 bash：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> useradd study -m -s /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>可以看到已经自动在 home 目录下创建了 study 文件夹（这里..表示上一级目录，.表示当前目录）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">ls</span> ..</span><br><span class="line">study  <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>用户创建完成之后，我们可以为此用户设定密码（如果不指定用户，那么会设置当前用户的密码）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> passwd study</span><br></pre></td></tr></table></figure>
+
+<p>输入密码之后，我们可以使用命令来切换用户：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ su - study</span><br><span class="line">Password:</span><br><span class="line">study@ubuntu-server:~$</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，切换用户后名称已经修改为 study 了，我们使用 exit 即可退出当前用户回到 test。</p>
+<p>输入 who 可以查看当前登录账号（注意是登录的账号）输入 whoami 可以查看当前的操作账号：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ su study</span><br><span class="line">Password:</span><br><span class="line">study@ubuntu-server:/home/test$ <span class="built_in">cd</span> ~</span><br><span class="line">study@ubuntu-server:~$ <span class="built_in">who</span></span><br><span class="line"><span class="built_in">test</span>     pts/0        2022-01-24 03:57 (192.168.10.3)</span><br><span class="line">study@ubuntu-server:~$ <span class="built_in">whoami</span></span><br><span class="line">study</span><br><span class="line">study@ubuntu-server:~$</span><br></pre></td></tr></table></figure>
+
+<p>接着我们来看用户组，每个用户都有一个用户组，系统可以对一个用户组中的所有用户进行集中管理。我们可以输入 groups 来查看当前用户所有的用户组：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">groups</span></span><br><span class="line"><span class="built_in">test</span> adm cdrom <span class="built_in">sudo</span> dip plugdev lxd</span><br></pre></td></tr></table></figure>
+
+<p>我们可以输入 id 来查看用户所属的用户相关信息：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">id</span></span><br><span class="line">uid=1000(<span class="built_in">test</span>) gid=1000(<span class="built_in">test</span>) <span class="built_in">groups</span>=1000(<span class="built_in">test</span>),4(adm),24(cdrom),27(<span class="built_in">sudo</span>),30(dip),46(plugdev),116(lxd)</span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到 test 用户默认情况下主要用户组为同名的 test 用户组，并且还属于一些其他的用户组，其中 sudo 用户组就表示可以执行 sudo 命令，我们发现我们创建的 study 用户没有 sudo 的执行权限：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">study@ubuntu-server:~$ <span class="built_in">sudo</span> -s</span><br><span class="line">[<span class="built_in">sudo</span>] password <span class="keyword">for</span> study:</span><br><span class="line">study is not <span class="keyword">in</span> the sudoers file.  This incident will be reported.</span><br></pre></td></tr></table></figure>
+
+<p>正是因为没有加入到 sudo 用户组，这里我们来尝试将其添加到 sudo 用户组：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">id</span> study</span><br><span class="line">uid=1001(study) gid=1001(study) <span class="built_in">groups</span>=1001(study)</span><br></pre></td></tr></table></figure>
+
+<p>使用 usermod 命令来对用户的相关设置进行修改，参数与 useradd 大致相同：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">sudo</span> usermod study -G <span class="built_in">sudo</span></span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">id</span> study</span><br><span class="line">uid=1001(study) gid=1001(study) <span class="built_in">groups</span>=1001(study),27(<span class="built_in">sudo</span>)</span><br></pre></td></tr></table></figure>
+
+<p>接着切换到 study 用户就可以使用 sudo 命令了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">To run a <span class="built_in">command</span> as administrator (user <span class="string">&quot;root&quot;</span>), use <span class="string">&quot;sudo &lt;command&gt;&quot;</span>.</span><br><span class="line">See <span class="string">&quot;man sudo_root&quot;</span> <span class="keyword">for</span> details.</span><br><span class="line"></span><br><span class="line">study@ubuntu-server:/home/test$ <span class="built_in">sudo</span> -s</span><br><span class="line">[<span class="built_in">sudo</span>] password <span class="keyword">for</span> study:</span><br><span class="line">root@ubuntu-server:/home/test#</span><br></pre></td></tr></table></figure>
+
+<p>实际上，我们的用户信息是存储在配置文件中的，我们之前说了，配置文件一般都放在 etc 目录下，而用户和用户组相关的配置文件，存放在&#x2F;etc&#x2F;passwd 和&#x2F;etc&#x2F;group 中，我们可以使用 cat 命令将文件内容打印到控制台：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">cat</span> /etc/passwd</span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin</span><br><span class="line">bin:x:2:2:bin:/bin:/usr/sbin/nologin</span><br><span class="line">sys:x:3:3:sys:/dev:/usr/sbin/nologin</span><br><span class="line"><span class="built_in">sync</span>:x:4:65534:<span class="built_in">sync</span>:/bin:/bin/sync</span><br></pre></td></tr></table></figure>
+
+<p>格式为：注册名:口令:用户标识号:组标识号:用户名:用户主目录:命令解释程序 ，而我们的密码则存放在&#x2F;etc&#x2F;shadow 中，是以加密形式存储的，并且需要 root 权限才能查看。</p>
+<hr>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>接着我们来看一下 Linux 系统中一些比较常用的命令。</p>
+<h3 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h3><p>文件是最基本的内容，我们可以使用 ls 命令列出当前目录中所有的文件，参数-a 表示包含所有的隐藏文件，-l 表示列出详细信息：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">ls</span> -al</span><br><span class="line">total 44</span><br><span class="line">drwxr-xr-x 4 <span class="built_in">test</span> <span class="built_in">test</span> 4096 Jan 24 08:55 .</span><br><span class="line">drwxr-xr-x 4 root root 4096 Jan 24 04:24 ..</span><br><span class="line">-rw------- 1 <span class="built_in">test</span> <span class="built_in">test</span> 2124 Jan 24 04:29 .bash_history</span><br><span class="line">-rw-r--r-- 1 <span class="built_in">test</span> <span class="built_in">test</span>  220 Feb 25  2020 .bash_logout</span><br><span class="line">-rw-r--r-- 1 <span class="built_in">test</span> <span class="built_in">test</span> 3771 Feb 25  2020 .bashrc</span><br><span class="line">drwx------ 2 <span class="built_in">test</span> <span class="built_in">test</span> 4096 Jan 21 15:48 .cache</span><br><span class="line">drwx------ 3 <span class="built_in">test</span> <span class="built_in">test</span> 4096 Jan 23 14:49 .config</span><br><span class="line">-rw-r--r-- 1 <span class="built_in">test</span> <span class="built_in">test</span>  807 Feb 25  2020 .profile</span><br><span class="line">-rw------- 1 <span class="built_in">test</span> <span class="built_in">test</span>   34 Jan 24 04:17 .python_history</span><br><span class="line">-rw-r--r-- 1 <span class="built_in">test</span> <span class="built_in">test</span>    0 Jan 21 15:52 .sudo_as_admin_successful</span><br><span class="line">-rw------- 1 <span class="built_in">test</span> <span class="built_in">test</span> 7201 Jan 24 08:55 .viminfo</span><br></pre></td></tr></table></figure>
+
+<p>可以看到当前目录下的整个文件列表，那么这些信息各种代表什么意思呢，尤其是最前面那一栏类似于 drwxr-xr-x 的字符串。</p>
+<p>它表示文件的属性，其中第 1 个字符表示此文件的类型：-表示普通文件，l 为链接文件，d 表示目录（文件夹），c 表示字符设备、b 表示块设备，还有 p 有名管道、f 堆栈文件、s 套接字等，这些一般都是用于进程之间通信使用的。</p>
+<p>第 2-4 个字符表示文件的拥有者（User）对该文件的权限，第 5-7 个字符表示文件所属用户组（Group）内用户对该文件的权限，最后 8-10 个字符表示其他用户（Other）对该文件的权限。其中 r 为读权限、w 为写权限、x 为执行权限，为了方便记忆，直接记 UGO 就行了。</p>
+<p>比如 drwxr-xr-x 就表示这是一个目录，文件的拥有者可以在目录中读、写和执行，而同一用户组的其他用户只能读和执行，其他用户也是一样。</p>
+<p>第二栏数据可以看到是一列数字，它表示文件创建的链接文件（快捷方式）数量，一般只有 1 表示只有当前文件，我们也可以尝试创建一个链接文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">ln</span> .bash_logout kk</span><br></pre></td></tr></table></figure>
+
+<p>创建后，会生成一个名为 kk 的文件，我们对此文件的操作相当于直接操作.bash_logout，跟 Windows 中的快捷方式比较类似，了解一下即可。再次执行 ll 命令，可以看到.bash_logout 的链接数变成了 2。</p>
+<p>第三栏数据为该文件或是目录的拥有者。</p>
+<p>第四栏数据表示所属的组。</p>
+<p>第五栏数据表示文件大小，以字节为单位。</p>
+<p>第六栏数据为文件的最后一次修改时间</p>
+<p>最后一栏就是文件名称了，就不多说了，再次提及..表示上级目录，.表示当前目录，最前面有一个.开头的文件为隐藏文件。可以看到上级目录（也就是&#x2F;home 目录）所有者为 root，并且非 root 用户无法进行写操作，只能执行读操作，而当前目录以及目录下所有文件则属于 test 用户，test 用户可以随意进行修改。</p>
+<p>在了解了 Linux 的文件查看之后再去看 Windows 的文件管理，会觉得 Windows 的太拉了：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/jpeg/38881094/1715788971144-041ad64f-f4c9-4853-8a05-758a5c84cf40.jpeg"></p>
+<p>那么，如果我们希望对文件的属性进行修改，比如我们现在希望将某个文件的写权限给关闭，可以使用 chmod 命令来进行文件属性修改，我们先创建一个 test 文件，使用 touch 命令来创建文件，使用 mkdir 命令来创建目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">touch</span> <span class="built_in">test</span></span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ ll <span class="built_in">test</span></span><br><span class="line">-rw-rw-r-- 1 <span class="built_in">test</span> <span class="built_in">test</span> 0 Jan 24 09:32 <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到文件创建之后的默认权限为可读可写，接着我们来将其修改为只读，chmod 的使用方法如下：</p>
+<ul>
+<li>chmod (u&#x2F;g&#x2F;o&#x2F;a)(+&#x2F;-)(r&#x2F;w&#x2F;x) 文件名称</li>
+</ul>
+<p>我们可以从 ugo 中选择或是直接 a 表示所有，+和-表示添加和删除权限，最后 rwx 不用我说了吧</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">test@ubuntu-server:~$ chmod a-w test</span><br><span class="line">test@ubuntu-server:~$ ll test</span><br><span class="line">-r--r--r-- 1 test test 0 Jan 24 09:32 test</span><br></pre></td></tr></table></figure>
+
+<p>除了这种方式之外，我们也可以使用数字来代替，比如现在我要给前两个添加读权限，那么：</p>
+<p>约定：r&#x3D;4，w&#x3D;2，x&#x3D;1，需要什么权限就让对应权限的数字相加，一个数字表示一个 rwx 的权限状态，比如我们想修改为-rw-rw-r–，那么对应的数字就是 664，对应的命令为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">chmod</span> 664 <span class="built_in">test</span></span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ ll <span class="built_in">test</span></span><br><span class="line">-rw-rw-r-- 1 <span class="built_in">test</span> <span class="built_in">test</span> 0 Jan 24 09:32 <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>如果我们想修改文件的拥有者或是所属组，可以使用 chown 和 chgrp 命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">sudo</span> <span class="built_in">chown</span> root <span class="built_in">test</span></span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">ls</span> -l</span><br><span class="line">total 0</span><br><span class="line">-rw-rw-r-- 1 root <span class="built_in">test</span> 0 Jan 24 10:43 <span class="built_in">test</span></span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">sudo</span> <span class="built_in">chgrp</span> root <span class="built_in">test</span></span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">ls</span> -l</span><br><span class="line">total 0</span><br><span class="line">-rw-rw-r-- 1 root root 0 Jan 24 10:43 <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>再次操作该文件，会发现没权限：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">chmod</span> 777 <span class="built_in">test</span></span><br><span class="line"><span class="built_in">chmod</span>: changing permissions of <span class="string">&#x27;test&#x27;</span>: Operation not permitted</span><br></pre></td></tr></table></figure>
+
+<p>接着我们来看文件的复制、移动和删除，这里我们先创建一个新的目录并进入到此目录用于操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">mkdir</span> study</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">cd</span> study</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~/study$</span><br></pre></td></tr></table></figure>
+
+<p>首先我们演示文件的复制操作，文件的复制使用 cp 命令，比如现在我们想把上一级目录中的 test 文件复制到当前目录中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~/study$ <span class="built_in">cp</span> ../test <span class="built_in">test</span></span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~/study$ <span class="built_in">ls</span></span><br><span class="line"><span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>那么如果我们想要将一整个目录进行复制呢？我们需要添加一个-r 参数表示将目录中的文件递归复制：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~/study$ <span class="built_in">cd</span> ~</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">cp</span> -r study study_copied</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">ls</span> -l</span><br><span class="line">total 8</span><br><span class="line">drwxrwxr-x 2 <span class="built_in">test</span> <span class="built_in">test</span> 4096 Jan 24 10:16 study</span><br><span class="line">drwxrwxr-x 2 <span class="built_in">test</span> <span class="built_in">test</span> 4096 Jan 24 10:20 study_copied</span><br><span class="line">-rw-rw-r-- 1 <span class="built_in">test</span> <span class="built_in">test</span>    0 Jan 24 09:32 <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到我们的整个目录中所有的文件也一起被复制了。</p>
+<p>接着我们来看看移动操作，相当于是直接将一个文件转移到另一个目录中了，我们再创建一个目录用于文件的移动，并将 test 文件移动到此目录中，我们使用 mv 命令进行文件的移动：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">mkdir</span> study2</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">mv</span> <span class="built_in">test</span> study2</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">ls</span></span><br><span class="line">study  study2  study_copied</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">cd</span> study2</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~/study2$ <span class="built_in">ls</span></span><br><span class="line"><span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>现在我们想要移动个目录到另一个目录中，比如我们想将 study 目录移动到 study2 目录中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">mv</span> study study2</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">ls</span></span><br><span class="line">study2  study_copied</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">cd</span> study2</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~/study2$ <span class="built_in">ls</span></span><br><span class="line">study  <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>mv 命令不仅能实现文件的移动，还可以实现对文件重命名操作，比如我们想将文件 test 重命名为 yyds，那么直接将其进行移动操作即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~/study2$ <span class="built_in">ls</span></span><br><span class="line">study  <span class="built_in">test</span></span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~/study2$ <span class="built_in">mv</span> <span class="built_in">test</span> yyds</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~/study2$ <span class="built_in">ls</span></span><br><span class="line">study  yyds</span><br></pre></td></tr></table></figure>
+
+<p>最后就是删除命令了，使用 rm 进行删除操作，比如现在我们想删除 study2 目录（注意需要添加-r 参数表示递归删除文件夹中的内容）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">rm</span> -r study2</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">ls</span></span><br><span class="line">study_copied</span><br></pre></td></tr></table></figure>
+
+<p>而最常提到的 rm -rf &#x2F;<em>正是删除根目录下所有的文件（非常危险的操作），-f 表示忽略不存在的文件，不进行任何提示，</em>是一个通配符，表示任意文件。这里我们演示一下删除所有.txt 结尾的文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">touch</span> 1.txt 2.txt 3.txt</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">ls</span></span><br><span class="line">1.txt  2.txt  3.txt</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">rm</span> *.txt</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">ls</span></span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$</span><br></pre></td></tr></table></figure>
+
+<p>最后我们再来看文件的搜索，我们使用 find 命令来进行搜索，比如我想搜索&#x2F;etc 目录下名为 passwd 的文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">sudo</span> find /etc -name passwd</span><br><span class="line">[<span class="built_in">sudo</span>] password <span class="keyword">for</span> <span class="built_in">test</span>:</span><br><span class="line">/etc/pam.d/passwd</span><br><span class="line">/etc/passwd</span><br></pre></td></tr></table></figure>
+
+<p>它还支持通配符，比如搜索以 s 开头的文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">sudo</span> find /etc -name s*</span><br><span class="line">/etc/subuid</span><br><span class="line">/etc/screenrc</span><br><span class="line">/etc/sensors3.conf</span><br><span class="line">/etc/sysctl.conf</span><br><span class="line">/etc/sudoers</span><br><span class="line">/etc/shadow</span><br><span class="line">/etc/skel</span><br><span class="line">/etc/pam.d/su</span><br><span class="line">/etc/pam.d/sshd</span><br><span class="line">/etc/pam.d/sudo</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h3 id="系统管理"><a href="#系统管理" class="headerlink" title="系统管理"></a>系统管理</h3><p>接着我们来查看一些系统管理相关的命令，比如我们 Windows 中的任务管理器，我们可以使用 top 命令来打开：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">top - 10:48:46 up  5:52,  1 user,  load average: 0.00, 0.00, 0.00</span><br><span class="line">Tasks: 191 total,   2 running, 189 sleeping,   0 stopped,   0 zombie</span><br><span class="line">%Cpu(s):  0.0 us,  0.2 sy,  0.0 ni, 99.8 <span class="built_in">id</span>,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st</span><br><span class="line">MiB Mem :   3919.1 total,   2704.2 free,    215.0 used,    999.9 buff/cache</span><br><span class="line">MiB Swap:   3923.0 total,   3923.0 free,      0.0 used.   3521.4 avail Mem</span><br><span class="line"></span><br><span class="line">    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND</span><br><span class="line">  10528 <span class="built_in">test</span>      20   0    8944   3072   2652 R   0.7   0.1   0:00.07 top</span><br><span class="line">   9847 root      20   0       0      0      0 I   0.3   0.0   0:00.87 kworker/0:0-events</span><br><span class="line">      1 root      20   0  102760  10456   7120 S   0.0   0.3   0:02.02 systemd</span><br><span class="line">      2 root      20   0       0      0      0 S   0.0   0.0   0:00.01 kthreadd</span><br><span class="line">      3 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_gp</span><br><span class="line">      4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_par_gp</span><br><span class="line">      6 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/0:0H-kblockd</span><br><span class="line">      8 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 mm_percpu_wq</span><br><span class="line">      9 root      20   0       0      0      0 S   0.0   0.0   0:00.15 ksoftirqd/0</span><br><span class="line">     10 root      20   0       0      0      0 R   0.0   0.0   0:01.49 rcu_sched</span><br><span class="line">     11 root      rt   0       0      0      0 S   0.0   0.0   0:00.24 migration/0</span><br><span class="line">     12 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 idle_inject/0</span><br><span class="line">     14 root      20   0       0      0      0 S   0.0   0.0   0:00.00 cpuhp/0</span><br><span class="line">     15 root      20   0       0      0      0 S   0.0   0.0   0:00.00 cpuhp/1</span><br><span class="line">     16 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 idle_inject/1</span><br><span class="line">     17 root      rt   0       0      0      0 S   0.0   0.0   0:00.30 migration/1</span><br><span class="line">     18 root      20   0       0      0      0 S   0.0   0.0   0:00.07 ksoftirqd/1</span><br><span class="line">     20 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/1:0H-kblockd</span><br></pre></td></tr></table></figure>
+
+<p>可以很清楚地看到当前 CPU 的使用情况以及内存的占用情况。</p>
+<p>按下数字键 1，可以展示所有 CPU 核心的使用情况：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">%Cpu0  :  0.0 us,  0.0 sy,  0.0 ni,100.0 <span class="built_in">id</span>,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st</span><br><span class="line">%Cpu1  :  0.0 us,  0.0 sy,  0.0 ni,100.0 <span class="built_in">id</span>,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st</span><br></pre></td></tr></table></figure>
+
+<p>按下 f 键可以设置以哪一列进行排序或是显示那些参数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Fields Management <span class="keyword">for</span> window 1:Def, whose current <span class="built_in">sort</span> field is %MEM</span><br><span class="line">   Navigate with Up/Dn, Right selects <span class="keyword">for</span> move <span class="keyword">then</span> &lt;Enter&gt; or Left commits,</span><br><span class="line">   <span class="string">&#x27;d&#x27;</span> or &lt;Space&gt; toggles display, <span class="string">&#x27;s&#x27;</span> sets <span class="built_in">sort</span>.  Use <span class="string">&#x27;q&#x27;</span> or &lt;Esc&gt; to end!</span><br></pre></td></tr></table></figure>
+
+<p>按下 q 键即可退出监控界面。</p>
+<p>我们可以直接输入 free 命令来查看当前系统的内存使用情况：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ free -m</span><br><span class="line">              total        used        free      shared  buff/cache   available</span><br><span class="line">Mem:           3919         212        2706           1         999        3523</span><br><span class="line">Swap:          3922           0        3922</span><br></pre></td></tr></table></figure>
+
+<p>其中-m 表示以 M 为单位，也可以-g 表示以 G 为单位，默认是 kb 为单位。</p>
+<p>最后就是磁盘容量，我们可以使用 lsblk 来查看所有块设备的信息，其中就包括我们的硬盘、光驱等：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ lsblk</span><br><span class="line">NAME                      MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT</span><br><span class="line">loop0                       7:0    0 48.9M  1 loop /snap/core18/2127</span><br><span class="line">loop1                       7:1    0 28.1M  1 loop /snap/snapd/12707</span><br><span class="line">loop2                       7:2    0   62M  1 loop /snap/lxd/21032</span><br><span class="line">sr0                        11:0    1 1024M  0 rom</span><br><span class="line">nvme0n1                   259:0    0   20G  0 disk</span><br><span class="line">├─nvme0n1p1               259:1    0  512M  0 part /boot/efi</span><br><span class="line">├─nvme0n1p2               259:2    0    1G  0 part /boot</span><br><span class="line">└─nvme0n1p3               259:3    0 18.5G  0 part</span><br><span class="line">  └─ubuntu--vg-ubuntu--lv 253:0    0 18.5G  0 lvm  /</span><br></pre></td></tr></table></figure>
+
+<p>可以看到 nvme 开头的就是我们的硬盘（这个因人而异，可能你们的是 sda，磁盘类型不同名称就不同）可以看到 nvme0n1 容量为 20G，并且 512M 用作存放 EFI 文件，1G 存放启动文件，剩余容量就是存放系统文件和我们的用户目录。</p>
+<p>这里要提到一个挂载的概念：</p>
+<p>挂载，指的就是将设备文件中的顶级目录连接到 Linux 根目录下的某一目录（最好是空目录），访问此目录就等同于访问设备文件。</p>
+<p>比如我们的主硬盘，挂载点就被设定为&#x2F;根目录，而我们所有保存的文件都会存储在硬盘中，如果你有 U 盘（最好将 U 盘的文件格式改为 ExFat，可以直接在 Windows 中进行格式化，然后随便放入一些文件即可）之类的东西，我们可以演示一下对 U 盘进行挂载：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">sudo</span> fdisk -l</span><br><span class="line">...</span><br><span class="line">Disk /dev/sda: 60 GiB, 64424509440 bytes, 125829120 sectors</span><br><span class="line">Disk model: USB DISK</span><br><span class="line">Units: sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disklabel <span class="built_in">type</span>: dos</span><br><span class="line">Disk identifier: 0x4a416279</span><br><span class="line"></span><br><span class="line">Device     Boot     Start       End   Sectors  Size Id Type</span><br><span class="line">/dev/sda1  *       614400 125214719 124600320 59.4G  7 HPFS/NTFS/exFAT</span><br><span class="line">/dev/sda2       125214720 125825022    610303  298M  6 FAT16</span><br></pre></td></tr></table></figure>
+
+<p>将 U 盘插入电脑，选择连接到 Linux，输入 sudo fdisk -l 命令来查看硬盘实体情况，可以看到有一个 USB DISK 设备，注意观察一下是不是和自己的 U 盘容量一致，可以看到设备名称为&#x2F;dev&#x2F;sda1。</p>
+<p>接着我们设备挂载到一个目录下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">mkdir</span> u-test</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">sudo</span> mount /dev/sda1 u-test/</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">cd</span> u-test/</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~/u-test$ <span class="built_in">ls</span></span><br><span class="line"> CGI</span><br><span class="line"> cn_windows_10_enterprise_ltsc_2019_x64_dvd_9c09ff24.iso</span><br><span class="line"> cn_windows_7_professional_x64_dvd_x15-65791.iso</span><br><span class="line"> cn_windows_8.1_enterprise_with_update_x64_dvd_6050374.iso</span><br><span class="line"> cn_windows_8.1_professional_vl_with_update_x64_dvd_4050293.iso</span><br><span class="line"> cn_windows_server_2019_updated_july_2020_x64_dvd_2c9b67da.iso</span><br><span class="line"><span class="string">&#x27;System Volume Information&#x27;</span></span><br><span class="line"> zh-cn_windows_10_consumer_editions_version_21h1_updated_sep_2021_x64_dvd_991b822f.iso</span><br><span class="line"> zh-cn_windows_11_consumer_editions_x64_dvd_904f13e4.iso</span><br></pre></td></tr></table></figure>
+
+<p>最后进入到此目录中，就能看到你 U 盘中的文件了，如果你不想使用 U 盘了，可以直接取消挂载：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test@ubuntu-server:~/u-test$ cd ..</span><br><span class="line">test@ubuntu-server:~$ sudo umount /dev/sda1</span><br></pre></td></tr></table></figure>
+
+<p>最后我们可以通过 df 命令查看当前磁盘使用情况：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">df</span> -m</span><br><span class="line">Filesystem                        1M-blocks  Used Available Use% Mounted on</span><br><span class="line">udev                                   1900     0      1900   0% /dev</span><br><span class="line">tmpfs                                   392     2       391   1% /run</span><br><span class="line">/dev/mapper/ubuntu--vg-ubuntu--lv     18515  6544     11009  38% /</span><br><span class="line">tmpfs                                  1960     0      1960   0% /dev/shm</span><br><span class="line">tmpfs                                     5     0         5   0% /run/lock</span><br><span class="line">tmpfs                                  1960     0      1960   0% /sys/fs/cgroup</span><br><span class="line">/dev/nvme0n1p2                          976   109       800  12% /boot</span><br><span class="line">/dev/nvme0n1p1                          511     4       508   1% /boot/efi</span><br><span class="line">/dev/loop0                               49    49         0 100% /snap/core18/2127</span><br><span class="line">/dev/loop1                               29    29         0 100% /snap/snapd/12707</span><br><span class="line">/dev/loop2                               62    62         0 100% /snap/lxd/21032</span><br><span class="line">tmpfs                                   392     0       392   0% /run/user/1000</span><br></pre></td></tr></table></figure>
+
+<p>输入 ps 可以查看当前运行的一些进程，其实和 top 有点类似，但是没有监控功能，只能显示当前的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ ps</span><br><span class="line">    PID TTY          TIME CMD</span><br><span class="line">  11438 pts/0    00:00:00 bash</span><br><span class="line">  11453 pts/0    00:00:00 ps</span><br></pre></td></tr></table></figure>
+
+<p>添加-ef 查看所有的进程：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ ps -ef</span><br><span class="line">UID          PID    PPID  C STIME TTY          TIME CMD</span><br><span class="line">root           1       0  0 04:55 ?        00:00:02 /sbin/init</span><br><span class="line">root           2       0  0 04:55 ?        00:00:00 [kthreadd]</span><br><span class="line">root           3       2  0 04:55 ?        00:00:00 [rcu_gp]</span><br><span class="line">root           4       2  0 04:55 ?        00:00:00 [rcu_par_gp]</span><br><span class="line">root           6       2  0 04:55 ?        00:00:00 [kworker/0:0H-kblockd]</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>我们可以找到对应的进程 ID（PID），使用 kill 命令将其强制终止：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ ps</span><br><span class="line">    PID TTY          TIME CMD</span><br><span class="line">  11438 pts/0    00:00:00 bash</span><br><span class="line">  11455 pts/0    00:00:00 ps</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">kill</span> -9 11438</span><br><span class="line">Connection to 192.168.10.6 closed.</span><br></pre></td></tr></table></figure>
+
+<p>比如我们可以将当前会话的 bash 给杀死，那么会导致我们的连接直接断开，其中-9 是一个信号，表示杀死进程：</p>
+<ul>
+<li>1 (HUP)：重新加载进程。</li>
+<li>9 (KILL)：杀死一个进程。</li>
+<li>15 (TERM)：正常停止一个进程。</li>
+</ul>
+<p>最后如果我们想要正常关机，只需要输入 shutdown 即可，系统会创建一个关机计划，并在指定时间关机，或是添加 now 表示立即关机：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">sudo</span> shutdown</span><br><span class="line">[<span class="built_in">sudo</span>] password <span class="keyword">for</span> <span class="built_in">test</span>:</span><br><span class="line">Shutdown scheduled <span class="keyword">for</span> Mon 2022-01-24 11:46:18 UTC, use <span class="string">&#x27;shutdown -c&#x27;</span> to cancel.</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">sudo</span> shutdown now</span><br><span class="line">Connection to 192.168.10.6 closed by remote host.</span><br><span class="line">Connection to 192.168.10.6 closed.</span><br></pre></td></tr></table></figure>
+
+<h3 id="压缩解压"><a href="#压缩解压" class="headerlink" title="压缩解压"></a>压缩解压</h3><p>比较常用的压缩和解压也是重点，我们在 Windows 中经常需要下载一些压缩包，并且将压缩包解压才能获得里面的文件，而 Linux 中也支持文件的压缩和解压。</p>
+<p>这里我们使用 tar 命令来完成文件压缩和解压操作，在 Linux 中比较常用的是 gzip 格式，后缀名一般为.gz，tar 命令的参数-c 表示对文件进行压缩，创建新的压缩文件，-x 表示进行解压操作，-z 表示以 gzip 格式进行操作，-v 可以在处理过程中输出一些日志信息，-f 表示对普通文件进行操作，这里我们创建三个文件并对这三个文件进行打包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ tar -zcvf test.tar.gz *.txt</span><br><span class="line">1.txt</span><br><span class="line">2.txt</span><br><span class="line">3.txt</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">ls</span></span><br><span class="line">1.txt  2.txt  3.txt  test.tar.gz</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$</span><br></pre></td></tr></table></figure>
+
+<p>接着我们删除刚刚三个文件，再执行解压操作，得到压缩包中文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">rm</span> *.txt</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">ls</span></span><br><span class="line">test.tar.gz</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ tar -zxvf test.tar.gz</span><br><span class="line">1.txt</span><br><span class="line">2.txt</span><br><span class="line">3.txt</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">ls</span></span><br><span class="line">1.txt  2.txt  3.txt  test.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>同样的，我们也可以对一个文件夹进行打包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">mv</span> *.txt <span class="built_in">test</span></span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ tar -zcvf test.tar.gz <span class="built_in">test</span>/</span><br><span class="line"><span class="built_in">test</span>/</span><br><span class="line"><span class="built_in">test</span>/1.txt</span><br><span class="line"><span class="built_in">test</span>/2.txt</span><br><span class="line"><span class="built_in">test</span>/3.txt</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">rm</span> -r <span class="built_in">test</span></span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">ls</span></span><br><span class="line">test.tar.gz</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ tar -zxvf test.tar.gz</span><br><span class="line"><span class="built_in">test</span>/</span><br><span class="line"><span class="built_in">test</span>/1.txt</span><br><span class="line"><span class="built_in">test</span>/2.txt</span><br><span class="line"><span class="built_in">test</span>/3.txt</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">ls</span></span><br><span class="line"><span class="built_in">test</span>  test.tar.gz</span><br><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ <span class="built_in">ls</span> <span class="built_in">test</span></span><br><span class="line">1.txt  2.txt  3.txt</span><br></pre></td></tr></table></figure>
+
+<p>到此，Linux 的一些基本命令就讲解为止。</p>
+<hr>
+<h2 id="vim-文本编辑器"><a href="#vim-文本编辑器" class="headerlink" title="vim 文本编辑器"></a>vim 文本编辑器</h2><p>和 Windows 中的记事本一样，Linux 中也有文本编辑器，叫做 Vi 编辑器，Ubuntu 中内置了 Vi 编辑器的升级版 Vim，我们这里就讲解 Vim 编辑器的使用。</p>
+<p>我们可以直接输入 vim 文件名称来使用 Vim 编辑器对文本文件进行编辑：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>@ubuntu-server:~$ vim hello.txt</span><br></pre></td></tr></table></figure>
+
+<p>进入编辑器之后，我们发现界面变成了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line"><span class="string">&quot;hello.txt&quot;</span> [New File]                                                            0,0-1         All</span><br></pre></td></tr></table></figure>
+
+<p>这时我们直接输入内容是无法完成的，因为默认进入之后为命令模式，Vim 编辑器默认有三种模式：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1715788971404-1ca508da-5bf5-4490-ab03-6a2d9541cc2a.png"></p>
+<ul>
+<li>命令模式：此模式下可以输入任意的命令进行操作，所有的输入都被看做是命令输入，而不是文本编辑输入。</li>
+<li>编辑模式：此模式下输入的任何内容都会以文本编辑方式写入到文件中，就像我们直接在 Windows 的记事本中写内容一样。</li>
+<li>末行模式：此模式下用于输入一些复杂命令，会在最后一行进行复杂命令的输入。</li>
+</ul>
+<p>在命令模式下，我们可以直接按下键盘上的 i，此命令表示进行插入操作，会自动切换到编辑模式，这时可以看到最下方变为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">~</span><br><span class="line">-- INSERT --                                                                      1,1           All</span><br></pre></td></tr></table></figure>
+
+<p>而这时我们所有的输入内容都可以直接写到文件中了，如果我们想回到命令模式，按下 Esc 键即可。</p>
+<p>除了 i 以外，我们也可以按下 a 表示从当前光标所在位置之后继续写，与 i 不同的是，i 会在光标之前继续写，o 会直接跳到下一行，而 A 表示在当前行的最后继续写入，I 表示在当前行的最前面继续写入。</p>
+<p>这里我们随便粘贴一段文本信息进去（不要用 Ctrl+V，Linux 中没这操作，XShell 右键点粘贴）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">I was hard on people sometimes, probably harder than I needed to be.</span><br><span class="line">I remember the time when Reed was six years old, coming home, and I had just fired somebody that day.</span><br><span class="line">And I imagined what it was like for that person to tell his family and his young son that he had lost his job.</span><br><span class="line">It was hard.</span><br><span class="line">But　somebody’s got to do it.</span><br><span class="line">I figured that it was always my job to make sure that the team was excellent, and if I didn’t do it, nobody was going to do it.</span><br><span class="line">You always have to keep pushing to innovate.</span><br><span class="line">Dylan could have sung protest songs forever and probably made a lot of money, but he didn’t.</span><br><span class="line">He had to move on, and when he did, by going electric in 1965, he alienated a lot of people.</span><br></pre></td></tr></table></figure>
+
+<p>在我们编辑完成之后，需要进入到末行模式进行文件的保存并退出，按下:进入末行模式，再输入 wq 即可保存退出。</p>
+<p>接着我们来看一些比较常用的命令，首先是命令模式下的光标移动命令：</p>
+<ul>
+<li>^ 直接调到本行最前面</li>
+<li>$ 直接跳到本行最后面</li>
+<li>gg 直接跳到第一行</li>
+<li>[N]G 跳转到第 N 行</li>
+<li>[N]方向键 向一个方向跳转 N 个字符</li>
+</ul>
+<p>在末行模式下，常用的复杂命令有：</p>
+<ul>
+<li>:set number 开启行号</li>
+<li>:w 保存</li>
+<li>:wq 或:x 保存并关闭</li>
+<li>:q 关闭</li>
+<li>:q! 强制关闭</li>
+</ul>
+<p>我们可以输入&#x2F;或是?在末行模式中使用搜索功能，比如我们要搜索单词 it：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/it</span><br></pre></td></tr></table></figure>
+
+<p>接着会在文本中出现高亮，按 n 跳转到下一个搜索结果，?是从后向前搜索，&#x2F;是从前向后搜索。</p>
+<p>它还支持替换功能，但是使用起来稍微比较复杂，语法如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:[addr]s/源字符串/目的字符串/[option]</span><br></pre></td></tr></table></figure>
+
+<p>addr 表示第几行或是一个范围，option 表示操作类型：</p>
+<ul>
+<li>g: globe,表示全局替换</li>
+<li>c: confirm,表示进行确认</li>
+<li>p: 表示替代结果逐行显示(Ctrl + L 恢复屏幕)</li>
+<li>i: ignore,不区分大小写</li>
+</ul>
+<p>比如我们要将当前行中的 it 全部替换为 he，那么可以这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:s/it/he/g</span><br></pre></td></tr></table></figure>
+
+<p>实际上除了以上三种模式外，还有一种模式叫做可视化模式，按下键盘上的 v 即可进入，它能够支持选取一段文本，选取后，我们可以对指定段落的文本内容快速进行复制、剪切、删除、插入等操作，非常方便。在此模式下，我们可以通过上下左右键进行选取，以进入可视化模式时的位置作为基本位置，通过移动另一端来进行选取。</p>
+<p>我们可以使用以下命令来对选中区域进行各种操作：</p>
+<ul>
+<li>y 复制选中区域</li>
+<li>d&#x2F;x 剪切（删除）选中区域</li>
+<li>p 粘贴</li>
+<li>u 撤销上一步</li>
+</ul>
+<p>当然，这些命令在命令模式下也可以使用，但是可视化模式下使用更适合一些。</p>
+<hr>
+<h2 id="环境安装和项目部署"><a href="#环境安装和项目部署" class="headerlink" title="环境安装和项目部署"></a>环境安装和项目部署</h2><p>在学习完了 Linux 操作系统的一些基本操作之后，我们接着来看如何进行项目的环境安装和部署，包括安装 JDK、Nginx 服务器，以及上传我们的 SpringBoot 项目并运行。</p>
+<p>我们可以直接使用 apt 进行软件的安装，它是一个高级的安装包管理工具，我们可以直接寻找对应的软件进行安装，无需再去官网进行下载，非常方便，软件仓库中默认已经帮助我们存放了大量实用软件的安装包，只需要一个安装命令就可以进行安装了。</p>
+<p>实际上 Ubuntu 系统已经为我们自带了一些环境了，比如 Python3：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">test@ubuntu-server:~$ python3</span><br><span class="line">Python 3.8.10 (default, Nov 26 2021, 20:14:08)</span><br><span class="line">[GCC 9.3.0] on linux</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line">&gt;&gt;&gt; print(&quot;HelloWorld！&quot;)</span><br><span class="line">HelloWorld！</span><br><span class="line">&gt;&gt;&gt; exit()</span><br></pre></td></tr></table></figure>
+
+<p>C 语言的编译工具 GCC 可以通过 APT 进行安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gcc</span><br></pre></td></tr></table></figure>
+
+<p>安装后，可以编写一个简单的 C 语言程序并且编译为可执行文件：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Hello World!\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">test@ubuntu-server:~$ vim hello.c</span><br><span class="line">test@ubuntu-server:~$ gcc hello.c -o hello</span><br><span class="line">test@ubuntu-server:~$ ./hello</span><br><span class="line">Hello World!</span><br></pre></td></tr></table></figure>
+
+<p>而 JDK 实际上安装也非常简单，通过 APT 即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">test@ubuntu-server:~$ sudo apt install openjdk-8-j</span><br><span class="line">openjdk-8-jdk           openjdk-8-jre           openjdk-8-jre-zero</span><br><span class="line">openjdk-8-jdk-headless  openjdk-8-jre-headless</span><br><span class="line">test@ubuntu-server:~$ sudo apt install openjdk-8-jdk</span><br></pre></td></tr></table></figure>
+
+<p>接着我们来测试一下编译和运行，首先编写一个 Java 程序：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test@ubuntu-server:~$ vim Main.java</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class Main&#123;</span><br><span class="line">        public static void main(String[] args)&#123;</span><br><span class="line">                System.out.println(&quot;Hello World！&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">test@ubuntu-server:~$ javac Main.java</span><br><span class="line">test@ubuntu-server:~$ ls</span><br><span class="line">Main.class  Main.java</span><br><span class="line">test@ubuntu-server:~$ java Main</span><br><span class="line">Hello World！</span><br></pre></td></tr></table></figure>
+
+<p>接着我们来部署一下 Redis 服务器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test@ubuntu-server:~$ sudo apt install redis</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1715788971654-25de2aeb-6200-44b7-9f93-f75a3e6837a8.png"></p>
+<p>安装完成后，可以直接使用 redis-cli 命令打开 Redis 客户端连接本地的服务器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">test@ubuntu-server:~$ redis-cli</span><br><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">(empty list or set)</span><br></pre></td></tr></table></figure>
+
+<p>使用和之前 Windows 下没有区别。</p>
+<p>接着我们安装一下 MySQL 服务器，同样的，直接使用 apt 即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install mysql-server-8.0</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1715788971584-7e843e1b-2fd8-44a1-8de1-07b5316f64be.png"></p>
+<p>我们直接直接登录 MySQL 服务器，注意要在 root 权限下使用，这样就不用输入密码了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">sudo mysql -u root -p</span><br><span class="line">Enter password:</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 11</span><br><span class="line">Server version: 8.0.27-0ubuntu0.20.04.1 (Ubuntu)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2021, Oracle and/or its affiliates.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt; exit</span><br></pre></td></tr></table></figure>
+
+<p>可以发现实际上就是我们之前在 Windows 的 CMD 中使用的样子，接着我们就创建一个生产环境下使用的数据库：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create database book_manage;</span><br><span class="line">mysql&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| book_manage        |</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| sys                |</span><br><span class="line">+--------------------+</span><br><span class="line">5 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+
+<p>接着我们创建一个用户来使用这个数据，一会我们就可以将 SpringBoot 配置文件进行修改并直接放到此服务器上进行部署。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create user test identified by &#x27;123456&#x27;;</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; grant all on book_manage.* to test;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>如果觉得这样很麻烦不是可视化的，可以使用 Navicat 连接进行操作，注意开启一下 MySQL 的外网访问。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">test@ubuntu-server:~$ mysql -u test -p</span><br><span class="line">Enter password:</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 13</span><br><span class="line">Server version: 8.0.27-0ubuntu0.20.04.1 (Ubuntu)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2021, Oracle and/or its affiliates.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| book_manage        |</span><br><span class="line">| information_schema |</span><br><span class="line">+--------------------+</span><br><span class="line">2 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+
+<p>使用 test 用户登录之后，查看数据库列表，有 book_manage 就 OK 了。</p>
+<p>最后我们修改一下 SpringBoot 项目的生产环境配置即可：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/bookmanage</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">zachary</span></span><br><span class="line">    <span class="attr">password:</span> <span class="number">980226</span></span><br><span class="line">  <span class="attr">mail:</span></span><br><span class="line">    <span class="attr">host:</span> <span class="string">smtp.163.com</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">zachary26626@163.com</span></span><br><span class="line">    <span class="attr">password:</span> <span class="string">YALHSGARSOCGDNJH</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">host:</span> <span class="string">localhost</span></span><br><span class="line">  <span class="attr">jpa:</span></span><br><span class="line">    <span class="attr">show-sql:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">hibernate:</span></span><br><span class="line">      <span class="attr">ddl-auto:</span> <span class="string">update</span></span><br><span class="line"><span class="attr">springfox:</span></span><br><span class="line">  <span class="attr">documentation:</span></span><br><span class="line">    <span class="attr">enabled:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p>然后将之前的 springboot 项目中的 static 文件拿走，之后打包，最后启动我们的项目：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test@ubuntu-server:~$ java -jar springboot-project-0.0.1-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
+
+<p>现在我们将前端页面的 API 访问地址修改为我们的 SpringBoot 服务器地址，即可正常使用了。</p>
+<p>我们也可以将我们的静态资源使用 Nginx 服务器进行代理：</p>
+<p>Nginx(“engine x”)是一款是由俄罗斯的程序设计师 Igor Sysoev 所开发高性能的 Web 和 反向代理 服务器，也是一个 IMAP&#x2F;POP3&#x2F;SMTP 代理服务器。 在高连接并发的情况下，Nginx 是 Apache 服务器不错的替代品。</p>
+<p>Nginx 非常强大，它能够通提供非常方便的反向代理服务，并且支持负载均衡，不过我们这里用一下反向代理就可以了，实际上就是代理我们的前端页面，然后我们访问 Nginx 服务器即可访问到静态资源，这样我们前后端都放在了服务器上（你也可以搞两台服务器，一台挂静态资源一台挂 SpringBoot 服务器，实现真正意义上的分离，有条件的还能上个域名和证书啥的）。</p>
+<p>安装如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test@ubuntu-server:~$ sudo apt install nginx</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后，我们可以直接访问：<a target="_blank" rel="noopener" href="http://192.168.10.4/%EF%BC%8C%E8%83%BD%E5%A4%9F%E5%87%BA%E7%8E%B0Nginx%E9%A1%B5%E9%9D%A2%E8%A1%A8%E7%A4%BA%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F%EF%BC%81">http://192.168.10.4/，能够出现 Nginx 页面表示安装成功！</a></p>
+<p>接着我们将静态资源上传到 Linux 服务器中，</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1715788971613-f8009179-9c24-4b05-b17a-25c334092245.png"></p>
+<p>然后对 Nginx 进行反向代理配置，写到 http 大括号里面去：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">test@ubuntu-server:~$ cd /etc/nginx/</span><br><span class="line">test@ubuntu-server:/etc/nginx$ ls</span><br><span class="line">conf.d    koi-utf     modules-available  proxy_params  sites-enabled  win-utf</span><br><span class="line">fastcgi.conf  koi-win     modules-enabled    scgi_params  snippets</span><br><span class="line">fastcgi_params  mime.types  nginx.conf         sites-available  uwsgi_params</span><br><span class="line">test@ubuntu-server:/etc/nginx$ sudo vim nginx.conf</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">                listen       80;</span><br><span class="line">                server_name  172.16.59.130;</span><br><span class="line">                add_header Access-Control-Allow-Origin *;</span><br><span class="line">                location / &#123;</span><br><span class="line">                        root /home/zachary/static;</span><br><span class="line">                        charset utf-8;</span><br><span class="line">                        add_header &#x27;Access-Control-Allow-Origin&#x27; &#x27;*&#x27;;</span><br><span class="line">                        add_header &#x27;Access-Control-Allow-Credentials&#x27; &#x27;true&#x27;;</span><br><span class="line">                        add_header &#x27;Access-Control-Allow-Methods&#x27; &#x27;*&#x27;;</span><br><span class="line">                        add_header &#x27;Access-Control-Allow-Headers&#x27; &#x27;Content-Type,*&#x27;;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>重启一下 nginx 服务器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart nginx.service</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar springboot-project-0.0.1-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
+
+<p>然后就可以直接访问到我们的前端页面了，这时再开启 SpringBoot 服务器即可，可以在最后添加&amp;符号表示后台启动。</p>
+<p>输入：<a target="_blank" rel="noopener" href="http://172.16.59.130/">http://172.16.59.130/</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1715788971666-73d7f965-90e5-473a-adea-6de2742b726e.png"></p>
+<blockquote>
+<p>更新: 2024-05-16 00:11:56<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/zacharyblock/cx2om6/qhyvxbr4m26peqma">https://www.yuque.com/zacharyblock/cx2om6/qhyvxbr4m26peqma</a></p>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Zachary Block</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://blockzachary.github.io/blog/2762478163/">https://blockzachary.github.io/blog/2762478163/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Linux/"># Linux</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/blog/1442625339/">Linux手册</a>
+            
+            
+            <a class="next" rel="next" href="/blog/2848525117/">API鉴权</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+<script src="/js/clipboard.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var codeBlocks = document.querySelectorAll('article .code pre');
+
+        codeBlocks.forEach(function (codeBlock) {
+            var copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+            copyButton.innerText = 'Copy';
+
+            // Check if the code block is in the article content
+            if (codeBlock.closest('article')) {
+                codeBlock.parentNode.style.position = 'relative';
+                codeBlock.parentNode.appendChild(copyButton); // 将按钮添加到 codeBlock 的父节点内
+
+                var isCopying = false;
+
+                copyButton.addEventListener('click', function () {
+                    if (!isCopying) {
+                        var codeText = codeBlock.innerText;
+                        navigator.clipboard.writeText(codeText).then(function () {
+                            copyButton.innerText = 'Copied!';
+                            isCopying = true;
+                            setTimeout(function () {
+                                copyButton.innerText = 'Copy';
+                                isCopying = false;
+                            }, 1500);
+                        }).catch(function (err) {
+                            console.error('Copy failed', err);
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+<style>
+    .copy-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #2d96bd;
+        color: #fff;
+        border: none;
+        border-radius: 10%;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+</style>
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Zachary Block | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

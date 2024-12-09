@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="referrer" content="no-referrer">
+
+    <meta name="author" content="Zachary Block">
+
+
+    <meta name="subtitle" content="这里是副标题">
+
+
+
+
+<title>Django-Ninja | Zachary Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Zachary Blog" type="application/atom+xml">
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Zachary&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Zachary&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Django-Ninja</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Zachary Block</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">7 月 12 日&nbsp;&nbsp;23:22:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Python-Web/">Python Web</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="Django-Ninja"><a href="#Django-Ninja" class="headerlink" title="Django-Ninja"></a>Django-Ninja</h1><h1 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h1><p>Django-Ninja：<a target="_blank" rel="noopener" href="https://django-ninja.dev/">https://django-ninja.dev/</a></p>
+<h1 id="项目初始化"><a href="#项目初始化" class="headerlink" title="项目初始化"></a>项目初始化</h1><h2 id="创建虚拟环境"><a href="#创建虚拟环境" class="headerlink" title="创建虚拟环境"></a>创建虚拟环境</h2><p><code>python3 -m venv venv</code></p>
+<h2 id="激活虚拟环境"><a href="#激活虚拟环境" class="headerlink" title="激活虚拟环境"></a>激活虚拟环境</h2><p>Windows：<code>venv/Script/activate</code></p>
+<p>Mac&#x2F;Linux：<code>source venv/bin/activate</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720865210569-0adb05b0-1902-48b4-90d2-689380ce0d0d.png"></p>
+<h2 id="安装-Django-ninja"><a href="#安装-Django-ninja" class="headerlink" title="安装 Django-ninja"></a>安装 Django-ninja</h2><blockquote>
+<p>在安装 Django-ninja 的时候，其实还会安装 Django</p>
+</blockquote>
+<p><code>pip3 install django-ninja</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720865353261-68f05330-a1bf-4b62-8f0d-cd1792e6062e.png"></p>
+<h2 id="创建-ninja-应用"><a href="#创建-ninja-应用" class="headerlink" title="创建 ninja 应用"></a>创建 ninja 应用</h2><p>使用<code>&lt;font style=&quot;color:rgb(54, 70, 78);background-color:rgb(245, 245, 245);&quot;&gt;django-admin startproject [应用名]&lt;/font&gt;</code><font style="color:rgb(54, 70, 78);background-color:rgb(245, 245, 245);">创建应用</font></p>
+<p><font style="color:rgb(54, 70, 78);background-color:rgb(245, 245, 245);">这里创建了一个名为</font><code>&lt;font style=&quot;color:rgb(54, 70, 78);background-color:rgb(245, 245, 245);&quot;&gt;ninja_server&lt;/font&gt;</code><font style="color:rgb(54, 70, 78);background-color:rgb(245, 245, 245);">的应用</font></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720865570605-835d4f8c-15ef-4f52-8f25-6df9e35b4966.png"></p>
+<h2 id="打开项目"><a href="#打开项目" class="headerlink" title="打开项目"></a>打开项目</h2><p>使用 PyCharm 打开创建的项目，即直接打开<code>ninja_server</code>即可，然后解释器记得选择创建的虚拟环境下的解释器</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720865956769-9fb029aa-6a35-454b-8434-fad52f7e4c43.png"></p>
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><p>在&#x2F;ninja_server 下的 urls.py 后面添加</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">URL configuration for ninja_server project.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">The `urlpatterns` list routes URLs to views. For more information please see:</span></span><br><span class="line"><span class="string">    https://docs.djangoproject.com/en/5.0/topics/http/urls/</span></span><br><span class="line"><span class="string">Examples:</span></span><br><span class="line"><span class="string">Function views</span></span><br><span class="line"><span class="string">    1. Add an import:  from my_app import views</span></span><br><span class="line"><span class="string">    2. Add a URL to urlpatterns:  path(&#x27;&#x27;, views.home, name=&#x27;home&#x27;)</span></span><br><span class="line"><span class="string">Class-based views</span></span><br><span class="line"><span class="string">    1. Add an import:  from other_app.views import Home</span></span><br><span class="line"><span class="string">    2. Add a URL to urlpatterns:  path(&#x27;&#x27;, Home.as_view(), name=&#x27;home&#x27;)</span></span><br><span class="line"><span class="string">Including another URLconf</span></span><br><span class="line"><span class="string">    1. Import the include() function: from django.urls import include, path</span></span><br><span class="line"><span class="string">    2. Add a URL to urlpatterns:  path(&#x27;blog/&#x27;, include(&#x27;blog.urls&#x27;))</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path</span><br><span class="line"><span class="keyword">from</span> ninja <span class="keyword">import</span> NinjaAPI</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">&#x27;admin/&#x27;</span>, admin.site.urls),</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">api = NinjaAPI()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@api.get(<span class="params"><span class="string">&quot;/hello&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hello_world</span>(<span class="params">request</span>):</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&#x27;hello&#x27;</span>: <span class="string">&#x27;world&#x27;</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">urlpatterns += [path(<span class="string">&#x27;api/&#x27;</span>, api.urls)]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然后启动项目</p>
+<ul>
+<li>命令行启动</li>
+</ul>
+<p><code>python3 manage.py runserver</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(venv) ➜  ninja_server</span><br><span class="line">(venv) ➜  ninja_server python3 manage.py runserver</span><br><span class="line">Watching for file changes with StatReloader</span><br><span class="line">Performing system checks...</span><br><span class="line"></span><br><span class="line">System check identified no issues (0 silenced).</span><br><span class="line"></span><br><span class="line">You have 18 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.</span><br><span class="line">Run &#x27;python manage.py migrate&#x27; to apply them.</span><br><span class="line">July 13, 2024 - 10:26:13</span><br><span class="line">Django version 5.0.7, using settings &#x27;ninja_server.settings&#x27;</span><br><span class="line">Starting development server at http://127.0.0.1:8000/</span><br><span class="line">Quit the server with CONTROL-C.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>之后在浏览器输入<code>http://127.0.0.1:8000/api/hello</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720866480596-98241c95-6b1d-41ac-8479-27a18a2b9874.png"></p>
+<ul>
+<li>直接启动</li>
+</ul>
+<h1 id="查看文档"><a href="#查看文档" class="headerlink" title="查看文档"></a>查看文档</h1><p>直接通过<code>http://127.0.0.1:8000/api/docs</code>可以查看官方文档</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720866561421-01edc801-81ab-43c8-ba7f-b08089cfa6a2.png"></p>
+<h1 id="路由、视图、常用请求"><a href="#路由、视图、常用请求" class="headerlink" title="路由、视图、常用请求"></a>路由、视图、常用请求</h1><p>在 Django-ninja 中的路由配置，与 fastapi 类似</p>
+<p>在项目目录下面创建一个 router.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> HttpRequest</span><br><span class="line"><span class="keyword">from</span> ninja <span class="keyword">import</span> Router</span><br><span class="line"></span><br><span class="line">REST = Router(tags=[<span class="string">&quot;REST API&quot;</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@REST.get(<span class="params"><span class="string">&quot;/get&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">http_get</span>(<span class="params">request: HttpRequest</span>):</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;get&quot;</span>: <span class="string">&quot;OK&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@REST.post(<span class="params"><span class="string">&quot;/post&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">http_post</span>(<span class="params">request: HttpRequest</span>):</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;post&quot;</span>: <span class="string">&quot;OK&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@REST.put(<span class="params"><span class="string">&quot;/put&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">http_put</span>(<span class="params">request: HttpRequest</span>):</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;put&quot;</span>: <span class="string">&quot;OK&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@REST.delete(<span class="params"><span class="string">&quot;/delete&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">http_delete</span>(<span class="params">request: HttpRequest</span>):</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;delete&quot;</span>: <span class="string">&quot;OK&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@REST.patch(<span class="params"><span class="string">&quot;/patch&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">http_patch</span>(<span class="params">request: HttpRequest</span>):</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;patch&quot;</span>: <span class="string">&quot;OK&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@REST.api_operation(<span class="params">methods=[<span class="string">&quot;GET&quot;</span>, <span class="string">&quot;POST&quot;</span>], path=<span class="string">&quot;/multi&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">http_multi</span>(<span class="params">request: HttpRequest</span>):</span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">&quot;GET&quot;</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">elif</span> request.method == <span class="string">&quot;POST&quot;</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception</span><br></pre></td></tr></table></figure>
+
+<p>视图的第一个参数，必须是<code>request: HttpRequest</code></p>
+<p>然后修改 urls.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">URL configuration for ninja_server project.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">The `urlpatterns` list routes URLs to views. For more information please see:</span></span><br><span class="line"><span class="string">    https://docs.djangoproject.com/en/5.0/topics/http/urls/</span></span><br><span class="line"><span class="string">Examples:</span></span><br><span class="line"><span class="string">Function views</span></span><br><span class="line"><span class="string">    1. Add an import:  from my_app import views</span></span><br><span class="line"><span class="string">    2. Add a URL to urlpatterns:  path(&#x27;&#x27;, views.home, name=&#x27;home&#x27;)</span></span><br><span class="line"><span class="string">Class-based views</span></span><br><span class="line"><span class="string">    1. Add an import:  from other_app.views import Home</span></span><br><span class="line"><span class="string">    2. Add a URL to urlpatterns:  path(&#x27;&#x27;, Home.as_view(), name=&#x27;home&#x27;)</span></span><br><span class="line"><span class="string">Including another URLconf</span></span><br><span class="line"><span class="string">    1. Import the include() function: from django.urls import include, path</span></span><br><span class="line"><span class="string">    2. Add a URL to urlpatterns:  path(&#x27;blog/&#x27;, include(&#x27;blog.urls&#x27;))</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path</span><br><span class="line"><span class="keyword">from</span> ninja <span class="keyword">import</span> NinjaAPI</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> router <span class="keyword">import</span> REST</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">&#x27;admin/&#x27;</span>, admin.site.urls),</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">api = NinjaAPI()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@api.get(<span class="params"><span class="string">&quot;/hello&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hello_world</span>(<span class="params">request</span>):</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&#x27;hello&#x27;</span>: <span class="string">&#x27;world&#x27;</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">api.add_router(prefix=<span class="string">&quot;v1/&quot;</span>, router=REST)</span><br><span class="line"></span><br><span class="line">urlpatterns += [path(<span class="string">&#x27;api/&#x27;</span>, api.urls)]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720951173221-eb2289fb-8346-471a-96de-2c968580d810.png"></p>
+<h1 id="常见请求参数"><a href="#常见请求参数" class="headerlink" title="常见请求参数"></a>常见请求参数</h1><p>包括路径参数、查询参数、请求体</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">List</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> HttpRequest</span><br><span class="line"><span class="keyword">from</span> ninja <span class="keyword">import</span> Router, Path, Query, Schema, Field, Form, UploadedFile, File</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">REQ_PARA = Router(tags=[<span class="string">&quot;Request parameter&quot;</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 路径参数</span></span><br><span class="line"><span class="meta">@REQ_PARA.get(<span class="params"><span class="string">&quot;/path/&#123;id&#125;&quot;</span>, summary=<span class="string">&quot;路径参数&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_path</span>(<span class="params">request, <span class="built_in">id</span>: <span class="built_in">int</span></span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@REQ_PARA.get(<span class="params"><span class="string">&quot;/pathV2/&#123;pk&#125;&quot;</span>, summary=<span class="string">&quot;路径参数PATH&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_path_v2</span>(<span class="params">request, pk: <span class="built_in">int</span> = Path(<span class="params"><span class="number">10</span>, title=<span class="string">&quot;主键&quot;</span>, alias=<span class="string">&quot;primary_key&quot;</span></span>)</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="string">f&quot;<span class="subst">&#123;pk&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询参数</span></span><br><span class="line"><span class="meta">@REQ_PARA.get(<span class="params"><span class="string">&quot;/query&quot;</span>, summary=<span class="string">&quot;查询参数&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_query</span>(<span class="params">request, <span class="built_in">id</span>: <span class="built_in">int</span>, age: <span class="built_in">int</span> = <span class="number">10</span></span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="string">f&quot;<span class="subst">&#123;<span class="built_in">id</span>&#125;</span> <span class="subst">&#123;age&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ... 占位符，表示必填字段</span></span><br><span class="line"><span class="meta">@REQ_PARA.get(<span class="params"><span class="string">&quot;/queryV2&quot;</span>, summary=<span class="string">&quot;查询参数Query&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_query_v2</span>(<span class="params">request, name: <span class="built_in">str</span> = Query(<span class="params">..., title=<span class="string">&quot;姓名&quot;</span>, description=<span class="string">&quot;姓名,...为必填项&quot;</span></span>)</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="string">f&quot;<span class="subst">&#123;name&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询参数，使用schema定义模型</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">QueryFilter</span>(<span class="title class_ inherited__">Schema</span>):</span><br><span class="line">    age: <span class="built_in">int</span> = <span class="literal">None</span>  <span class="comment"># 可选项</span></span><br><span class="line">    name: <span class="built_in">str</span> = Field(..., description=<span class="string">&quot;必填项&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 必填项</span></span><br><span class="line"><span class="meta">@REQ_PARA.get(<span class="params"><span class="string">&quot;/queryV3&quot;</span>, summary=<span class="string">&quot;查询参数Query-Schema&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_query_v3</span>(<span class="params">request, data: QueryFilter = Query(<span class="params">...</span>)</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="string">f&quot;<span class="subst">&#123;data&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 表单 - 用得少</span></span><br><span class="line"><span class="meta">@REQ_PARA.post(<span class="params"><span class="string">&quot;/form&quot;</span>, summary=<span class="string">&quot;表单&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">post_form</span>(<span class="params">request, username: <span class="built_in">str</span> = Form(<span class="params">...</span>), password: <span class="built_in">str</span> = Form(<span class="params">...</span>)</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="string">f&quot;<span class="subst">&#123;username&#125;</span> <span class="subst">&#123;password&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Schema标注Form</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">User</span>(<span class="title class_ inherited__">Schema</span>):</span><br><span class="line">    username: <span class="built_in">str</span></span><br><span class="line">    password: <span class="built_in">str</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@REQ_PARA.post(<span class="params"><span class="string">&quot;/formV2&quot;</span>, summary=<span class="string">&quot;表单-Schema&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">post_form2</span>(<span class="params">request, data: User = Form(<span class="params">...</span>)</span>):</span><br><span class="line">    <span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 上传文件</span></span><br><span class="line"><span class="meta">@REQ_PARA.post(<span class="params"><span class="string">&quot;/upload&quot;</span>, summary=<span class="string">&quot;上传文件&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">upload</span>(<span class="params">request, file: UploadedFile = File(<span class="params">...</span>)</span>):</span><br><span class="line">    data = file.read()</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">&quot;name&quot;</span>: file.name,</span><br><span class="line">        <span class="string">&quot;len&quot;</span>: <span class="built_in">len</span>(data)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 上传多个文件</span></span><br><span class="line"><span class="meta">@REQ_PARA.post(<span class="params"><span class="string">&quot;/upload-multi&quot;</span>, summary=<span class="string">&quot;上传多个文件&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">upload_multi</span>(<span class="params">request, files: <span class="type">List</span>[UploadedFile] = File(<span class="params">...</span>)</span>):</span><br><span class="line">    <span class="keyword">return</span> [file.name <span class="keyword">for</span> file <span class="keyword">in</span> files]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UserDetails</span>(<span class="title class_ inherited__">Schema</span>):</span><br><span class="line">    name: <span class="built_in">str</span></span><br><span class="line">    age: <span class="built_in">int</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@REQ_PARA.post(<span class="params"><span class="string">&quot;/upload-user&quot;</span>, summary=<span class="string">&quot;表单+上传文件&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">upload_user</span>(<span class="params">request, details: UserDetails = Form(<span class="params">...</span>), file: UploadedFile = File(<span class="params">...</span>)</span>):</span><br><span class="line">    <span class="keyword">return</span> [details.<span class="built_in">dict</span>(), file.name]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@REQ_PARA.post(<span class="params"><span class="string">&quot;/upload-userV2&quot;</span>, summary=<span class="string">&quot;表单+上传文件&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">upload_user2</span>(<span class="params">request, details: UserDetails, file: UploadedFile = File(<span class="params">...</span>)</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 请求体</span></span><br><span class="line"><span class="meta">@REQ_PARA.post(<span class="params"><span class="string">&quot;/body&quot;</span>, summary=<span class="string">&quot;请求体&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">user_body</span>(<span class="params">request, user: UserDetails</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720954000682-3c378e11-ce1d-4889-816d-815690cf2091.png"></p>
+<h1 id="模型序列化"><a href="#模型序列化" class="headerlink" title="模型序列化"></a>模型序列化</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">List</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.contrib.auth.models <span class="keyword">import</span> Group, User</span><br><span class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> HttpRequest</span><br><span class="line"><span class="keyword">from</span> ninja <span class="keyword">import</span> Router, Path, Query, Schema, Field, Form, UploadedFile, File, ModelSchema</span><br><span class="line"><span class="keyword">from</span> ninja.pagination <span class="keyword">import</span> paginate</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">GroupSchema</span>(<span class="title class_ inherited__">ModelSchema</span>):</span><br><span class="line">    user: <span class="string">&quot;UserSchema&quot;</span> = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Config</span>:</span><br><span class="line">        model = Group  <span class="comment"># 指定模型</span></span><br><span class="line">        model_fields = [<span class="string">&#x27;id&#x27;</span>, <span class="string">&#x27;name&#x27;</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UserSchema</span>(<span class="title class_ inherited__">ModelSchema</span>):</span><br><span class="line">    groups:<span class="type">List</span>[GroupSchema] = []</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Config</span>:</span><br><span class="line">        model = User</span><br><span class="line">        model_fields = [<span class="string">&#x27;id&#x27;</span>, <span class="string">&#x27;username&#x27;</span>, <span class="string">&#x27;first_name&#x27;</span>, <span class="string">&#x27;last_name&#x27;</span>]</span><br><span class="line">        <span class="comment"># model_fields = &quot;__all__&quot; # 所有字段</span></span><br><span class="line">        model_fields_optional = [<span class="string">&#x27;username&#x27;</span>]  <span class="comment"># 设置字段可不传送</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># UserSchema在GroupSchema后面定义的，所以需要加这个才能正常序列化</span></span><br><span class="line">GroupSchema.update_forward_refs()</span><br><span class="line"></span><br><span class="line">SchemaModel = Router(tags=[<span class="string">&quot;Schema Model&quot;</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># List[UserSchema] 等价 后面那个接口的生成器</span></span><br><span class="line"><span class="meta">@SchemaModel.get(<span class="params"><span class="string">&quot;/schema&quot;</span>, response=<span class="type">List</span>[UserSchema], summary=<span class="string">&quot;Schema model序列化&quot;</span></span>)</span></span><br><span class="line"><span class="meta">@paginate</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">list_users</span>(<span class="params">request</span>):</span><br><span class="line">    <span class="keyword">return</span> User.objects.<span class="built_in">all</span>()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@SchemaModel.get(<span class="params"><span class="string">&quot;/groups&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">list_groups</span>(<span class="params">request</span>):</span><br><span class="line">    <span class="keyword">return</span> [GroupSchema.from_orm(obj) <span class="keyword">for</span> obj <span class="keyword">in</span> Group.objects.<span class="built_in">all</span>()]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@SchemaModel.post(<span class="params"><span class="string">&quot;/group&quot;</span>, response=GroupSchema, summary=<span class="string">&quot;add&quot;</span>, tags=[<span class="string">&quot;group&quot;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">request, group: GroupSchema</span>):</span><br><span class="line">    obj = Group.objects.create(**group.<span class="built_in">dict</span>())</span><br><span class="line">    <span class="keyword">return</span> obj</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>写好代码之后</p>
+<p>执行一下</p>
+<p><code>python manage.py makemigrations</code></p>
+<p>和</p>
+<p><code>python manage.py migrate</code></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">(venv) ➜  ninja_server python manage.py makemigrations</span><br><span class="line">No changes detected</span><br><span class="line">(venv) ➜  ninja_server python manage.py migrate</span><br><span class="line">Operations to perform:</span><br><span class="line">  Apply all migrations: admin, auth, contenttypes, sessions</span><br><span class="line">Running migrations:</span><br><span class="line">  Applying contenttypes.<span class="number">0001</span>_initial... OK</span><br><span class="line">  Applying auth.<span class="number">0001</span>_initial... OK</span><br><span class="line">  Applying admin.<span class="number">0001</span>_initial... OK</span><br><span class="line">  Applying admin.<span class="number">0002</span>_logentry_remove_auto_add... OK</span><br><span class="line">  Applying admin.<span class="number">0003</span>_logentry_add_action_flag_choices... OK</span><br><span class="line">  Applying contenttypes.<span class="number">0002</span>_remove_content_type_name... OK</span><br><span class="line">  Applying auth.<span class="number">0002</span>_alter_permission_name_max_length... OK</span><br><span class="line">  Applying auth.<span class="number">0003</span>_alter_user_email_max_length... OK</span><br><span class="line">  Applying auth.<span class="number">0004</span>_alter_user_username_opts... OK</span><br><span class="line">  Applying auth.<span class="number">0005</span>_alter_user_last_login_null... OK</span><br><span class="line">  Applying auth.<span class="number">0006</span>_require_contenttypes_0002... OK</span><br><span class="line">  Applying auth.<span class="number">0007</span>_alter_validators_add_error_messages... OK</span><br><span class="line">  Applying auth.<span class="number">0008</span>_alter_user_username_max_length... OK</span><br><span class="line">  Applying auth.<span class="number">0009</span>_alter_user_last_name_max_length... OK</span><br><span class="line">  Applying auth.<span class="number">0010</span>_alter_group_name_max_length... OK</span><br><span class="line">  Applying auth.<span class="number">0011</span>_update_proxy_permissions... OK</span><br><span class="line">  Applying auth.<span class="number">0012</span>_alter_user_first_name_max_length... OK</span><br><span class="line">  Applying sessions.<span class="number">0001</span>_initial... OK</span><br><span class="line">(venv) ➜  ninja_server</span><br></pre></td></tr></table></figure>
+
+<h1 id="JWT-认证"><a href="#JWT-认证" class="headerlink" title="JWT 认证"></a>JWT 认证</h1><p>先安装一下 jwt 依赖</p>
+<p><code>pip3 install python-jose</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">generate_token</span>(<span class="params">username: <span class="built_in">str</span>, expires_delta=<span class="literal">None</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    生成token</span></span><br><span class="line"><span class="string">    :param username:用户名</span></span><br><span class="line"><span class="string">    :param expires_delta:有效时长</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    to_encode = &#123;<span class="string">&quot;sub&quot;</span>: username&#125;.copy()</span><br><span class="line">    <span class="keyword">if</span> expires_delta:</span><br><span class="line">        expire = datetime.utcnow() + expires_delta</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        expire = datetime.utcnow() + timedelta(minutes=<span class="number">1</span>)</span><br><span class="line">    to_encode.update(<span class="built_in">dict</span>(exp=expire))</span><br><span class="line">    encoded_jwt = jwt.encode(to_encode, <span class="string">&quot;SECRET_KEY&quot;</span>, algorithm=<span class="string">&quot;HS256&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> encoded_jwt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TokenAuth</span>(<span class="title class_ inherited__">HttpBearer</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">authenticate</span>(<span class="params">self, request, token</span>):</span><br><span class="line">        <span class="comment"># 解密token</span></span><br><span class="line">        payload = jwt.decode(token, <span class="string">&quot;SECRET_KEY&quot;</span>, algorithms=[<span class="string">&quot;HS256&quot;</span>])</span><br><span class="line">        username: <span class="built_in">str</span> = payload.get(<span class="string">&quot;sub&quot;</span>)</span><br><span class="line">        <span class="comment"># 校验用户是否存在</span></span><br><span class="line">        <span class="keyword">if</span> username == <span class="string">&quot;zachary&quot;</span>:</span><br><span class="line">            request.session[<span class="string">&quot;user&quot;</span>] = username</span><br><span class="line">            <span class="keyword">return</span> username</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> HttpError(<span class="number">404</span>, <span class="string">&quot;user not found&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">TokenRouter = Router(tags=[<span class="string">&quot;Token&quot;</span>], auth=TokenAuth())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@TokenRouter.get(<span class="params"><span class="string">&quot;/token&quot;</span>, summary=<span class="string">&quot;token&quot;</span>, auth=<span class="literal">None</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">token</span>(<span class="params">request, user</span>):</span><br><span class="line">    token = generate_token(user)</span><br><span class="line">    <span class="keyword">return</span> token</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@TokenRouter.get(<span class="params"><span class="string">&quot;/check&quot;</span>, summary=<span class="string">&quot;user&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">check</span>(<span class="params">request</span>):</span><br><span class="line">    <span class="keyword">return</span> request.session.get(<span class="string">&quot;user&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h1><p>写到 urls.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@api.exception_handler(<span class="params">Exception</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">global_exception_handler</span>(<span class="params">request: HttpRequest, exc</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">exec</span>)</span><br><span class="line">    <span class="built_in">print</span>(request.build_absolute_uri())</span><br><span class="line">    <span class="built_in">print</span>(traceback.format_exc())</span><br><span class="line">    <span class="keyword">return</span> JsonResponse(&#123;</span><br><span class="line">        <span class="string">&quot;data&quot;</span>: <span class="literal">None</span>,</span><br><span class="line">        <span class="string">&quot;msg&quot;</span>: <span class="built_in">str</span>(exc),</span><br><span class="line">        <span class="string">&quot;code&quot;</span>: <span class="number">500</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@api.exception_handler(<span class="params">HttpError</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">http_error</span>(<span class="params">request: HttpRequest, exc</span>):</span><br><span class="line">    <span class="keyword">return</span> JsonResponse(&#123;</span><br><span class="line">        <span class="string">&quot;data&quot;</span>: <span class="literal">None</span>,</span><br><span class="line">        <span class="string">&quot;msg&quot;</span>: <span class="built_in">str</span>(exc),</span><br><span class="line">        <span class="string">&quot;code&quot;</span>: exc.status_code</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@api.get(<span class="params"><span class="string">&quot;/hello1&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hello</span>(<span class="params">request</span>):</span><br><span class="line">    <span class="number">1</span> / <span class="number">0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@api.get(<span class="params"><span class="string">&quot;/hello2&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hello2</span>(<span class="params">request</span>):</span><br><span class="line">    <span class="keyword">raise</span> HttpError(<span class="number">404</span>, <span class="string">&quot;user not found&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@api.get(<span class="params"><span class="string">&quot;/hello3&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hello3</span>(<span class="params">request</span>):</span><br><span class="line">    <span class="keyword">raise</span> ValueError(<span class="string">&quot;user not found&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720961272264-36bbbedd-c5fc-4216-b960-3bea669f1db7.png"></p>
+<blockquote>
+<p>更新: 2024-07-14 20:47:56<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/zacharyblock/cx2om6/oukufzfyh2p6vb38">https://www.yuque.com/zacharyblock/cx2om6/oukufzfyh2p6vb38</a></p>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Zachary Block</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://blockzachary.github.io/blog/179197962/">https://blockzachary.github.io/blog/179197962/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Python-Web/"># Python Web</a>
+                    
+                        <a href="/tags/Django-Ninja/"># Django-Ninja</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/blog/3297479333/">Django-Ninja Takeout</a>
+            
+            
+            <a class="next" rel="next" href="/blog/3684614663/">Django 实现 RESTful API</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+<script src="/js/clipboard.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var codeBlocks = document.querySelectorAll('article .code pre');
+
+        codeBlocks.forEach(function (codeBlock) {
+            var copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+            copyButton.innerText = 'Copy';
+
+            // Check if the code block is in the article content
+            if (codeBlock.closest('article')) {
+                codeBlock.parentNode.style.position = 'relative';
+                codeBlock.parentNode.appendChild(copyButton); // 将按钮添加到 codeBlock 的父节点内
+
+                var isCopying = false;
+
+                copyButton.addEventListener('click', function () {
+                    if (!isCopying) {
+                        var codeText = codeBlock.innerText;
+                        navigator.clipboard.writeText(codeText).then(function () {
+                            copyButton.innerText = 'Copied!';
+                            isCopying = true;
+                            setTimeout(function () {
+                                copyButton.innerText = 'Copy';
+                                isCopying = false;
+                            }, 1500);
+                        }).catch(function (err) {
+                            console.error('Copy failed', err);
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+<style>
+    .copy-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #2d96bd;
+        color: #fff;
+        border: none;
+        border-radius: 10%;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+</style>
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Zachary Block | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
