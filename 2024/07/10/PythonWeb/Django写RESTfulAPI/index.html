@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="referrer" content="no-referrer">
+
+    <meta name="author" content="Zachary Block">
+
+
+
+
+
+<title>Django 实现 RESTful API | Zachary Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Zachary Blog" type="application/atom+xml">
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Zachary&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Zachary&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Django 实现 RESTful API</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Zachary Block</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">7 月 10 日&nbsp;&nbsp;20:02:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Python-Web/">Python Web</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="Django-实现-RESTful-API"><a href="#Django-实现-RESTful-API" class="headerlink" title="Django 实现 RESTful API"></a>Django 实现 RESTful API</h1><p>一个超快、超极速的 Django 入门教程</p>
+<p>直接从 PyCharm 开始就可以</p>
+<h1 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h1><p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720614004639-4039f8f4-4a5c-476e-9a74-a21329a0c224.png"></p>
+<h1 id="目录介绍"><a href="#目录介绍" class="headerlink" title="目录介绍"></a>目录介绍</h1><p>在完成项目依赖的安装和初始化之后，就可以看到以下目录</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720614289363-b12d9096-0ffd-4538-9e1f-8a51d4c23806.png"></p>
+<ul>
+<li>manage.py 是 Django 提供的命令行操作脚本</li>
+<li>storeProject<ul>
+<li><strong>init</strong>.py 声明了 storeProject 为一个模块</li>
+<li>urls.py 用于配置 url 映射的文件</li>
+<li>settings.py 项目相关应用配置</li>
+<li>asgi.py 与 wsgi.py 是项目部署相关文件</li>
+</ul>
+</li>
+</ul>
+<h1 id="DRF-安装"><a href="#DRF-安装" class="headerlink" title="DRF 安装"></a>DRF 安装</h1><p><code>pip3 install djangorestframework</code></p>
+<p>使用该命令安装 drf 的依赖\库\包</p>
+<h1 id="修改-settings-py"><a href="#修改-settings-py" class="headerlink" title="修改 settings.py"></a>修改 settings.py</h1><p>将 drf 注册到应用里面</p>
+<p>在 settings.py 中找到<code>INSTALLED_APPS </code></p>
+<p>然后添加<code>rest_framework</code>如下即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">INSTALLED_APPS = [</span><br><span class="line">    <span class="string">&#x27;rest_framework&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.admin&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.auth&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.contenttypes&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.sessions&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.messages&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.staticfiles&#x27;</span>,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h1 id="DRF-启动"><a href="#DRF-启动" class="headerlink" title="DRF 启动"></a>DRF 启动</h1><p>启动项目，仅需点击 PyCharm 右上角的运行按钮</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720614892409-a1835fdb-fc9a-40df-be28-39de345f23b3.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720614986446-230b95b8-fb2d-4772-933e-932f34304562.png"></p>
+<h1 id="创建-api"><a href="#创建-api" class="headerlink" title="创建 api"></a>创建 api</h1><h2 id="创建视图-views"><a href="#创建视图-views" class="headerlink" title="创建视图 views"></a>创建视图 views</h2><p>在项目目录下，创建一个名为 api 的包，并且再创建一个 views.py 文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">from</span> rest_framework.decorators <span class="keyword">import</span> api_view</span><br><span class="line"><span class="keyword">from</span> rest_framework.response <span class="keyword">import</span> Response</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@api_view(<span class="params">[<span class="string">&#x27;GET&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_data</span>(<span class="params">request</span>):</span><br><span class="line">    goods = &#123;</span><br><span class="line">        <span class="string">&quot;name&quot;</span>: <span class="string">&quot;苹果&quot;</span>,</span><br><span class="line">        <span class="string">&quot;price&quot;</span>: <span class="number">12.0</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Response(goods)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="创建-urls"><a href="#创建-urls" class="headerlink" title="创建 urls"></a>创建 urls</h2><p>在 api 包下创建一个 urls.py 文件</p>
+<p>编写上面创建的视图的 url 映射</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path</span><br><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">&#x27;&#x27;</span>, views.get_data),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h2 id="导入映射"><a href="#导入映射" class="headerlink" title="导入映射"></a>导入映射</h2><p>在项目目录的 storeProject 下找到 urls.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path, include</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">&#x27;admin/&#x27;</span>, admin.site.urls),</span><br><span class="line">    path(<span class="string">&#x27;&#x27;</span>, include(<span class="string">&#x27;api.urls&#x27;</span>)),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>重启项目后可以看到以下内容</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720615834866-665b0f69-c366-48f4-9b89-d8eaf8ecc405.png"></p>
+<h1 id="创建应用"><a href="#创建应用" class="headerlink" title="创建应用"></a>创建应用</h1><p>可以在命令行中通过<code>python manage.py startapp [应用名称]</code>来创建一个新的应用</p>
+<h2 id="创建-goods"><a href="#创建-goods" class="headerlink" title="创建 goods"></a>创建 goods</h2><p><code>python manage.py startapp goods</code></p>
+<p>执行命令之后会发现，目录结构多了一个 goods 包</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720616042735-dae58d5c-67e7-4305-89c8-773b9968367f.png"></p>
+<h2 id="注册-goods"><a href="#注册-goods" class="headerlink" title="注册 goods"></a>注册 goods</h2><p>在 storeProject 下的 settings.py 下注册下刚才创建的 goods</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">INSTALLED_APPS = [</span><br><span class="line">    <span class="string">&#x27;goods&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;rest_framework&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.admin&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.auth&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.contenttypes&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.sessions&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.messages&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.staticfiles&#x27;</span>,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h2 id="goods-模型"><a href="#goods-模型" class="headerlink" title="goods 模型"></a>goods 模型</h2><p>在新创建的 goods 包下找到 models.py 文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Create your models here.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Goods</span>(models.Model):</span><br><span class="line">    name = models.CharField(max_length=<span class="number">100</span>)</span><br><span class="line">    price = models.FloatField()</span><br><span class="line">    description = models.TextField()</span><br><span class="line">    created_at = models.DateTimeField(auto_now_add=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__str__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.name</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>创建好之后别忘记执行<code>python manage.py makemigrations</code>迁移命令，更新数据库变化，包括增删表，修改字段等操作，还可以保持数据库字段与类模型的同步；</p>
+<p>之后还需要再次执行一下 migrate 命令，<code>python manage.py migrate</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">(venv) ➜  storeProject python manage.py makemigrations</span><br><span class="line">Migrations for &#x27;goods&#x27;:</span><br><span class="line">  goods/migrations/0001_initial.py</span><br><span class="line">    - Create model Goods</span><br><span class="line">(venv) ➜  storeProject python manage.py migrate</span><br><span class="line">Operations to perform:</span><br><span class="line">  Apply all migrations: admin, auth, contenttypes, goods, sessions</span><br><span class="line">Running migrations:</span><br><span class="line">  Applying contenttypes.0001_initial... OK</span><br><span class="line">  Applying auth.0001_initial... OK</span><br><span class="line">  Applying admin.0001_initial... OK</span><br><span class="line">  Applying admin.0002_logentry_remove_auto_add... OK</span><br><span class="line">  Applying admin.0003_logentry_add_action_flag_choices... OK</span><br><span class="line">  Applying contenttypes.0002_remove_content_type_name... OK</span><br><span class="line">  Applying auth.0002_alter_permission_name_max_length... OK</span><br><span class="line">  Applying auth.0003_alter_user_email_max_length... OK</span><br><span class="line">  Applying auth.0004_alter_user_username_opts... OK</span><br><span class="line">  Applying auth.0005_alter_user_last_login_null... OK</span><br><span class="line">  Applying auth.0006_require_contenttypes_0002... OK</span><br><span class="line">  Applying auth.0007_alter_validators_add_error_messages... OK</span><br><span class="line">  Applying auth.0008_alter_user_username_max_length... OK</span><br><span class="line">  Applying auth.0009_alter_user_last_name_max_length... OK</span><br><span class="line">  Applying auth.0010_alter_group_name_max_length... OK</span><br><span class="line">  Applying auth.0011_update_proxy_permissions... OK</span><br><span class="line">  Applying auth.0012_alter_user_first_name_max_length... OK</span><br><span class="line">  Applying goods.0001_initial... OK</span><br><span class="line">  Applying sessions.0001_initial... OK</span><br><span class="line">(venv) ➜</span><br></pre></td></tr></table></figure>
+
+<p>至此完成了模型的创建和数据的迁移操作</p>
+<h1 id="添加数据"><a href="#添加数据" class="headerlink" title="添加数据"></a>添加数据</h1><p>接下来使用 admin 控制台来添加数据</p>
+<h2 id="创建超级管理员"><a href="#创建超级管理员" class="headerlink" title="创建超级管理员"></a>创建超级管理员</h2><p>使用命令创建一个超级管理员用户</p>
+<p><code>python manage.py createsuperuser</code></p>
+<p>创建一个名称为：admin，密码为：admin 的超级用户</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(venv) ➜  storeProject python manage.py createsuperuser</span><br><span class="line">Username (leave blank to use &#x27;zachary&#x27;): admin</span><br><span class="line">Email address:</span><br><span class="line">Password:</span><br><span class="line">Password (again):</span><br><span class="line">The password is too similar to the username.</span><br><span class="line">This password is too short. It must contain at least 8 characters.</span><br><span class="line">This password is too common.</span><br><span class="line">Bypass password validation and create user anyway? [y/N]: y</span><br><span class="line">Superuser created successfully.</span><br></pre></td></tr></table></figure>
+
+<h2 id="注册数据模型"><a href="#注册数据模型" class="headerlink" title="注册数据模型"></a>注册数据模型</h2><p>在 goods 应用下的 admin.py 中注册 goods 数据模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="comment"># Register your models here.</span></span><br><span class="line">admin.site.register(models.Goods)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>之后重新启动一下服务</p>
+<h2 id="admin-管理后台"><a href="#admin-管理后台" class="headerlink" title="admin 管理后台"></a>admin 管理后台</h2><p>在浏览器中输入<code>localhost:8000/admin</code>进入 admin 管理后台</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720617144203-248ad3d3-04b7-41ae-bf4b-3df5c4fa4ee8.png"></p>
+<p>使用上面创建的超级管理员账号密码进行登录</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720617175721-2cc6a03a-d5c4-4fd1-a594-a2f669a3e9fe.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720617435234-73d77bfb-e8b2-4523-9611-4302073bb711.png"></p>
+<h2 id="Add-goods"><a href="#Add-goods" class="headerlink" title="Add goods"></a>Add goods</h2><p>点击 GOODS 下的 Goodss 右侧的+Add 按钮</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720617578298-bbcb5a89-9364-4eb5-b496-154f08f239d7.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720617613829-ce43db61-45b9-4f84-8c2d-39a10a460651.png"></p>
+<p>然后现在就有两个商品了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720617662223-8f69931b-ae90-4177-9107-a060a7084887.png"></p>
+<h1 id="CRUD"><a href="#CRUD" class="headerlink" title="CRUD"></a>CRUD</h1><h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><p>先把数据序列化功能实现了，序列化实现了 Python 类与 json 数据的转化</p>
+<p>在项目目录&#x2F;api 下新建一个 serializers.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> serializers</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> goods.models <span class="keyword">import</span> Goods</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">GoodsSerializer</span>(serializers.ModelSerializer):</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Meta</span>:</span><br><span class="line">        model = Goods</span><br><span class="line">        fields = <span class="string">&#x27;__all__&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="查询商品列表"><a href="#查询商品列表" class="headerlink" title="查询商品列表"></a>查询商品列表</h2><p>在项目目录&#x2F;api 的 views.py 下修改</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">from</span> rest_framework.decorators <span class="keyword">import</span> api_view</span><br><span class="line"><span class="keyword">from</span> rest_framework.response <span class="keyword">import</span> Response</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> api.serializers <span class="keyword">import</span> GoodsSerializer</span><br><span class="line"><span class="keyword">from</span> goods.models <span class="keyword">import</span> Goods</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@api_view(<span class="params">[<span class="string">&#x27;GET&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">goods_list</span>(<span class="params">request</span>):</span><br><span class="line">    goods = Goods.objects.<span class="built_in">all</span>()</span><br><span class="line">    serializer = GoodsSerializer(goods, many=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">return</span> Response(serializer.data)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>下一步需要修改&#x2F;api 下的 urls.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path</span><br><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">&#x27;goods/&#x27;</span>, views.goods_list),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>重启项目后<code>localhost:8000/goods/</code>查看查询结果</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720618538260-5c327cae-e5c1-4b8b-9ec5-5790a40199a9.png"></p>
+<h2 id="添加商品"><a href="#添加商品" class="headerlink" title="添加商品"></a>添加商品</h2><p>直接在之前的视图上面修改一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> status</span><br><span class="line"><span class="keyword">from</span> rest_framework.decorators <span class="keyword">import</span> api_view</span><br><span class="line"><span class="keyword">from</span> rest_framework.response <span class="keyword">import</span> Response</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> api.serializers <span class="keyword">import</span> GoodsSerializer</span><br><span class="line"><span class="keyword">from</span> goods.models <span class="keyword">import</span> Goods</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@api_view(<span class="params">[<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">goods_list</span>(<span class="params">request</span>):</span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">&#x27;GET&#x27;</span>:</span><br><span class="line">        goods = Goods.objects.<span class="built_in">all</span>()</span><br><span class="line">        serializer = GoodsSerializer(goods, many=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span><br><span class="line">    <span class="keyword">elif</span> request.method == <span class="string">&#x27;POST&#x27;</span>:</span><br><span class="line">        serializer = GoodsSerializer(data=request.data)</span><br><span class="line">        <span class="keyword">if</span> serializer.is_valid():</span><br><span class="line">            serializer.save()</span><br><span class="line">            <span class="keyword">return</span> Response(serializer.data, status=status.HTTP_201_CREATED)</span><br></pre></td></tr></table></figure>
+
+<p>然后这个新增商品的功能用 postman 测一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720619449144-66a2f2d2-0ce7-4c93-830b-116474bf345d.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720619491536-0d00437d-86e3-433a-8906-049967efc9aa.png"></p>
+<h2 id="查询、修改、删除具体商品"><a href="#查询、修改、删除具体商品" class="headerlink" title="查询、修改、删除具体商品"></a>查询、修改、删除具体商品</h2><p>仍旧是在&#x2F;api 下的 views.py 中添加一个 view 视图</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> status</span><br><span class="line"><span class="keyword">from</span> rest_framework.decorators <span class="keyword">import</span> api_view</span><br><span class="line"><span class="keyword">from</span> rest_framework.response <span class="keyword">import</span> Response</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> api.serializers <span class="keyword">import</span> GoodsSerializer</span><br><span class="line"><span class="keyword">from</span> goods.models <span class="keyword">import</span> Goods</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@api_view(<span class="params">[<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">goods_list</span>(<span class="params">request</span>):</span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">&#x27;GET&#x27;</span>:</span><br><span class="line">        goods = Goods.objects.<span class="built_in">all</span>()</span><br><span class="line">        serializer = GoodsSerializer(goods, many=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span><br><span class="line">    <span class="keyword">elif</span> request.method == <span class="string">&#x27;POST&#x27;</span>:</span><br><span class="line">        serializer = GoodsSerializer(data=request.data)</span><br><span class="line">        <span class="keyword">if</span> serializer.is_valid():</span><br><span class="line">            serializer.save()</span><br><span class="line">            <span class="keyword">return</span> Response(serializer.data, status=status.HTTP_201_CREATED)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@api_view(<span class="params">[<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;PUT&#x27;</span>, <span class="string">&#x27;DELETE&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">goods_detail</span>(<span class="params">request, <span class="built_in">id</span></span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        goods = Goods.objects.get(<span class="built_in">id</span>=<span class="built_in">id</span>)</span><br><span class="line">    <span class="keyword">except</span> Goods.DoesNotExist:</span><br><span class="line">        <span class="keyword">return</span> Response(status=status.HTTP_404_NOT_FOUND)</span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">&#x27;GET&#x27;</span>:</span><br><span class="line">        serializer = GoodsSerializer(goods)</span><br><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span><br><span class="line">    <span class="keyword">elif</span> request.method == <span class="string">&#x27;PUT&#x27;</span>:</span><br><span class="line">        serializer = GoodsSerializer(goods, data=request.data)</span><br><span class="line">        <span class="keyword">if</span> serializer.is_valid():</span><br><span class="line">            serializer.save()</span><br><span class="line">            <span class="keyword">return</span> Response(serializer.data)</span><br><span class="line">        <span class="keyword">return</span> Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)</span><br><span class="line">    <span class="keyword">elif</span> request.method == <span class="string">&#x27;DELETE&#x27;</span>:</span><br><span class="line">        goods.delete()</span><br><span class="line">        <span class="keyword">return</span> Response(status=status.HTTP_204_NO_CONTENT)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>同样在&#x2F;api 的 urls.py 得添加上新的 url</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># Author: Zachary</span></span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path</span><br><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">&#x27;goods/&#x27;</span>, views.goods_list),</span><br><span class="line">    path(<span class="string">&#x27;goods/&lt;int:id&gt;&#x27;</span>, views.goods_detail),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="查询具体商品"><a href="#查询具体商品" class="headerlink" title="查询具体商品"></a>查询具体商品</h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720620101444-6371c3e6-6ce6-42ca-b52c-079d3898b835.png"></p>
+<h3 id="修改具体商品"><a href="#修改具体商品" class="headerlink" title="修改具体商品"></a>修改具体商品</h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720621977675-5568f7a6-1ca4-4456-96de-7bd1ceb36225.png"></p>
+<h3 id="删除具体商品"><a href="#删除具体商品" class="headerlink" title="删除具体商品"></a>删除具体商品</h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720622031456-573eeee8-d303-4068-bb08-11787731e892.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/38881094/1720622036282-e61363b5-2990-47d9-9860-8edaf7e00e1a.png"></p>
+<blockquote>
+<p>更新: 2024-07-10 22:34:56<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/zacharyblock/cx2om6/dmf3g69cggt8iatm">https://www.yuque.com/zacharyblock/cx2om6/dmf3g69cggt8iatm</a></p>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Zachary Block</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://blockzachary.github.io/2024/07/10/PythonWeb/Django%E5%86%99RESTfulAPI/">https://blockzachary.github.io/2024/07/10/PythonWeb/Django%E5%86%99RESTfulAPI/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Python-Web/"># Python Web</a>
+                    
+                        <a href="/tags/RESTful-API/"># RESTful API</a>
+                    
+                        <a href="/tags/Django/"># Django</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/07/12/PythonWeb/DjangoNinja%E5%85%A5%E9%97%A8/">Django-Ninja</a>
+            
+            
+            <a class="next" rel="next" href="/2024/05/26/FastAPI%E5%85%A5%E9%97%A8/%E5%AD%A6%E7%94%9F%E6%88%90%E7%BB%A9%E7%AE%A1%E7%90%86/">学生成绩管理</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+<script src="/js/clipboard.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var codeBlocks = document.querySelectorAll('article .code pre');
+
+        codeBlocks.forEach(function (codeBlock) {
+            var copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+            copyButton.innerText = 'Copy';
+
+            // Check if the code block is in the article content
+            if (codeBlock.closest('article')) {
+                codeBlock.parentNode.style.position = 'relative';
+                codeBlock.parentNode.appendChild(copyButton); // 将按钮添加到 codeBlock 的父节点内
+
+                var isCopying = false;
+
+                copyButton.addEventListener('click', function () {
+                    if (!isCopying) {
+                        var codeText = codeBlock.innerText;
+                        navigator.clipboard.writeText(codeText).then(function () {
+                            copyButton.innerText = 'Copied!';
+                            isCopying = true;
+                            setTimeout(function () {
+                                copyButton.innerText = 'Copy';
+                                isCopying = false;
+                            }, 1500);
+                        }).catch(function (err) {
+                            console.error('Copy failed', err);
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+<style>
+    .copy-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #2d96bd;
+        color: #fff;
+        border: none;
+        border-radius: 10%;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+</style>
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Zachary Block | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
