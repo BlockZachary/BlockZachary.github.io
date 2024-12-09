@@ -578,6 +578,13 @@
   </url>
   
   <url>
+    <loc>https://blockzachary.github.io/tags/SQLAlchemy/</loc>
+    <lastmod>2024-12-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://blockzachary.github.io/tags/Python-Web/</loc>
     <lastmod>2024-12-09</lastmod>
     <changefreq>weekly</changefreq>
@@ -606,7 +613,14 @@
   </url>
   
   <url>
-    <loc>https://blockzachary.github.io/tags/SQLAlchemy/</loc>
+    <loc>https://blockzachary.github.io/tags/Element-plus/</loc>
+    <lastmod>2024-12-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blockzachary.github.io/tags/%E9%A1%B9%E7%9B%AE/</loc>
     <lastmod>2024-12-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -621,20 +635,6 @@
   
   <url>
     <loc>https://blockzachary.github.io/tags/Flask/</loc>
-    <lastmod>2024-12-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blockzachary.github.io/tags/%E9%A1%B9%E7%9B%AE/</loc>
-    <lastmod>2024-12-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blockzachary.github.io/tags/Element-plus/</loc>
     <lastmod>2024-12-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -699,14 +699,14 @@
   </url>
   
   <url>
-    <loc>https://blockzachary.github.io/categories/Python-Web/</loc>
+    <loc>https://blockzachary.github.io/categories/Python-MySQL/</loc>
     <lastmod>2024-12-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://blockzachary.github.io/categories/Python-MySQL/</loc>
+    <loc>https://blockzachary.github.io/categories/Python-Web/</loc>
     <lastmod>2024-12-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
