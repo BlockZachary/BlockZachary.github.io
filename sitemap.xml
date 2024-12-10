@@ -601,6 +601,13 @@
   </url>
   
   <url>
+    <loc>https://blockzachary.github.io/tags/Django-Ninja/</loc>
+    <lastmod>2024-12-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://blockzachary.github.io/tags/RESTful-API/</loc>
     <lastmod>2024-12-10</lastmod>
     <changefreq>weekly</changefreq>
@@ -615,7 +622,14 @@
   </url>
   
   <url>
-    <loc>https://blockzachary.github.io/tags/Django-Ninja/</loc>
+    <loc>https://blockzachary.github.io/tags/Element-plus/</loc>
+    <lastmod>2024-12-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blockzachary.github.io/tags/%E9%A1%B9%E7%9B%AE/</loc>
     <lastmod>2024-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -630,13 +644,6 @@
   
   <url>
     <loc>https://blockzachary.github.io/tags/Flask/</loc>
-    <lastmod>2024-12-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blockzachary.github.io/tags/%E9%A1%B9%E7%9B%AE/</loc>
     <lastmod>2024-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -658,13 +665,6 @@
   
   <url>
     <loc>https://blockzachary.github.io/tags/%E9%9D%A2%E7%BB%8F/</loc>
-    <lastmod>2024-12-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blockzachary.github.io/tags/Element-plus/</loc>
     <lastmod>2024-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
