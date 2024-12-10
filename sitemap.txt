@@ -63,8 +63,8 @@ https://blockzachary.github.io/tags/FastAPI/
 https://blockzachary.github.io/tags/%E5%AE%9E%E6%88%98/
 https://blockzachary.github.io/tags/Git/
 https://blockzachary.github.io/tags/Linux/
-https://blockzachary.github.io/tags/MySQL/
 https://blockzachary.github.io/tags/Shell/
+https://blockzachary.github.io/tags/MySQL/
 https://blockzachary.github.io/tags/SQLAlchemy/
 https://blockzachary.github.io/tags/Python-Web/
 https://blockzachary.github.io/tags/RESTful-API/
