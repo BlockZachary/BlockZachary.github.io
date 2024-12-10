@@ -573,14 +573,14 @@
   </url>
   
   <url>
-    <loc>http://blockzachary.cn/tags/Shell/</loc>
+    <loc>http://blockzachary.cn/tags/MySQL/</loc>
     <lastmod>2024-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://blockzachary.cn/tags/MySQL/</loc>
+    <loc>http://blockzachary.cn/tags/Shell/</loc>
     <lastmod>2024-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -615,13 +615,6 @@
   </url>
   
   <url>
-    <loc>http://blockzachary.cn/tags/Python%E6%97%A5%E5%BF%97/</loc>
-    <lastmod>2024-12-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://blockzachary.cn/tags/SQLAlchemy/</loc>
     <lastmod>2024-12-10</lastmod>
     <changefreq>weekly</changefreq>
@@ -629,7 +622,21 @@
   </url>
   
   <url>
+    <loc>http://blockzachary.cn/tags/Python%E6%97%A5%E5%BF%97/</loc>
+    <lastmod>2024-12-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://blockzachary.cn/tags/Flask/</loc>
+    <lastmod>2024-12-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://blockzachary.cn/tags/%E9%A1%B9%E7%9B%AE/</loc>
     <lastmod>2024-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -644,13 +651,6 @@
   
   <url>
     <loc>http://blockzachary.cn/tags/PyTest/</loc>
-    <lastmod>2024-12-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://blockzachary.cn/tags/%E9%A1%B9%E7%9B%AE/</loc>
     <lastmod>2024-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -708,14 +708,14 @@
   </url>
   
   <url>
-    <loc>http://blockzachary.cn/categories/Python-Web/</loc>
+    <loc>http://blockzachary.cn/categories/Python-MySQL/</loc>
     <lastmod>2024-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://blockzachary.cn/categories/Python-MySQL/</loc>
+    <loc>http://blockzachary.cn/categories/Python-Web/</loc>
     <lastmod>2024-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -736,14 +736,14 @@
   </url>
   
   <url>
-    <loc>http://blockzachary.cn/categories/Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/</loc>
+    <loc>http://blockzachary.cn/categories/Python%E8%BF%9B%E9%98%B6/</loc>
     <lastmod>2024-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://blockzachary.cn/categories/Python%E8%BF%9B%E9%98%B6/</loc>
+    <loc>http://blockzachary.cn/categories/Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/</loc>
     <lastmod>2024-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
