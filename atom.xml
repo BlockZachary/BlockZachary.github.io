@@ -3,11 +3,11 @@
   <title>Zachary Blog</title>
   
   <subtitle>这里是副标题</subtitle>
-  <link href="https://blockzachary.github.io/atom.xml" rel="self"/>
+  <link href="http://blockzachary.cn/atom.xml" rel="self"/>
   
-  <link href="https://blockzachary.github.io/"/>
+  <link href="http://blockzachary.cn/"/>
   <updated>2024-08-08T20:46:00.000Z</updated>
-  <id>https://blockzachary.github.io/</id>
+  <id>http://blockzachary.cn/</id>
   
   <author>
     <name>Zachary Block</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Shell</title>
-    <link href="https://blockzachary.github.io/blog/2220072441/"/>
-    <id>https://blockzachary.github.io/blog/2220072441/</id>
+    <link href="http://blockzachary.cn/blog/2220072441/"/>
+    <id>http://blockzachary.cn/blog/2220072441/</id>
     <published>2024-08-08T20:46:00.000Z</published>
     <updated>2024-08-08T20:46:00.000Z</updated>
     
@@ -33,19 +33,19 @@
     
     
     
-    <category term="Linux" scheme="https://blockzachary.github.io/categories/Linux/"/>
+    <category term="Linux" scheme="http://blockzachary.cn/categories/Linux/"/>
     
     
-    <category term="Linux" scheme="https://blockzachary.github.io/tags/Linux/"/>
+    <category term="Linux" scheme="http://blockzachary.cn/tags/Linux/"/>
     
-    <category term="Shell" scheme="https://blockzachary.github.io/tags/Shell/"/>
+    <category term="Shell" scheme="http://blockzachary.cn/tags/Shell/"/>
     
   </entry>
   
   <entry>
     <title>拉一个 docker 的 mysql</title>
-    <link href="https://blockzachary.github.io/blog/3658481920/"/>
-    <id>https://blockzachary.github.io/blog/3658481920/</id>
+    <link href="http://blockzachary.cn/blog/3658481920/"/>
+    <id>http://blockzachary.cn/blog/3658481920/</id>
     <published>2024-08-04T21:36:00.000Z</published>
     <updated>2024-08-04T21:36:00.000Z</updated>
     
@@ -59,17 +59,17 @@
     
     
     
-    <category term="Docker" scheme="https://blockzachary.github.io/categories/Docker/"/>
+    <category term="Docker" scheme="http://blockzachary.cn/categories/Docker/"/>
     
     
-    <category term="Docker" scheme="https://blockzachary.github.io/tags/Docker/"/>
+    <category term="Docker" scheme="http://blockzachary.cn/tags/Docker/"/>
     
   </entry>
   
   <entry>
     <title>Django-Ninja Takeout</title>
-    <link href="https://blockzachary.github.io/blog/3297479333/"/>
-    <id>https://blockzachary.github.io/blog/3297479333/</id>
+    <link href="http://blockzachary.cn/blog/3297479333/"/>
+    <id>http://blockzachary.cn/blog/3297479333/</id>
     <published>2024-07-15T19:23:00.000Z</published>
     <updated>2024-07-15T19:23:00.000Z</updated>
     
@@ -83,19 +83,19 @@
     
     
     
-    <category term="Python Web" scheme="https://blockzachary.github.io/categories/Python-Web/"/>
+    <category term="Python Web" scheme="http://blockzachary.cn/categories/Python-Web/"/>
     
     
-    <category term="Python Web" scheme="https://blockzachary.github.io/tags/Python-Web/"/>
+    <category term="Python Web" scheme="http://blockzachary.cn/tags/Python-Web/"/>
     
-    <category term="Django-Ninja" scheme="https://blockzachary.github.io/tags/Django-Ninja/"/>
+    <category term="Django-Ninja" scheme="http://blockzachary.cn/tags/Django-Ninja/"/>
     
   </entry>
   
   <entry>
     <title>Django-Ninja</title>
-    <link href="https://blockzachary.github.io/blog/179197962/"/>
-    <id>https://blockzachary.github.io/blog/179197962/</id>
+    <link href="http://blockzachary.cn/blog/179197962/"/>
+    <id>http://blockzachary.cn/blog/179197962/</id>
     <published>2024-07-12T23:22:00.000Z</published>
     <updated>2024-07-12T23:22:00.000Z</updated>
     
@@ -109,19 +109,19 @@
     
     
     
-    <category term="Python Web" scheme="https://blockzachary.github.io/categories/Python-Web/"/>
+    <category term="Python Web" scheme="http://blockzachary.cn/categories/Python-Web/"/>
     
     
-    <category term="Python Web" scheme="https://blockzachary.github.io/tags/Python-Web/"/>
+    <category term="Python Web" scheme="http://blockzachary.cn/tags/Python-Web/"/>
     
-    <category term="Django-Ninja" scheme="https://blockzachary.github.io/tags/Django-Ninja/"/>
+    <category term="Django-Ninja" scheme="http://blockzachary.cn/tags/Django-Ninja/"/>
     
   </entry>
   
   <entry>
     <title>Django 实现 RESTful API</title>
-    <link href="https://blockzachary.github.io/blog/3684614663/"/>
-    <id>https://blockzachary.github.io/blog/3684614663/</id>
+    <link href="http://blockzachary.cn/blog/3684614663/"/>
+    <id>http://blockzachary.cn/blog/3684614663/</id>
     <published>2024-07-10T20:02:00.000Z</published>
     <updated>2024-07-10T20:02:00.000Z</updated>
     
@@ -135,21 +135,21 @@
     
     
     
-    <category term="Python Web" scheme="https://blockzachary.github.io/categories/Python-Web/"/>
+    <category term="Python Web" scheme="http://blockzachary.cn/categories/Python-Web/"/>
     
     
-    <category term="Python Web" scheme="https://blockzachary.github.io/tags/Python-Web/"/>
+    <category term="Python Web" scheme="http://blockzachary.cn/tags/Python-Web/"/>
     
-    <category term="RESTful API" scheme="https://blockzachary.github.io/tags/RESTful-API/"/>
+    <category term="RESTful API" scheme="http://blockzachary.cn/tags/RESTful-API/"/>
     
-    <category term="Django" scheme="https://blockzachary.github.io/tags/Django/"/>
+    <category term="Django" scheme="http://blockzachary.cn/tags/Django/"/>
     
   </entry>
   
   <entry>
     <title>学生成绩管理</title>
-    <link href="https://blockzachary.github.io/blog/1210368491/"/>
-    <id>https://blockzachary.github.io/blog/1210368491/</id>
+    <link href="http://blockzachary.cn/blog/1210368491/"/>
+    <id>http://blockzachary.cn/blog/1210368491/</id>
     <published>2024-05-26T21:20:00.000Z</published>
     <updated>2024-05-26T21:20:00.000Z</updated>
     
@@ -163,23 +163,23 @@
     
     
     
-    <category term="FastAPI入门" scheme="https://blockzachary.github.io/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
+    <category term="FastAPI入门" scheme="http://blockzachary.cn/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
     
     
-    <category term="Python" scheme="https://blockzachary.github.io/tags/Python/"/>
+    <category term="Python" scheme="http://blockzachary.cn/tags/Python/"/>
     
-    <category term="Vue3" scheme="https://blockzachary.github.io/tags/Vue3/"/>
+    <category term="Vue3" scheme="http://blockzachary.cn/tags/Vue3/"/>
     
-    <category term="FastAPI" scheme="https://blockzachary.github.io/tags/FastAPI/"/>
+    <category term="FastAPI" scheme="http://blockzachary.cn/tags/FastAPI/"/>
     
-    <category term="实战" scheme="https://blockzachary.github.io/tags/%E5%AE%9E%E6%88%98/"/>
+    <category term="实战" scheme="http://blockzachary.cn/tags/%E5%AE%9E%E6%88%98/"/>
     
   </entry>
   
   <entry>
     <title>学生选课功能</title>
-    <link href="https://blockzachary.github.io/blog/1815875435/"/>
-    <id>https://blockzachary.github.io/blog/1815875435/</id>
+    <link href="http://blockzachary.cn/blog/1815875435/"/>
+    <id>http://blockzachary.cn/blog/1815875435/</id>
     <published>2024-05-26T18:51:00.000Z</published>
     <updated>2024-05-26T18:51:00.000Z</updated>
     
@@ -193,23 +193,23 @@
     
     
     
-    <category term="FastAPI入门" scheme="https://blockzachary.github.io/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
+    <category term="FastAPI入门" scheme="http://blockzachary.cn/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
     
     
-    <category term="Python" scheme="https://blockzachary.github.io/tags/Python/"/>
+    <category term="Python" scheme="http://blockzachary.cn/tags/Python/"/>
     
-    <category term="Vue3" scheme="https://blockzachary.github.io/tags/Vue3/"/>
+    <category term="Vue3" scheme="http://blockzachary.cn/tags/Vue3/"/>
     
-    <category term="FastAPI" scheme="https://blockzachary.github.io/tags/FastAPI/"/>
+    <category term="FastAPI" scheme="http://blockzachary.cn/tags/FastAPI/"/>
     
-    <category term="实战" scheme="https://blockzachary.github.io/tags/%E5%AE%9E%E6%88%98/"/>
+    <category term="实战" scheme="http://blockzachary.cn/tags/%E5%AE%9E%E6%88%98/"/>
     
   </entry>
   
   <entry>
     <title>个人页面</title>
-    <link href="https://blockzachary.github.io/blog/3275320888/"/>
-    <id>https://blockzachary.github.io/blog/3275320888/</id>
+    <link href="http://blockzachary.cn/blog/3275320888/"/>
+    <id>http://blockzachary.cn/blog/3275320888/</id>
     <published>2024-05-23T04:41:00.000Z</published>
     <updated>2024-05-23T04:41:00.000Z</updated>
     
@@ -223,23 +223,23 @@
     
     
     
-    <category term="FastAPI入门" scheme="https://blockzachary.github.io/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
+    <category term="FastAPI入门" scheme="http://blockzachary.cn/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
     
     
-    <category term="Python" scheme="https://blockzachary.github.io/tags/Python/"/>
+    <category term="Python" scheme="http://blockzachary.cn/tags/Python/"/>
     
-    <category term="Vue3" scheme="https://blockzachary.github.io/tags/Vue3/"/>
+    <category term="Vue3" scheme="http://blockzachary.cn/tags/Vue3/"/>
     
-    <category term="FastAPI" scheme="https://blockzachary.github.io/tags/FastAPI/"/>
+    <category term="FastAPI" scheme="http://blockzachary.cn/tags/FastAPI/"/>
     
-    <category term="实战" scheme="https://blockzachary.github.io/tags/%E5%AE%9E%E6%88%98/"/>
+    <category term="实战" scheme="http://blockzachary.cn/tags/%E5%AE%9E%E6%88%98/"/>
     
   </entry>
   
   <entry>
     <title>学生管理</title>
-    <link href="https://blockzachary.github.io/blog/837251381/"/>
-    <id>https://blockzachary.github.io/blog/837251381/</id>
+    <link href="http://blockzachary.cn/blog/837251381/"/>
+    <id>http://blockzachary.cn/blog/837251381/</id>
     <published>2024-05-20T00:10:00.000Z</published>
     <updated>2024-05-20T00:10:00.000Z</updated>
     
@@ -253,23 +253,23 @@
     
     
     
-    <category term="FastAPI入门" scheme="https://blockzachary.github.io/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
+    <category term="FastAPI入门" scheme="http://blockzachary.cn/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
     
     
-    <category term="Python" scheme="https://blockzachary.github.io/tags/Python/"/>
+    <category term="Python" scheme="http://blockzachary.cn/tags/Python/"/>
     
-    <category term="Vue3" scheme="https://blockzachary.github.io/tags/Vue3/"/>
+    <category term="Vue3" scheme="http://blockzachary.cn/tags/Vue3/"/>
     
-    <category term="FastAPI" scheme="https://blockzachary.github.io/tags/FastAPI/"/>
+    <category term="FastAPI" scheme="http://blockzachary.cn/tags/FastAPI/"/>
     
-    <category term="实战" scheme="https://blockzachary.github.io/tags/%E5%AE%9E%E6%88%98/"/>
+    <category term="实战" scheme="http://blockzachary.cn/tags/%E5%AE%9E%E6%88%98/"/>
     
   </entry>
   
   <entry>
     <title>Linux手册</title>
-    <link href="https://blockzachary.github.io/blog/1442625339/"/>
-    <id>https://blockzachary.github.io/blog/1442625339/</id>
+    <link href="http://blockzachary.cn/blog/1442625339/"/>
+    <id>http://blockzachary.cn/blog/1442625339/</id>
     <published>2024-05-16T00:12:00.000Z</published>
     <updated>2024-05-16T00:12:00.000Z</updated>
     
@@ -283,17 +283,17 @@
     
     
     
-    <category term="Linux" scheme="https://blockzachary.github.io/categories/Linux/"/>
+    <category term="Linux" scheme="http://blockzachary.cn/categories/Linux/"/>
     
     
-    <category term="Linux" scheme="https://blockzachary.github.io/tags/Linux/"/>
+    <category term="Linux" scheme="http://blockzachary.cn/tags/Linux/"/>
     
   </entry>
   
   <entry>
     <title>Linux基础</title>
-    <link href="https://blockzachary.github.io/blog/2762478163/"/>
-    <id>https://blockzachary.github.io/blog/2762478163/</id>
+    <link href="http://blockzachary.cn/blog/2762478163/"/>
+    <id>http://blockzachary.cn/blog/2762478163/</id>
     <published>2024-05-16T00:00:00.000Z</published>
     <updated>2024-05-16T00:00:00.000Z</updated>
     
@@ -307,17 +307,17 @@
     
     
     
-    <category term="Linux" scheme="https://blockzachary.github.io/categories/Linux/"/>
+    <category term="Linux" scheme="http://blockzachary.cn/categories/Linux/"/>
     
     
-    <category term="Linux" scheme="https://blockzachary.github.io/tags/Linux/"/>
+    <category term="Linux" scheme="http://blockzachary.cn/tags/Linux/"/>
     
   </entry>
   
   <entry>
     <title>API鉴权</title>
-    <link href="https://blockzachary.github.io/blog/2848525117/"/>
-    <id>https://blockzachary.github.io/blog/2848525117/</id>
+    <link href="http://blockzachary.cn/blog/2848525117/"/>
+    <id>http://blockzachary.cn/blog/2848525117/</id>
     <published>2024-05-03T22:10:00.000Z</published>
     <updated>2024-05-03T22:10:00.000Z</updated>
     
@@ -331,23 +331,23 @@
     
     
     
-    <category term="FastAPI入门" scheme="https://blockzachary.github.io/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
+    <category term="FastAPI入门" scheme="http://blockzachary.cn/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
     
     
-    <category term="Python" scheme="https://blockzachary.github.io/tags/Python/"/>
+    <category term="Python" scheme="http://blockzachary.cn/tags/Python/"/>
     
-    <category term="Vue3" scheme="https://blockzachary.github.io/tags/Vue3/"/>
+    <category term="Vue3" scheme="http://blockzachary.cn/tags/Vue3/"/>
     
-    <category term="FastAPI" scheme="https://blockzachary.github.io/tags/FastAPI/"/>
+    <category term="FastAPI" scheme="http://blockzachary.cn/tags/FastAPI/"/>
     
-    <category term="实战" scheme="https://blockzachary.github.io/tags/%E5%AE%9E%E6%88%98/"/>
+    <category term="实战" scheme="http://blockzachary.cn/tags/%E5%AE%9E%E6%88%98/"/>
     
   </entry>
   
   <entry>
     <title>课程管理</title>
-    <link href="https://blockzachary.github.io/blog/2192504553/"/>
-    <id>https://blockzachary.github.io/blog/2192504553/</id>
+    <link href="http://blockzachary.cn/blog/2192504553/"/>
+    <id>http://blockzachary.cn/blog/2192504553/</id>
     <published>2024-05-03T22:00:00.000Z</published>
     <updated>2024-05-03T22:00:00.000Z</updated>
     
@@ -362,23 +362,23 @@
     
     
     
-    <category term="FastAPI入门" scheme="https://blockzachary.github.io/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
+    <category term="FastAPI入门" scheme="http://blockzachary.cn/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
     
     
-    <category term="Python" scheme="https://blockzachary.github.io/tags/Python/"/>
+    <category term="Python" scheme="http://blockzachary.cn/tags/Python/"/>
     
-    <category term="Vue3" scheme="https://blockzachary.github.io/tags/Vue3/"/>
+    <category term="Vue3" scheme="http://blockzachary.cn/tags/Vue3/"/>
     
-    <category term="FastAPI" scheme="https://blockzachary.github.io/tags/FastAPI/"/>
+    <category term="FastAPI" scheme="http://blockzachary.cn/tags/FastAPI/"/>
     
-    <category term="实战" scheme="https://blockzachary.github.io/tags/%E5%AE%9E%E6%88%98/"/>
+    <category term="实战" scheme="http://blockzachary.cn/tags/%E5%AE%9E%E6%88%98/"/>
     
   </entry>
   
   <entry>
     <title>JWT权限校验</title>
-    <link href="https://blockzachary.github.io/blog/1398871575/"/>
-    <id>https://blockzachary.github.io/blog/1398871575/</id>
+    <link href="http://blockzachary.cn/blog/1398871575/"/>
+    <id>http://blockzachary.cn/blog/1398871575/</id>
     <published>2024-05-03T21:50:00.000Z</published>
     <updated>2024-05-03T21:50:00.000Z</updated>
     
@@ -392,23 +392,23 @@
     
     
     
-    <category term="FastAPI入门" scheme="https://blockzachary.github.io/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
+    <category term="FastAPI入门" scheme="http://blockzachary.cn/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
     
     
-    <category term="Python" scheme="https://blockzachary.github.io/tags/Python/"/>
+    <category term="Python" scheme="http://blockzachary.cn/tags/Python/"/>
     
-    <category term="Vue3" scheme="https://blockzachary.github.io/tags/Vue3/"/>
+    <category term="Vue3" scheme="http://blockzachary.cn/tags/Vue3/"/>
     
-    <category term="FastAPI" scheme="https://blockzachary.github.io/tags/FastAPI/"/>
+    <category term="FastAPI" scheme="http://blockzachary.cn/tags/FastAPI/"/>
     
-    <category term="实战" scheme="https://blockzachary.github.io/tags/%E5%AE%9E%E6%88%98/"/>
+    <category term="实战" scheme="http://blockzachary.cn/tags/%E5%AE%9E%E6%88%98/"/>
     
   </entry>
   
   <entry>
     <title>管理员登录</title>
-    <link href="https://blockzachary.github.io/blog/701228072/"/>
-    <id>https://blockzachary.github.io/blog/701228072/</id>
+    <link href="http://blockzachary.cn/blog/701228072/"/>
+    <id>http://blockzachary.cn/blog/701228072/</id>
     <published>2024-05-03T21:30:00.000Z</published>
     <updated>2024-05-03T21:30:00.000Z</updated>
     
@@ -422,23 +422,23 @@
     
     
     
-    <category term="FastAPI入门" scheme="https://blockzachary.github.io/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
+    <category term="FastAPI入门" scheme="http://blockzachary.cn/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
     
     
-    <category term="Python" scheme="https://blockzachary.github.io/tags/Python/"/>
+    <category term="Python" scheme="http://blockzachary.cn/tags/Python/"/>
     
-    <category term="Vue3" scheme="https://blockzachary.github.io/tags/Vue3/"/>
+    <category term="Vue3" scheme="http://blockzachary.cn/tags/Vue3/"/>
     
-    <category term="FastAPI" scheme="https://blockzachary.github.io/tags/FastAPI/"/>
+    <category term="FastAPI" scheme="http://blockzachary.cn/tags/FastAPI/"/>
     
-    <category term="实战" scheme="https://blockzachary.github.io/tags/%E5%AE%9E%E6%88%98/"/>
+    <category term="实战" scheme="http://blockzachary.cn/tags/%E5%AE%9E%E6%88%98/"/>
     
   </entry>
   
   <entry>
     <title>环境及项目初始化</title>
-    <link href="https://blockzachary.github.io/blog/3296237781/"/>
-    <id>https://blockzachary.github.io/blog/3296237781/</id>
+    <link href="http://blockzachary.cn/blog/3296237781/"/>
+    <id>http://blockzachary.cn/blog/3296237781/</id>
     <published>2024-05-03T21:00:30.000Z</published>
     <updated>2024-05-03T21:00:30.000Z</updated>
     
@@ -452,23 +452,23 @@
     
     
     
-    <category term="FastAPI入门" scheme="https://blockzachary.github.io/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
+    <category term="FastAPI入门" scheme="http://blockzachary.cn/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
     
     
-    <category term="Python" scheme="https://blockzachary.github.io/tags/Python/"/>
+    <category term="Python" scheme="http://blockzachary.cn/tags/Python/"/>
     
-    <category term="Vue3" scheme="https://blockzachary.github.io/tags/Vue3/"/>
+    <category term="Vue3" scheme="http://blockzachary.cn/tags/Vue3/"/>
     
-    <category term="FastAPI" scheme="https://blockzachary.github.io/tags/FastAPI/"/>
+    <category term="FastAPI" scheme="http://blockzachary.cn/tags/FastAPI/"/>
     
-    <category term="实战" scheme="https://blockzachary.github.io/tags/%E5%AE%9E%E6%88%98/"/>
+    <category term="实战" scheme="http://blockzachary.cn/tags/%E5%AE%9E%E6%88%98/"/>
     
   </entry>
   
   <entry>
     <title>项目介绍</title>
-    <link href="https://blockzachary.github.io/blog/1071630779/"/>
-    <id>https://blockzachary.github.io/blog/1071630779/</id>
+    <link href="http://blockzachary.cn/blog/1071630779/"/>
+    <id>http://blockzachary.cn/blog/1071630779/</id>
     <published>2024-05-03T20:30:00.000Z</published>
     <updated>2024-05-03T20:30:00.000Z</updated>
     
@@ -482,23 +482,23 @@
     
     
     
-    <category term="FastAPI入门" scheme="https://blockzachary.github.io/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
+    <category term="FastAPI入门" scheme="http://blockzachary.cn/categories/FastAPI%E5%85%A5%E9%97%A8/"/>
     
     
-    <category term="Python" scheme="https://blockzachary.github.io/tags/Python/"/>
+    <category term="Python" scheme="http://blockzachary.cn/tags/Python/"/>
     
-    <category term="Vue3" scheme="https://blockzachary.github.io/tags/Vue3/"/>
+    <category term="Vue3" scheme="http://blockzachary.cn/tags/Vue3/"/>
     
-    <category term="FastAPI" scheme="https://blockzachary.github.io/tags/FastAPI/"/>
+    <category term="FastAPI" scheme="http://blockzachary.cn/tags/FastAPI/"/>
     
-    <category term="实战" scheme="https://blockzachary.github.io/tags/%E5%AE%9E%E6%88%98/"/>
+    <category term="实战" scheme="http://blockzachary.cn/tags/%E5%AE%9E%E6%88%98/"/>
     
   </entry>
   
   <entry>
     <title>面经2</title>
-    <link href="https://blockzachary.github.io/blog/1445218469/"/>
-    <id>https://blockzachary.github.io/blog/1445218469/</id>
+    <link href="http://blockzachary.cn/blog/1445218469/"/>
+    <id>http://blockzachary.cn/blog/1445218469/</id>
     <published>2024-03-19T00:10:00.000Z</published>
     <updated>2024-03-19T00:10:00.000Z</updated>
     
@@ -512,19 +512,19 @@
     
     
     
-    <category term="Python 面经" scheme="https://blockzachary.github.io/categories/Python-%E9%9D%A2%E7%BB%8F/"/>
+    <category term="Python 面经" scheme="http://blockzachary.cn/categories/Python-%E9%9D%A2%E7%BB%8F/"/>
     
     
-    <category term="Python" scheme="https://blockzachary.github.io/tags/Python/"/>
+    <category term="Python" scheme="http://blockzachary.cn/tags/Python/"/>
     
-    <category term="面经" scheme="https://blockzachary.github.io/tags/%E9%9D%A2%E7%BB%8F/"/>
+    <category term="面经" scheme="http://blockzachary.cn/tags/%E9%9D%A2%E7%BB%8F/"/>
     
   </entry>
   
   <entry>
     <title>面经</title>
-    <link href="https://blockzachary.github.io/blog/2565273121/"/>
-    <id>https://blockzachary.github.io/blog/2565273121/</id>
+    <link href="http://blockzachary.cn/blog/2565273121/"/>
+    <id>http://blockzachary.cn/blog/2565273121/</id>
     <published>2024-03-18T23:42:00.000Z</published>
     <updated>2024-03-18T23:42:00.000Z</updated>
     
@@ -538,19 +538,19 @@
     
     
     
-    <category term="Python 面经" scheme="https://blockzachary.github.io/categories/Python-%E9%9D%A2%E7%BB%8F/"/>
+    <category term="Python 面经" scheme="http://blockzachary.cn/categories/Python-%E9%9D%A2%E7%BB%8F/"/>
     
     
-    <category term="Python" scheme="https://blockzachary.github.io/tags/Python/"/>
+    <category term="Python" scheme="http://blockzachary.cn/tags/Python/"/>
     
-    <category term="面经" scheme="https://blockzachary.github.io/tags/%E9%9D%A2%E7%BB%8F/"/>
+    <category term="面经" scheme="http://blockzachary.cn/tags/%E9%9D%A2%E7%BB%8F/"/>
     
   </entry>
   
   <entry>
     <title>面试题</title>
-    <link href="https://blockzachary.github.io/blog/1376120437/"/>
-    <id>https://blockzachary.github.io/blog/1376120437/</id>
+    <link href="http://blockzachary.cn/blog/1376120437/"/>
+    <id>http://blockzachary.cn/blog/1376120437/</id>
     <published>2024-03-18T23:37:00.000Z</published>
     <updated>2024-03-18T23:37:00.000Z</updated>
     
@@ -564,12 +564,12 @@
     
     
     
-    <category term="Python 面经" scheme="https://blockzachary.github.io/categories/Python-%E9%9D%A2%E7%BB%8F/"/>
+    <category term="Python 面经" scheme="http://blockzachary.cn/categories/Python-%E9%9D%A2%E7%BB%8F/"/>
     
     
-    <category term="Python" scheme="https://blockzachary.github.io/tags/Python/"/>
+    <category term="Python" scheme="http://blockzachary.cn/tags/Python/"/>
     
-    <category term="面经" scheme="https://blockzachary.github.io/tags/%E9%9D%A2%E7%BB%8F/"/>
+    <category term="面经" scheme="http://blockzachary.cn/tags/%E9%9D%A2%E7%BB%8F/"/>
     
   </entry>
   
