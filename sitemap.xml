@@ -573,14 +573,14 @@
   </url>
   
   <url>
-    <loc>http://blockzachary.cn/tags/Shell/</loc>
+    <loc>http://blockzachary.cn/tags/MySQL/</loc>
     <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://blockzachary.cn/tags/MySQL/</loc>
+    <loc>http://blockzachary.cn/tags/Shell/</loc>
     <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -601,6 +601,13 @@
   </url>
   
   <url>
+    <loc>http://blockzachary.cn/tags/Django-Ninja/</loc>
+    <lastmod>2024-12-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://blockzachary.cn/tags/RESTful-API/</loc>
     <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
@@ -609,13 +616,6 @@
   
   <url>
     <loc>http://blockzachary.cn/tags/Django/</loc>
-    <lastmod>2024-12-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://blockzachary.cn/tags/Django-Ninja/</loc>
     <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -657,14 +657,14 @@
   </url>
   
   <url>
-    <loc>http://blockzachary.cn/tags/%E9%9D%A2%E7%BB%8F/</loc>
+    <loc>http://blockzachary.cn/tags/Element-plus/</loc>
     <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://blockzachary.cn/tags/Element-plus/</loc>
+    <loc>http://blockzachary.cn/tags/%E9%9D%A2%E7%BB%8F/</loc>
     <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
