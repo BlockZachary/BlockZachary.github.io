@@ -517,7 +517,7 @@
 
   <url>
     <loc>http://blockzachary.cn/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -525,147 +525,147 @@
   
   <url>
     <loc>http://blockzachary.cn/tags/Docker/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/tags/Python/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/tags/Vue3/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/tags/FastAPI/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/tags/%E5%AE%9E%E6%88%98/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/tags/Git/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/tags/Linux/</loc>
-    <lastmod>2024-12-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://blockzachary.cn/tags/MySQL/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/tags/Shell/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://blockzachary.cn/tags/Python-Web/</loc>
-    <lastmod>2024-12-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://blockzachary.cn/tags/Django-Ninja/</loc>
-    <lastmod>2024-12-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://blockzachary.cn/tags/RESTful-API/</loc>
-    <lastmod>2024-12-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://blockzachary.cn/tags/Django/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <loc>http://blockzachary.cn/tags/MySQL/</loc>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/tags/SQLAlchemy/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://blockzachary.cn/tags/Python-Web/</loc>
+    <lastmod>2024-12-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://blockzachary.cn/tags/RESTful-API/</loc>
+    <lastmod>2024-12-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://blockzachary.cn/tags/Django/</loc>
+    <lastmod>2024-12-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://blockzachary.cn/tags/Django-Ninja/</loc>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/tags/Python%E6%97%A5%E5%BF%97/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/tags/Flask/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/tags/%E9%A1%B9%E7%9B%AE/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/tags/unittest/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/tags/PyTest/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/tags/%E9%9D%A2%E7%BB%8F/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/tags/Element-plus/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -674,84 +674,84 @@
   
   <url>
     <loc>http://blockzachary.cn/categories/Docker/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/categories/FastAPI%E5%85%A5%E9%97%A8/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/categories/Git/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/categories/Linux/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/categories/MySQL/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/categories/Python-MySQL/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/categories/Python-Web/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/categories/Python%E5%9F%BA%E7%A1%80/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/categories/Python-%E6%B5%8B%E8%AF%95/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/categories/Python%E8%BF%9B%E9%98%B6/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/categories/Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blockzachary.cn/categories/Python-%E9%9D%A2%E7%BB%8F/</loc>
-    <lastmod>2024-12-10</lastmod>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

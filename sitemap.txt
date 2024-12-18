@@ -63,13 +63,13 @@ http://blockzachary.cn/tags/FastAPI/
 http://blockzachary.cn/tags/%E5%AE%9E%E6%88%98/
 http://blockzachary.cn/tags/Git/
 http://blockzachary.cn/tags/Linux/
-http://blockzachary.cn/tags/MySQL/
 http://blockzachary.cn/tags/Shell/
+http://blockzachary.cn/tags/MySQL/
+http://blockzachary.cn/tags/SQLAlchemy/
 http://blockzachary.cn/tags/Python-Web/
-http://blockzachary.cn/tags/Django-Ninja/
 http://blockzachary.cn/tags/RESTful-API/
 http://blockzachary.cn/tags/Django/
-http://blockzachary.cn/tags/SQLAlchemy/
+http://blockzachary.cn/tags/Django-Ninja/
 http://blockzachary.cn/tags/Python%E6%97%A5%E5%BF%97/
 http://blockzachary.cn/tags/Flask/
 http://blockzachary.cn/tags/%E9%A1%B9%E7%9B%AE/
