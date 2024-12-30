@@ -601,13 +601,6 @@
   </url>
   
   <url>
-    <loc>http://blockzachary.cn/tags/Django-Ninja/</loc>
-    <lastmod>2024-12-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://blockzachary.cn/tags/RESTful-API/</loc>
     <lastmod>2024-12-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -616,6 +609,13 @@
   
   <url>
     <loc>http://blockzachary.cn/tags/Django/</loc>
+    <lastmod>2024-12-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://blockzachary.cn/tags/Django-Ninja/</loc>
     <lastmod>2024-12-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -643,20 +643,6 @@
   </url>
   
   <url>
-    <loc>http://blockzachary.cn/tags/unittest/</loc>
-    <lastmod>2024-12-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://blockzachary.cn/tags/PyTest/</loc>
-    <lastmod>2024-12-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://blockzachary.cn/tags/%E9%9D%A2%E7%BB%8F/</loc>
     <lastmod>2024-12-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -665,6 +651,20 @@
   
   <url>
     <loc>http://blockzachary.cn/tags/Element-plus/</loc>
+    <lastmod>2024-12-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://blockzachary.cn/tags/unittest/</loc>
+    <lastmod>2024-12-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://blockzachary.cn/tags/PyTest/</loc>
     <lastmod>2024-12-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -729,13 +729,6 @@
   </url>
   
   <url>
-    <loc>http://blockzachary.cn/categories/Python-%E6%B5%8B%E8%AF%95/</loc>
-    <lastmod>2024-12-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://blockzachary.cn/categories/Python%E8%BF%9B%E9%98%B6/</loc>
     <lastmod>2024-12-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -751,6 +744,13 @@
   
   <url>
     <loc>http://blockzachary.cn/categories/Python-%E9%9D%A2%E7%BB%8F/</loc>
+    <lastmod>2024-12-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://blockzachary.cn/categories/Python-%E6%B5%8B%E8%AF%95/</loc>
     <lastmod>2024-12-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

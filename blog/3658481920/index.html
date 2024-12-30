@@ -544,17 +544,6 @@
                             document.body.removeChild(textArea);
                         }
                     };
-
-                    clipboard.writeText(codeText).then(function () {
-                        copyButton.innerText = 'Copied!';
-                        isCopying = true;
-                        setTimeout(function () {
-                            copyButton.innerText = 'Copy';
-                            isCopying = false;
-                        }, 1500);
-                    }).catch(function (err) {
-                        console.error('Copy failed', err);
-                    });
                 }
             });
         }
