@@ -651,38 +651,61 @@
 <script src="/js/clipboard.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var codeBlocks = document.querySelectorAll('article .code pre');
+    var codeBlocks = document.querySelectorAll('article .code pre');
 
-        codeBlocks.forEach(function (codeBlock) {
-            var copyButton = document.createElement('button');
-            copyButton.className = 'copy-button';
-            copyButton.innerText = 'Copy';
+    codeBlocks.forEach(function (codeBlock) {
+        var copyButton = document.createElement('button');
+        copyButton.className = 'copy-button';
+        copyButton.innerText = 'Copy';
 
-            // Check if the code block is in the article content
-            if (codeBlock.closest('article')) {
-                codeBlock.parentNode.style.position = 'relative';
-                codeBlock.parentNode.appendChild(copyButton); // 将按钮添加到 codeBlock 的父节点内
+        // Check if the code block is in the article content
+        if (codeBlock.closest('article')) {
+            codeBlock.parentNode.style.position = 'relative';
+            codeBlock.parentNode.appendChild(copyButton);
 
-                var isCopying = false;
+            var isCopying = false;
 
-                copyButton.addEventListener('click', function () {
-                    if (!isCopying) {
-                        var codeText = codeBlock.innerText;
-                        navigator.clipboard.writeText(codeText).then(function () {
-                            copyButton.innerText = 'Copied!';
-                            isCopying = true;
-                            setTimeout(function () {
-                                copyButton.innerText = 'Copy';
-                                isCopying = false;
-                            }, 1500);
-                        }).catch(function (err) {
-                            console.error('Copy failed', err);
-                        });
-                    }
-                });
-            }
-        });
+            copyButton.addEventListener('click', function () {
+                if (!isCopying) {
+                    var codeText = codeBlock.innerText;
+                    
+                    // Cross-browser clipboard fallback
+                    var clipboard = navigator.clipboard || {
+                        writeText: function(text) {
+                            var textArea = document.createElement("textarea");
+                            textArea.value = text;
+                            textArea.style.position = "fixed";  // Avoid scrolling to bottom
+                            document.body.appendChild(textArea);
+                            textArea.focus();
+                            textArea.select();
+
+                            try {
+                                var successful = document.execCommand('copy');
+                                var msg = successful ? 'successful' : 'unsuccessful';
+                                console.log('Fallback: Copying text was ' + msg);
+                            } catch (err) {
+                                console.error('Fallback: Unable to copy', err);
+                            }
+
+                            document.body.removeChild(textArea);
+                        }
+                    };
+
+                    clipboard.writeText(codeText).then(function () {
+                        copyButton.innerText = 'Copied!';
+                        isCopying = true;
+                        setTimeout(function () {
+                            copyButton.innerText = 'Copy';
+                            isCopying = false;
+                        }, 1500);
+                    }).catch(function (err) {
+                        console.error('Copy failed', err);
+                    });
+                }
+            });
+        }
     });
+});
 </script>
 
 <style>

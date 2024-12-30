@@ -479,7 +479,7 @@
 <li>修改环境变量，在环境变量中添加 <strong>D:\MySQL5.7\mysql-5.7.17-winx64\bin</strong></li>
 <li>在普通的 cmd 窗口下 进入 bin 目录 执行 <strong>mysql -u root -p</strong> 命令 默认没有密码</li>
 </ol>
-<h1 id="Mac-下安装-MySQL"><a href="#Mac-下安装-MySQL" class="headerlink" title="Mac 下安装 MySQL"></a>Mac 下安装 MySQL</h1><h2 id="下载安装-MySQL"><a href="#下载安装-MySQL" class="headerlink" title="下载安装 MySQL"></a>下载安装 MySQL</h2><p><strong>brew install <a href="mailto:&#x6d;&#121;&#115;&#x71;&#108;&#64;&#x35;&#46;&#55;">&#x6d;&#121;&#115;&#x71;&#108;&#64;&#x35;&#46;&#55;</a></strong></p>
+<h1 id="Mac-下安装-MySQL"><a href="#Mac-下安装-MySQL" class="headerlink" title="Mac 下安装 MySQL"></a>Mac 下安装 MySQL</h1><h2 id="下载安装-MySQL"><a href="#下载安装-MySQL" class="headerlink" title="下载安装 MySQL"></a>下载安装 MySQL</h2><p><strong>brew install <a href="mailto:&#x6d;&#121;&#x73;&#113;&#x6c;&#x40;&#x35;&#46;&#x37;">&#x6d;&#121;&#x73;&#113;&#x6c;&#x40;&#x35;&#46;&#x37;</a></strong></p>
 <h2 id="启动-MySQL"><a href="#启动-MySQL" class="headerlink" title="启动 MySQL"></a>启动 MySQL</h2><p><strong>sudo mysql.server start</strong></p>
 <h2 id="关闭-MySQL"><a href="#关闭-MySQL" class="headerlink" title="关闭 MySQL"></a>关闭 MySQL</h2><p><strong>sudo mysql.server stop</strong></p>
 <h2 id="登录-MySQL"><a href="#登录-MySQL" class="headerlink" title="登录 MySQL"></a>登录 MySQL</h2><p><strong>mysql -u root -p</strong></p>
@@ -900,38 +900,61 @@
 <script src="/js/clipboard.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var codeBlocks = document.querySelectorAll('article .code pre');
+    var codeBlocks = document.querySelectorAll('article .code pre');
 
-        codeBlocks.forEach(function (codeBlock) {
-            var copyButton = document.createElement('button');
-            copyButton.className = 'copy-button';
-            copyButton.innerText = 'Copy';
+    codeBlocks.forEach(function (codeBlock) {
+        var copyButton = document.createElement('button');
+        copyButton.className = 'copy-button';
+        copyButton.innerText = 'Copy';
 
-            // Check if the code block is in the article content
-            if (codeBlock.closest('article')) {
-                codeBlock.parentNode.style.position = 'relative';
-                codeBlock.parentNode.appendChild(copyButton); // 将按钮添加到 codeBlock 的父节点内
+        // Check if the code block is in the article content
+        if (codeBlock.closest('article')) {
+            codeBlock.parentNode.style.position = 'relative';
+            codeBlock.parentNode.appendChild(copyButton);
 
-                var isCopying = false;
+            var isCopying = false;
 
-                copyButton.addEventListener('click', function () {
-                    if (!isCopying) {
-                        var codeText = codeBlock.innerText;
-                        navigator.clipboard.writeText(codeText).then(function () {
-                            copyButton.innerText = 'Copied!';
-                            isCopying = true;
-                            setTimeout(function () {
-                                copyButton.innerText = 'Copy';
-                                isCopying = false;
-                            }, 1500);
-                        }).catch(function (err) {
-                            console.error('Copy failed', err);
-                        });
-                    }
-                });
-            }
-        });
+            copyButton.addEventListener('click', function () {
+                if (!isCopying) {
+                    var codeText = codeBlock.innerText;
+                    
+                    // Cross-browser clipboard fallback
+                    var clipboard = navigator.clipboard || {
+                        writeText: function(text) {
+                            var textArea = document.createElement("textarea");
+                            textArea.value = text;
+                            textArea.style.position = "fixed";  // Avoid scrolling to bottom
+                            document.body.appendChild(textArea);
+                            textArea.focus();
+                            textArea.select();
+
+                            try {
+                                var successful = document.execCommand('copy');
+                                var msg = successful ? 'successful' : 'unsuccessful';
+                                console.log('Fallback: Copying text was ' + msg);
+                            } catch (err) {
+                                console.error('Fallback: Unable to copy', err);
+                            }
+
+                            document.body.removeChild(textArea);
+                        }
+                    };
+
+                    clipboard.writeText(codeText).then(function () {
+                        copyButton.innerText = 'Copied!';
+                        isCopying = true;
+                        setTimeout(function () {
+                            copyButton.innerText = 'Copy';
+                            isCopying = false;
+                        }, 1500);
+                    }).catch(function (err) {
+                        console.error('Copy failed', err);
+                    });
+                }
+            });
+        }
     });
+});
 </script>
 
 <style>
