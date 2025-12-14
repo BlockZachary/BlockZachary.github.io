@@ -5,38 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Forecast System</title>
     <!-- 引入 Inter 字体和 JetBrains Mono 以获得金融/编程感 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
       :root {
         /* === System Colors (Morandi / iOS 17) === */
-        --bg-body: #F2F2F7;
-        --bg-card: #FFFFFF;
-        
-        --text-primary: #1C1C1E;
-        --text-secondary: #8E8E93;
-        --text-tertiary: #C7C7CC;
-        
+        --bg-body: #f2f2f7;
+        --bg-card: #ffffff;
+
+        --text-primary: #1c1c1e;
+        --text-secondary: #8e8e93;
+        --text-tertiary: #c7c7cc;
+
         --accent-primary: #000000;
-        --accent-highlight: #007AFF;
-        
+        --accent-highlight: #007aff;
+
         /* === Functional Colors (Re-mapped) === */
         /* Red Ball -> Coral/Terracotta */
-        --ball-red-bg: #FFF0F0;
-        --ball-red-text: #D63031;
-        --ball-red-border: #FFDCDC;
-        
+        --ball-red-bg: #fff0f0;
+        --ball-red-text: #d63031;
+        --ball-red-border: #ffdcdc;
+
         /* Blue Ball -> Slate Blue */
-        --ball-blue-bg: #F0F4F8;
-        --ball-blue-text: #2C3E50;
-        --ball-blue-border: #DDE6EF;
-        
+        --ball-blue-bg: #f0f4f8;
+        --ball-blue-text: #2c3e50;
+        --ball-blue-border: #dde6ef;
+
         /* Gold Ball -> Champagne */
-        --ball-gold-bg: #FFF9E6;
-        --ball-gold-text: #B78900;
-        --ball-gold-border: #FFE8A3;
+        --ball-gold-bg: #fff9e6;
+        --ball-gold-text: #b78900;
+        --ball-gold-border: #ffe8a3;
 
         /* Algorithm Colors (Desaturated) */
         --algo-balanced: #636e72;
@@ -48,12 +51,15 @@
         --algo-dl: #6c5ce7;
 
         /* Shadows */
-        --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-        --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
-        --shadow-lg: 0 12px 32px rgba(0,0,0,0.08);
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.08);
       }
 
-      * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+      * {
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+      }
 
       body {
         font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -76,7 +82,7 @@
         box-shadow: var(--shadow-lg);
         padding: 40px;
         position: relative;
-        border: 1px solid rgba(0,0,0,0.04);
+        border: 1px solid rgba(0, 0, 0, 0.04);
         display: flex;
         flex-direction: column;
         gap: 32px;
@@ -106,7 +112,7 @@
 
       /* === Status Bar (Dynamic Island Style) === */
       .status-bar {
-        background: #F8F9FA;
+        background: #f8f9fa;
         color: var(--text-secondary);
         padding: 12px 20px;
         border-radius: 16px;
@@ -116,27 +122,30 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
-        border: 1px solid rgba(0,0,0,0.03);
+        border: 1px solid rgba(0, 0, 0, 0.03);
         transition: all 0.3s ease;
       }
       .status-dot {
         width: 8px;
         height: 8px;
-        background: #2ECC71;
+        background: #2ecc71;
         border-radius: 50%;
         box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.2);
       }
       .status-bar.error {
-        background: #FFF5F5;
-        color: #D63031;
-        border-color: #FFECEC;
+        background: #fff5f5;
+        color: #d63031;
+        border-color: #ffecec;
       }
-      .status-bar.error .status-dot { background: #D63031; box-shadow: 0 0 0 2px rgba(214, 48, 49, 0.2); }
+      .status-bar.error .status-dot {
+        background: #d63031;
+        box-shadow: 0 0 0 2px rgba(214, 48, 49, 0.2);
+      }
 
       /* === iOS Segmented Control Tabs === */
       .tabs {
         display: inline-flex;
-        background: #E5E5EA;
+        background: #e5e5ea;
         border-radius: 100px;
         padding: 4px;
         width: fit-content;
@@ -156,7 +165,7 @@
       .tab.active {
         background: white;
         color: var(--text-primary);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
       }
 
       /* === Strategy Grids (Bento Box) === */
@@ -183,7 +192,7 @@
         flex-direction: column;
         justify-content: center;
         padding: 16px;
-        background: #FAFAFA;
+        background: #fafafa;
         border: 1px solid transparent;
         border-radius: 16px;
         cursor: pointer;
@@ -191,9 +200,14 @@
         position: relative;
         min-height: 80px;
       }
-      .radio-card input { display: none; } /* Hide default radio */
+      .radio-card input {
+        display: none;
+      } /* Hide default radio */
 
-      .radio-card:hover { background: #F0F0F0; transform: translateY(-1px); }
+      .radio-card:hover {
+        background: #f0f0f0;
+        transform: translateY(-1px);
+      }
 
       /* Selected State */
       .radio-card:has(input:checked) {
@@ -201,20 +215,42 @@
         border-color: var(--accent-highlight);
         box-shadow: var(--shadow-md);
       }
-      
-      /* Specific Highlight Colors for Text when checked */
-      .radio-card:has(input[value="markov"]:checked) .radio-title { color: var(--algo-markov); }
-      .radio-card:has(input[value="hot"]:checked) .radio-title { color: var(--algo-hot); }
-      .radio-card:has(input[value="cold"]:checked) .radio-title { color: var(--algo-cold); }
-      .radio-card:has(input[value="gap"]:checked) .radio-title { color: var(--algo-gap); }
-      .radio-card:has(input[value="ema"]:checked) .radio-title { color: var(--algo-ema); }
-      .radio-card:has(input[value="ar"]:checked) .radio-title { color: var(--algo-dl); }
-      .radio-card:has(input[value="lstm"]:checked) .radio-title { color: var(--algo-dl); }
-      .radio-card:has(input[value="gru"]:checked) .radio-title { color: var(--algo-dl); }
-      .radio-card:has(input[value="transformer"]:checked) .radio-title { color: var(--algo-dl); }
 
-      .radio-info { display: flex; flex-direction: column; gap: 4px; }
-      
+      /* Specific Highlight Colors for Text when checked */
+      .radio-card:has(input[value="markov"]:checked) .radio-title {
+        color: var(--algo-markov);
+      }
+      .radio-card:has(input[value="hot"]:checked) .radio-title {
+        color: var(--algo-hot);
+      }
+      .radio-card:has(input[value="cold"]:checked) .radio-title {
+        color: var(--algo-cold);
+      }
+      .radio-card:has(input[value="gap"]:checked) .radio-title {
+        color: var(--algo-gap);
+      }
+      .radio-card:has(input[value="ema"]:checked) .radio-title {
+        color: var(--algo-ema);
+      }
+      .radio-card:has(input[value="ar"]:checked) .radio-title {
+        color: var(--algo-dl);
+      }
+      .radio-card:has(input[value="lstm"]:checked) .radio-title {
+        color: var(--algo-dl);
+      }
+      .radio-card:has(input[value="gru"]:checked) .radio-title {
+        color: var(--algo-dl);
+      }
+      .radio-card:has(input[value="transformer"]:checked) .radio-title {
+        color: var(--algo-dl);
+      }
+
+      .radio-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
       .radio-title {
         font-size: 14px;
         font-weight: 600;
@@ -247,40 +283,58 @@
         transition: transform 0.1s ease, opacity 0.2s;
         letter-spacing: -0.2px;
       }
-      button:active { transform: scale(0.97); }
-      button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+      button:active {
+        transform: scale(0.97);
+      }
+      button:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        transform: none;
+      }
 
       .generate-btn {
         background: var(--text-primary);
         color: white;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       }
-      .generate-btn:hover:not(:disabled) { background: #333; }
+      .generate-btn:hover:not(:disabled) {
+        background: #333;
+      }
 
       .lucky-btn {
         background: white;
         color: var(--text-primary);
-        border: 1px solid #E5E5EA;
+        border: 1px solid #e5e5ea;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
       }
-      .lucky-btn:hover:not(:disabled) { background: #F9F9F9; border-color: #D1D1D6; }
+      .lucky-btn:hover:not(:disabled) {
+        background: #f9f9f9;
+        border-color: #d1d1d6;
+      }
 
       /* === Results Area === */
       .result-area {
         display: none;
         animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         padding-top: 20px;
-        border-top: 1px solid #F2F2F7;
+        border-top: 1px solid #f2f2f7;
       }
       @keyframes slideUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
-      .result-area h3, .daily-area h3 {
+      .result-area h3,
+      .daily-area h3 {
         font-size: 13px;
         color: var(--text-secondary);
         text-transform: uppercase;
@@ -311,14 +365,16 @@
         font-size: 18px;
         position: relative;
         transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        
+
         /* Default Flat Style */
         background: var(--bg-body);
         color: var(--text-primary);
         border: 1px solid transparent;
       }
-      
-      .ball:hover { transform: scale(1.1); }
+
+      .ball:hover {
+        transform: scale(1.1);
+      }
 
       .ball.red {
         background: var(--ball-red-bg);
@@ -351,15 +407,27 @@
         transform: scale(0);
         transition: transform 0.3s ease;
       }
-      
-      .ball.ai-style::after { content: "AI"; transform: scale(1); background: var(--algo-dl); }
-      .ball.mk-style::after { content: "MK"; transform: scale(1); background: var(--algo-markov); }
-      .ball.hot-style::after { content: "HOT"; transform: scale(1); background: var(--algo-hot); }
+
+      .ball.ai-style::after {
+        content: "AI";
+        transform: scale(1);
+        background: var(--algo-dl);
+      }
+      .ball.mk-style::after {
+        content: "MK";
+        transform: scale(1);
+        background: var(--algo-markov);
+      }
+      .ball.hot-style::after {
+        content: "HOT";
+        transform: scale(1);
+        background: var(--algo-hot);
+      }
 
       /* === Analysis Log (Terminal Style) === */
       .analysis-log {
-        background: #1C1C1E; /* Dark Mode bg */
-        color: #D1D1D6;
+        background: #1c1c1e; /* Dark Mode bg */
+        color: #d1d1d6;
         padding: 24px;
         border-radius: 12px;
         font-family: "JetBrains Mono", monospace;
@@ -368,21 +436,26 @@
         max-height: 180px;
         overflow-y: auto;
         border-left: 3px solid var(--algo-ema);
-        box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+        box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
       }
       /* Custom Scrollbar for log */
-      .analysis-log::-webkit-scrollbar { width: 6px; }
-      .analysis-log::-webkit-scrollbar-thumb { background: #3A3A3C; border-radius: 10px; }
+      .analysis-log::-webkit-scrollbar {
+        width: 6px;
+      }
+      .analysis-log::-webkit-scrollbar-thumb {
+        background: #3a3a3c;
+        border-radius: 10px;
+      }
 
       /* === Daily Lucky Area === */
       .daily-area {
         display: none;
         margin-top: 30px;
-        border-top: 1px solid #F2F2F7;
+        border-top: 1px solid #f2f2f7;
         padding-top: 30px;
         animation: slideUp 0.5s ease;
       }
-      
+
       .daily-sets {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -390,8 +463,8 @@
       }
 
       .daily-card {
-        background: #FAFAFA;
-        border: 1px solid #E5E5EA;
+        background: #fafafa;
+        border: 1px solid #e5e5ea;
         border-radius: 16px;
         padding: 20px;
         display: flex;
@@ -401,17 +474,26 @@
         overflow: hidden;
         transition: all 0.2s;
       }
-      
+
       /* Subtle colored strip on top instead of full border */
       .daily-card::before {
         content: "";
         position: absolute;
-        top: 0; left: 0; width: 100%; height: 4px;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
         opacity: 0.7;
       }
-      .daily-card.type-basic::before { background: var(--algo-balanced); }
-      .daily-card.type-adv::before { background: var(--algo-gap); }
-      .daily-card.type-dl::before { background: var(--algo-dl); }
+      .daily-card.type-basic::before {
+        background: var(--algo-balanced);
+      }
+      .daily-card.type-adv::before {
+        background: var(--algo-gap);
+      }
+      .daily-card.type-dl::before {
+        background: var(--algo-dl);
+      }
 
       .daily-header {
         font-size: 12px;
@@ -428,7 +510,7 @@
         font-size: 10px;
         padding: 2px 8px;
         border-radius: 6px;
-        background: #EEEEEE;
+        background: #eeeeee;
         color: #333;
         font-family: "JetBrains Mono", monospace;
         text-transform: uppercase;
@@ -440,14 +522,16 @@
         flex-wrap: wrap;
         justify-content: center;
       }
-      
+
       .daily-balls .ball {
         width: 32px;
         height: 32px;
         font-size: 13px;
       }
       /* Adjust tag for smaller balls */
-      .daily-balls .ball::after { display: none; } 
+      .daily-balls .ball::after {
+        display: none;
+      }
 
       .copy-btn {
         margin-top: 24px;
@@ -455,7 +539,7 @@
         padding: 16px;
         background: white;
         color: var(--text-primary);
-        border: 1px dashed #C7C7CC;
+        border: 1px dashed #c7c7cc;
         border-radius: 12px;
         cursor: pointer;
         font-weight: 600;
@@ -466,18 +550,45 @@
         justify-content: center;
         gap: 8px;
       }
-      .copy-btn:hover { background: #FAFAFA; border-color: var(--text-secondary); }
-      .copy-btn:active { background: #F2F2F7; }
-      
+      .copy-btn:hover {
+        background: #fafafa;
+        border-color: var(--text-secondary);
+      }
+      .copy-btn:active {
+        background: #f2f2f7;
+      }
+
       /* Icons (SVG replacement classes) */
-      .icon { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
-      
+      .icon {
+        width: 16px;
+        height: 16px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+      }
+
       /* Responsive */
       @media (max-width: 600px) {
-        .container { padding: 24px 20px; border-radius: 0; height: 100vh; box-shadow: none; overflow-y: scroll; justify-content: flex-start; }
-        .btn-group { display: flex; flex-direction: column-reverse; }
-        .lottery-row { gap: 8px; }
-        .ball { width: 40px; height: 40px; font-size: 16px; }
+        .container {
+          padding: 24px 20px;
+          border-radius: 0;
+          height: 100vh;
+          box-shadow: none;
+          overflow-y: scroll;
+          justify-content: flex-start;
+        }
+        .btn-group {
+          display: flex;
+          flex-direction: column-reverse;
+        }
+        .lottery-row {
+          gap: 8px;
+        }
+        .ball {
+          width: 40px;
+          height: 40px;
+          font-size: 16px;
+        }
       }
     </style>
   </head>
@@ -487,11 +598,26 @@
       <div>
         <h1>
           <!-- Icon: Cube/Box -->
-          <svg class="icon" viewBox="0 0 24 24" style="width:24px; height:24px;"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" /></svg>
+          <svg
+            class="icon"
+            viewBox="0 0 24 24"
+            style="width: 24px; height: 24px"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"
+            />
+          </svg>
           Lottery Analytics
           <span class="badge">PRO</span>
         </h1>
-        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 8px;">Advanced probability forecasting engine with neural network integration.</p>
+        <p
+          style="color: var(--text-secondary); font-size: 13px; margin-top: 8px"
+        >
+          Advanced probability forecasting engine with neural network
+          integration.
+        </p>
       </div>
 
       <div id="statusBox" class="status-bar">
@@ -611,7 +737,13 @@
           disabled
         >
           <!-- Icon: Sparkles -->
-          <svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" /></svg>
+          <svg class="icon" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"
+            />
+          </svg>
           Daily Pick
         </button>
       </div>
@@ -629,7 +761,8 @@
             margin-top: 15px;
           "
         >
-          DISCLAIMER: This system is based on historical probability and does not guarantee winning.
+          DISCLAIMER: This system is based on historical probability and does
+          not guarantee winning.
         </p>
       </div>
 
@@ -641,7 +774,13 @@
         </div>
         <button class="copy-btn" onclick="copyDailyResults()">
           <!-- Icon: Clipboard -->
-          <svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" /></svg>
+          <svg class="icon" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"
+            />
+          </svg>
           Copy to Clipboard
         </button>
       </div>
@@ -983,11 +1122,13 @@
           );
 
           // === 关键逻辑修改：判断彩种类型设置标签 ===
-          let labelRed = currentType === 'dlt' ? '前区' : '红球';
-          let labelBlue = currentType === 'dlt' ? '后区' : '蓝球';
+          let labelRed = currentType === "dlt" ? "前区" : "红球";
+          let labelBlue = currentType === "dlt" ? "后区" : "蓝球";
 
           // 保存结果用于复制
-          const lineText = `[${sel.label}-${sel.algo.toUpperCase()}] ${labelRed}:${reds
+          const lineText = `[${
+            sel.label
+          }-${sel.algo.toUpperCase()}] ${labelRed}:${reds
             .map((n) => String(n).padStart(2, "0"))
             .join(" ")} + ${labelBlue}:${blues
             .map((n) => String(n).padStart(2, "0"))
@@ -1035,9 +1176,7 @@
 
       function copyDailyResults() {
         if (currentDailyResults.length === 0) return;
-        const text = `🔮 ${currentType.toUpperCase()} 每日幸运号\n${
-          new Date().toLocaleDateString()
-        }\n--------------------\n${currentDailyResults.join(
+        const text = `🔮 ${currentType.toUpperCase()} 每日幸运号\n${new Date().toLocaleDateString()}\n--------------------\n${currentDailyResults.join(
           "\n"
         )}\n--------------------\n祝您好运！`;
 
