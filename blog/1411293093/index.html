@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="referrer" content="no-referrer">
+
+    <meta name="author" content="Zachary Block">
+
+
+    <meta name="subtitle" content="这里是副标题">
+
+
+
+
+<title>Python - 容器 | Zachary Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/jquery.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+
+    <script>
+    function searchToggle() {
+        const width = $(document.body).width()
+        if(width > 479) {
+            return;
+        }
+        const search = $('.search');
+        const searchForm = $('.form-search')
+
+        if(!search.hasClass("mobile-search")) {
+            search.addClass("mobile-search");
+        } else {
+            search.removeClass("mobile-search");
+        } 
+    }
+
+    function search(searchInputEl, formEl, flag) {
+        const path = "/" + "search.json"; // 可以在public 下查看这个search.json
+        $(formEl).submit(function(e){
+            e.preventDefault();
+            let target = null
+            if(searchInputEl == null) {
+                const screenWidth = $(document.body).width();
+                target = screenWidth > 479 ? $('#pc-search-input') : $('#mobile-search-input');
+                console.log(target);
+            } else {
+                target = $(searchInputEl)
+            }
+
+            if(!flag && target.val() === '') {
+                return ;
+            }
+
+            $("#u-search").fadeIn(500, function() {
+                $("body > .wrapper").addClass("modal-active");
+
+                $.ajax({
+                    url: path,
+                    dataType: "json",
+                    beforeSend: function (xhr) {
+                        $input = target.val();
+                        $(".form-input").val($input);
+                        const loadingBar = $('.search-loading-bar') 
+                        loadingBar.css({
+                            width:'100%',
+                            display: 'block'
+                        });
+                    },
+                    success: function( datas ) {
+                        // console.log(datas);
+                        const $resultPanel = $(".modal-body")[0];
+                        let str = `<ul class="modal-results">`;
+                        var keywords = $(".form-input").val().trim().toLowerCase().split(/[\s\-]+/);
+                        $resultPanel.innerHTML = "";
+                        let hasResult = false
+                        let text = `<div class="no-result">找不到与关键词相关的内容....</div>`;
+
+                        if ($(".form-input").val().trim().length <= 0) {
+                            // 没有结果
+                            $resultPanel.innerHTML = text;
+                            return;
+                        }
+                        datas.forEach(function (data) {
+                            var isMatch = true;
+                            if (!data.title || data.title.trim() === '') {
+                                data.title = "Untitled";
+                            }
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty contents
+                            if (data_content !== '') {
+                                keywords.forEach(function (keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        hasResult = true
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            } else {
+                                isMatch = false;
+                            }
+                            // show search results
+                            if (isMatch) {
+                                str += `<li class='result-item'><a href='${data_url}' class='result-item-detail'> <span class="title">${data_title}</span>`;
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 200 characters
+                                    var start = first_occur - 40;
+                                    var end = first_occur + 160;
+
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+
+                                    if (start == 0) {
+                                        end = 200;
+                                    }
+
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+
+                                    var match_content = content.substring(start, end);
+
+                                    // highlight all keywords
+                                    keywords.forEach(function (keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, `<em class="search-keyword">${keyword}</em>`);
+                                    });
+
+                                    str += `<span class="content"> ${match_content} ...</span></a>`;
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        if(hasResult) {
+                            $resultPanel.innerHTML = str;
+                        } else {
+                            $resultPanel.innerHTML = text;
+                        }
+
+                    },
+                    complete: function() {
+                        setTimeout(() => {
+                                const loadingBar = $('.search-loading-bar') 
+                                loadingBar.css({
+                                    width:'0%',
+                                    display: 'none'
+                                });
+                        }, 300)
+                    }
+                });
+            })
+
+        });
+    }
+
+    $(document).ready(function() {
+        $('.modal-close').click(function () { 
+            $("#u-search").fadeOut();
+            $("body > .wrapper").removeClass("modal-active")
+        })
+
+        $('.modal-overlay').click(function() {
+            $("#u-search").fadeOut();
+            $("body > .wrapper").removeClass("modal-active")
+        })
+        search(null, ".form-search", false)
+        search("#u-search-modal-form .form-input", ".u-search-modal-form", true)
+    })
+</script>
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Zachary Blog" type="application/atom+xml">
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Zachary&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <!-- <img src="/" class="search-btn-img" /> -->
+            <i class="iconfont icon-search " ></i>
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="搜索内容" autocomplete="off" id="pc-search-input"/>
+        </form>
+    </div>
+
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Zachary&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="navbar-mobile-right">
+                    
+                    
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <!-- <img src="/" class="search-btn-img" /> -->
+            <i class="iconfont icon-search " ></i>
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="搜索内容" autocomplete="off" id="mobile-search-input"/>
+        </form>
+    </div>
+
+                    <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+                </div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">归档</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Python - 容器</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Zachary Block</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">12 月 31 日&nbsp;&nbsp;17:24:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Python%E5%9F%BA%E7%A1%80/">Python基础</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h1><h1 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h1><ul>
+<li>回顾字符串的定义方式</li>
+<li>了解转义字符</li>
+<li>字符串相关的运算</li>
+<li>字符串相关函数</li>
+<li>字符串格式化的方法</li>
+</ul>
+<h2 id="详解字符串-转义字符"><a href="#详解字符串-转义字符" class="headerlink" title="详解字符串-转义字符"></a>详解字符串-转义字符</h2><h3 id="字符串的定义方式"><a href="#字符串的定义方式" class="headerlink" title="字符串的定义方式"></a>字符串的定义方式</h3><ol>
+<li>单引号’’</li>
+<li>双引号定义字符串””</li>
+<li>三引号定义字符串’’’’’’或者””””””</li>
+<li>字符串定义时，引号可以互相嵌套</li>
+</ol>
+<h3 id="转义字符"><a href="#转义字符" class="headerlink" title="转义字符"></a>转义字符</h3><p>一个普通的字符出现在转义符\后面时候，实现了另一种意义</p>
+<ul>
+<li>\ 转义符，续行符。<ul>
+<li>作为转义符时，在\后面出现的字符可能会实现另外一种意义</li>
+<li>作为续行符时，在行尾使用了\后，可以继续换行书写内容</li>
+</ul>
+</li>
+<li>\n 代表换行</li>
+<li>\r \r 代表光标的位置，从\r 出现的位置作为光标的起点</li>
+<li>\t 水平制表符</li>
+<li>\b 退格符</li>
+<li>\ 就是打出一个单独的\</li>
+<li>r 在字符串前＋ r 可以取消转义符的效果，原文字输出</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># \ 作为续行符</span></span><br><span class="line">var = <span class="string">&quot;123&quot;</span> \</span><br><span class="line">      <span class="string">&quot;456&quot;</span> \</span><br><span class="line">      <span class="string">&quot;789&quot;</span></span><br><span class="line"><span class="built_in">print</span>(var)  <span class="comment"># 123456789  打印结果仍旧是一行</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># \ 作为转义符</span></span><br><span class="line">var = <span class="string">&quot;你要多耐心一点，美好的事物通常来的都慢一些&quot;</span></span><br><span class="line"><span class="built_in">print</span>(var)  <span class="comment"># 你要多耐心一点，美好的事物通常来的都慢一些</span></span><br><span class="line"></span><br><span class="line">var = <span class="string">&quot;你要多耐心一点，\n美好的事物通常来的都慢一些&quot;</span></span><br><span class="line"><span class="built_in">print</span>(var)</span><br><span class="line"><span class="comment"># 你要多耐心一点，</span></span><br><span class="line"><span class="comment"># 美好的事物通常来的都慢一些</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var = <span class="string">&quot;你要多耐心一点，\r美好的事物通常来的都慢一些&quot;</span></span><br><span class="line"><span class="built_in">print</span>(var)  <span class="comment"># 美好的事物通常来的都慢一些</span></span><br><span class="line"></span><br><span class="line">var = <span class="string">&quot;你要多耐心一点，\t美好的事物通常来的都慢一些&quot;</span></span><br><span class="line"><span class="built_in">print</span>(var)  <span class="comment"># 你要多耐心一点，  美好的事物通常来的都慢一些</span></span><br><span class="line"></span><br><span class="line">var = <span class="string">&quot;你要多耐心一点，\b美好的事物通常来的都慢一些&quot;</span></span><br><span class="line"><span class="built_in">print</span>(var)  <span class="comment"># 你要多耐心一点美好的事物通常来的都慢一些</span></span><br><span class="line"></span><br><span class="line">var = <span class="string">&quot;abcde\\nabcde&quot;</span></span><br><span class="line"><span class="built_in">print</span>(var)  <span class="comment"># abcde\nabcde</span></span><br><span class="line"></span><br><span class="line">var = <span class="string">r&quot;abcde\nabcde&quot;</span></span><br><span class="line"><span class="built_in">print</span>(var)  <span class="comment"># abcde\nabcde</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="字符串相关操作"><a href="#字符串相关操作" class="headerlink" title="字符串相关操作"></a>字符串相关操作</h2><ul>
+<li>字符串 +操作： 加法在字符串之间起到拼接作用</li>
+<li>字符串 *操作：乘法与字符串使用，会重复指定倍数的字符串</li>
+<li>字符串 []切片操作：只能使用[]下标的方式访问，但是不能修改</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 加法在字符串之间起到拼接作用</span></span><br><span class="line">vara = <span class="string">&quot;你要稍微等一等,&quot;</span></span><br><span class="line">varb = <span class="string">&quot;美好的事物都来得慢一些&quot;</span></span><br><span class="line">res = vara + varb</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># 你要稍微等一等,美好的事物都来得慢一些</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 乘法操作</span></span><br><span class="line">var = <span class="string">&quot;虎年大吉，&quot;</span> * <span class="number">3</span></span><br><span class="line"><span class="built_in">print</span>(var)  <span class="comment"># 虎年大吉，虎年大吉，虎年大吉，</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 切片操作</span></span><br><span class="line"><span class="built_in">print</span>(res[<span class="number">4</span>:<span class="number">7</span>])  <span class="comment"># 等一等</span></span><br><span class="line"><span class="built_in">print</span>(res[<span class="number">8</span>:<span class="number">10</span>])  <span class="comment"># 美好</span></span><br><span class="line"><span class="built_in">print</span>(res[::<span class="number">2</span>])  <span class="comment"># 你稍等等美的物来慢些</span></span><br><span class="line"><span class="built_in">print</span>(res[::-<span class="number">1</span>])  <span class="comment"># 些一慢得来都物事的好美,等一等微稍要你</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="字符串格式化"><a href="#字符串格式化" class="headerlink" title="字符串格式化"></a>字符串格式化</h2><p>format() 格式化字符串 f 方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 普通方式</span></span><br><span class="line">name = <span class="string">&quot;duanduan&quot;</span></span><br><span class="line">money = <span class="number">10</span></span><br><span class="line">sen = <span class="string">&quot;今天&#123;&#125;花了&#123;&#125;块钱💰&quot;</span>.<span class="built_in">format</span>(name, money)</span><br><span class="line"><span class="built_in">print</span>(sen)  <span class="comment"># 今天duanduan花了10块钱💰</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过索引的方法</span></span><br><span class="line">sen = <span class="string">&quot;今天&#123;1&#125;花了&#123;2&#125;块钱💰&quot;</span>.<span class="built_in">format</span>(<span class="literal">None</span>, name, money)</span><br><span class="line"><span class="built_in">print</span>(sen)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关键字传参</span></span><br><span class="line">sen = <span class="string">&quot;今天&#123;who&#125;花了&#123;how&#125;块钱💰&quot;</span>.<span class="built_in">format</span>(who=name, how=money)</span><br><span class="line"><span class="built_in">print</span>(sen)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 容器类型数据传参</span></span><br><span class="line">d = <span class="string">&quot;duanduan:&#123;&#125;,huanghuang:&#123;&#125;,tutu:&#123;&#125;&quot;</span>.<span class="built_in">format</span>(<span class="string">&quot;小猪&quot;</span>, <span class="string">&quot;大猪&quot;</span>, <span class="string">&quot;小懒猪&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(d)  <span class="comment"># duanduan:小猪,huanghuang:大猪,tutu:小懒猪</span></span><br><span class="line"></span><br><span class="line">d = <span class="string">&quot;duanduan:&#123;&#125;,huanghuang:&#123;&#125;,tutu:&#123;&#125;&quot;</span>.<span class="built_in">format</span>([<span class="string">&quot;小猪&quot;</span>], [<span class="string">&quot;大猪&quot;</span>], [<span class="string">&quot;小懒猪&quot;</span>])</span><br><span class="line"><span class="built_in">print</span>(d)  <span class="comment"># duanduan:[&#x27;小猪&#x27;],huanghuang:[&#x27;大猪&#x27;],tutu:[&#x27;小懒猪&#x27;]</span></span><br><span class="line"></span><br><span class="line">d = <span class="string">&quot;duanduan:&#123;0[0]&#125;,huanghuang:&#123;0[1]&#125;,tutu:&#123;0[2]&#125;&quot;</span>.<span class="built_in">format</span>([<span class="string">&quot;小猪&quot;</span>, <span class="string">&quot;大猪&quot;</span>, <span class="string">&quot;小懒猪&quot;</span>])</span><br><span class="line"><span class="built_in">print</span>(d)  <span class="comment"># duanduan:小猪,huanghuang:大猪,tutu:小懒猪</span></span><br><span class="line"></span><br><span class="line">data = &#123;<span class="string">&quot;who&quot;</span>: <span class="string">&quot;duanduan&quot;</span>, <span class="string">&quot;how&quot;</span>: <span class="string">&quot;10&quot;</span>&#125;</span><br><span class="line">sen = <span class="string">&quot;今天&#123;who&#125;花了&#123;how&#125;块钱💰&quot;</span>.<span class="built_in">format</span>(**data)</span><br><span class="line"><span class="built_in">print</span>(sen)  <span class="comment"># 今天duanduan花了10块钱💰</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 新增的格式化方法 f 方法</span></span><br><span class="line">sen = <span class="string">f&quot;今天<span class="subst">&#123;name&#125;</span>花了<span class="subst">&#123;money&#125;</span>块钱💰&quot;</span></span><br><span class="line"><span class="built_in">print</span>(sen)  <span class="comment"># 今天duanduan花了10块钱💰</span></span><br><span class="line"></span><br><span class="line">sen = <span class="string">f&#x27;今天<span class="subst">&#123;data[<span class="string">&quot;who&quot;</span>]&#125;</span>花了<span class="subst">&#123;data[<span class="string">&quot;how&quot;</span>]&#125;</span>块钱💰&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(sen)  <span class="comment"># 今天duanduan花了10块钱💰</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 限定小数位数</span></span><br><span class="line">pi = <span class="number">3.1415926</span></span><br><span class="line">var = <span class="string">f&quot;圆周率是多少：<span class="subst">&#123;pi:<span class="number">.5</span>f&#125;</span>&quot;</span></span><br><span class="line"><span class="built_in">print</span>(var) <span class="comment"># 圆周率是多少：3.14159</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="英文字符与字符检测相关函数"><a href="#英文字符与字符检测相关函数" class="headerlink" title="英文字符与字符检测相关函数"></a>英文字符与字符检测相关函数</h2><ul>
+<li>大小写转换<ul>
+<li>str.capitalize() 返回原字符串的副本，首个字符大写，其余为小写</li>
+<li>str.title() 返回原字符串的副本，每一个英文单词的首个字符大写，其余为小写</li>
+<li>str.upper() 将字符串中的英文全部转化为大写</li>
+<li>str.lower() 将字符串中的英文全部转化为小写</li>
+<li>str.swapcase() 将字符串中的英文大小写互换</li>
+</ul>
+</li>
+<li>字符检测<ul>
+<li>str.isupper() 检查字符串是否都是大写</li>
+<li>str.islower() 检查字符串是否都是小写</li>
+<li>str.istitle() 检查字符串是否符合 title</li>
+<li>str.isalnum() 检测当前字符串是否由字符(中文、英文、数字)组成。</li>
+<li>str.isalpha() 检测当前字符串是否由字符(中文、英文)组成，不包含数字。</li>
+<li>str.isdigit() 检测当前字符串是否纯数字</li>
+<li>str.isspace() 检测当前字符串是否纯空格</li>
+<li>str.startswith() 检测当前字符串是否由指定字符开头，可以指定开始和结束的位置</li>
+<li>str.endswith() 检测当前字符串是否由指定字符结尾，可以指定开始和结束的位置</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 大小写转换</span></span><br><span class="line">sen = <span class="string">&quot;duanDuan is a liTTle pig&quot;</span></span><br><span class="line"><span class="built_in">print</span>(sen.capitalize())  <span class="comment"># Duanduan is a little pig</span></span><br><span class="line"><span class="built_in">print</span>(sen.title())  <span class="comment"># Duanduan Is A Little Pig</span></span><br><span class="line"><span class="built_in">print</span>(sen.upper())  <span class="comment"># DUANDUAN IS A LITTLE PIG</span></span><br><span class="line"><span class="built_in">print</span>(sen.lower())  <span class="comment"># duanduan is a little pig</span></span><br><span class="line"><span class="built_in">print</span>(sen.swapcase())  <span class="comment"># DUANdUAN IS A LIttLE PIG</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 字符检测</span></span><br><span class="line">up = <span class="string">&quot;DUANDUAN&quot;</span></span><br><span class="line">lo = <span class="string">&quot;duanduan&quot;</span></span><br><span class="line">nu = <span class="string">&quot;123&quot;</span></span><br><span class="line">mix = <span class="string">&quot;word123&quot;</span></span><br><span class="line"><span class="built_in">print</span>(sen.isupper())  <span class="comment"># False</span></span><br><span class="line"><span class="built_in">print</span>(up.isupper())  <span class="comment"># True</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sen.islower())  <span class="comment"># False</span></span><br><span class="line"><span class="built_in">print</span>(lo.islower())  <span class="comment"># True</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sen.istitle())  <span class="comment"># False</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sen.isalnum())  <span class="comment"># False</span></span><br><span class="line"><span class="built_in">print</span>(up.isalnum())  <span class="comment"># True</span></span><br><span class="line"><span class="built_in">print</span>(lo.isalnum())  <span class="comment"># True</span></span><br><span class="line"><span class="built_in">print</span>(nu.isalnum())  <span class="comment"># True</span></span><br><span class="line"><span class="built_in">print</span>(mix.isalnum())  <span class="comment"># True</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sen.isalpha())  <span class="comment"># False</span></span><br><span class="line"><span class="built_in">print</span>(up.isalpha())  <span class="comment"># True</span></span><br><span class="line"><span class="built_in">print</span>(lo.isalpha())  <span class="comment"># True</span></span><br><span class="line"><span class="built_in">print</span>(nu.isalpha())  <span class="comment"># False</span></span><br><span class="line"><span class="built_in">print</span>(mix.isalpha())  <span class="comment"># False</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sen.isdigit())  <span class="comment"># False</span></span><br><span class="line"><span class="built_in">print</span>(up.isdigit())  <span class="comment"># False</span></span><br><span class="line"><span class="built_in">print</span>(lo.isdigit())  <span class="comment"># False</span></span><br><span class="line"><span class="built_in">print</span>(nu.isdigit())  <span class="comment"># True</span></span><br><span class="line"><span class="built_in">print</span>(mix.isdigit())  <span class="comment"># False</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sen.isspace())  <span class="comment"># False</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot; &quot;</span>.isspace())  <span class="comment"># True</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sen.startswith(<span class="string">&quot;d&quot;</span>))  <span class="comment"># True</span></span><br><span class="line"><span class="built_in">print</span>(sen.startswith(<span class="string">&quot;D&quot;</span>))  <span class="comment"># False</span></span><br><span class="line"><span class="built_in">print</span>(sen.startswith(<span class="string">&quot;n&quot;</span>, <span class="number">3</span>))  <span class="comment"># True</span></span><br><span class="line"><span class="built_in">print</span>(sen.startswith(<span class="string">&quot;n&quot;</span>, <span class="number">3</span>, <span class="number">8</span>))  <span class="comment"># True</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sen.endswith(<span class="string">&quot;u&quot;</span>))  <span class="comment"># False</span></span><br><span class="line"><span class="built_in">print</span>(sen.endswith(<span class="string">&quot;g&quot;</span>))  <span class="comment"># True</span></span><br><span class="line"><span class="built_in">print</span>(sen.endswith(<span class="string">&quot;pig&quot;</span>))  <span class="comment"># True</span></span><br><span class="line"><span class="built_in">print</span>(sen.endswith(<span class="string">&quot;pig&quot;</span>, <span class="number">3</span>, <span class="number">24</span>))  <span class="comment"># True</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="字符串查找相关函数"><a href="#字符串查找相关函数" class="headerlink" title="字符串查找相关函数"></a>字符串查找相关函数</h2><ul>
+<li>str.find(sub[,start[,end]]) 从左向右获取指定字符在字符串中的索引位置，未找到则返回-1</li>
+<li>str.rfind(sub[,start[,end]]) 从右向左获取指定字符在字符串中的索引位置，未找到则返回-1</li>
+<li>str.index() 和 find 方法一样，只不过如果没有找到则报错</li>
+<li>str.rindex() 从右往左找，如果没有找到则报错</li>
+<li>str.count() 计算一个字符串出现的次数</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">sen = <span class="string">&quot;duanduanispig,littlepig&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sen.find(<span class="string">&quot;pig&quot;</span>))  <span class="comment"># 10</span></span><br><span class="line"><span class="built_in">print</span>(sen.find(<span class="string">&quot;pig&quot;</span>, <span class="number">14</span>, <span class="number">23</span>))  <span class="comment"># 20</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sen.rfind(<span class="string">&quot;pig&quot;</span>))  <span class="comment"># 20</span></span><br><span class="line"><span class="built_in">print</span>(sen.rfind(<span class="string">&quot;pig&quot;</span>, <span class="number">0</span>, <span class="number">14</span>))  <span class="comment"># 10</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sen.index(<span class="string">&quot;pig&quot;</span>))  <span class="comment"># 10</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="built_in">print</span>(sen.index(<span class="string">&quot;help&quot;</span>))  <span class="comment"># ValueError: substring not found</span></span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;ValueError: substring not found&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sen.rindex(<span class="string">&quot;pig&quot;</span>))  <span class="comment"># 20</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="built_in">print</span>(sen.rindex(<span class="string">&quot;help&quot;</span>))  <span class="comment"># ValueError: substring not found</span></span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;ValueError: substring not found&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sen.count(<span class="string">&quot;duan&quot;</span>))  <span class="comment"># 2</span></span><br><span class="line"><span class="built_in">print</span>(sen.count(<span class="string">&quot;u&quot;</span>))  <span class="comment"># 2</span></span><br><span class="line"><span class="built_in">print</span>(sen.count(<span class="string">&quot;i&quot;</span>))  <span class="comment"># 4</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="字符串操作相关函数"><a href="#字符串操作相关函数" class="headerlink" title="字符串操作相关函数"></a>字符串操作相关函数</h2><ul>
+<li>str.split() 按照指定的字符进行分隔，把一个字符串分隔成一个列表，可以指定分隔的次数</li>
+<li>str.rsplit() 按照指定的字符进行分隔，把一个字符串分隔成一个列表，同样可以指定分割的次数</li>
+<li>str.join() 按照指定的字符 str，把容器类型中的数据连接成一个字符串</li>
+<li>str.strip() 去除字符串左右两侧的指定字符</li>
+<li>str.lstrip() 去除字符串左侧的指定字符</li>
+<li>str.rstrip() 去除字符串右侧的指定字符</li>
+<li>str.replace(new,old) 用 new 替换掉 str 中的 old,可以指定替换的次数</li>
+<li>str.center() 给 str 的左右增加指定字符</li>
+<li>str.ljust() 字符串按照指定位数向左对齐，右侧不够的补充指定字符</li>
+<li>str.rjust() 同上，向右对齐</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">sen = <span class="string">&quot;duanduanisalittlepig&quot;</span></span><br><span class="line"><span class="built_in">print</span>(sen.split(<span class="string">&quot;i&quot;</span>))  <span class="comment"># [&#x27;duanduan&#x27;, &#x27;sal&#x27;, &#x27;ttlep&#x27;, &#x27;g&#x27;]</span></span><br><span class="line"></span><br><span class="line">word = <span class="string">&quot;duanduan_is_a_little_piggy&quot;</span></span><br><span class="line"><span class="built_in">print</span>(word.split(<span class="string">&quot;_&quot;</span>))  <span class="comment"># [&#x27;duanduan&#x27;, &#x27;is&#x27;, &#x27;a&#x27;, &#x27;little&#x27;, &#x27;piggy&#x27;]</span></span><br><span class="line"><span class="built_in">print</span>(word.split(<span class="string">&quot;_&quot;</span>, <span class="number">2</span>))  <span class="comment"># [&#x27;duanduan&#x27;, &#x27;is&#x27;, &#x27;a_little_piggy&#x27;]</span></span><br><span class="line"><span class="built_in">print</span>(word.rsplit(<span class="string">&quot;_&quot;</span>))  <span class="comment"># [&#x27;duanduan&#x27;, &#x27;is&#x27;, &#x27;a&#x27;, &#x27;little&#x27;, &#x27;piggy&#x27;]</span></span><br><span class="line"><span class="built_in">print</span>(word.rsplit(<span class="string">&quot;_&quot;</span>, <span class="number">2</span>))  <span class="comment"># [&#x27;duanduan_is_a&#x27;, &#x27;little&#x27;, &#x27;piggy&#x27;]</span></span><br><span class="line"></span><br><span class="line">li = [<span class="string">&#x27;user&#x27;</span>, <span class="string">&#x27;duan&#x27;</span>, <span class="string">&#x27;pet&#x27;</span>, <span class="string">&#x27;tu&#x27;</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;_&quot;</span>.join(li))  <span class="comment"># user_duan_pet_tu</span></span><br><span class="line"></span><br><span class="line">word = <span class="string">&quot;      Hello piggy this is tutu     &quot;</span></span><br><span class="line"><span class="built_in">print</span>(word.strip())  <span class="comment"># Hello piggy this is tutu</span></span><br><span class="line"></span><br><span class="line">old = <span class="string">&quot;新年快乐&quot;</span></span><br><span class="line">new = old.replace(<span class="string">&quot;快乐&quot;</span>, <span class="string">&quot;大吉&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(new)  <span class="comment"># 新年大吉</span></span><br><span class="line"></span><br><span class="line">word = <span class="string">&quot;piggy&quot;</span></span><br><span class="line"><span class="built_in">print</span>(word.center(<span class="number">10</span>))  <span class="comment">#   piggy</span></span><br><span class="line"><span class="built_in">print</span>(word.center(<span class="number">10</span>, <span class="string">&quot;*&quot;</span>))  <span class="comment"># **piggy***</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(word.ljust(<span class="number">10</span>, <span class="string">&#x27;*&#x27;</span>))  <span class="comment"># piggy*****</span></span><br><span class="line"><span class="built_in">print</span>(word.rjust(<span class="number">10</span>, <span class="string">&#x27;*&#x27;</span>))  <span class="comment"># *****piggy</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="列表详解"><a href="#列表详解" class="headerlink" title="列表详解"></a>列表详解</h1><p>列表就是一组有序的数据组合，列表中的数据可以被修改</p>
+<h2 id="列表定义与基本操作"><a href="#列表定义与基本操作" class="headerlink" title="列表定义与基本操作"></a>列表定义与基本操作</h2><h3 id="列表的定义"><a href="#列表的定义" class="headerlink" title="列表的定义"></a>列表的定义</h3><ul>
+<li>可以使用中括号定义 []</li>
+<li>可以使用 list 函数定义</li>
+<li>在定义列表中的元素时，需要在每个元素之间使用逗号，进行分割。</li>
+<li>列表中的元素可以是任意类型，通常存放同类型的</li>
+</ul>
+<h3 id="列表的基本操作"><a href="#列表的基本操作" class="headerlink" title="列表的基本操作"></a>列表的基本操作</h3><ul>
+<li>使用+可以对两个列表进行拼接</li>
+<li>使用*实现列表元素的重复</li>
+<li>使用 in 判断列表中是否存在某元素</li>
+<li>列表的索引操作<ul>
+<li>通过下标获取指定的元素</li>
+<li>通过下标修改元素</li>
+<li>不能通过下标添加元素</li>
+</ul>
+</li>
+<li>append()：可以用于向列表中追加元素</li>
+<li>len()：获取列表的长度</li>
+<li>列表元素的删除<ul>
+<li>del 可以用于通过指定下标删除元素</li>
+<li>pop()：可以使用 pop 方法出栈来删除最后一个元素</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">varlist1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">varlist2 = [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>]</span><br><span class="line"></span><br><span class="line">res = varlist1 + varlist2</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># [1, 2, 3, 4, &#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;]</span></span><br><span class="line"></span><br><span class="line">res = varlist1 * <span class="number">3</span></span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4]</span></span><br><span class="line"></span><br><span class="line">res = <span class="number">1</span> <span class="keyword">in</span> varlist1</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># True</span></span><br><span class="line"></span><br><span class="line">varlist1.append(<span class="number">5</span>)</span><br><span class="line"><span class="built_in">print</span>(varlist1)  <span class="comment"># [1, 2, 3, 4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(varlist1)  <span class="comment"># [1, 2, 3, 4, 5]</span></span><br><span class="line"><span class="keyword">del</span> varlist1[<span class="number">3</span>]</span><br><span class="line"><span class="built_in">print</span>(varlist1)  <span class="comment"># [1, 2, 3, 5]</span></span><br><span class="line">res = varlist1.pop()</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># 5</span></span><br><span class="line"><span class="built_in">print</span>(varlist1)  <span class="comment"># [1, 2, 3]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="列表切片操作"><a href="#列表切片操作" class="headerlink" title="列表切片操作"></a>列表切片操作</h2><p>列表[开始索引:结束索引:步进值]</p>
+<ul>
+<li>列表[开始索引:] 从开始索引到列表的最后</li>
+<li>列表[:结束索引] 从开始到结束索引的前一个</li>
+<li>列表[开始索引:结束索引] 从开始索引到结束索引的前一个</li>
+<li>列表[开始索引:结束索引:步进值] 带有步进值的从开始到结束前一个</li>
+<li>列表[:] 列表全部数据</li>
+<li>列表[::] 列表全部数据</li>
+<li>列表[::-1] 列表逆序输出</li>
+</ul>
+<p>使用切片的方法进行列表的数据更新和删除</p>
+<ul>
+<li>从指定下标开始到指定下标结束前，替换为想要的对应的<strong>容器类型</strong></li>
+<li>使用 del 进行切片删除</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">varlist = [<span class="string">&#x27;Kobe&#x27;</span>, <span class="string">&#x27;James&#x27;</span>, <span class="string">&#x27;Curry&#x27;</span>, <span class="string">&#x27;Tony&#x27;</span>, <span class="string">&#x27;Irving&#x27;</span>, <span class="string">&#x27;Thompson&#x27;</span>, <span class="string">&#x27;Harden&#x27;</span>]</span><br><span class="line"></span><br><span class="line">res = varlist[<span class="number">2</span>:]</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># [&#x27;Curry&#x27;, &#x27;Tony&#x27;, &#x27;Irving&#x27;, &#x27;Thompson&#x27;, &#x27;Harden&#x27;]</span></span><br><span class="line"></span><br><span class="line">res = varlist[:<span class="number">2</span>]</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># [&#x27;Kobe&#x27;, &#x27;James&#x27;]</span></span><br><span class="line"></span><br><span class="line">res = varlist[<span class="number">2</span>:<span class="number">6</span>]</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># [&#x27;Curry&#x27;, &#x27;Tony&#x27;, &#x27;Irving&#x27;, &#x27;Thompson&#x27;]</span></span><br><span class="line"></span><br><span class="line">res = varlist[<span class="number">2</span>:<span class="number">6</span>:<span class="number">2</span>]</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># [&#x27;Curry&#x27;, &#x27;Irving&#x27;]</span></span><br><span class="line"></span><br><span class="line">varlist[<span class="number">3</span>:<span class="number">6</span>] = [<span class="string">&#x27;All star&#x27;</span>]</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [&#x27;Kobe&#x27;, &#x27;James&#x27;, &#x27;Curry&#x27;, &#x27;All star&#x27;, &#x27;Harden&#x27;]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="列表的相关函数"><a href="#列表的相关函数" class="headerlink" title="列表的相关函数"></a>列表的相关函数</h2><ul>
+<li>len() ：使用 len 方法可以计算出列表的长度</li>
+<li>count() ：count 方法可以检测具体某个元素出现了多少次</li>
+<li>append() ：append 方法可以在列表尾部追加元素</li>
+<li>insert(i,x) ：在 i 索引位置，插入 x</li>
+<li>pop() ：默认出栈一个最末尾的元素,也可以指定索引进行出栈</li>
+<li>remove() ：可以指定列表中的<strong>元素</strong>进行删除，如果<strong>元素</strong>不存在会报错</li>
+<li>index() ：可以查找列表中元素第一次出现的索引</li>
+<li>extend() ：可以将另一个列表扩展到原来的列表上，类似于+</li>
+<li>clear() ：清空列表中的元素</li>
+<li>reverse() ：逆序列表</li>
+<li>sort() ：对列表排序，默认由小到大排序<ul>
+<li>若 reverse&#x3D;True，则按照由大到小排序</li>
+<li>若 key&#x3D;func，则按照函数处理结果进行排序</li>
+</ul>
+</li>
+<li>copy() ：可以拷贝一个列表,但是如果执行修改操作，del 会对多维列表同时修改</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">varlist = [<span class="string">&#x27;Kobe&#x27;</span>, <span class="string">&#x27;James&#x27;</span>, <span class="string">&#x27;Curry&#x27;</span>, <span class="string">&#x27;Tony&#x27;</span>, <span class="string">&#x27;Irving&#x27;</span>, <span class="string">&#x27;Thompson&#x27;</span>, <span class="string">&#x27;Harden&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(varlist))  <span class="comment"># 7</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(varlist.count(<span class="string">&#x27;Curry&#x27;</span>))  <span class="comment"># 1</span></span><br><span class="line"></span><br><span class="line">varlist.append(<span class="string">&#x27;new star&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [&#x27;Kobe&#x27;, &#x27;James&#x27;, &#x27;Curry&#x27;, &#x27;Tony&#x27;, &#x27;Irving&#x27;, &#x27;Thompson&#x27;, &#x27;Harden&#x27;, &#x27;new star&#x27;]</span></span><br><span class="line"></span><br><span class="line">varlist.insert(<span class="number">1</span>, <span class="string">&#x27;Pony&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [&#x27;Kobe&#x27;, &#x27;Pony&#x27;, &#x27;James&#x27;, &#x27;Curry&#x27;, &#x27;Tony&#x27;, &#x27;Irving&#x27;, &#x27;Thompson&#x27;, &#x27;Harden&#x27;, &#x27;new star&#x27;]</span></span><br><span class="line"></span><br><span class="line">res = varlist.pop()</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># new star</span></span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [&#x27;Kobe&#x27;, &#x27;Pony&#x27;, &#x27;James&#x27;, &#x27;Curry&#x27;, &#x27;Tony&#x27;, &#x27;Irving&#x27;, &#x27;Thompson&#x27;, &#x27;Harden&#x27;]</span></span><br><span class="line"></span><br><span class="line">varlist.remove(<span class="string">&#x27;Tony&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [&#x27;Kobe&#x27;, &#x27;Pony&#x27;, &#x27;James&#x27;, &#x27;Curry&#x27;, &#x27;Irving&#x27;, &#x27;Thompson&#x27;, &#x27;Harden&#x27;]</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(varlist.index(<span class="string">&#x27;Curry&#x27;</span>))  <span class="comment"># 3</span></span><br><span class="line"></span><br><span class="line">temp = [<span class="string">&#x27;nobody&#x27;</span>, <span class="string">&#x27;somebody&#x27;</span>]</span><br><span class="line">varlist.extend(temp)</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [&#x27;Kobe&#x27;, &#x27;Pony&#x27;, &#x27;James&#x27;, &#x27;Curry&#x27;, &#x27;Irving&#x27;, &#x27;Thompson&#x27;, &#x27;Harden&#x27;, &#x27;nobody&#x27;, &#x27;somebody&#x27;]</span></span><br><span class="line"></span><br><span class="line">varlist.clear()</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># []</span></span><br><span class="line"></span><br><span class="line">varlist = [<span class="string">&#x27;Kobe&#x27;</span>, <span class="string">&#x27;James&#x27;</span>, <span class="string">&#x27;Curry&#x27;</span>, <span class="string">&#x27;Tony&#x27;</span>, <span class="string">&#x27;Irving&#x27;</span>, <span class="string">&#x27;Thompson&#x27;</span>, <span class="string">&#x27;Harden&#x27;</span>]</span><br><span class="line">varlist.reverse()</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [&#x27;Harden&#x27;, &#x27;Thompson&#x27;, &#x27;Irving&#x27;, &#x27;Tony&#x27;, &#x27;Curry&#x27;, &#x27;James&#x27;, &#x27;Kobe&#x27;]</span></span><br><span class="line"></span><br><span class="line">varlist.sort()</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [&#x27;Curry&#x27;, &#x27;Harden&#x27;, &#x27;Irving&#x27;, &#x27;James&#x27;, &#x27;Kobe&#x27;, &#x27;Thompson&#x27;, &#x27;Tony&#x27;]\</span></span><br><span class="line">var = [<span class="number">6</span>, <span class="number">8</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">7</span>]</span><br><span class="line">var.sort()</span><br><span class="line"><span class="built_in">print</span>(var)  <span class="comment"># [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span></span><br><span class="line"></span><br><span class="line">var = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">var_val = var.copy()</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">id</span>(var), <span class="built_in">id</span>(var_val))  <span class="comment"># 4494320416 4493079008</span></span><br><span class="line"><span class="keyword">del</span> var[<span class="number">4</span>]</span><br><span class="line"><span class="built_in">print</span>(var)  <span class="comment"># [1, 2, 3, 4]</span></span><br><span class="line"><span class="built_in">print</span>(var_val)  <span class="comment"># [1, 2, 3, 4, 5]</span></span><br><span class="line"></span><br><span class="line">var = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, [<span class="number">4</span>, <span class="number">5</span>]]</span><br><span class="line">var_val = var.copy()</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">id</span>(var), <span class="built_in">id</span>(var_val))  <span class="comment"># 4559934480 4558631712</span></span><br><span class="line"><span class="keyword">del</span> var[<span class="number">3</span>][<span class="number">1</span>]</span><br><span class="line"><span class="built_in">print</span>(var)  <span class="comment"># [1, 2, 3, [4]]</span></span><br><span class="line"><span class="built_in">print</span>(var_val)  <span class="comment"># [1, 2, 3, [4]]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="深拷贝与浅拷贝"><a href="#深拷贝与浅拷贝" class="headerlink" title="深拷贝与浅拷贝"></a>深拷贝与浅拷贝</h2><ul>
+<li>浅拷贝<ul>
+<li>使用的是 copy()方法</li>
+<li>对一维列表拷贝后，与原来的列表是不同的，单独做出修改不会影响另一列表</li>
+<li>但是如果是多维列表，使用浅拷贝之后，对多维部分进行修改，所有的都会改变</li>
+</ul>
+</li>
+<li>深拷贝<ul>
+<li>使用的是 copy 模块下的 deepcopy()</li>
+<li>深拷贝下的拷贝列表，是完全独立的</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">varlist = [<span class="number">1</span>, <span class="number">2</span>, [<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]]</span><br><span class="line">newlist = varlist.copy()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [1, 2, [3, 4, 5]]</span></span><br><span class="line"><span class="built_in">print</span>(newlist)  <span class="comment"># [1, 2, [3, 4, 5]]</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">id</span>(varlist) == <span class="built_in">id</span>(newlist))  <span class="comment"># False</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">id</span>(varlist[<span class="number">2</span>]) == <span class="built_in">id</span>(newlist[<span class="number">2</span>]))  <span class="comment"># True</span></span><br><span class="line"><span class="keyword">del</span> varlist[<span class="number">2</span>][<span class="number">0</span>]</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [1, 2, [4, 5]]</span></span><br><span class="line"><span class="built_in">print</span>(newlist)  <span class="comment"># [1, 2, [4, 5]]</span></span><br><span class="line"></span><br><span class="line">varlist = [<span class="number">1</span>, <span class="number">2</span>, [<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]]</span><br><span class="line">newlist = copy.deepcopy(varlist)</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [1, 2, [3, 4, 5]]</span></span><br><span class="line"><span class="built_in">print</span>(newlist)  <span class="comment"># [1, 2, [3, 4, 5]]</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">id</span>(varlist) == <span class="built_in">id</span>(newlist))  <span class="comment"># False</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">id</span>(varlist[<span class="number">2</span>]) == <span class="built_in">id</span>(newlist[<span class="number">2</span>]))  <span class="comment"># False</span></span><br><span class="line"><span class="keyword">del</span> varlist[<span class="number">2</span>][<span class="number">0</span>]</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [1, 2, [4, 5]]</span></span><br><span class="line"><span class="built_in">print</span>(newlist)  <span class="comment"># [1, 2, [3, 4, 5]]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="列表推导式"><a href="#列表推导式" class="headerlink" title="列表推导式"></a>列表推导式</h2><p>列表推导式提供了一个更简单的创建列表的方法。常见的用法是把某种操作应用于序列或者可迭代对象的每个元素上，然后使用其结果来创建列表，或者通过满足某些特定条件元素来创造子序列</p>
+<ul>
+<li>常用方法</li>
+<li>list &#x3D; [想要的处理方式 for i in 容器类型数据 条件表达式]</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建0-9的平方列表</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 普通方法</span></span><br><span class="line">varlist = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    varlist.append(i ** <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># lambda表达式+map</span></span><br><span class="line">varlist = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="keyword">lambda</span> x: x ** <span class="number">2</span>, <span class="built_in">range</span>(<span class="number">10</span>)))</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 列表推导式</span></span><br><span class="line">varlist = [i ** <span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>)]</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2 实现一个字符串&#x27;1234&#x27; ===&gt; [2，4，6，8]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 普通方法</span></span><br><span class="line">varstr = <span class="string">&#x27;1234&#x27;</span></span><br><span class="line">varlist = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> varstr:</span><br><span class="line">    varlist.append(<span class="built_in">int</span>(i) * <span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [2, 4, 6, 8]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># lambda+map</span></span><br><span class="line">varlist = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="keyword">lambda</span> x: <span class="built_in">int</span>(x) * <span class="number">2</span>, varstr))</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [2, 4, 6, 8]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 列表推导式</span></span><br><span class="line">varlist = [<span class="built_in">int</span>(i) * <span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> varstr]</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [2, 4, 6, 8]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3 实现0-9的偶数列表 ===&gt; [0,2,4,6,8]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 普通方法</span></span><br><span class="line">varlist = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">0</span>:</span><br><span class="line">        varlist.append(i)</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [0, 2, 4, 6, 8]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># lambda+fliter</span></span><br><span class="line">varlist = <span class="built_in">list</span>(<span class="built_in">filter</span>(<span class="keyword">lambda</span> x: <span class="literal">True</span> <span class="keyword">if</span> x % <span class="number">2</span> == <span class="number">0</span> <span class="keyword">else</span> <span class="literal">False</span>, <span class="built_in">range</span>(<span class="number">10</span>)))</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [0, 2, 4, 6, 8]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 列表推导式</span></span><br><span class="line">varlist = [i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>) <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">0</span>]</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [0, 2, 4, 6, 8]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4 实现多循环的列表推导式</span></span><br><span class="line"><span class="comment"># 实现 [1,2,3],[3,1,4]  ===&gt; 列表中的元素两两组合，要求组合元素不能重复</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 普通方法</span></span><br><span class="line">varlist = []</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]:</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> [<span class="number">3</span>, <span class="number">1</span>, <span class="number">4</span>]:</span><br><span class="line">        <span class="keyword">if</span> x != y:</span><br><span class="line">            varlist.append((x, y))</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 列表推导式</span></span><br><span class="line">varlist = [(x, y) <span class="keyword">for</span> x <span class="keyword">in</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>] <span class="keyword">for</span> y <span class="keyword">in</span> [<span class="number">3</span>, <span class="number">1</span>, <span class="number">4</span>] <span class="keyword">if</span> x != y]</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 5 实现矩阵的转换</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 普通方法</span></span><br><span class="line">matrix = [</span><br><span class="line">    [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>],</span><br><span class="line">    [<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>],</span><br><span class="line">    [<span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>],</span><br><span class="line">]</span><br><span class="line">newlist = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(matrix[<span class="number">0</span>])):</span><br><span class="line">    newlist.append([res[i] <span class="keyword">for</span> res <span class="keyword">in</span> matrix])</span><br><span class="line"><span class="built_in">print</span>(newlist)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列表推导式</span></span><br><span class="line">newlist = [[res[i] <span class="keyword">for</span> res <span class="keyword">in</span> matrix] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>)]</span><br><span class="line"><span class="built_in">print</span>(newlist)</span><br></pre></td></tr></table></figure>
+
+<h2 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h2><p>使用列表推导式实现乘法表</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 把字典中的键值对转换成 a=b的列表形式</span></span><br><span class="line"><span class="comment"># &#123;&#x27;user&#x27;:&#x27;admin&#x27;,&#x27;age&#x27;:&#x27;20&#x27;,&#x27;phone&#x27;:&#x27;130&#x27;&#125; ===&gt; [&#x27;user=admin&#x27;,&#x27;age=20&#x27;,&#x27;phone=133&#x27;]</span></span><br><span class="line"></span><br><span class="line">vardict = &#123;<span class="string">&#x27;user&#x27;</span>: <span class="string">&#x27;admin&#x27;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="string">&#x27;20&#x27;</span>, <span class="string">&#x27;phone&#x27;</span>: <span class="string">&#x27;130&#x27;</span>&#125;</span><br><span class="line"></span><br><span class="line">varlist = [i + <span class="string">&#x27;=&#x27;</span> + vardict[i] <span class="keyword">for</span> i <span class="keyword">in</span> vardict]</span><br><span class="line"><span class="built_in">print</span>(varlist)  <span class="comment"># [&#x27;user=admin&#x27;, &#x27;age=20&#x27;, &#x27;phone=130&#x27;]</span></span><br><span class="line">res = <span class="string">&#x27;&amp;&#x27;</span>.join(varlist)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># user=admin&amp;age=20&amp;phone=130</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 把列表中的所有字符全部转为小写</span></span><br><span class="line"><span class="comment"># [&#x27;AAAAA&#x27;,&#x27;BbbBB&#x27;,&#x27;CCCcc&#x27;] ===&gt; [&#x27;aaaaa&#x27;,&#x27;bbbbb&#x27;,&#x27;ccccc&#x27;]</span></span><br><span class="line">varlist = [<span class="string">&#x27;AAAAA&#x27;</span>, <span class="string">&#x27;BbbBB&#x27;</span>, <span class="string">&#x27;CCCcc&#x27;</span>]</span><br><span class="line">newlist = [i.lower() <span class="keyword">for</span> i <span class="keyword">in</span> varlist]</span><br><span class="line"><span class="built_in">print</span>(newlist)  <span class="comment"># [&#x27;aaaaa&#x27;, &#x27;bbbbb&#x27;, &#x27;ccccc&#x27;]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># x是0-5之间的偶数，y是0-5之间的奇数，把x，y组成一个元组放进一个列表中</span></span><br><span class="line"></span><br><span class="line">newlist = [(x, y) <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">6</span>) <span class="keyword">for</span> y <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">6</span>) <span class="keyword">if</span> x % <span class="number">2</span> == <span class="number">0</span> <span class="keyword">if</span> y % <span class="number">2</span> != <span class="number">0</span>]</span><br><span class="line"><span class="built_in">print</span>(newlist)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用列表推导式完成乘法表</span></span><br><span class="line"></span><br><span class="line">newlist = [<span class="string">f&#x27;<span class="subst">&#123;i&#125;</span>×<span class="subst">&#123;j&#125;</span>=<span class="subst">&#123;i * j&#125;</span>&#x27;</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">10</span>) <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, i + <span class="number">1</span>)]</span><br><span class="line"><span class="built_in">print</span>(newlist)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用列表推导式完成M与N的计算 ===&gt; [2,4,6,12,15,18,28,32,36]</span></span><br><span class="line"></span><br><span class="line">M = [</span><br><span class="line">    [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>],</span><br><span class="line">    [<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>],</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">N = [</span><br><span class="line">    [<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>],</span><br><span class="line">    [<span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>],</span><br><span class="line">    [<span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>],</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">newlist = [M[p][q] * N[p][q] <span class="keyword">for</span> p <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>) <span class="keyword">for</span> q <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>)]</span><br><span class="line"><span class="built_in">print</span>(newlist)  <span class="comment"># [2, 4, 6, 12, 15, 18, 28, 32, 36]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="元组详解"><a href="#元组详解" class="headerlink" title="元组详解"></a>元组详解</h1><h2 id="基本定义和切片操作"><a href="#基本定义和切片操作" class="headerlink" title="基本定义和切片操作"></a>基本定义和切片操作</h2><p>元组和列表一样都是一组有序的数据组合 元组中的元素一旦定义了就不能修改，因此元组是不可变数据类型</p>
+<h3 id="元组定义"><a href="#元组定义" class="headerlink" title="元组定义"></a>元组定义</h3><ul>
+<li>定义空元祖，变量名&#x3D;() 或者 变量名&#x3D;tuple()</li>
+<li>还可以使用 变量名&#x3D;(1，2，3)的方式定义有数据的元组</li>
+<li>如果只有一个数据，数据后需要加,，如 变量名&#x3D;(1,)</li>
+<li>特例，使用 变量&#x3D;1,2,3 这样的方式也可以定义元组</li>
+</ul>
+<h3 id="元组的相关操作"><a href="#元组的相关操作" class="headerlink" title="元组的相关操作"></a>元组的相关操作</h3><p>由于元组是不可变的数据类型，因此只能使用索引进行访问，不能进行其他操作 元组可以和列表一样使用切片操作</p>
+<ul>
+<li>tuple.count() 统计一个元素出现的次数</li>
+<li>tuple.index() 查找一个元素的索引值</li>
+<li>tuple[] 与列表一样的方式进行切片</li>
+<li>使用 +、* 运算，合并组成新的元组</li>
+<li>in 方法检测一个元素是否在元组中</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">vartuple = <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span></span><br><span class="line"><span class="built_in">print</span>(vartuple)  <span class="comment"># (1, 2, 3)</span></span><br><span class="line"></span><br><span class="line">vartuple = (<span class="number">1</span>,)</span><br><span class="line"><span class="built_in">print</span>(vartuple)  <span class="comment"># (1,)</span></span><br><span class="line"></span><br><span class="line">vartuple = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(vartuple))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(vartuple[:])  <span class="comment"># (1, 2, 3, 4, 5)</span></span><br><span class="line"><span class="built_in">print</span>(vartuple[::])  <span class="comment"># (1, 2, 3, 4, 5)</span></span><br><span class="line"><span class="built_in">print</span>(vartuple[<span class="number">1</span>:<span class="number">3</span>])  <span class="comment"># (2, 3)</span></span><br><span class="line"><span class="built_in">print</span>(vartuple[::-<span class="number">1</span>])  <span class="comment"># (5, 4, 3, 2, 1)</span></span><br><span class="line"></span><br><span class="line">vartuple = (<span class="string">&#x27;Kobe&#x27;</span>, <span class="string">&#x27;James&#x27;</span>, <span class="string">&#x27;Curry&#x27;</span>, <span class="string">&#x27;Tony&#x27;</span>, <span class="string">&#x27;Irving&#x27;</span>, <span class="string">&#x27;Thompson&#x27;</span>, <span class="string">&#x27;Harden&#x27;</span>, <span class="string">&#x27;Kobe&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(vartuple.count(<span class="string">&#x27;James&#x27;</span>))  <span class="comment"># 1</span></span><br><span class="line"><span class="built_in">print</span>(vartuple.index(<span class="string">&#x27;Curry&#x27;</span>))  <span class="comment"># 2</span></span><br><span class="line"><span class="built_in">print</span>(vartuple.index(<span class="string">&#x27;Kobe&#x27;</span>))  <span class="comment"># 0</span></span><br><span class="line"><span class="built_in">print</span>(vartuple.index(<span class="string">&#x27;Kobe&#x27;</span>, <span class="number">5</span>, <span class="number">8</span>))  <span class="comment"># 7</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(</span><br><span class="line">    vartuple + vartuple)  <span class="comment"># (&#x27;Kobe&#x27;, &#x27;James&#x27;, &#x27;Curry&#x27;, &#x27;Tony&#x27;, &#x27;Irving&#x27;, &#x27;Thompson&#x27;, &#x27;Harden&#x27;, &#x27;Kobe&#x27;, &#x27;Kobe&#x27;, &#x27;James&#x27;, &#x27;Curry&#x27;, &#x27;Tony&#x27;, &#x27;Irving&#x27;, &#x27;Thompson&#x27;, &#x27;Harden&#x27;, &#x27;Kobe&#x27;)</span></span><br><span class="line"><span class="built_in">print</span>(</span><br><span class="line">    vartuple * <span class="number">2</span>)  <span class="comment"># (&#x27;Kobe&#x27;, &#x27;James&#x27;, &#x27;Curry&#x27;, &#x27;Tony&#x27;, &#x27;Irving&#x27;, &#x27;Thompson&#x27;, &#x27;Harden&#x27;, &#x27;Kobe&#x27;, &#x27;Kobe&#x27;, &#x27;James&#x27;, &#x27;Curry&#x27;, &#x27;Tony&#x27;, &#x27;Irving&#x27;, &#x27;Thompson&#x27;, &#x27;Harden&#x27;, &#x27;Kobe&#x27;)</span></span><br><span class="line"></span><br><span class="line">res = <span class="string">&#x27;Irving&#x27;</span> <span class="keyword">in</span> vartuple</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># True</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="元组推导式-generator"><a href="#元组推导式-generator" class="headerlink" title="元组推导式 generator"></a>元组推导式 generator</h2><p>元组推导式 generator 也称为生成器，返回的是一个生成器 <strong>生成器</strong>是一个特殊的迭代器，生成器可以自定义，也可以使用元组推导式定义 生成器是按照某种算法去推算下一个数据或结果，只需要往内存中存储一个生成器，节约内存消耗，提升性能 语法： (1) 里面是推导式，外面是一个() 的结果就是一个生成器 (2) 自定义生成器，含有 yidle 关键字的函数就是生成器 含有 yield 关键字的函数，返回的结果就是一个迭代器(生成器函数就是一个返回迭代器的函数)</p>
+<ul>
+<li>如何使用生成器：生成器是迭代器的一种，所以可以使用操作迭代器的方法操作生成器<ul>
+<li>使用 next()函数调用</li>
+<li>使用 list()函数或者 tuple()函数进行操作</li>
+<li>使用 for 语句进行遍历</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">varlist = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">newtuple = (i ** <span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> varlist)</span><br><span class="line"><span class="built_in">print</span>(newtuple)  <span class="comment"># &lt;generator object &lt;genexpr&gt; at 0x101dd1f50&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(newtuple))  <span class="comment"># 1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(newtuple))  <span class="comment"># 4</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2</span></span><br><span class="line">newtuple = (i ** <span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> varlist)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(newtuple))  <span class="comment"># [1, 4, 9, 16, 25]</span></span><br><span class="line"></span><br><span class="line">newtuple = (i ** <span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> varlist)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">tuple</span>(newtuple))  <span class="comment"># (1, 4, 9, 16, 25)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3</span></span><br><span class="line">newtuple = (i ** <span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> varlist)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> newtuple:</span><br><span class="line">    <span class="built_in">print</span>(i)  <span class="comment"># 1 4 9 16 25</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="字典详解"><a href="#字典详解" class="headerlink" title="字典详解"></a>字典详解</h1><h2 id="定义和基本操作"><a href="#定义和基本操作" class="headerlink" title="定义和基本操作"></a>定义和基本操作</h2><p>字典也是一种数据的集合，由键值对组成的数据集合，字典中的键不能重复 字典中的键必须是不可变的数据类型，常用的键主要是：字符串，整型</p>
+<h3 id="字典的定义"><a href="#字典的定义" class="headerlink" title="字典的定义"></a>字典的定义</h3><ul>
+<li>字典可以通过大括号括起来的 键:值对 进行创建</li>
+<li>也可以使用 dict 构造器来创建</li>
+<li>数据类型的转换：可以将其他的二级容器类型（列表、元组）转换为 dict</li>
+<li>可以使用 zip()函数，将两个 list 组合成一个 dict</li>
+</ul>
+<h3 id="字典的操作"><a href="#字典的操作" class="headerlink" title="字典的操作"></a>字典的操作</h3><ul>
+<li>获取，通过索引键的方式可以获取到值</li>
+<li>修改，索引到的话可以修改值</li>
+<li>删除，使用 del 进行删除</li>
+<li>添加，使用一个新的键，进行赋值，若键存在，则会覆盖</li>
+<li>成员检测，可以使用 in 进行成员检测，但是只能检测键</li>
+<li>长度，可以用 len()，来检测有多少个键值对</li>
+<li>dict.keys()：可以查询所有键</li>
+<li>dict.values()：可以查询所有值</li>
+<li>dict.items()：获取当前字典中所有的键值对</li>
+<li>字典的遍历：可以使用 for</li>
+<li>字典合并：new_dict &#x3D; {**dict1, **dict2}</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">vardict = &#123;<span class="string">&#x27;a&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;b&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;c&#x27;</span>: <span class="number">3</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(vardict, <span class="built_in">type</span>(vardict))  <span class="comment"># &#123;&#x27;a&#x27;: 1, &#x27;b&#x27;: 2, &#x27;c&#x27;: 3&#125; &lt;class &#x27;dict&#x27;&gt;</span></span><br><span class="line"></span><br><span class="line">vardict = <span class="built_in">dict</span>(a=<span class="number">1</span>, b=<span class="number">2</span>, c=<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(vardict)  <span class="comment"># &#123;&#x27;a&#x27;: 1, &#x27;b&#x27;: 2, &#x27;c&#x27;: 3&#125;</span></span><br><span class="line"></span><br><span class="line">vardict = <span class="built_in">dict</span>([[<span class="string">&#x27;a&#x27;</span>, <span class="number">1</span>], [<span class="string">&#x27;b&#x27;</span>, <span class="number">2</span>], [<span class="string">&#x27;c&#x27;</span>, <span class="number">3</span>]])</span><br><span class="line"><span class="built_in">print</span>(vardict)  <span class="comment"># &#123;&#x27;a&#x27;: 1, &#x27;b&#x27;: 2, &#x27;c&#x27;: 3&#125;</span></span><br><span class="line"></span><br><span class="line">var1 = [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>]</span><br><span class="line">var2 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">dict</span>(<span class="built_in">zip</span>(var1, var2)))  <span class="comment"># &#123;&#x27;a&#x27;: 1, &#x27;b&#x27;: 2, &#x27;c&#x27;: 3&#125;</span></span><br><span class="line"></span><br><span class="line">res = vardict[<span class="string">&#x27;a&#x27;</span>]</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># 1</span></span><br><span class="line"></span><br><span class="line">vardict[<span class="string">&#x27;a&#x27;</span>] = <span class="string">&#x27;A&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(vardict)  <span class="comment"># &#123;&#x27;a&#x27;: &#x27;A&#x27;, &#x27;b&#x27;: 2, &#x27;c&#x27;: 3&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">del</span> vardict[<span class="string">&#x27;a&#x27;</span>]</span><br><span class="line"><span class="built_in">print</span>(vardict)  <span class="comment"># &#123;&#x27;b&#x27;: 2, &#x27;c&#x27;: 3&#125;</span></span><br><span class="line"></span><br><span class="line">vardict[<span class="string">&#x27;d&#x27;</span>] = <span class="number">4</span></span><br><span class="line"><span class="built_in">print</span>(vardict)  <span class="comment"># &#123;&#x27;b&#x27;: 2, &#x27;c&#x27;: 3, &#x27;d&#x27;: 4&#125;</span></span><br><span class="line"></span><br><span class="line">res = <span class="string">&#x27;d&#x27;</span> <span class="keyword">in</span> vardict</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># True</span></span><br><span class="line">res = <span class="string">&#x27;a&#x27;</span> <span class="keyword">in</span> vardict</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># False</span></span><br><span class="line"></span><br><span class="line">res = <span class="built_in">len</span>(vardict)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># 3</span></span><br><span class="line"></span><br><span class="line">res = vardict.keys()</span><br><span class="line"><span class="built_in">print</span>(res) <span class="comment">#dict_keys([&#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;])</span></span><br><span class="line">res = vardict.values()</span><br><span class="line"><span class="built_in">print</span>(res) <span class="comment"># dict_values([2, 3, 4])</span></span><br><span class="line">res = vardict.items()</span><br><span class="line"><span class="built_in">print</span>(res) <span class="comment"># dict_items([(&#x27;b&#x27;, 2), (&#x27;c&#x27;, 3), (&#x27;d&#x27;, 4)])</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 字典的遍历</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> vardict:</span><br><span class="line">    <span class="built_in">print</span>(i,vardict[i])</span><br><span class="line">    <span class="comment"># b 2</span></span><br><span class="line">    <span class="comment"># c 3</span></span><br><span class="line">    <span class="comment"># d 4</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> k,v <span class="keyword">in</span> vardict.items():</span><br><span class="line">    <span class="built_in">print</span>(k,v)</span><br><span class="line">    <span class="comment"># b 2</span></span><br><span class="line">    <span class="comment"># c 3</span></span><br><span class="line">    <span class="comment"># d 4</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h2><ul>
+<li>len(dict)，来检测有多少个键值对</li>
+<li>dict.keys()：可以查询所有键</li>
+<li>dict.values()：可以查询所有值</li>
+<li>dict.items()：获取当前字典中所有的键值对</li>
+<li>iter(dict)：返回以字典的键为元素的迭代器</li>
+<li>pop(key)：通过键的方式弹出键值对</li>
+<li>popitem()：按照 LIFO 的方式删除键值对</li>
+<li>get()：通过 get 函数获得对应键的值，若键不存在返回 None</li>
+<li>update()：更新字典，在原来的基础上更新</li>
+<li>setdefault()：如果 字典的键存在 则返回对应值；如果键不存在，默认存入值为 None 的键值对，返回值为值，也可以指定传入的值</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">vardict = &#123;<span class="string">&#x27;a&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;b&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;c&#x27;</span>: <span class="number">3</span>&#125;</span><br><span class="line"></span><br><span class="line">res = <span class="built_in">iter</span>(vardict)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># &lt;dict_keyiterator object at 0x102977950&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    <span class="comment"># a</span></span><br><span class="line">    <span class="comment"># b</span></span><br><span class="line">    <span class="comment"># c</span></span><br><span class="line"></span><br><span class="line">vardict.pop(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(vardict)  <span class="comment"># # &#123;&#x27;b&#x27;: 2, &#x27;c&#x27;: 3&#125;</span></span><br><span class="line"></span><br><span class="line">vardict.popitem()</span><br><span class="line"><span class="built_in">print</span>(vardict)  <span class="comment"># &#123;&#x27;b&#x27;: 2&#125;</span></span><br><span class="line"></span><br><span class="line">vardict = &#123;<span class="string">&#x27;a&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;b&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;c&#x27;</span>: <span class="number">3</span>&#125;</span><br><span class="line">res = vardict.get(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># 1</span></span><br><span class="line">res = vardict.get(<span class="string">&#x27;d&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># None</span></span><br><span class="line"></span><br><span class="line">vardict.update(a=<span class="number">11</span>, b=<span class="number">22</span>)</span><br><span class="line"><span class="built_in">print</span>(vardict)  <span class="comment"># &#123;&#x27;a&#x27;: 11, &#x27;b&#x27;: 22, &#x27;c&#x27;: 3&#125;</span></span><br><span class="line"></span><br><span class="line">res = vardict.setdefault(<span class="string">&#x27;d&#x27;</span>, <span class="number">4</span>)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># 4</span></span><br><span class="line"><span class="built_in">print</span>(vardict)  <span class="comment"># &#123;&#x27;a&#x27;: 11, &#x27;b&#x27;: 22, &#x27;c&#x27;: 3, &#x27;d&#x27;: 4&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="字典推导式"><a href="#字典推导式" class="headerlink" title="字典推导式"></a>字典推导式</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">vardict = &#123;<span class="string">&#x27;a&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;b&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;c&#x27;</span>: <span class="number">3</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把字典中的键值对位置交换</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 普通方法</span></span><br><span class="line">newdict = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> k, v <span class="keyword">in</span> vardict.items():</span><br><span class="line">    newdict[v] = k</span><br><span class="line"><span class="built_in">print</span>(newdict)  <span class="comment"># &#123;1: &#x27;a&#x27;, 2: &#x27;b&#x27;, 3: &#x27;c&#x27;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用字典推导式</span></span><br><span class="line">newdict = &#123;v: k <span class="keyword">for</span> k, v <span class="keyword">in</span> vardict.items()&#125;</span><br><span class="line"><span class="built_in">print</span>(newdict)  <span class="comment"># &#123;1: &#x27;a&#x27;, 2: &#x27;b&#x27;, 3: &#x27;c&#x27;&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 只保留值为偶数的键值对 并且键值互换</span></span><br><span class="line"><span class="comment"># 普通方法</span></span><br><span class="line">vardict = &#123;<span class="string">&#x27;a&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;b&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;c&#x27;</span>: <span class="number">3</span>, <span class="string">&#x27;d&#x27;</span>: <span class="number">4</span>&#125;</span><br><span class="line">newdict = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> k,v <span class="keyword">in</span> vardict.items():</span><br><span class="line">    <span class="keyword">if</span> v % <span class="number">2</span> ==<span class="number">0</span>:</span><br><span class="line">        newdict[v] = k</span><br><span class="line"><span class="built_in">print</span>(newdict) <span class="comment"># &#123;2: &#x27;b&#x27;, 4: &#x27;d&#x27;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 列表推导式方法</span></span><br><span class="line">newdict = &#123;v:k <span class="keyword">for</span> k,v <span class="keyword">in</span> vardict.items() <span class="keyword">if</span> v % <span class="number">2</span> == <span class="number">0</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(newdict) <span class="comment"># &#123;2: &#x27;b&#x27;, 4: &#x27;d&#x27;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="集合详解"><a href="#集合详解" class="headerlink" title="集合详解"></a>集合详解</h1><h2 id="集合的基本操作和常规"><a href="#集合的基本操作和常规" class="headerlink" title="集合的基本操作和常规"></a>集合的基本操作和常规</h2><p>确定的一组无序的数据的组合</p>
+<ul>
+<li>确定的：当前集合中元素的值不能重复</li>
+<li>由多个数据组合的复合型数据（容器类型数据）</li>
+<li>集合中的数据没有顺序</li>
+<li>功能：成员检测、从序列中去除重复项以及数学中的集合类计算，列如交集、并集、差集与对称差集等等</li>
+</ul>
+<h3 id="集合的定义"><a href="#集合的定义" class="headerlink" title="集合的定义"></a>集合的定义</h3><ul>
+<li>可以直接使用{}来定义集合，定义空集合必须用 set()方法</li>
+<li>可以使用 set()进行集合的定义和转换</li>
+<li>使用集合推导式完成集合的定义 注意：集合中的元素不能重复，集合中存放的数据：Number、Strings、Tuple、冰冻集合</li>
+</ul>
+<h3 id="集合的基本操作和常规函数"><a href="#集合的基本操作和常规函数" class="headerlink" title="集合的基本操作和常规函数"></a>集合的基本操作和常规函数</h3><ul>
+<li>无序、False 和 0 只会出现一个、True 和 1 只会出现一个、元素值不会重复</li>
+<li>成员检测：使用 in 检测是都存在某个元素</li>
+<li>元素个数：len()检测集合元素个数</li>
+<li>集合遍历：使用 for 方法进行遍历</li>
+<li>追加元素：set.add()可以向集合中追加元素，（为什么不是 append，因为 append 有扩充的思想，从尾部插入，而 add 是没有顺序的）</li>
+<li>删除元素：<ul>
+<li>set.pop()可以删除集合中的元素，随机删除，并返回</li>
+<li>set.remove()指定删除集合中的元素，无返回值,如果不存在则会报错</li>
+<li>set.discard()指定删除集合中的元素，不存在也不会报错</li>
+</ul>
+</li>
+<li>清空集合：set.clear()</li>
+<li>更新集合：set.update()</li>
+<li>集合的拷贝：set.copy()</li>
+<li>冰冻集合：frozenset()</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">varset = &#123;<span class="number">123</span>, <span class="string">&#x27;abc&#x27;</span>, <span class="literal">True</span>, (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>), <span class="number">0</span>, <span class="literal">False</span>, <span class="number">3.1415</span>, <span class="number">123</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(varset)  <span class="comment"># &#123;0, True, 3.1415, &#x27;abc&#x27;, (1, 2, 3), 123&#125;</span></span><br><span class="line"></span><br><span class="line">res = <span class="string">&#x27;abc&#x27;</span> <span class="keyword">in</span> varset</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># True</span></span><br><span class="line"></span><br><span class="line">res = <span class="built_in">len</span>(varset)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># 6</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> varset:</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    <span class="comment"># 0</span></span><br><span class="line">    <span class="comment"># True</span></span><br><span class="line">    <span class="comment"># 3.1415</span></span><br><span class="line">    <span class="comment"># (1, 2, 3)</span></span><br><span class="line">    <span class="comment"># abc</span></span><br><span class="line">    <span class="comment"># 123</span></span><br><span class="line"></span><br><span class="line">varset.add(<span class="string">&#x27;new&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(varset)  <span class="comment"># &#123;0, True, 3.1415, &#x27;new&#x27;, (1, 2, 3), &#x27;abc&#x27;, 123&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># pop是随机的删除</span></span><br><span class="line">r1 = varset.pop()</span><br><span class="line">r2 = varset.pop()</span><br><span class="line">r3 = varset.pop()</span><br><span class="line">r4 = varset.pop()</span><br><span class="line"><span class="built_in">print</span>(r1, r2, r3, r4)  <span class="comment"># 0 True 3.1415 new</span></span><br><span class="line"><span class="built_in">print</span>(varset)  <span class="comment"># &#123;(1, 2, 3), &#x27;abc&#x27;, 123&#125;</span></span><br><span class="line"></span><br><span class="line">varset = &#123;<span class="number">123</span>, <span class="string">&#x27;abc&#x27;</span>, <span class="literal">True</span>, (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>), <span class="number">0</span>, <span class="literal">False</span>, <span class="number">3.1415</span>, <span class="number">123</span>&#125;</span><br><span class="line">varset.remove(<span class="string">&#x27;abc&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(varset)  <span class="comment"># &#123;0, True, 3.1415, (1, 2, 3), 123&#125;</span></span><br><span class="line"></span><br><span class="line">varset.discard(<span class="number">123</span>)</span><br><span class="line"><span class="built_in">print</span>(varset)  <span class="comment"># &#123;0, True, 3.1415, (1, 2, 3)&#125;</span></span><br><span class="line"></span><br><span class="line">varset.clear()</span><br><span class="line"><span class="built_in">print</span>(varset)  <span class="comment"># set()</span></span><br><span class="line"></span><br><span class="line">varset = &#123;<span class="number">123</span>, <span class="string">&#x27;abc&#x27;</span>, <span class="literal">True</span>, (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>), <span class="number">0</span>, <span class="literal">False</span>, <span class="number">3.1415</span>, <span class="number">123</span>&#125;</span><br><span class="line">varset.update(&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;)</span><br><span class="line"><span class="built_in">print</span>(varset)  <span class="comment"># &#123;0, True, 2, 3.1415, 3, 4, 5, (1, 2, 3), 123, &#x27;abc&#x27;&#125;</span></span><br><span class="line"></span><br><span class="line">newset = varset.copy()</span><br><span class="line"><span class="built_in">print</span>(newset)  <span class="comment"># &#123;0, True, 2, 3.1415, 3, 4, 5, (1, 2, 3), &#x27;abc&#x27;, 123&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 冰冻集合</span></span><br><span class="line">v = <span class="built_in">frozenset</span>(&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;)</span><br><span class="line"><span class="built_in">print</span>(v)  <span class="comment"># frozenset(&#123;1, 2, 3&#125;)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="冰冻集合"><a href="#冰冻集合" class="headerlink" title="冰冻集合"></a>冰冻集合</h2><ul>
+<li>定义冰冻集合 只能使用 frozenset()函数进行冰冻集合的定义<ul>
+<li>冰冻集合一旦定义 就不能修改</li>
+<li>冰冻集合只能做集合相关的运算：求并交补差集</li>
+<li>本身就是一个强制类型转换的函数，可以把其他任何容器类型的数据转换为冰冻集合</li>
+</ul>
+</li>
+<li>冰冻集合可以遍历：使用 for 进行遍历</li>
+<li>冰冻集合的推导式</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vars</span> = <span class="built_in">frozenset</span>(&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">vars</span>) <span class="comment"># frozenset(&#123;1, 2, 3&#125;)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">vars</span>:</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    <span class="comment"># 1</span></span><br><span class="line">    <span class="comment"># 2</span></span><br><span class="line">    <span class="comment"># 3</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 冰冻集合推导式</span></span><br><span class="line">res = <span class="built_in">frozenset</span>(&#123;i&lt;&lt;<span class="number">1</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">6</span>)&#125;)</span><br><span class="line"><span class="built_in">print</span>(res) <span class="comment"># frozenset(&#123;0, 2, 4, 6, 8, 10&#125;)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="集合推导式"><a href="#集合推导式" class="headerlink" title="集合推导式"></a>集合推导式</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 普通推导式</span></span><br><span class="line">varset = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;</span><br><span class="line"></span><br><span class="line">newset = &#123;i &lt;&lt; <span class="number">1</span> <span class="keyword">for</span> i <span class="keyword">in</span> varset&#125;</span><br><span class="line"><span class="built_in">print</span>(newset)  <span class="comment"># &#123;8, 2, 4, 6&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 带有条件表达式的推导式</span></span><br><span class="line">newset = &#123;i &lt;&lt; <span class="number">1</span> <span class="keyword">for</span> i <span class="keyword">in</span> varset <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">0</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(newset)  <span class="comment"># &#123;8, 4&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 多循环的集合推导式</span></span><br><span class="line"><span class="comment"># 普通方法</span></span><br><span class="line">vars1 = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">vars2 = &#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>&#125;</span><br><span class="line">newset = <span class="built_in">set</span>()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> vars1:</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> vars2:</span><br><span class="line">        <span class="built_in">print</span>(i, j)</span><br><span class="line">        newset.add(i + j)</span><br><span class="line"><span class="built_in">print</span>(newset)  <span class="comment"># &#123;5, 6, 7, 8, 9&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 列表推导式</span></span><br><span class="line">newset = &#123;i + j <span class="keyword">for</span> i <span class="keyword">in</span> vars1 <span class="keyword">for</span> j <span class="keyword">in</span> vars2&#125;</span><br><span class="line"><span class="built_in">print</span>(newset)  <span class="comment"># &#123;5, 6, 7, 8, 9&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 待条件表达式的多循环的集合推导式</span></span><br><span class="line">newset = &#123;i + j <span class="keyword">for</span> i <span class="keyword">in</span> vars1 <span class="keyword">for</span> j <span class="keyword">in</span> vars2 <span class="keyword">if</span> (i + j) % <span class="number">2</span> == <span class="number">0</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(newset)  <span class="comment"># &#123;8, 6&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="集合运算"><a href="#集合运算" class="headerlink" title="集合运算"></a>集合运算</h2><ul>
+<li>集合的主要运算<ul>
+<li>交集<ul>
+<li>&amp;</li>
+<li>set.intersection() 有返回值，不对原集合更新；还可以对可迭代对象进行合并</li>
+<li>set.intersection_update() 无返回值，对原集合会更新</li>
+</ul>
+</li>
+<li>并集<ul>
+<li>| 更推荐这种，对两种数据要求高 不能太灵活</li>
+<li>set.union() 有返回值，不对原集合更新 ；还可以对可迭代对象进行合并</li>
+<li>set.update() 无返回值，对调用的集合更新</li>
+</ul>
+</li>
+<li>差集 (去掉集合中 另一集合有的部分)<ul>
+<li><ul>
+<li></li>
+</ul>
+</li>
+<li>set.difference() 有返回值，不对原集合更新</li>
+<li>set.difference_update() 无返回值，对原集合更新</li>
+</ul>
+</li>
+<li>对称差集 (去掉各自集合中 相同的部分)<ul>
+<li>^</li>
+<li>set.symmetric_difference() 有返回值，不对原集合更新</li>
+<li>set.symmetric_difference_update() 无返回值，对原集合更新</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>检测超集和子集<ul>
+<li>set1.issuperset(set2) 返回值为 True、False，意义为 set1 是否为 set2 的超集，也可以用 <code>&gt;=</code></li>
+<li>set1.issubset(set2) 检测 set1 是否为 set2 的子集，也可以使用 <code>&lt;=</code></li>
+</ul>
+</li>
+<li>检测是否不相交<ul>
+<li>set1.isdisjoint(set2) 有返回值，不相交返回 True、相交返回 False</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">vars1 = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>&#125;</span><br><span class="line">vars2 = &#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 交集</span></span><br><span class="line"><span class="built_in">print</span>(vars1 &amp; vars2)  <span class="comment"># &#123;4, 5, 6, 7&#125;</span></span><br><span class="line">res = vars1.intersection(vars2)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># &#123;4, 5, 6, 7&#125;</span></span><br><span class="line"><span class="built_in">print</span>(vars1)  <span class="comment"># &#123;1, 2, 3, 4, 5, 6, 7&#125;</span></span><br><span class="line"></span><br><span class="line">res = vars1.intersection_update(vars2)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># None</span></span><br><span class="line"><span class="built_in">print</span>(vars1)  <span class="comment"># &#123;4, 5, 6, 7&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 并集</span></span><br><span class="line">vars1 = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>&#125;</span><br><span class="line">vars2 = &#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(vars1 | vars2)  <span class="comment"># &#123;1, 2, 3, 4, 5, 6, 7, 8, 9, 10&#125;</span></span><br><span class="line">res = vars1.union(vars2)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># &#123;1, 2, 3, 4, 5, 6, 7, 8, 9, 10&#125;</span></span><br><span class="line">vars1.update(vars2)</span><br><span class="line"><span class="built_in">print</span>(vars1)  <span class="comment"># &#123;1, 2, 3, 4, 5, 6, 7, 8, 9, 10&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 差集</span></span><br><span class="line">vars1 = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>&#125;</span><br><span class="line">vars2 = &#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(vars1 - vars2)  <span class="comment"># &#123;1, 2, 3&#125;</span></span><br><span class="line"><span class="built_in">print</span>(vars2 - vars1)  <span class="comment"># &#123;8, 9, 10&#125;</span></span><br><span class="line">res = vars1.difference(vars2)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># &#123;1, 2, 3&#125;</span></span><br><span class="line">vars1.difference_update(vars2)</span><br><span class="line"><span class="built_in">print</span>(vars1)  <span class="comment"># &#123;1, 2, 3&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 对称差集</span></span><br><span class="line">vars1 = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>&#125;</span><br><span class="line">vars2 = &#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(vars1 ^ vars2)  <span class="comment"># &#123;1, 2, 3, 8, 9, 10&#125;</span></span><br><span class="line">res = vars1.symmetric_difference(vars2)</span><br><span class="line"><span class="built_in">print</span>(res)  <span class="comment"># &#123;1, 2, 3, 8, 9, 10&#125;</span></span><br><span class="line">vars1.symmetric_difference_update(vars2)</span><br><span class="line"><span class="built_in">print</span>(vars1)  <span class="comment"># &#123;1, 2, 3, 8, 9, 10&#125;</span></span><br><span class="line"></span><br><span class="line">vars1 = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line">vars2 = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>&#125;</span><br><span class="line">res = vars2.issuperset(vars1)</span><br><span class="line"><span class="built_in">print</span>(res) <span class="comment"># True</span></span><br><span class="line"></span><br><span class="line">res = vars1.issubset(vars2)</span><br><span class="line"><span class="built_in">print</span>(res) <span class="comment"># True</span></span><br><span class="line"></span><br><span class="line">res = vars1.isdisjoint(vars2)</span><br><span class="line"><span class="built_in">print</span>(res) <span class="comment"># False</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>更新: 2024-01-10 22:17:18<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/zacharyblock/cx2om6/an7fvuvt1unusq1w">https://www.yuque.com/zacharyblock/cx2om6/an7fvuvt1unusq1w</a></p>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Zachary Block</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://blockzachary.cn/blog/1411293093/">http://blockzachary.cn/blog/1411293093/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Python/"># Python</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/blog/2855414916/">Python - 函数</a>
+            
+            
+            <a class="next" rel="next" href="/blog/1071536995/">Python - 语法</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+<script src="/js/clipboard.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    var codeBlocks = document.querySelectorAll('article .code pre');
+
+    function copyToClipboard(textToCopy, copyButton) {
+        // Check if navigator clipboard is available and in a secure context
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(textToCopy).then(function () {
+                copyButton.innerText = 'Copied!';
+                setTimeout(function () {
+                    copyButton.innerText = 'Copy';
+                }, 1500);
+            }).catch(function (err) {
+                console.error('Clipboard copy failed', err);
+                fallbackCopyTextToClipboard(textToCopy, copyButton);
+            });
+        } else {
+            // Fallback method using document.execCommand
+            fallbackCopyTextToClipboard(textToCopy, copyButton);
+        }
+    }
+
+    function fallbackCopyTextToClipboard(textToCopy, copyButton) {
+        let input = document.createElement('input');
+        input.style.position = 'fixed';
+        input.style.top = '-10000px';
+        input.style.zIndex = '-999';
+        document.body.appendChild(input);
+        input.value = textToCopy;
+        input.focus();
+        input.select();
+
+        try {
+            let result = document.execCommand('copy');
+            document.body.removeChild(input);
+
+            if (result) {
+                copyButton.innerText = 'Copied!';
+                setTimeout(function () {
+                    copyButton.innerText = 'Copy';
+                }, 1500);
+            } else {
+                console.log('复制失败');
+                alert('复制失败，请重试');
+            }
+        } catch (e) {
+            document.body.removeChild(input);
+            console.error('复制出错', e);
+            alert('当前浏览器不支持复制功能，请检查更新或更换其他浏览器操作');
+        }
+    }
+
+    codeBlocks.forEach(function (codeBlock) {
+        var copyButton = document.createElement('button');
+        copyButton.className = 'copy-button';
+        copyButton.innerText = 'Copy';
+
+        // Check if the code block is in the article content
+        if (codeBlock.closest('article')) {
+            codeBlock.parentNode.style.position = 'relative';
+            codeBlock.parentNode.appendChild(copyButton);
+
+            copyButton.addEventListener('click', function () {
+                var codeText = codeBlock.innerText;
+                copyToClipboard(codeText, copyButton);
+            });
+        }
+    });
+});
+</script>
+
+<style>
+    .copy-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #2d96bd;
+        color: #fff;
+        border: none;
+        border-radius: 10%;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+</style>
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>
+            <!-- Existing Creative Commons images and links -->
+            <a href="http://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">
+                <svg xmlns="http://www.w3.org/2000/svg" style="height:16px; width:16px; margin-left:1px;vertical-align: middle; position: relative; top: -1px;" class="cc-logo" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" id="Layer_1" x="0px" y="0px" width="64px" height="64px" viewBox="5.5 -3.5 64 64" enable-background="new 5.5 -3.5 64 64" xml:space="preserve">
+                    <g>
+                        <circle fill="none" cx="37.785" cy="28.501" r="28.836"/>
+                        <path d="M37.441-3.5c8.951,0,16.572,3.125,22.857,9.372c3.008,3.009,5.295,6.448,6.857,10.314   c1.561,3.867,2.344,7.971,2.344,12.314c0,4.381-0.773,8.486-2.314,12.313c-1.543,3.828-3.82,7.21-6.828,10.143   c-3.123,3.085-6.666,5.448-10.629,7.086c-3.961,1.638-8.057,2.457-12.285,2.457s-8.276-0.808-12.143-2.429   c-3.866-1.618-7.333-3.961-10.4-7.027c-3.067-3.066-5.4-6.524-7-10.372S5.5,32.767,5.5,28.5c0-4.229,0.809-8.295,2.428-12.2   c1.619-3.905,3.972-7.4,7.057-10.486C21.08-0.394,28.565-3.5,37.441-3.5z M37.557,2.272c-7.314,0-13.467,2.553-18.458,7.657   c-2.515,2.553-4.448,5.419-5.8,8.6c-1.354,3.181-2.029,6.505-2.029,9.972c0,3.429,0.675,6.734,2.029,9.913   c1.353,3.183,3.285,6.021,5.8,8.516c2.514,2.496,5.351,4.399,8.515,5.715c3.161,1.314,6.476,1.971,9.943,1.971   c3.428,0,6.75-0.665,9.973-1.999c3.219-1.335,6.121-3.257,8.713-5.771c4.99-4.876,7.484-10.99,7.484-18.344   c0-3.543-0.648-6.895-1.943-10.057c-1.293-3.162-3.18-5.98-5.654-8.458C50.984,4.844,44.795,2.272,37.557,2.272z M37.156,23.187   l-4.287,2.229c-0.458-0.951-1.019-1.619-1.685-2c-0.667-0.38-1.286-0.571-1.858-0.571c-2.856,0-4.286,1.885-4.286,5.657   c0,1.714,0.362,3.084,1.085,4.113c0.724,1.029,1.791,1.544,3.201,1.544c1.867,0,3.181-0.915,3.944-2.743l3.942,2   c-0.838,1.563-2,2.791-3.486,3.686c-1.484,0.896-3.123,1.343-4.914,1.343c-2.857,0-5.163-0.875-6.915-2.629   c-1.752-1.752-2.628-4.19-2.628-7.313c0-3.048,0.886-5.466,2.657-7.257c1.771-1.79,4.009-2.686,6.715-2.686   C32.604,18.558,35.441,20.101,37.156,23.187z M55.613,23.187l-4.229,2.229c-0.457-0.951-1.02-1.619-1.686-2   c-0.668-0.38-1.307-0.571-1.914-0.571c-2.857,0-4.287,1.885-4.287,5.657c0,1.714,0.363,3.084,1.086,4.113   c0.723,1.029,1.789,1.544,3.201,1.544c1.865,0,3.18-0.915,3.941-2.743l4,2c-0.875,1.563-2.057,2.791-3.541,3.686   c-1.486,0.896-3.105,1.343-4.857,1.343c-2.896,0-5.209-0.875-6.941-2.629c-1.736-1.752-2.602-4.19-2.602-7.313   c0-3.048,0.885-5.466,2.658-7.257c1.77-1.79,4.008-2.686,6.713-2.686C51.117,18.558,53.938,20.101,55.613,23.187z"/>
+                    </g>
+                    </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" style="height:16px; width:16px; margin-left:1px;vertical-align: middle; position: relative; top: -1px;" class="att-logo" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" id="Layer_1" x="0px" y="0px" width="64px" height="64px" viewBox="5.5 -3.5 64 64" enable-background="new 5.5 -3.5 64 64" xml:space="preserve">
+                    <g>
+                        <circle fill="none" cx="37.637" cy="28.806" r="28.276"/>
+                        <g>
+                            <path d="M37.443-3.5c8.988,0,16.57,3.085,22.742,9.257C66.393,11.967,69.5,19.548,69.5,28.5c0,8.991-3.049,16.476-9.145,22.456    C53.879,57.319,46.242,60.5,37.443,60.5c-8.649,0-16.153-3.144-22.514-9.43C8.644,44.784,5.5,37.262,5.5,28.5    c0-8.761,3.144-16.342,9.429-22.742C21.101-0.415,28.604-3.5,37.443-3.5z M37.557,2.272c-7.276,0-13.428,2.553-18.457,7.657    c-5.22,5.334-7.829,11.525-7.829,18.572c0,7.086,2.59,13.22,7.77,18.398c5.181,5.182,11.352,7.771,18.514,7.771    c7.123,0,13.334-2.607,18.629-7.828c5.029-4.838,7.543-10.952,7.543-18.343c0-7.276-2.553-13.465-7.656-18.571    C50.967,4.824,44.795,2.272,37.557,2.272z M46.129,20.557v13.085h-3.656v15.542h-9.944V33.643h-3.656V20.557    c0-0.572,0.2-1.057,0.599-1.457c0.401-0.399,0.887-0.6,1.457-0.6h13.144c0.533,0,1.01,0.2,1.428,0.6    C45.918,19.5,46.129,19.986,46.129,20.557z M33.042,12.329c0-3.008,1.485-4.514,4.458-4.514s4.457,1.504,4.457,4.514    c0,2.971-1.486,4.457-4.457,4.457S33.042,15.3,33.042,12.329z"/>
+                        </g>
+                    </g>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" style="height:16px; width:16px; margin-left:1px;vertical-align: middle; position: relative; top: -1px;" class="non-logo" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" id="Layer_1" x="0px" y="0px" width="64px" height="64px" viewBox="5.5 -3.5 64 64" enable-background="new 5.5 -3.5 64 64" xml:space="preserve">
+                    <g>
+                        <circle fill="none" cx="37.47" cy="28.736" r="29.471"/>
+                        <g>
+                            <path d="M37.442-3.5c8.99,0,16.571,3.085,22.743,9.256C66.393,11.928,69.5,19.509,69.5,28.5c0,8.992-3.048,16.476-9.145,22.458    C53.88,57.32,46.241,60.5,37.442,60.5c-8.686,0-16.19-3.162-22.513-9.485C8.644,44.728,5.5,37.225,5.5,28.5    c0-8.762,3.144-16.343,9.429-22.743C21.1-0.414,28.604-3.5,37.442-3.5z M12.7,19.872c-0.952,2.628-1.429,5.505-1.429,8.629    c0,7.086,2.59,13.22,7.77,18.4c5.219,5.144,11.391,7.715,18.514,7.715c7.201,0,13.409-2.608,18.63-7.829    c1.867-1.79,3.332-3.657,4.398-5.602l-12.056-5.371c-0.421,2.02-1.439,3.667-3.057,4.942c-1.622,1.276-3.535,2.011-5.744,2.2    v4.915h-3.714v-4.915c-3.543-0.036-6.782-1.312-9.714-3.827l4.4-4.457c2.094,1.942,4.476,2.913,7.143,2.913    c1.104,0,2.048-0.246,2.83-0.743c0.78-0.494,1.172-1.312,1.172-2.457c0-0.801-0.287-1.448-0.858-1.943l-3.085-1.315l-3.771-1.715    l-5.086-2.229L12.7,19.872z M37.557,2.214c-7.276,0-13.428,2.571-18.457,7.714c-1.258,1.258-2.439,2.686-3.543,4.287L27.786,19.7    c0.533-1.676,1.542-3.019,3.029-4.028c1.484-1.009,3.218-1.571,5.2-1.686V9.071h3.715v4.915c2.934,0.153,5.6,1.143,8,2.971    l-4.172,4.286c-1.793-1.257-3.619-1.885-5.486-1.885c-0.991,0-1.876,0.191-2.656,0.571c-0.781,0.381-1.172,1.029-1.172,1.943    c0,0.267,0.095,0.533,0.285,0.8l4.057,1.83l2.8,1.257l5.144,2.285l16.397,7.314c0.535-2.248,0.801-4.533,0.801-6.857    c0-7.353-2.552-13.543-7.656-18.573C51.005,4.785,44.831,2.214,37.557,2.214z"/>
+                        </g>
+                    </g>
+                    </svg> 
+            </a>
+            | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a>
+            <!-- | <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_value_site_uv"></span> -->
+            | <a href="https://icp.gov.moe/?keyword=20249826" target="_blank">萌ICP备20249826号</a >
+            <!-- Add the SVG logo wrapped in a link -->
+            <!-- <a href="https://www.travellings.cn/go.html" target="_blank" style="display:inline-block;"> -->
+                <!-- <svg xmlns="http://www.w3.org/2000/svg" class="kaiwang" height="16" width="14" viewBox="0 0 448 512" style="height:16px!important; margin-left:1px; vertical-align: middle; position: relative; top: -1px;"> -->
+                    <!-- SVG Path -->
+                    <!-- <path d="M96 0C43 0 0 43 0 96V352c0 48 35.2 87.7 81.1 94.9l-46 46C28.1 499.9 33.1 512 43 512H82.7c8.5 0 16.6-3.4 22.6-9.4L160 448H288l54.6 54.6c6 6 14.1 9.4 22.6 9.4H405c10 0 15-12.1 7.9-19.1l-46-46c46-7.1 81.1-46.9 81.1-94.9V96c0-53-43-96-96-96H96zM64 128c0-17.7 14.3-32 32-32h80c17.7 0 32 14.3 32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM272 96h80c17.7 0 32 14.3 32 32v96c0 17.7-14.3 32-32 32H272c-17.7 0-32-14.3-32-32V128c0-17.7 14.3-32 32-32zM64 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm288-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/> -->
+                <!-- </svg> -->
+            <!-- </a> -->
+        </span>
+        <!-- <span>© Zachary Block | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span> -->
+    </div>
+
+    <style>
+        /* Apply fill color based on currentColor for all logos */
+        .cc-logo path, .att-logo path, .non-logo path {
+            fill: currentColor;
+        }
+    
+        /* Default color (black) for day mode for all logos */
+        .cc-logo path, .att-logo path, .non-logo path {
+            color: black;
+        }
+    
+        /* Color (#A9A9B2) for dark theme for all logos */
+        .dark-theme .cc-logo path,
+        .dark-theme .att-logo path,
+        .dark-theme .non-logo path {
+            color: #A9A9B2;
+        }
+    </style>
+</footer>
+
+    </div>
+
+    <!-- Chic/layout.ejs -->
+    <div id="u-search">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="container">
+                    <form id="u-search-modal-form" class="u-search-modal-form">
+                        <button type="submit" class="form-submit-btn">
+                            <!-- <img src="/" class="search-btn-img" /> -->
+                            <i class="iconfont icon-search " ></i>
+                        </button>
+                        <input placeholder="搜索内容" class="form-input" id="modal-form-input">
+                    </form>
+                    <a class="modal-close">x</a>
+                </div>
+                <div class="search-loading">
+                    <div class="search-loading-bar"></div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <!-- ul 格式如下 -->
+                <!-- <ul class="modal-results">
+                    <li class="result-item">
+                        <a class="result-item-detail">
+                            <span class="title">页面配置</span>
+                            <span class="content">
+                                content
+                            </span>
+                        </a>
+                    </li>
+                </ul> -->
+            </div>
+        </div>
+        <div class="modal-overlay"></div>
+    </div>
+</body>
+
+</html>

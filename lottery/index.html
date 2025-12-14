@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Forecast System</title>
+    <!-- 引入 Inter 字体和 JetBrains Mono 以获得金融/编程感 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+      :root {
+        /* === System Colors (Morandi / iOS 17) === */
+        --bg-body: #F2F2F7;
+        --bg-card: #FFFFFF;
+        
+        --text-primary: #1C1C1E;
+        --text-secondary: #8E8E93;
+        --text-tertiary: #C7C7CC;
+        
+        --accent-primary: #000000;
+        --accent-highlight: #007AFF;
+        
+        /* === Functional Colors (Re-mapped) === */
+        /* Red Ball -> Coral/Terracotta */
+        --ball-red-bg: #FFF0F0;
+        --ball-red-text: #D63031;
+        --ball-red-border: #FFDCDC;
+        
+        /* Blue Ball -> Slate Blue */
+        --ball-blue-bg: #F0F4F8;
+        --ball-blue-text: #2C3E50;
+        --ball-blue-border: #DDE6EF;
+        
+        /* Gold Ball -> Champagne */
+        --ball-gold-bg: #FFF9E6;
+        --ball-gold-text: #B78900;
+        --ball-gold-border: #FFE8A3;
+
+        /* Algorithm Colors (Desaturated) */
+        --algo-balanced: #636e72;
+        --algo-hot: #e17055;
+        --algo-cold: #74b9ff;
+        --algo-markov: #a29bfe;
+        --algo-ema: #00b894;
+        --algo-gap: #fdcb6e;
+        --algo-dl: #6c5ce7;
+
+        /* Shadows */
+        --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+        --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+        --shadow-lg: 0 12px 32px rgba(0,0,0,0.08);
+      }
+
+      * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        background-color: var(--bg-body);
+        color: var(--text-primary);
+        margin: 0;
+        padding: 40px 20px;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+      }
+
+      /* === Main Dashboard Container === */
+      .container {
+        background: var(--bg-card);
+        max-width: 1000px;
+        width: 100%;
+        border-radius: 24px;
+        box-shadow: var(--shadow-lg);
+        padding: 40px;
+        position: relative;
+        border: 1px solid rgba(0,0,0,0.04);
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+      }
+
+      /* Header Area */
+      h1 {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        letter-spacing: -0.5px;
+      }
+
+      .badge {
+        font-size: 11px;
+        background: var(--text-primary);
+        color: white;
+        padding: 4px 10px;
+        border-radius: 100px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+
+      /* === Status Bar (Dynamic Island Style) === */
+      .status-bar {
+        background: #F8F9FA;
+        color: var(--text-secondary);
+        padding: 12px 20px;
+        border-radius: 16px;
+        font-size: 13px;
+        font-family: "JetBrains Mono", monospace;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: 1px solid rgba(0,0,0,0.03);
+        transition: all 0.3s ease;
+      }
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        background: #2ECC71;
+        border-radius: 50%;
+        box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.2);
+      }
+      .status-bar.error {
+        background: #FFF5F5;
+        color: #D63031;
+        border-color: #FFECEC;
+      }
+      .status-bar.error .status-dot { background: #D63031; box-shadow: 0 0 0 2px rgba(214, 48, 49, 0.2); }
+
+      /* === iOS Segmented Control Tabs === */
+      .tabs {
+        display: inline-flex;
+        background: #E5E5EA;
+        border-radius: 100px;
+        padding: 4px;
+        width: fit-content;
+        align-self: center;
+        margin-bottom: 10px;
+      }
+      .tab {
+        padding: 8px 32px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        border-radius: 100px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        user-select: none;
+      }
+      .tab.active {
+        background: white;
+        color: var(--text-primary);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      }
+
+      /* === Strategy Grids (Bento Box) === */
+      .section-title {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 12px;
+        display: block;
+        padding-left: 4px;
+      }
+
+      .strategy-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 12px;
+      }
+
+      /* Radio Cards - Minimalist Tiles */
+      .radio-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 16px;
+        background: #FAFAFA;
+        border: 1px solid transparent;
+        border-radius: 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        position: relative;
+        min-height: 80px;
+      }
+      .radio-card input { display: none; } /* Hide default radio */
+
+      .radio-card:hover { background: #F0F0F0; transform: translateY(-1px); }
+
+      /* Selected State */
+      .radio-card:has(input:checked) {
+        background: white;
+        border-color: var(--accent-highlight);
+        box-shadow: var(--shadow-md);
+      }
+      
+      /* Specific Highlight Colors for Text when checked */
+      .radio-card:has(input[value="markov"]:checked) .radio-title { color: var(--algo-markov); }
+      .radio-card:has(input[value="hot"]:checked) .radio-title { color: var(--algo-hot); }
+      .radio-card:has(input[value="cold"]:checked) .radio-title { color: var(--algo-cold); }
+      .radio-card:has(input[value="gap"]:checked) .radio-title { color: var(--algo-gap); }
+      .radio-card:has(input[value="ema"]:checked) .radio-title { color: var(--algo-ema); }
+      .radio-card:has(input[value="ar"]:checked) .radio-title { color: var(--algo-dl); }
+      .radio-card:has(input[value="lstm"]:checked) .radio-title { color: var(--algo-dl); }
+      .radio-card:has(input[value="gru"]:checked) .radio-title { color: var(--algo-dl); }
+      .radio-card:has(input[value="transformer"]:checked) .radio-title { color: var(--algo-dl); }
+
+      .radio-info { display: flex; flex-direction: column; gap: 4px; }
+      
+      .radio-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-primary);
+        transition: color 0.2s;
+      }
+      .radio-desc {
+        font-size: 11px;
+        color: var(--text-secondary);
+        font-family: "JetBrains Mono", monospace;
+        opacity: 0.8;
+      }
+
+      /* === Action Buttons === */
+      .btn-group {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 16px;
+        margin-top: 10px;
+      }
+
+      button {
+        border: none;
+        outline: none;
+        padding: 18px;
+        border-radius: 100px; /* Pill Shape */
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.1s ease, opacity 0.2s;
+        letter-spacing: -0.2px;
+      }
+      button:active { transform: scale(0.97); }
+      button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+      .generate-btn {
+        background: var(--text-primary);
+        color: white;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      .generate-btn:hover:not(:disabled) { background: #333; }
+
+      .lucky-btn {
+        background: white;
+        color: var(--text-primary);
+        border: 1px solid #E5E5EA;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      .lucky-btn:hover:not(:disabled) { background: #F9F9F9; border-color: #D1D1D6; }
+
+      /* === Results Area === */
+      .result-area {
+        display: none;
+        animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        padding-top: 20px;
+        border-top: 1px solid #F2F2F7;
+      }
+      @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .result-area h3, .daily-area h3 {
+        font-size: 13px;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-align: center;
+        margin-bottom: 24px;
+        font-weight: 600;
+      }
+
+      /* === The Balls (Modern Flat Design) === */
+      .lottery-row {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 30px;
+      }
+
+      .ball {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 600;
+        font-size: 18px;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        
+        /* Default Flat Style */
+        background: var(--bg-body);
+        color: var(--text-primary);
+        border: 1px solid transparent;
+      }
+      
+      .ball:hover { transform: scale(1.1); }
+
+      .ball.red {
+        background: var(--ball-red-bg);
+        color: var(--ball-red-text);
+        border: 1px solid var(--ball-red-border);
+      }
+      .ball.blue {
+        background: var(--ball-blue-bg);
+        color: var(--ball-blue-text);
+        border: 1px solid var(--ball-blue-border);
+      }
+      .ball.gold {
+        background: var(--ball-gold-bg);
+        color: var(--ball-gold-text);
+        border: 1px solid var(--ball-gold-border);
+      }
+
+      /* AI Tag Styling */
+      .ball::after {
+        position: absolute;
+        font-size: 8px;
+        top: -6px;
+        right: -6px;
+        background: var(--text-primary);
+        color: white;
+        padding: 2px 4px;
+        border-radius: 4px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        transform: scale(0);
+        transition: transform 0.3s ease;
+      }
+      
+      .ball.ai-style::after { content: "AI"; transform: scale(1); background: var(--algo-dl); }
+      .ball.mk-style::after { content: "MK"; transform: scale(1); background: var(--algo-markov); }
+      .ball.hot-style::after { content: "HOT"; transform: scale(1); background: var(--algo-hot); }
+
+      /* === Analysis Log (Terminal Style) === */
+      .analysis-log {
+        background: #1C1C1E; /* Dark Mode bg */
+        color: #D1D1D6;
+        padding: 24px;
+        border-radius: 12px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        line-height: 1.8;
+        max-height: 180px;
+        overflow-y: auto;
+        border-left: 3px solid var(--algo-ema);
+        box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+      }
+      /* Custom Scrollbar for log */
+      .analysis-log::-webkit-scrollbar { width: 6px; }
+      .analysis-log::-webkit-scrollbar-thumb { background: #3A3A3C; border-radius: 10px; }
+
+      /* === Daily Lucky Area === */
+      .daily-area {
+        display: none;
+        margin-top: 30px;
+        border-top: 1px solid #F2F2F7;
+        padding-top: 30px;
+        animation: slideUp 0.5s ease;
+      }
+      
+      .daily-sets {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 16px;
+      }
+
+      .daily-card {
+        background: #FAFAFA;
+        border: 1px solid #E5E5EA;
+        border-radius: 16px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.2s;
+      }
+      
+      /* Subtle colored strip on top instead of full border */
+      .daily-card::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 4px;
+        opacity: 0.7;
+      }
+      .daily-card.type-basic::before { background: var(--algo-balanced); }
+      .daily-card.type-adv::before { background: var(--algo-gap); }
+      .daily-card.type-dl::before { background: var(--algo-dl); }
+
+      .daily-header {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .algo-tag {
+        font-size: 10px;
+        padding: 2px 8px;
+        border-radius: 6px;
+        background: #EEEEEE;
+        color: #333;
+        font-family: "JetBrains Mono", monospace;
+        text-transform: uppercase;
+      }
+
+      .daily-balls {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .daily-balls .ball {
+        width: 32px;
+        height: 32px;
+        font-size: 13px;
+      }
+      /* Adjust tag for smaller balls */
+      .daily-balls .ball::after { display: none; } 
+
+      .copy-btn {
+        margin-top: 24px;
+        width: 100%;
+        padding: 16px;
+        background: white;
+        color: var(--text-primary);
+        border: 1px dashed #C7C7CC;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 13px;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      .copy-btn:hover { background: #FAFAFA; border-color: var(--text-secondary); }
+      .copy-btn:active { background: #F2F2F7; }
+      
+      /* Icons (SVG replacement classes) */
+      .icon { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+      
+      /* Responsive */
+      @media (max-width: 600px) {
+        .container { padding: 24px 20px; border-radius: 0; height: 100vh; box-shadow: none; overflow-y: scroll; justify-content: flex-start; }
+        .btn-group { display: flex; flex-direction: column-reverse; }
+        .lottery-row { gap: 8px; }
+        .ball { width: 40px; height: 40px; font-size: 16px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div>
+        <h1>
+          <!-- Icon: Cube/Box -->
+          <svg class="icon" viewBox="0 0 24 24" style="width:24px; height:24px;"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" /></svg>
+          Lottery Analytics
+          <span class="badge">PRO</span>
+        </h1>
+        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 8px;">Advanced probability forecasting engine with neural network integration.</p>
+      </div>
+
+      <div id="statusBox" class="status-bar">
+        <span class="status-dot"></span> Initializing System...
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="switchType('ssq')">SSQ</div>
+        <div class="tab" onclick="switchType('dlt')">DLT</div>
+      </div>
+
+      <!-- 1. 基础统计学 -->
+      <div>
+        <span class="section-title">Statistic Models</span>
+        <div class="strategy-grid">
+          <label class="radio-card">
+            <input type="radio" name="algo" value="balanced" checked />
+            <div class="radio-info">
+              <span class="radio-title">Balanced</span>
+              <span class="radio-desc">Statistical Equilibrium</span>
+            </div>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="algo" value="hot" />
+            <div class="radio-info">
+              <span class="radio-title">Trend Follower</span>
+              <span class="radio-desc">Hot Number Focus</span>
+            </div>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="algo" value="cold" />
+            <div class="radio-info">
+              <span class="radio-title">Mean Reversion</span>
+              <span class="radio-desc">Cold Number Focus</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- 2. 进阶时序分析 -->
+      <div>
+        <span class="section-title">Time Series Analysis</span>
+        <div class="strategy-grid">
+          <label class="radio-card">
+            <input type="radio" name="algo" value="markov" />
+            <div class="radio-info">
+              <span class="radio-title">Markov Chain</span>
+              <span class="radio-desc">State Transition Matrix</span>
+            </div>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="algo" value="ema" />
+            <div class="radio-info">
+              <span class="radio-title">EMA Indicator</span>
+              <span class="radio-desc">Exp. Moving Average</span>
+            </div>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="algo" value="gap" />
+            <div class="radio-info">
+              <span class="radio-title">Gap Analysis</span>
+              <span class="radio-desc">Omission Cycle</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- 3. 深度学习 -->
+      <div>
+        <span class="section-title">Neural Networks</span>
+        <div class="strategy-grid">
+          <label class="radio-card">
+            <input type="radio" name="algo" value="ar" />
+            <div class="radio-info">
+              <span class="radio-title">Linear Reg</span>
+              <span class="radio-desc">AutoRegression</span>
+            </div>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="algo" value="lstm" />
+            <div class="radio-info">
+              <span class="radio-title">LSTM</span>
+              <span class="radio-desc">Long Short-Term Memory</span>
+            </div>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="algo" value="gru" />
+            <div class="radio-info">
+              <span class="radio-title">GRU</span>
+              <span class="radio-desc">Gated Recurrent Unit</span>
+            </div>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="algo" value="transformer" />
+            <div class="radio-info">
+              <span class="radio-title">Transformer</span>
+              <span class="radio-desc">Self-Attention Mechanism</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- 按钮组 -->
+      <div class="btn-group">
+        <button
+          id="runBtn"
+          class="generate-btn"
+          onclick="runAnalysis()"
+          disabled
+        >
+          Initialize Engine
+        </button>
+        <button
+          id="luckyBtn"
+          class="lucky-btn"
+          onclick="generateDailyLucky()"
+          disabled
+        >
+          <!-- Icon: Sparkles -->
+          <svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" /></svg>
+          Daily Pick
+        </button>
+      </div>
+
+      <!-- 常规结果区域 -->
+      <div id="resultArea" class="result-area">
+        <h3>Recommendation</h3>
+        <div id="ballsContainer" class="lottery-row"></div>
+        <div class="analysis-log" id="logBox"></div>
+        <p
+          style="
+            text-align: center;
+            color: var(--text-tertiary);
+            font-size: 10px;
+            margin-top: 15px;
+          "
+        >
+          DISCLAIMER: This system is based on historical probability and does not guarantee winning.
+        </p>
+      </div>
+
+      <!-- 每日幸运号结果区域 -->
+      <div id="dailyArea" class="daily-area">
+        <h3>✨ Daily Lucky Sets</h3>
+        <div class="daily-sets" id="dailySetsContainer">
+          <!-- 动态插入 -->
+        </div>
+        <button class="copy-btn" onclick="copyDailyResults()">
+          <!-- Icon: Clipboard -->
+          <svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" /></svg>
+          Copy to Clipboard
+        </button>
+      </div>
+    </div>
+
+    <script src="lottery_data.js" onerror="handleDataError()"></script>
+
+    <script>
+      let currentType = "ssq";
+      let historyData = { ssq: [], dlt: [] };
+      let mlPredictions = { ssq: {}, dlt: {} };
+      let isDataLoaded = false;
+      let currentDailyResults = []; // 存储每日幸运号文本用于复制
+
+      const RULES = {
+        ssq: {
+          red: { max: 33, count: 6, color: "red" },
+          blue: { max: 16, count: 1, color: "blue" },
+        },
+        dlt: {
+          red: { max: 35, count: 5, color: "red" },
+          blue: { max: 12, count: 2, color: "gold" },
+        },
+      };
+
+      // 算法分组定义
+      const ALGO_GROUPS = {
+        basic: ["balanced", "hot", "cold"],
+        advanced: ["markov", "ema", "gap"],
+        dl: ["ar", "lstm", "gru", "transformer"],
+      };
+
+      window.onload = function () {
+        const statusBox = document.getElementById("statusBox");
+        if (window.LOTTERY_HISTORY) {
+          historyData = window.LOTTERY_HISTORY;
+          // 检查新的 Python 脚本生成的权重
+          if (window.ML_PREDICTIONS && window.ML_PREDICTIONS.ssq.transformer) {
+            mlPredictions = window.ML_PREDICTIONS;
+            let time = window.LOTTERY_HISTORY.update_time || "未知";
+            statusBox.innerHTML = `<span class="status-dot"></span> 数据就绪 (${time}) | 深度学习模型已加载`;
+          } else {
+            statusBox.innerHTML = `⚠️ 仅加载基础历史数据，未检测到 ML 权重。`;
+          }
+          isDataLoaded = true;
+          document.getElementById("runBtn").disabled = false;
+          document.getElementById("runBtn").innerText = "启动预测引擎";
+          document.getElementById("luckyBtn").disabled = false;
+        } else {
+          handleDataError();
+        }
+      };
+
+      function handleDataError() {
+        const box = document.getElementById("statusBox");
+        box.innerHTML = `⚠️ <b>数据文件丢失</b>: 请在同目录下运行 <code>python get_data.py</code>`;
+        box.className = "status-bar error";
+      }
+
+      // ==================== 算法核心 ====================
+
+      const range = (start, end) =>
+        Array.from({ length: end - start + 1 }, (_, i) => start + i);
+
+      // 核心算法：加权随机选择 (Roulette Wheel Selection)
+      function weightedChoice(items, weights, count) {
+        let _items = [...items];
+        let _weights = [...weights];
+        let result = [];
+
+        for (let c = 0; c < count; c++) {
+          let totalWeight = _weights.reduce((a, b) => a + b, 0);
+          if (totalWeight <= 0) break;
+
+          let random = Math.random() * totalWeight;
+          let cursor = 0;
+          let selectedIndex = -1;
+
+          for (let i = 0; i < _items.length; i++) {
+            cursor += _weights[i];
+            if (random <= cursor) {
+              selectedIndex = i;
+              break;
+            }
+          }
+
+          if (selectedIndex !== -1) {
+            result.push(_items[selectedIndex]);
+            _items.splice(selectedIndex, 1);
+            _weights.splice(selectedIndex, 1);
+          }
+        }
+        return result.sort((a, b) => a - b);
+      }
+
+      // 本地统计学算法计算
+      function calcLocalWeights(history, maxNum, zone, strategy) {
+        let counts = new Array(maxNum + 1).fill(0);
+
+        // --- 1. 马尔科夫链 (Markov) ---
+        if (strategy === "markov") {
+          // 构建转移矩阵
+          let matrix = Array.from({ length: maxNum + 1 }, () =>
+            new Array(maxNum + 1).fill(0)
+          );
+          // 倒序遍历（历史->现在）
+          for (let i = history.length - 1; i > 0; i--) {
+            let prevDraw = history[i][zone];
+            let currDraw = history[i - 1][zone]; // 注意 history[0] 是最新
+            prevDraw.forEach((p) => currDraw.forEach((c) => matrix[p][c]++));
+          }
+          // 获取最新一期
+          let lastDraw = history[0][zone];
+          let weights = new Array(maxNum).fill(1); // 默认权重1
+
+          // 根据上期号码，累加转移到下期每个号码的概率
+          for (let t = 1; t <= maxNum; t++) {
+            let score = 0;
+            lastDraw.forEach((prev) => {
+              score += matrix[prev][t];
+            });
+            weights[t - 1] = score + 1; // 基础分
+          }
+          return weights;
+        }
+
+        // --- 2. 遗漏 (Gap) ---
+        else if (strategy === "gap") {
+          let gap = new Array(maxNum + 1).fill(0);
+          for (let n = 1; n <= maxNum; n++) {
+            for (let h = 0; h < history.length; h++) {
+              if (history[h][zone].includes(n)) {
+                gap[n] = h;
+                break;
+              }
+              if (h === history.length - 1) gap[n] = h;
+            }
+          }
+          return gap.slice(1).map((g) => 10 + Math.pow(g, 1.5));
+        }
+
+        // --- 3. EMA 热度 ---
+        else if (strategy === "ema") {
+          let scores = new Array(maxNum + 1).fill(0);
+          let alpha = 0.2;
+          [...history].reverse().forEach((draw) => {
+            for (let i = 1; i <= maxNum; i++)
+              scores[i] =
+                scores[i] * (1 - alpha) +
+                (draw[zone].includes(i) ? 10 : 0) * alpha;
+          });
+          return scores.slice(1).map((s) => s + 1);
+        }
+
+        // --- 4. 热门 (Hot) ---
+        else if (strategy === "hot") {
+          history
+            .slice(0, 50)
+            .forEach((d) => d[zone].forEach((n) => counts[n]++)); // 仅看最近50期
+          return counts.slice(1).map((c) => Math.pow(c, 2) + 1);
+        }
+
+        // --- 5. 冷号 (Cold) ---
+        else if (strategy === "cold") {
+          history.forEach((d) => d[zone].forEach((n) => counts[n]++));
+          const raw = counts.slice(1).map((c) => 1 / (c + 1));
+          const sumW = raw.reduce((a, b) => a + b, 0);
+          return raw.map((w) => (w / sumW) * 100);
+        }
+
+        // --- 6. 均衡 (Balanced) - 默认 ---
+        else {
+          history.forEach((d) => d[zone].forEach((n) => counts[n]++));
+          const raw = counts.slice(1).map((c) => 1 / (c + 1));
+          const noise = ((len) =>
+            Array.from({ length: len }, () => Math.max(0, Math.random() * 5)))(
+            raw.length
+          );
+          const mixed = raw.map((w, i) => w + noise[i]);
+          const sumW = mixed.reduce((a, b) => a + b, 0);
+          return mixed.map((w) => (w / sumW) * 100);
+        }
+      }
+
+      // 获取特定算法的权重（封装函数）
+      function getWeightsByAlgo(strategy) {
+        const config = RULES[currentType];
+        let redWeights, blueWeights;
+        let isAi = false;
+
+        const mlKeys = ALGO_GROUPS.dl;
+
+        if (mlKeys.includes(strategy)) {
+          if (
+            !mlPredictions[currentType] ||
+            !mlPredictions[currentType][strategy]
+          ) {
+            // ML 数据缺失，回退到均衡算法
+            redWeights = calcLocalWeights(
+              historyData[currentType],
+              config.red.max,
+              "reds",
+              "balanced"
+            );
+            blueWeights = calcLocalWeights(
+              historyData[currentType],
+              config.blue.max,
+              "blues",
+              "balanced"
+            );
+          } else {
+            isAi = true;
+            redWeights = mlPredictions[currentType][strategy].red;
+            blueWeights = mlPredictions[currentType][strategy].blue;
+          }
+        } else {
+          redWeights = calcLocalWeights(
+            historyData[currentType],
+            config.red.max,
+            "reds",
+            strategy
+          );
+          blueWeights = calcLocalWeights(
+            historyData[currentType],
+            config.blue.max,
+            "blues",
+            strategy
+          );
+        }
+        return { red: redWeights, blue: blueWeights, isAi };
+      }
+
+      // 常规单一运行
+      function runAnalysis() {
+        const logBox = document.getElementById("logBox");
+        const strategy = document.querySelector(
+          'input[name="algo"]:checked'
+        ).value;
+        const config = RULES[currentType];
+
+        document.getElementById("resultArea").style.display = "block";
+        document.getElementById("dailyArea").style.display = "none"; // 隐藏幸运号区域
+        logBox.innerHTML = `>> 正在初始化 <b style="color:#4ecdc4">${strategy.toUpperCase()}</b> 引擎...<br>`;
+
+        setTimeout(() => {
+          const {
+            red: redWeights,
+            blue: blueWeights,
+            isAi,
+          } = getWeightsByAlgo(strategy);
+
+          if (isAi)
+            logBox.innerHTML += `>> 读取 PyTorch 训练权重 (Feature: Omission)...<br>`;
+          else logBox.innerHTML += `>> 浏览器本地计算指标...<br>`;
+
+          // 执行选择
+          let reds = weightedChoice(
+            range(1, config.red.max),
+            redWeights,
+            config.red.count
+          );
+          let blues = weightedChoice(
+            range(1, config.blue.max),
+            blueWeights,
+            config.blue.count
+          );
+
+          // 渲染结果
+          let styleTag = "";
+          if (isAi) styleTag = "ai-style";
+          else if (strategy === "markov") styleTag = "mk-style";
+          else if (strategy === "hot") styleTag = "hot-style";
+
+          renderBalls({ reds, blues }, styleTag);
+
+          // 分析日志
+          let sum = reds.reduce((a, b) => a + b, 0);
+          logBox.innerHTML += `>> 红球和值: ${sum}<br>`;
+          logBox.innerHTML += `>> 奇偶比: ${
+            reds.filter((n) => n % 2 !== 0).length
+          }:${reds.filter((n) => n % 2 === 0).length}<br>`;
+
+          if (isAi) {
+            logBox.innerHTML += `>> 神经网络置信度: 高<br>`;
+          }
+
+          logBox.innerHTML += `>> ✅ 生成完毕。<br>`;
+        }, 400);
+      }
+
+      // === 每日幸运号功能 ===
+      function generateDailyLucky() {
+        const container = document.getElementById("dailySetsContainer");
+        const dailyArea = document.getElementById("dailyArea");
+        const resultArea = document.getElementById("resultArea");
+        const config = RULES[currentType];
+
+        // 切换显示区域
+        resultArea.style.display = "none";
+        dailyArea.style.display = "block";
+        container.innerHTML = "";
+        currentDailyResults = []; // 重置复制内容
+
+        // 随机选择算法
+        const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
+        const selections = [
+          {
+            type: "basic",
+            label: "基础统计",
+            colorClass: "type-basic",
+            algo: pickRandom(ALGO_GROUPS.basic),
+          },
+          {
+            type: "adv",
+            label: "进阶时序",
+            colorClass: "type-adv",
+            algo: pickRandom(ALGO_GROUPS.advanced),
+          },
+          {
+            type: "dl",
+            label: "深度学习",
+            colorClass: "type-dl",
+            algo: pickRandom(ALGO_GROUPS.dl),
+          },
+        ];
+
+        selections.forEach((sel) => {
+          // 计算
+          const { red: redW, blue: blueW, isAi } = getWeightsByAlgo(sel.algo);
+          const reds = weightedChoice(
+            range(1, config.red.max),
+            redW,
+            config.red.count
+          );
+          const blues = weightedChoice(
+            range(1, config.blue.max),
+            blueW,
+            config.blue.count
+          );
+
+          // === 关键逻辑修改：判断彩种类型设置标签 ===
+          let labelRed = currentType === 'dlt' ? '前区' : '红球';
+          let labelBlue = currentType === 'dlt' ? '后区' : '蓝球';
+
+          // 保存结果用于复制
+          const lineText = `[${sel.label}-${sel.algo.toUpperCase()}] ${labelRed}:${reds
+            .map((n) => String(n).padStart(2, "0"))
+            .join(" ")} + ${labelBlue}:${blues
+            .map((n) => String(n).padStart(2, "0"))
+            .join(" ")}`;
+          currentDailyResults.push(lineText);
+
+          // 渲染卡片
+          const card = document.createElement("div");
+          card.className = `daily-card ${sel.colorClass}`;
+
+          // 卡片头部
+          const header = document.createElement("div");
+          header.className = "daily-header";
+          header.innerHTML = `<span>${
+            sel.label
+          }</span> <span class="algo-tag">${sel.algo.toUpperCase()}</span>`;
+
+          // 球容器
+          const ballsDiv = document.createElement("div");
+          ballsDiv.className = "daily-balls";
+
+          let styleTag = isAi ? "ai-style" : "";
+          if (sel.algo === "markov") styleTag = "mk-style";
+          if (sel.algo === "hot") styleTag = "hot-style";
+
+          // 渲染球
+          reds.forEach((n) => {
+            const b = document.createElement("div");
+            b.className = `ball ${config.red.color} ${styleTag}`;
+            b.innerText = String(n).padStart(2, "0");
+            ballsDiv.appendChild(b);
+          });
+          blues.forEach((n) => {
+            const b = document.createElement("div");
+            b.className = `ball ${config.blue.color} ${styleTag}`;
+            b.innerText = String(n).padStart(2, "0");
+            ballsDiv.appendChild(b);
+          });
+
+          card.appendChild(header);
+          card.appendChild(ballsDiv);
+          container.appendChild(card);
+        });
+      }
+
+      function copyDailyResults() {
+        if (currentDailyResults.length === 0) return;
+        const text = `🔮 ${currentType.toUpperCase()} 每日幸运号\n${
+          new Date().toLocaleDateString()
+        }\n--------------------\n${currentDailyResults.join(
+          "\n"
+        )}\n--------------------\n祝您好运！`;
+
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            const btn = document.querySelector(".copy-btn");
+            const oldHtml = btn.innerHTML; // 使用 innerHTML 保存图标
+            btn.innerHTML = "✅ 复制成功！";
+            btn.style.background = "#dcedc8";
+            setTimeout(() => {
+              btn.innerHTML = oldHtml;
+              btn.style.background = "white";
+            }, 2000);
+          })
+          .catch((err) => {
+            alert("复制失败，请手动复制");
+          });
+      }
+
+      function switchType(type) {
+        currentType = type;
+        document
+          .querySelectorAll(".tab")
+          .forEach((el) => el.classList.remove("active"));
+        const t = document.querySelector(
+          `.tab[onclick="switchType('${type}')"]`
+        );
+        t.classList.add("active");
+        document.getElementById("resultArea").style.display = "none";
+        document.getElementById("dailyArea").style.display = "none";
+      }
+
+      function renderBalls(data, styleClass) {
+        const container = document.getElementById("ballsContainer");
+        container.innerHTML = "";
+        const config = RULES[currentType];
+
+        data.reds.forEach((num) => {
+          let el = document.createElement("div");
+          el.className = `ball ${config.red.color} ${styleClass}`;
+          el.innerText = String(num).padStart(2, "0");
+          container.appendChild(el);
+        });
+        data.blues.forEach((num) => {
+          let el = document.createElement("div");
+          el.className = `ball ${config.blue.color} ${styleClass}`;
+          el.innerText = String(num).padStart(2, "0");
+          container.appendChild(el);
+        });
+      }
+    </script>
+  </body>
+</html>
