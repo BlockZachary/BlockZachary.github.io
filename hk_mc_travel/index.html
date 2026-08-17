@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f2f2f7" />
+    <title>港澳旅行计划 · 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg-body: #f2f2f7; --bg-card: #fff; --bg-soft: #fafafa;
+        --text-primary: #1c1c1e; --text-secondary: #8e8e93; --text-tertiary: #c7c7cc;
+        --accent: #007aff; --green: #00a878; --orange: #e17055; --purple: #6c5ce7;
+        --line: #e5e5ea; --shadow-sm: 0 1px 2px rgba(0,0,0,.05);
+        --shadow-md: 0 4px 12px rgba(0,0,0,.06); --shadow-lg: 0 12px 32px rgba(0,0,0,.08);
+      }
+      * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+      html { scroll-behavior: smooth; }
+      body { margin: 0; padding: 40px 20px; min-height: 100vh; background: var(--bg-body); color: var(--text-primary); font-family: "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; }
+      button { font: inherit; }
+      .container { width: 100%; max-width: 1000px; margin: 0 auto; padding: 40px; background: var(--bg-card); border: 1px solid rgba(0,0,0,.04); border-radius: 24px; box-shadow: var(--shadow-lg); }
+      .hero { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+      h1 { display: flex; align-items: center; gap: 12px; margin: 0; font-size: 24px; letter-spacing: -.5px; }
+      .icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; flex: 0 0 auto; }
+      .badge { padding: 4px 10px; color: #fff; background: var(--text-primary); border-radius: 100px; font-size: 11px; letter-spacing: .5px; }
+      .subtitle { margin: 9px 0 0; color: var(--text-secondary); font-size: 13px; }
+      .hero-meta { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+      .pill { padding: 8px 12px; background: var(--bg-soft); border: 1px solid rgba(0,0,0,.04); border-radius: 100px; color: var(--text-secondary); font: 500 11px "JetBrains Mono", monospace; white-space: nowrap; }
+      .status-bar { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 28px 0 22px; padding: 12px 20px; background: #f8f9fa; border: 1px solid rgba(0,0,0,.03); border-radius: 16px; color: var(--text-secondary); font: 12px "JetBrains Mono", monospace; }
+      .status-dot { width: 8px; height: 8px; background: #2ecc71; border-radius: 50%; box-shadow: 0 0 0 2px rgba(46,204,113,.2); }
+      .toolbar { position: sticky; top: 12px; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 32px; padding: 8px; background: rgba(229,229,234,.88); backdrop-filter: blur(16px); border-radius: 100px; }
+      .tabs { display: flex; gap: 2px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+      .tabs::-webkit-scrollbar { display: none; }
+      .tab, .tool-btn { border: 0; cursor: pointer; white-space: nowrap; transition: .2s ease; }
+      .tab { padding: 9px 16px; color: var(--text-secondary); background: transparent; border-radius: 100px; font-size: 13px; font-weight: 600; }
+      .tab:hover, .tab.active { color: var(--text-primary); background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+      .tools { display: flex; gap: 6px; }
+      .tool-btn { display: inline-flex; align-items: center; gap: 7px; padding: 10px 14px; color: #fff; background: var(--text-primary); border-radius: 100px; font-size: 12px; font-weight: 600; }
+      .tool-btn.secondary { color: var(--text-primary); background: #fff; }
+      .tool-btn:active { transform: scale(.97); }
+      .section { margin-top: 38px; scroll-margin-top: 90px; }
+      .section-kicker { display: block; margin: 0 0 12px 4px; color: var(--text-secondary); font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+      .overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+      .metric { min-height: 108px; padding: 18px; background: var(--bg-soft); border: 1px solid transparent; border-radius: 16px; }
+      .metric-label { color: var(--text-secondary); font: 11px "JetBrains Mono", monospace; }
+      .metric-value { display: block; margin-top: 12px; font-size: 20px; font-weight: 700; letter-spacing: -.4px; }
+      .metric-note { display: block; margin-top: 4px; color: var(--text-secondary); font-size: 11px; }
+      .notice { margin-top: 12px; padding: 16px 18px; background: #fff9e6; border: 1px solid #ffe8a3; border-radius: 16px; color: #8a6900; font-size: 12px; line-height: 1.7; }
+      .day-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+      .day-nav { cursor: pointer; padding: 16px; background: var(--bg-soft); border: 1px solid transparent; border-radius: 16px; transition: .2s; }
+      .day-nav:hover { transform: translateY(-2px); background: #fff; border-color: var(--accent); box-shadow: var(--shadow-md); }
+      .day-num { color: var(--accent); font: 600 11px "JetBrains Mono", monospace; }
+      .day-nav strong { display: block; margin: 8px 0 5px; font-size: 14px; }
+      .day-nav small { color: var(--text-secondary); font-size: 11px; }
+      .day-card { position: relative; margin-top: 16px; padding: 24px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+      .day-card::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--accent); opacity: .75; }
+      .day-card h2 { margin: 0; font-size: 18px; }
+      .day-card .route { margin: 7px 0 20px; color: var(--text-secondary); font: 11px "JetBrains Mono", monospace; }
+      .timeline { display: grid; grid-template-columns: 70px 1fr; gap: 0 14px; }
+      .time { padding: 10px 0; color: var(--accent); font: 500 11px "JetBrains Mono", monospace; }
+      .event { position: relative; padding: 8px 32px 15px 15px; border-left: 1px solid var(--line); line-height: 1.65; font-size: 13px; outline: none; }
+      .event::before { content: ""; position: absolute; left: -4px; top: 15px; width: 7px; height: 7px; background: #fff; border: 2px solid var(--accent); border-radius: 50%; }
+      .event strong { font-weight: 600; }
+      .event .detail { display: block; color: var(--text-secondary); font-size: 12px; }
+      .event.marked { margin: 3px 0 7px; background: #fff9e6; border-left-color: #fdcb6e; border-radius: 0 10px 10px 0; }
+      .mark-btn { position: absolute; right: 5px; top: 6px; padding: 5px; color: var(--text-tertiary); background: transparent; border: 0; border-radius: 8px; cursor: pointer; }
+      .marked .mark-btn { color: #b78900; }
+      [contenteditable="true"] { cursor: text; border-radius: 6px; box-shadow: 0 0 0 2px rgba(0,122,255,.15); }
+      .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      .info-card { padding: 22px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 16px; }
+      .info-card h3 { display: flex; align-items: center; gap: 9px; margin: 0 0 14px; font-size: 14px; }
+      .md-list { margin: 0; padding-left: 19px; color: var(--text-secondary); font-size: 12px; line-height: 1.85; }
+      .md-list strong { color: var(--text-primary); }
+      table { width: 100%; border-collapse: collapse; font-size: 12px; }
+      th, td { padding: 12px 10px; text-align: left; border-bottom: 1px solid var(--line); }
+      th { color: var(--text-secondary); font-weight: 500; }
+      td:last-child, th:last-child { text-align: right; }
+      .total td { color: var(--text-primary); font-weight: 700; border-bottom: 0; }
+      .checklist { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .check-item { display: flex; align-items: center; gap: 11px; padding: 13px 15px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 12px; cursor: pointer; font-size: 12px; }
+      .check-item input { width: 17px; height: 17px; accent-color: var(--accent); }
+      .check-item:has(input:checked) span { color: var(--text-secondary); text-decoration: line-through; }
+      .footer { margin-top: 38px; padding-top: 22px; border-top: 1px solid var(--line); color: var(--text-tertiary); text-align: center; font: 10px/1.7 "JetBrains Mono", monospace; }
+      .toast { position: fixed; left: 50%; bottom: 24px; z-index: 30; padding: 12px 18px; color: #fff; background: #1c1c1e; border-radius: 100px; box-shadow: var(--shadow-lg); font-size: 12px; transform: translate(-50%, 80px); opacity: 0; transition: .3s; }
+      .toast.show { transform: translate(-50%, 0); opacity: 1; }
+      @media (max-width: 760px) {
+        body { padding: 0; } .container { padding: 24px 18px 40px; border-radius: 0; box-shadow: none; }
+        .hero { flex-direction: column; } .hero-meta { justify-content: flex-start; }
+        .toolbar { top: 8px; align-items: stretch; border-radius: 18px; flex-direction: column; }
+        .tabs { width: 100%; } .tab { flex: 1; padding-inline: 12px; }
+        .tools { justify-content: flex-end; } .tool-btn { flex: 1; justify-content: center; }
+        .overview-grid, .day-grid { grid-template-columns: repeat(2, 1fr); }
+        .day-nav:last-child { grid-column: span 2; } .cards { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 480px) {
+        h1 { flex-wrap: wrap; } .badge { margin-left: 32px; }
+        .overview-grid { grid-template-columns: 1fr 1fr; } .metric { min-height: 96px; padding: 15px; }
+        .metric-value { font-size: 17px; } .day-card { padding: 20px 15px; }
+        .timeline { grid-template-columns: 54px 1fr; gap: 0 8px; } .checklist { grid-template-columns: 1fr; }
+        th, td { padding: 10px 6px; font-size: 11px; }
+      }
+      @media print { body { padding: 0; background: #fff; } .container { max-width: none; box-shadow: none; border: 0; } .toolbar, .mark-btn, .toast { display: none !important; } .day-card { break-inside: avoid; } }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <header class="hero">
+        <div>
+          <h1><svg class="icon" viewBox="0 0 24 24" style="width:24px;height:24px"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V5.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 4.252a1.125 1.125 0 0 0-1.006 0L3.622 6.689A1.125 1.125 0 0 0 3 7.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"/></svg>HK · MC Travel <span class="badge">PLAN</span></h1>
+          <p class="subtitle">西安出发 · 深圳 / 香港 / 澳门 · 5 天 4 晚省钱旅行草案</p>
+        </div>
+        <div class="hero-meta"><span class="pill">2026.10.01—10.05</span><span class="pill">2 TRAVELERS</span><span class="pill">BUDGET ≤ ¥10K</span></div>
+      </header>
+
+      <div class="status-bar"><span class="status-dot"></span><span id="saveStatus">计划已就绪 · 所有操作自动保存至本机</span></div>
+
+      <nav class="toolbar" aria-label="页面导航与编辑工具">
+        <div class="tabs"><button class="tab active" data-target="overview">概览</button><button class="tab" data-target="itinerary">行程</button><button class="tab" data-target="budget">预算</button><button class="tab" data-target="checklist">清单</button></div>
+        <div class="tools"><button id="editBtn" class="tool-btn"><svg class="icon" viewBox="0 0 24 24"><path d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82 3 21l1.18-3.832L16.862 4.487Z"/></svg><span>编辑内容</span></button><button id="resetBtn" class="tool-btn secondary" title="恢复 HTML 中的初始内容">重置</button></div>
+      </nav>
+
+      <section id="overview" class="section">
+        <span class="section-kicker">Trip Overview</span>
+        <div class="overview-grid">
+          <div class="metric"><span class="metric-label">DURATION</span><span class="metric-value">5 天 4 晚</span><span class="metric-note">深圳 3 晚 · 澳门 1 晚</span></div>
+          <div class="metric"><span class="metric-label">ROUTE</span><span class="metric-value">西安 → 深港澳</span><span class="metric-note">香港两日 · 澳门两日</span></div>
+          <div class="metric"><span class="metric-label">BUDGET</span><span class="metric-value">约 ¥9,800</span><span class="metric-note">两人合计 · 粗略估算</span></div>
+          <div class="metric"><span class="metric-label">PACE</span><span class="metric-value">每天 2 万步</span><span class="metric-note">轻装 · 舒适运动鞋</span></div>
+        </div>
+        <div class="notice"><strong>待最终确认：</strong>国庆航班、酒店、跨境列车时刻及价格会变化；当前数字来自两份初稿且存在冲突。出票前请逐项核验。澳门路线暂采用“深圳北—珠海—拱北”往返，以便行程闭环。</div>
+      </section>
+
+      <section id="itinerary" class="section">
+        <span class="section-kicker">Daily Itinerary</span>
+        <div class="day-grid">
+          <div class="day-nav" data-day="day1"><span class="day-num">DAY 01</span><strong>抵达深圳</strong><small>城市漫游 · 日落</small></div>
+          <div class="day-nav" data-day="day2"><span class="day-num">DAY 02</span><strong>香港经典线</strong><small>维港 · 中环 · 山顶</small></div>
+          <div class="day-nav" data-day="day3"><span class="day-num">DAY 03</span><strong>香港市井线</strong><small>旺角 · 油麻地</small></div>
+          <div class="day-nav" data-day="day4"><span class="day-num">DAY 04</span><strong>澳门半岛</strong><small>老城 · 葡式街区</small></div>
+          <div class="day-nav" data-day="day5"><span class="day-num">DAY 05</span><strong>澳门氹仔</strong><small>酒店群 · 返程</small></div>
+        </div>
+
+        <article id="day1" class="day-card editable-block"><h2>Day 1 · 深圳初见</h2><p class="route">XI'AN → SHENZHEN · OCT 01</p><div class="timeline">
+          <div class="time">08:40</div><div class="event"><strong>西安咸阳机场出发</strong><span class="detail">参考航班抵深约 11:30；实际以出票为准。</span></div>
+          <div class="time">12:30</div><div class="event"><strong>前往福田口岸附近酒店</strong><span class="detail">地铁 11 号线转乘；入住、放行李并简单午餐。</span></div>
+          <div class="time">14:30</div><div class="event"><strong>莲花山公园 → 市民中心</strong><span class="detail">免费城市景观线，登顶约 20 分钟。</span></div>
+          <div class="time">17:00</div><div class="event"><strong>深圳湾公园看日落</strong><span class="detail">沿海岸散步，晚餐可选椰子鸡或广式早茶。</span></div>
+          <div class="time">20:00</div><div class="event"><strong>检查证件与次日车票</strong><span class="detail">确认香港 2 次签注、流量包和深圳北—西九龙车票。</span></div>
+        </div></article>
+
+        <article id="day2" class="day-card editable-block"><h2>Day 2 · 香港维港经典线</h2><p class="route">SHENZHEN NORTH → HONG KONG WEST KOWLOON · OCT 02</p><div class="timeline">
+          <div class="time">07:30</div><div class="event"><strong>深圳北乘高铁赴香港</strong><span class="detail">建议提前到站；西九龙一地两检。</span></div>
+          <div class="time">09:30</div><div class="event"><strong>星光大道 → 尖沙咀钟楼</strong><span class="detail">维港海景、1881 Heritage，均可免费游览。</span></div>
+          <div class="time">12:00</div><div class="event"><strong>尖沙咀茶餐厅</strong><span class="detail">菠萝油、沙嗲牛肉面、冻奶茶，人均约 HK$75。</span></div>
+          <div class="time">13:30</div><div class="event"><strong>天星小轮 → 中环</strong><span class="detail">中环摩天轮、半山扶梯、PMQ 元创方 / 大馆。</span></div>
+          <div class="time">17:30</div><div class="event"><strong>太平山顶日落与夜景</strong><span class="detail">缆车建议提前购票；预留排队与下山时间。</span></div>
+          <div class="time">20:30</div><div class="event"><strong>西九龙返回深圳</strong><span class="detail">返程车次不要卡末班，给过关留足时间。</span></div>
+        </div></article>
+
+        <article id="day3" class="day-card editable-block"><h2>Day 3 · 香港市井深度线</h2><p class="route">MONG KOK → YAU MA TEI → SHAM SHUI PO · OCT 03</p><div class="timeline">
+          <div class="time">08:30</div><div class="event"><strong>深圳北 → 香港西九龙</strong><span class="detail">抵达后乘地铁前往旺角。</span></div>
+          <div class="time">09:45</div><div class="event"><strong>金鱼街 → 花园街 → 女人街</strong><span class="detail">香港市井风情与港片街景，控制购物时间。</span></div>
+          <div class="time">12:00</div><div class="event"><strong>旺角地道午餐</strong><span class="detail">冰室常餐，人均约 HK$60—80。</span></div>
+          <div class="time">13:30</div><div class="event"><strong>油麻地警署 → 庙街 → 深水埗</strong><span class="detail">鸭寮街电子市场；如体力不足可删去深水埗。</span></div>
+          <div class="time">18:30</div><div class="event"><strong>庙街夜市晚餐</strong><span class="detail">咖喱鱼蛋、煲仔饭等，注意现金与营业时间。</span></div>
+          <div class="time">20:00</div><div class="event"><strong>返回深圳并整理行李</strong><span class="detail">次日退房，检查澳门签注。</span></div>
+        </div></article>
+
+        <article id="day4" class="day-card editable-block"><h2>Day 4 · 澳门半岛历史线</h2><p class="route">SHENZHEN NORTH → ZHUHAI → MACAU · OCT 04</p><div class="timeline">
+          <div class="time">07:30</div><div class="event"><strong>退房，前往珠海站</strong><span class="detail">深圳北—珠海车次与是否直达须在购票时确认。</span></div>
+          <div class="time">10:00</div><div class="event"><strong>拱北口岸入澳门 → 酒店寄存</strong><span class="detail">可利用酒店免费接驳车进入半岛。</span></div>
+          <div class="time">11:00</div><div class="event"><strong>大三巴 → 恋爱巷 → 玫瑰堂</strong><span class="detail">步行串联澳门历史城区，景点免费。</span></div>
+          <div class="time">13:30</div><div class="event"><strong>议事亭前地 → 疯堂斜巷</strong><span class="detail">午餐可选营地街市，之后前往东望洋灯塔。</span></div>
+          <div class="time">17:30</div><div class="event"><strong>渔人码头日落</strong><span class="detail">晚餐后看永利发财树 / 酒店夜景，按体力取舍。</span></div>
+        </div></article>
+
+        <article id="day5" class="day-card editable-block"><h2>Day 5 · 氹仔打卡与返程</h2><p class="route">COTAI → ZHUHAI → SHENZHEN → XI'AN · OCT 05</p><div class="timeline">
+          <div class="time">09:30</div><div class="event"><strong>退房并寄存行李</strong><span class="detail">轻装前往路氹酒店群。</span></div>
+          <div class="time">10:30</div><div class="event"><strong>威尼斯人 → 伦敦人 → 巴黎人</strong><span class="detail">免费游览与拍照，贡多拉可按预算删减。</span></div>
+          <div class="time">12:30</div><div class="event"><strong>官也街午餐</strong><span class="detail">蛋挞、牛杂、木糠布甸、猪扒包，错峰更舒适。</span></div>
+          <div class="time">14:30</div><div class="event"><strong>永利皇宫缆车与喷泉</strong><span class="detail">游览后返回酒店取行李，前往关闸。</span></div>
+          <div class="time">17:00</div><div class="event"><strong>澳门 → 珠海 → 深圳机场</strong><span class="detail">跨城衔接风险较高，航班至少留 4—5 小时缓冲。</span></div>
+          <div class="time">22:15</div><div class="event"><strong>深圳飞返西安</strong><span class="detail">参考时间；建议确认末段交通后再定航班。</span></div>
+        </div></article>
+      </section>
+
+      <section class="section"><span class="section-kicker">Notes & Preparation</span><div class="cards editable-block">
+        <div class="info-card"><h3><svg class="icon" viewBox="0 0 24 24"><path d="M15.75 5.25a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 22.5a7.5 7.5 0 0 1 15 0"/></svg>证件与通讯</h3><ul class="md-list"><li><strong>港澳通行证：</strong>香港 2 次签注 + 澳门 1 次签注。</li><li><strong>网络：</strong>支付宝境外流量包，或提前购买港澳通用卡。</li><li><strong>电源：</strong>英标转换插头、≤ 20000mAh 充电宝。</li></ul></div>
+        <div class="info-card"><h3><svg class="icon" viewBox="0 0 24 24"><path d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6H2.25m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75A.75.75 0 0 0 21 6h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125V15m0 0h-.75a.75.75 0 0 0-.75.75v.75m1.5-1.5h-18m16.5 1.5v.75a.75.75 0 0 1-.75.75h-.75M3.75 16.5v.75c0 .414.336.75.75.75h.75m9-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>支付与现金</h3><ul class="md-list"><li><strong>港币：</strong>约 HK$500—800 / 人，覆盖小店与交通。</li><li><strong>澳门币：</strong>约 MOP$300—500 / 人；公交现金不找零。</li><li><strong>支付：</strong>微信 / 支付宝 + 银联卡，避免人民币 1:1 消费。</li></ul></div>
+        <div class="info-card"><h3><svg class="icon" viewBox="0 0 24 24"><path d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>通用提醒</h3><ul class="md-list"><li>港澳车辆靠左行驶，过马路先看右侧。</li><li>地铁车厢内不要饮食；扶梯按现场标识通行。</li><li>国庆客流大，跨境交通、酒店与门票需尽早预订。</li></ul></div>
+        <div class="info-card"><h3><svg class="icon" viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0-13.5v5.25l3.75 2.25"/></svg>紧急信息</h3><ul class="md-list"><li><strong>内地报警：</strong>110</li><li><strong>香港 / 澳门：</strong>999</li><li><strong>原则：</strong>证件随身、重要订单离线截图、保留返程缓冲。</li></ul></div>
+      </div></section>
+
+      <section id="budget" class="section editable-block"><span class="section-kicker">Budget Estimate · 2 People</span><div class="info-card"><table><thead><tr><th>项目</th><th>说明</th><th>预算</th></tr></thead><tbody><tr><td>往返机票</td><td>西安 ↔ 深圳</td><td>¥5,600</td></tr><tr><td>住宿</td><td>深圳 3 晚 + 澳门 1 晚</td><td>¥1,750</td></tr><tr><td>跨境 / 城际交通</td><td>香港高铁、珠海往返</td><td>¥1,000</td></tr><tr><td>当地交通与门票</td><td>地铁、小轮、山顶等</td><td>¥700</td></tr><tr><td>餐饮</td><td>5 天，两人</td><td>¥1,500</td></tr><tr><td>流量、签注与杂费</td><td>预留</td><td>¥300</td></tr><tr class="total"><td>粗略合计</td><td>需压缩或以实时价格更新</td><td>¥10,850</td></tr></tbody></table><div class="notice"><strong>预算提示：</strong>两份原稿的分项相加与“约 ¥9,800”结论并不一致。若严格控制在 ¥10,000 内，优先压缩机票、住宿和餐饮，并预留至少 ¥500 应急金。</div></div></section>
+
+      <section id="checklist" class="section"><span class="section-kicker">Departure Checklist</span><div class="checklist">
+        <label class="check-item"><input type="checkbox" data-check="permit"><span>港澳通行证及签注有效</span></label><label class="check-item"><input type="checkbox" data-check="flight"><span>往返机票已确认</span></label><label class="check-item"><input type="checkbox" data-check="hotel"><span>深圳 / 澳门酒店已预订</span></label><label class="check-item"><input type="checkbox" data-check="rail"><span>跨境高铁与珠海车次已确认</span></label><label class="check-item"><input type="checkbox" data-check="network"><span>流量包 / SIM 卡已准备</span></label><label class="check-item"><input type="checkbox" data-check="cash"><span>港币、澳门币零钱已准备</span></label><label class="check-item"><input type="checkbox" data-check="plug"><span>转换插头与充电宝已装包</span></label><label class="check-item"><input type="checkbox" data-check="offline"><span>订单、地图与证件已离线备份</span></label>
+      </div></section>
+
+      <footer class="footer">STATIC TRAVEL NOTE · 点击「编辑内容」可修改正文；点击时间线右侧书签可标记重点<br />修改、标记与清单仅保存在当前浏览器，不会同步到其他设备。</footer>
+    </main>
+    <div id="toast" class="toast" role="status"></div>
+    <script>
+      (() => {
+        const KEY = "hk_mc_travel_v1";
+        const state = JSON.parse(localStorage.getItem(KEY) || "{}");
+        const blocks = [...document.querySelectorAll(".editable-block")];
+        const status = document.getElementById("saveStatus");
+        const toast = document.getElementById("toast");
+        let editing = false, timer;
+
+        const persist = () => { localStorage.setItem(KEY, JSON.stringify(state)); status.textContent = "刚刚自动保存 · 数据仅存于当前浏览器"; };
+        const notify = text => { toast.textContent = text; toast.classList.add("show"); clearTimeout(timer); timer = setTimeout(() => toast.classList.remove("show"), 1800); };
+
+        blocks.forEach((block, i) => {
+          block.dataset.block = i;
+          if (state.blocks?.[i]) block.innerHTML = state.blocks[i];
+          block.addEventListener("input", () => { state.blocks ||= {}; state.blocks[i] = block.innerHTML; persist(); });
+        });
+
+        const decorateEvents = () => document.querySelectorAll(".event").forEach((event, i) => {
+          event.dataset.mark = i;
+          if (state.marks?.includes(i)) event.classList.add("marked");
+          if (!event.querySelector(".mark-btn")) {
+            const btn = document.createElement("button"); btn.className = "mark-btn"; btn.title = "标记重点"; btn.setAttribute("aria-label", "标记重点"); btn.innerHTML = "<svg class='icon' viewBox='0 0 24 24'><path d='M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.5 48.5 0 0 1 11.186 0Z'/></svg>";
+            btn.onclick = e => { e.stopPropagation(); const n = Number(event.dataset.mark); state.marks ||= []; event.classList.toggle("marked"); state.marks = event.classList.contains("marked") ? [...new Set([...state.marks, n])] : state.marks.filter(x => x !== n); persist(); notify(event.classList.contains("marked") ? "已标记重点" : "已取消标记"); };
+            event.appendChild(btn);
+          }
+        });
+        decorateEvents();
+
+        document.getElementById("editBtn").onclick = e => {
+          editing = !editing;
+          blocks.forEach(block => block.contentEditable = editing ? "true" : "false");
+          e.currentTarget.querySelector("span").textContent = editing ? "完成编辑" : "编辑内容";
+          status.textContent = editing ? "编辑模式 · 点击正文即可修改" : "计划已就绪 · 所有操作自动保存至本机";
+          notify(editing ? "编辑模式已开启" : "修改已保存");
+        };
+        document.getElementById("resetBtn").onclick = () => {
+          if (!confirm("确定恢复 HTML 中的初始内容？本机的编辑、标记和勾选将被清除。")) return;
+          localStorage.removeItem(KEY); location.reload();
+        };
+        document.querySelectorAll("[data-check]").forEach(input => {
+          input.checked = !!state.checks?.[input.dataset.check];
+          input.onchange = () => { state.checks ||= {}; state.checks[input.dataset.check] = input.checked; persist(); };
+        });
+        document.querySelectorAll(".tab").forEach(tab => tab.onclick = () => {
+          document.querySelectorAll(".tab").forEach(x => x.classList.remove("active")); tab.classList.add("active"); document.getElementById(tab.dataset.target).scrollIntoView({behavior:"smooth"});
+        });
+        document.querySelectorAll(".day-nav").forEach(card => card.onclick = () => document.getElementById(card.dataset.day).scrollIntoView({behavior:"smooth", block:"start"}));
+      })();
+    </script>
+  </body>
+</html>
