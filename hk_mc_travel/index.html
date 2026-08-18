@@ -48,7 +48,30 @@
       .metric-value { display: block; margin-top: 12px; font-size: 20px; font-weight: 700; letter-spacing: -.4px; }
       .metric-note { display: block; margin-top: 4px; color: var(--text-secondary); font-size: 11px; }
       .notice { margin-top: 12px; padding: 16px 18px; background: #fff9e6; border: 1px solid #ffe8a3; border-radius: 16px; color: #8a6900; font-size: 12px; line-height: 1.7; }
-      .day-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+      .ticket-stage { position: relative; min-height: 400px; overflow: visible; }
+      .boarding-pass { position: absolute; width: min(680px, calc(100% - 64px)); min-height: 208px; display: grid; grid-template-columns: 1fr 132px; overflow: hidden; background: rgba(255,255,255,.96); border: 1px solid rgba(0,0,0,.05); border-radius: 20px; box-shadow: 0 18px 50px rgba(50,70,100,.15); transform-origin: center; }
+      .boarding-pass:first-of-type { top: 38px; left: 6%; z-index: 1; transform: rotate(-3.5deg); }
+      .boarding-pass:last-of-type { right: 6%; bottom: 30px; z-index: 2; transform: rotate(2.5deg); }
+      .ticket-main { padding: 22px 24px; }
+      .ticket-head, .ticket-foot, .airport-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+      .airline { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: .3px; }
+      .plane-dot { display: grid; place-items: center; width: 27px; height: 27px; color: #fff; background: var(--accent); border-radius: 50%; }
+      .flight-no { color: var(--text-secondary); font: 600 11px "JetBrains Mono", monospace; }
+      .airport-row { margin: 23px 0 19px; }
+      .airport { min-width: 88px; }
+      .airport:last-child { text-align: right; }
+      .airport-code { display: block; font: 700 30px "JetBrains Mono", monospace; letter-spacing: -1px; }
+      .airport-name { display: block; margin-top: 3px; color: var(--text-secondary); font-size: 10px; }
+      .flight-path { position: relative; flex: 1; height: 28px; border-bottom: 1px dashed var(--text-tertiary); }
+      .flight-path .icon { position: absolute; left: 50%; bottom: -9px; width: 18px; height: 18px; padding: 2px; color: var(--accent); background: #fff; transform: translateX(-50%); }
+      .ticket-foot { color: var(--text-secondary); font: 10px "JetBrains Mono", monospace; }
+      .ticket-stub { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; padding: 18px; border-left: 1px dashed #d1d1d6; background: #fafafa; }
+      .ticket-stub::before, .ticket-stub::after { content: ""; position: absolute; left: -9px; width: 18px; height: 18px; background: var(--bg-card); border-radius: 50%; }
+      .ticket-stub::before { top: -9px; } .ticket-stub::after { bottom: -9px; }
+      .seat-label { color: var(--text-secondary); font: 9px "JetBrains Mono", monospace; letter-spacing: 1.5px; }
+      .seat { font: 700 36px "JetBrains Mono", monospace; letter-spacing: -2px; }
+      .passenger { color: var(--text-secondary); font-size: 9px; }
+      .day-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
       .day-nav { cursor: pointer; padding: 16px; background: var(--bg-soft); border: 1px solid transparent; border-radius: 16px; transition: .2s; }
       .day-nav:hover { transform: translateY(-2px); background: #fff; border-color: var(--accent); box-shadow: var(--shadow-md); }
       .day-num { color: var(--accent); font: 600 11px "JetBrains Mono", monospace; }
@@ -60,13 +83,20 @@
       .day-card .route { margin: 7px 0 20px; color: var(--text-secondary); font: 11px "JetBrains Mono", monospace; }
       .timeline { display: grid; grid-template-columns: 70px 1fr; gap: 0 14px; }
       .time { padding: 10px 0; color: var(--accent); font: 500 11px "JetBrains Mono", monospace; }
-      .event { position: relative; padding: 8px 32px 15px 15px; border-left: 1px solid var(--line); line-height: 1.65; font-size: 13px; outline: none; }
+      .event { position: relative; padding: 8px 66px 15px 15px; border-left: 1px solid var(--line); line-height: 1.65; font-size: 13px; outline: none; transition: color .2s, background .2s, opacity .2s; }
       .event::before { content: ""; position: absolute; left: -4px; top: 15px; width: 7px; height: 7px; background: #fff; border: 2px solid var(--accent); border-radius: 50%; }
       .event strong { font-weight: 600; }
       .event .detail { display: block; color: var(--text-secondary); font-size: 12px; }
       .event.marked { margin: 3px 0 7px; background: #fff9e6; border-left-color: #fdcb6e; border-radius: 0 10px 10px 0; }
-      .mark-btn { position: absolute; right: 5px; top: 6px; padding: 5px; color: var(--text-tertiary); background: transparent; border: 0; border-radius: 8px; cursor: pointer; }
+      .event.completed { color: var(--text-tertiary); opacity: .72; }
+      .event.completed strong, .event.completed .detail { color: var(--text-tertiary); text-decoration: line-through; text-decoration-thickness: 1px; }
+      .event.completed::before { border-color: var(--text-tertiary); background: var(--bg-body); }
+      .mark-btn, .complete-btn { position: absolute; top: 6px; padding: 5px; color: var(--text-tertiary); background: transparent; border: 0; border-radius: 8px; cursor: pointer; }
+      .mark-btn { right: 35px; }
+      .complete-btn { right: 5px; }
       .marked .mark-btn { color: #b78900; }
+      .completed .complete-btn { color: var(--green); }
+      .mark-btn:hover, .complete-btn:hover { background: rgba(0,0,0,.04); }
       [contenteditable="true"] { cursor: text; border-radius: 6px; box-shadow: 0 0 0 2px rgba(0,122,255,.15); }
       .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
       .info-card { padding: 22px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 16px; }
@@ -92,7 +122,12 @@
         .tabs { width: 100%; } .tab { flex: 1; padding-inline: 12px; }
         .tools { justify-content: flex-end; } .tool-btn { flex: 1; justify-content: center; }
         .overview-grid, .day-grid { grid-template-columns: repeat(2, 1fr); }
-        .day-nav:last-child { grid-column: span 2; } .cards { grid-template-columns: 1fr; }
+        .cards { grid-template-columns: 1fr; }
+        .ticket-stage { min-height: 410px; }
+        .boarding-pass { width: calc(100% - 36px); grid-template-columns: 1fr 92px; }
+        .boarding-pass:first-of-type { top: 28px; left: 14px; transform: rotate(-2deg); }
+        .boarding-pass:last-of-type { right: 14px; bottom: 38px; transform: rotate(2deg); }
+        .ticket-main { padding: 18px; } .airport-code { font-size: 24px; } .ticket-stub { padding: 10px; }
       }
       @media (max-width: 480px) {
         h1 { flex-wrap: wrap; } .badge { margin-left: 32px; }
@@ -100,6 +135,12 @@
         .metric-value { font-size: 17px; } .day-card { padding: 20px 15px; }
         .timeline { grid-template-columns: 54px 1fr; gap: 0 8px; } .checklist { grid-template-columns: 1fr; }
         th, td { padding: 10px 6px; font-size: 11px; }
+        .ticket-stage { min-height: 385px; margin-inline: -4px; }
+        .boarding-pass { min-height: 190px; grid-template-columns: 1fr 76px; }
+        .ticket-main { padding: 15px 13px; } .ticket-head { gap: 6px; } .airline { font-size: 10px; }
+        .flight-no { font-size: 9px; } .airport-row { margin: 20px 0 16px; gap: 8px; }
+        .airport { min-width: 62px; } .airport-code { font-size: 21px; } .airport-name { font-size: 8px; }
+        .ticket-foot { font-size: 8px; gap: 5px; } .seat { font-size: 27px; } .passenger { font-size: 8px; }
       }
       @media print { body { padding: 0; background: #fff; } .container { max-width: none; box-shadow: none; border: 0; } .toolbar, .mark-btn, .toast { display: none !important; } .day-card { break-inside: avoid; } }
     </style>
@@ -109,9 +150,9 @@
       <header class="hero">
         <div>
           <h1><svg class="icon" viewBox="0 0 24 24" style="width:24px;height:24px"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V5.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 4.252a1.125 1.125 0 0 0-1.006 0L3.622 6.689A1.125 1.125 0 0 0 3 7.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"/></svg>HK · MC Travel <span class="badge">PLAN</span></h1>
-          <p class="subtitle">西安出发 · 深圳 / 香港 / 澳门 · 5 天 4 晚省钱旅行草案</p>
+          <p class="subtitle">西安出发 · 深圳 / 香港 / 澳门 · Day 0 + 5 天旅行计划</p>
         </div>
-        <div class="hero-meta"><span class="pill">2026.10.01—10.05</span><span class="pill">2 TRAVELERS</span><span class="pill">BUDGET ≤ ¥10K</span></div>
+        <div class="hero-meta"><span class="pill">2026.09.30—10.06</span><span class="pill">2 TRAVELERS</span><span class="pill">BUDGET ≤ ¥10K</span></div>
       </header>
 
       <div class="status-bar"><span class="status-dot"></span><span id="saveStatus">计划已就绪 · 所有操作自动保存至本机</span></div>
@@ -124,7 +165,7 @@
       <section id="overview" class="section">
         <span class="section-kicker">Trip Overview</span>
         <div class="overview-grid">
-          <div class="metric"><span class="metric-label">DURATION</span><span class="metric-value">5 天 4 晚</span><span class="metric-note">深圳 3 晚 · 澳门 1 晚</span></div>
+          <div class="metric"><span class="metric-label">DURATION</span><span class="metric-value">Day 0 + 5 天</span><span class="metric-note">9 月 30 日晚启程</span></div>
           <div class="metric"><span class="metric-label">ROUTE</span><span class="metric-value">西安 → 深港澳</span><span class="metric-note">香港两日 · 澳门两日</span></div>
           <div class="metric"><span class="metric-label">BUDGET</span><span class="metric-value">约 ¥9,800</span><span class="metric-note">两人合计 · 粗略估算</span></div>
           <div class="metric"><span class="metric-label">PACE</span><span class="metric-value">每天 2 万步</span><span class="metric-note">轻装 · 舒适运动鞋</span></div>
@@ -132,9 +173,24 @@
         <div class="notice"><strong>待最终确认：</strong>国庆航班、酒店、跨境列车时刻及价格会变化；当前数字来自两份初稿且存在冲突。出票前请逐项核验。澳门路线暂采用“深圳北—珠海—拱北”往返，以便行程闭环。</div>
       </section>
 
+      <section class="section" aria-labelledby="flight-title">
+        <span id="flight-title" class="section-kicker">Confirmed Flight · 2 Boarding Passes</span>
+        <div class="ticket-stage">
+          <article class="boarding-pass" aria-label="旅客一机票">
+            <div class="ticket-main"><div class="ticket-head"><span class="airline"><span class="plane-dot">✈</span>深圳航空</span><span class="flight-no">ZH9208 · SEP 30 WED</span></div><div class="airport-row"><div class="airport"><span class="airport-code">XIY</span><span class="airport-name">西安咸阳 · T2</span></div><div class="flight-path"><svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h-6l-2-2H1l2 4-2 4h1.5l2-2h6l-2 8h2l5-8H20a2 2 0 0 0 0-4h-4.5l-5-8h-2l2 8Z"/></svg></div><div class="airport"><span class="airport-code">SZX</span><span class="airport-name">深圳宝安 · T3</span></div></div><div class="ticket-foot"><span>DEPART · 22:10</span><span>ARRIVE · 01:05 +1</span></div></div>
+            <div class="ticket-stub"><span class="seat-label">SEAT</span><strong class="seat">XX</strong><span class="passenger">HUANG 先生</span></div>
+          </article>
+          <article class="boarding-pass" aria-label="旅客二机票">
+            <div class="ticket-main"><div class="ticket-head"><span class="airline"><span class="plane-dot">✈</span>深圳航空</span><span class="flight-no">ZH9208 · SEP 30 WED</span></div><div class="airport-row"><div class="airport"><span class="airport-code">XIY</span><span class="airport-name">西安咸阳 · T2</span></div><div class="flight-path"><svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h-6l-2-2H1l2 4-2 4h1.5l2-2h6l-2 8h2l5-8H20a2 2 0 0 0 0-4h-4.5l-5-8h-2l2 8Z"/></svg></div><div class="airport"><span class="airport-code">SZX</span><span class="airport-name">深圳宝安 · T3</span></div></div><div class="ticket-foot"><span>DEPART · 22:10</span><span>ARRIVE · 01:05 +1</span></div></div>
+            <div class="ticket-stub"><span class="seat-label">SEAT</span><strong class="seat">XX</strong><span class="passenger">DUAN 女士</span></div>
+          </article>
+        </div>
+      </section>
+
       <section id="itinerary" class="section">
         <span class="section-kicker">Daily Itinerary</span>
         <div class="day-grid">
+          <div class="day-nav" data-day="day0"><span class="day-num">DAY 00</span><strong>西安启程</strong><small>值机 · 夜航</small></div>
           <div class="day-nav" data-day="day1"><span class="day-num">DAY 01</span><strong>抵达深圳</strong><small>城市漫游 · 日落</small></div>
           <div class="day-nav" data-day="day2"><span class="day-num">DAY 02</span><strong>香港经典线</strong><small>维港 · 中环 · 山顶</small></div>
           <div class="day-nav" data-day="day3"><span class="day-num">DAY 03</span><strong>香港市井线</strong><small>旺角 · 油麻地</small></div>
@@ -142,9 +198,16 @@
           <div class="day-nav" data-day="day5"><span class="day-num">DAY 05</span><strong>澳门氹仔</strong><small>酒店群 · 返程</small></div>
         </div>
 
-        <article id="day1" class="day-card editable-block"><h2>Day 1 · 深圳初见</h2><p class="route">XI'AN → SHENZHEN · OCT 01</p><div class="timeline">
-          <div class="time">08:40</div><div class="event"><strong>西安咸阳机场出发</strong><span class="detail">参考航班抵深约 11:30；实际以出票为准。</span></div>
-          <div class="time">12:30</div><div class="event"><strong>前往福田口岸附近酒店</strong><span class="detail">地铁 11 号线转乘；入住、放行李并简单午餐。</span></div>
+        <article id="day0" class="day-card editable-block"><h2>Day 0 · 西安启程</h2><p class="route">XI'AN XIANYANG T2 · SEP 30 WED</p><div class="timeline">
+          <div class="time">提前抵达</div><div class="event"><strong>西安咸阳国际机场 T2</strong><span class="detail">办理深圳航空 ZH9208 值机与行李托运；两位旅客座位号暂为 XX。</span></div>
+          <div class="time">22:10</div><div class="event"><strong>飞往深圳宝安国际机场 T3</strong><span class="detail">夜间航班，跨过零点后的抵达安排计入 Day 1。</span></div>
+        </div></article>
+
+        <article id="day1" class="day-card editable-block"><h2>Day 1 · 深圳初见</h2><p class="route">SHENZHEN · OCT 01 THU</p><div class="timeline">
+          <div class="time">01:05</div><div class="event"><strong>抵达深圳宝安国际机场 T3</strong><span class="detail">深圳航空 ZH9208 落地，提取行李后联系酒店接机。</span></div>
+          <div class="time">约 02:00</div><div class="event"><strong>入住悦美四季酒店</strong><span class="detail">深圳宝安区航城街道三围社区航空路 3 号兆丰工业园 A 栋 1 层。酒店提供免费接送机服务，务必提前联系确认并沟通接机时间与地点。</span></div>
+          <div class="time">上午</div><div class="event"><strong>补觉与休整</strong><span class="detail">9 月 30 日周三入住 1 晚；10 月 1 日周四 14:00 前离店，建议按体力安排上午活动。</span></div>
+          <div class="time">14:00 前</div><div class="event"><strong>退房并转往后续住宿区域</strong><span class="detail">退房前确认行李、充电设备与港澳通行证。</span></div>
           <div class="time">14:30</div><div class="event"><strong>莲花山公园 → 市民中心</strong><span class="detail">免费城市景观线，登顶约 20 分钟。</span></div>
           <div class="time">17:00</div><div class="event"><strong>深圳湾公园看日落</strong><span class="detail">沿海岸散步，晚餐可选椰子鸡或广式早茶。</span></div>
           <div class="time">20:00</div><div class="event"><strong>检查证件与次日车票</strong><span class="detail">确认香港 2 次签注、流量包和深圳北—西九龙车票。</span></div>
@@ -176,14 +239,28 @@
           <div class="time">17:30</div><div class="event"><strong>渔人码头日落</strong><span class="detail">晚餐后看永利发财树 / 酒店夜景，按体力取舍。</span></div>
         </div></article>
 
-        <article id="day5" class="day-card editable-block"><h2>Day 5 · 氹仔打卡与返程</h2><p class="route">COTAI → ZHUHAI → SHENZHEN → XI'AN · OCT 05</p><div class="timeline">
+        <article id="day5" class="day-card editable-block"><h2>Day 5 · 氹仔打卡与返回深圳</h2><p class="route">COTAI → ZHUHAI → SHENZHEN · OCT 05</p><div class="timeline">
           <div class="time">09:30</div><div class="event"><strong>退房并寄存行李</strong><span class="detail">轻装前往路氹酒店群。</span></div>
           <div class="time">10:30</div><div class="event"><strong>威尼斯人 → 伦敦人 → 巴黎人</strong><span class="detail">免费游览与拍照，贡多拉可按预算删减。</span></div>
           <div class="time">12:30</div><div class="event"><strong>官也街午餐</strong><span class="detail">蛋挞、牛杂、木糠布甸、猪扒包，错峰更舒适。</span></div>
           <div class="time">14:30</div><div class="event"><strong>永利皇宫缆车与喷泉</strong><span class="detail">游览后返回酒店取行李，前往关闸。</span></div>
-          <div class="time">17:00</div><div class="event"><strong>澳门 → 珠海 → 深圳机场</strong><span class="detail">跨城衔接风险较高，航班至少留 4—5 小时缓冲。</span></div>
-          <div class="time">22:15</div><div class="event"><strong>深圳飞返西安</strong><span class="detail">参考时间；建议确认末段交通后再定航班。</span></div>
+          <div class="time">17:00</div><div class="event"><strong>澳门 → 珠海 → 深圳</strong><span class="detail">过关及跨城交通预留充足时间，当晚在深圳住宿。</span></div>
+          <div class="time">晚上</div><div class="event"><strong>入住深圳酒店</strong><span class="detail">休息并整理行李，确认次日 ZH9205 航班与前往宝安机场 T3 的交通。</span></div>
         </div></article>
+
+        <section class="section" aria-labelledby="return-flight-title">
+          <span id="return-flight-title" class="section-kicker">Confirmed Return Flight · Oct 06 Tue</span>
+          <div class="ticket-stage">
+            <article class="boarding-pass" aria-label="HUANG 先生返程机票">
+              <div class="ticket-main"><div class="ticket-head"><span class="airline"><span class="plane-dot">✈</span>深圳航空</span><span class="flight-no">ZH9205 · OCT 06 TUE</span></div><div class="airport-row"><div class="airport"><span class="airport-code">SZX</span><span class="airport-name">深圳宝安 · T3</span></div><div class="flight-path"><svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h-6l-2-2H1l2 4-2 4h1.5l2-2h6l-2 8h2l5-8H20a2 2 0 0 0 0-4h-4.5l-5-8h-2l2 8Z"/></svg></div><div class="airport"><span class="airport-code">XIY</span><span class="airport-name">西安咸阳 · T2</span></div></div><div class="ticket-foot"><span>DEPART · 14:00</span><span>ARRIVE · 16:50</span></div></div>
+              <div class="ticket-stub"><span class="seat-label">SEAT</span><strong class="seat">XX</strong><span class="passenger">HUANG 先生</span></div>
+            </article>
+            <article class="boarding-pass" aria-label="DUAN 女士返程机票">
+              <div class="ticket-main"><div class="ticket-head"><span class="airline"><span class="plane-dot">✈</span>深圳航空</span><span class="flight-no">ZH9205 · OCT 06 TUE</span></div><div class="airport-row"><div class="airport"><span class="airport-code">SZX</span><span class="airport-name">深圳宝安 · T3</span></div><div class="flight-path"><svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h-6l-2-2H1l2 4-2 4h1.5l2-2h6l-2 8h2l5-8H20a2 2 0 0 0 0-4h-4.5l-5-8h-2l2 8Z"/></svg></div><div class="airport"><span class="airport-code">XIY</span><span class="airport-name">西安咸阳 · T2</span></div></div><div class="ticket-foot"><span>DEPART · 14:00</span><span>ARRIVE · 16:50</span></div></div>
+              <div class="ticket-stub"><span class="seat-label">SEAT</span><strong class="seat">XX</strong><span class="passenger">DUAN 女士</span></div>
+            </article>
+          </div>
+        </section>
       </section>
 
       <section class="section"><span class="section-kicker">Notes & Preparation</span><div class="cards editable-block">
@@ -196,7 +273,7 @@
       <section id="budget" class="section editable-block"><span class="section-kicker">Budget Estimate · 2 People</span><div class="info-card"><table><thead><tr><th>项目</th><th>说明</th><th>预算</th></tr></thead><tbody><tr><td>往返机票</td><td>西安 ↔ 深圳</td><td>¥5,600</td></tr><tr><td>住宿</td><td>深圳 3 晚 + 澳门 1 晚</td><td>¥1,750</td></tr><tr><td>跨境 / 城际交通</td><td>香港高铁、珠海往返</td><td>¥1,000</td></tr><tr><td>当地交通与门票</td><td>地铁、小轮、山顶等</td><td>¥700</td></tr><tr><td>餐饮</td><td>5 天，两人</td><td>¥1,500</td></tr><tr><td>流量、签注与杂费</td><td>预留</td><td>¥300</td></tr><tr class="total"><td>粗略合计</td><td>需压缩或以实时价格更新</td><td>¥10,850</td></tr></tbody></table><div class="notice"><strong>预算提示：</strong>两份原稿的分项相加与“约 ¥9,800”结论并不一致。若严格控制在 ¥10,000 内，优先压缩机票、住宿和餐饮，并预留至少 ¥500 应急金。</div></div></section>
 
       <section id="checklist" class="section"><span class="section-kicker">Departure Checklist</span><div class="checklist">
-        <label class="check-item"><input type="checkbox" data-check="permit"><span>港澳通行证及签注有效</span></label><label class="check-item"><input type="checkbox" data-check="flight"><span>往返机票已确认</span></label><label class="check-item"><input type="checkbox" data-check="hotel"><span>深圳 / 澳门酒店已预订</span></label><label class="check-item"><input type="checkbox" data-check="rail"><span>跨境高铁与珠海车次已确认</span></label><label class="check-item"><input type="checkbox" data-check="network"><span>流量包 / SIM 卡已准备</span></label><label class="check-item"><input type="checkbox" data-check="cash"><span>港币、澳门币零钱已准备</span></label><label class="check-item"><input type="checkbox" data-check="plug"><span>转换插头与充电宝已装包</span></label><label class="check-item"><input type="checkbox" data-check="offline"><span>订单、地图与证件已离线备份</span></label>
+        <label class="check-item"><input type="checkbox" data-check="permit"><span>港澳通行证及签注有效</span></label><label class="check-item"><input type="checkbox" data-check="flight"><span>ZH9208 航班信息已确认</span></label><label class="check-item"><input type="checkbox" data-check="pickup"><span>已联系悦美四季确认接机</span></label><label class="check-item"><input type="checkbox" data-check="hotel"><span>深圳 / 澳门酒店已预订</span></label><label class="check-item"><input type="checkbox" data-check="rail"><span>跨境高铁与珠海车次已确认</span></label><label class="check-item"><input type="checkbox" data-check="network"><span>流量包 / SIM 卡已准备</span></label><label class="check-item"><input type="checkbox" data-check="cash"><span>港币、澳门币零钱已准备</span></label><label class="check-item"><input type="checkbox" data-check="plug"><span>转换插头与充电宝已装包</span></label><label class="check-item"><input type="checkbox" data-check="offline"><span>订单、地图与证件已离线备份</span></label>
       </div></section>
 
       <footer class="footer">STATIC TRAVEL NOTE · 点击「编辑内容」可修改正文；点击时间线右侧书签可标记重点<br />修改、标记与清单仅保存在当前浏览器，不会同步到其他设备。</footer>
@@ -204,7 +281,7 @@
     <div id="toast" class="toast" role="status"></div>
     <script>
       (() => {
-        const KEY = "hk_mc_travel_v1";
+        const KEY = "hk_mc_travel_v3";
         const state = JSON.parse(localStorage.getItem(KEY) || "{}");
         const blocks = [...document.querySelectorAll(".editable-block")];
         const status = document.getElementById("saveStatus");
@@ -223,11 +300,16 @@
         const decorateEvents = () => document.querySelectorAll(".event").forEach((event, i) => {
           event.dataset.mark = i;
           if (state.marks?.includes(i)) event.classList.add("marked");
-          if (!event.querySelector(".mark-btn")) {
-            const btn = document.createElement("button"); btn.className = "mark-btn"; btn.title = "标记重点"; btn.setAttribute("aria-label", "标记重点"); btn.innerHTML = "<svg class='icon' viewBox='0 0 24 24'><path d='M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.5 48.5 0 0 1 11.186 0Z'/></svg>";
-            btn.onclick = e => { e.stopPropagation(); const n = Number(event.dataset.mark); state.marks ||= []; event.classList.toggle("marked"); state.marks = event.classList.contains("marked") ? [...new Set([...state.marks, n])] : state.marks.filter(x => x !== n); persist(); notify(event.classList.contains("marked") ? "已标记重点" : "已取消标记"); };
-            event.appendChild(btn);
+          if (state.completed?.includes(i)) {
+            event.classList.add("completed");
+            event.classList.remove("marked");
           }
+          let btn = event.querySelector(".mark-btn");
+          if (!btn) { btn = document.createElement("button"); btn.className = "mark-btn"; btn.title = "标记重点"; btn.setAttribute("aria-label", "标记重点"); btn.innerHTML = "<svg class='icon' viewBox='0 0 24 24'><path d='M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.5 48.5 0 0 1 11.186 0Z'/></svg>"; event.appendChild(btn); }
+          btn.onclick = e => { e.stopPropagation(); const n = Number(event.dataset.mark); state.marks ||= []; state.completed ||= []; if (event.classList.contains("completed")) { event.classList.remove("completed"); state.completed = state.completed.filter(x => x !== n); } event.classList.toggle("marked"); state.marks = event.classList.contains("marked") ? [...new Set([...state.marks, n])] : state.marks.filter(x => x !== n); persist(); notify(event.classList.contains("marked") ? "已标记重点" : "已取消标记"); };
+          let done = event.querySelector(".complete-btn");
+          if (!done) { done = document.createElement("button"); done.className = "complete-btn"; done.title = "标记完成"; done.setAttribute("aria-label", "标记完成"); done.innerHTML = "<svg class='icon' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' d='m4.5 12.75 4.5 4.5 10.5-10.5'/></svg>"; event.appendChild(done); }
+          done.onclick = e => { e.stopPropagation(); const n = Number(event.dataset.mark); state.completed ||= []; state.marks ||= []; event.classList.toggle("completed"); if (event.classList.contains("completed")) { event.classList.remove("marked"); state.marks = state.marks.filter(x => x !== n); state.completed = [...new Set([...state.completed, n])]; } else { state.completed = state.completed.filter(x => x !== n); } persist(); notify(event.classList.contains("completed") ? "该行程已完成" : "已恢复为待完成"); };
         });
         decorateEvents();
 
