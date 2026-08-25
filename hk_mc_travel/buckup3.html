@@ -118,7 +118,7 @@
       .trip-dialog { width: min(760px, calc(100% - 32px)); max-height: min(86vh, 820px); padding: 0; overflow: hidden; color: var(--text-primary); background: #fff; border: 0; border-radius: 24px; box-shadow: 0 24px 80px rgba(0,0,0,.24); }
       .trip-dialog::backdrop { background: rgba(18,20,25,.48); backdrop-filter: blur(5px); }
       .dialog-shell { max-height: min(86vh, 820px); overflow-y: auto; }
-      .dialog-visual { position: relative; height: auto; aspect-ratio: 16 / 9; background-color: #f6eddb; background-repeat: no-repeat; background-size: cover; background-position: center; }
+      .dialog-visual { position: relative; height: 270px; background-color: #e8edf3; background-repeat: no-repeat; background-size: cover; background-position: center; }
       .dialog-visual.panorama { background-size: 500% auto; }
       .dialog-visual.scene-tst { background-position: 0% center; }
       .dialog-visual.scene-central { background-position: 25% center; }
@@ -165,7 +165,7 @@
         .airport { min-width: 62px; } .airport-code { font-size: 21px; } .airport-name { font-size: 8px; }
         .ticket-foot { font-size: 8px; gap: 5px; } .seat { font-size: 27px; } .passenger { font-size: 8px; }
         .trip-dialog { width: calc(100% - 18px); max-height: 92vh; border-radius: 20px; }
-        .dialog-shell { max-height: 92vh; } .dialog-visual { height: auto; }
+        .dialog-shell { max-height: 92vh; } .dialog-visual { height: 210px; }
         .dialog-body { padding: 21px 18px 24px; } .dialog-title { font-size: 19px; }
         .detail-grid { grid-template-columns: 1fr; } .detail-item.tip { grid-column: auto; }
       }
@@ -463,10 +463,10 @@
         <div class="day-grid">
           <div class="day-nav" data-day="day0"><span class="day-num">DAY 00</span><strong>西安启程</strong><small>值机 · 夜航</small></div>
           <div class="day-nav" data-day="day1"><span class="day-num">DAY 01</span><strong>抵达深圳</strong><small>城市漫游 · 日落</small></div>
-          <div class="day-nav" data-day="day2"><span class="day-num">DAY 02</span><strong>维港摄影线</strong><small>尖沙咀 · 中环 · 港岛西</small></div>
-          <div class="day-nav" data-day="day3"><span class="day-num">DAY 03</span><strong>九龙街拍线</strong><small>旺角 · 油麻地 · 可选深水埗</small></div>
-          <div class="day-nav" data-day="day4"><span class="day-num">DAY 04</span><strong>澳门老城线</strong><small>东望洋 · 大三巴 · 海边日落</small></div>
-          <div class="day-nav" data-day="day5"><span class="day-num">DAY 05</span><strong>氹仔路氹线</strong><small>龙环葡韵 · 官也街 · 酒店群</small></div>
+          <div class="day-nav" data-day="day2"><span class="day-num">DAY 02</span><strong>香港经典线</strong><small>维港 · 中环 · 山顶</small></div>
+          <div class="day-nav" data-day="day3"><span class="day-num">DAY 03</span><strong>香港市井线</strong><small>旺角 · 油麻地</small></div>
+          <div class="day-nav" data-day="day4"><span class="day-num">DAY 04</span><strong>澳门半岛</strong><small>老城 · 葡式街区</small></div>
+          <div class="day-nav" data-day="day5"><span class="day-num">DAY 05</span><strong>澳门氹仔</strong><small>酒店群 · 返程</small></div>
         </div>
 
         <article id="day0" class="day-card editable-block"><h2>Day 0 · 西安启程</h2><p class="route">XI'AN XIANYANG T2 · SEP 30 WED</p><div class="timeline">
@@ -484,42 +484,37 @@
           <div class="time">20:00</div><div class="event"><strong>检查证件与次日车票</strong><span class="detail">确认香港 2 次签注、流量包和深圳北—西九龙车票。</span></div>
         </div></article>
 
-        <article id="day2" class="day-card editable-block"><h2>Day 2 · 香港维港人物摄影线</h2><p class="route">WEST KOWLOON → TSIM SHA TSUI → CENTRAL → KENNEDY TOWN · OCT 02</p><div class="timeline">
-          <div class="time">07:15</div><div class="event"><strong>深圳北乘高铁赴香港</strong><span class="detail">至少提前 45—60 分钟到站；西九龙完成一地两检，早餐尽量在深圳解决。</span></div>
-          <div class="time">09:15</div><div class="event"><strong>尖东 → K11 MUSEA → 星光大道</strong><span class="detail">从尖东向西顺走：K11 建筑与旋梯、海滨栏杆、电影金像奖雕塑；商场未开门时直接先拍海滨。</span></div>
-          <div class="time">10:45</div><div class="event"><strong>文化中心 → 钟楼 → 1881</strong><span class="detail">钟楼与天星小轮同框、文化中心几何墙面、1881 白色回廊；人物照优先，海港城仅作空调休整。</span></div>
-          <div class="time">12:15</div><div class="event"><strong>尖沙咀美食候选池</strong><span class="detail">茶餐厅常餐、烧味、云吞面、咖喱、蛋挞、鸡蛋仔、糖水任选；单店排队超过 30 分钟立即换附近同类。</span></div>
-          <div class="time">13:30</div><div class="event"><strong>天星小轮 → 中环 → 大馆</strong><span class="detail">上层靠窗拍维港；中环码头、摩天轮外观、半山扶梯、街市壁画、大馆红砖按体力顺走，PMQ 可删。</span></div>
-          <div class="time">16:30</div><div class="event"><strong>西营盘街景 → 坚尼地城日落</strong><span class="detail">正街斜坡与旧楼适合长焦人物照；日落改到公共海滨，不占居民出入口、不冒险站车道。</span></div>
-          <div class="time">18:30</div><div class="event"><strong>港岛西美食候选 → 返回西九龙</strong><span class="detail">糖水、煲仔饭、西多士、烧味或茶餐厅任选；最迟按已购车次倒推 90 分钟离开坚尼地城。</span></div>
+        <article id="day2" class="day-card editable-block"><h2>Day 2 · 香港维港经典线</h2><p class="route">SHENZHEN NORTH → HONG KONG WEST KOWLOON · OCT 02</p><div class="timeline">
+          <div class="time">07:30</div><div class="event"><strong>深圳北乘高铁赴香港</strong><span class="detail">建议提前到站；西九龙一地两检。</span></div>
+          <div class="time">09:30</div><div class="event"><strong>星光大道 → 尖沙咀钟楼</strong><span class="detail">维港海景、1881 Heritage，均可免费游览。</span></div>
+          <div class="time">12:00</div><div class="event"><strong>尖沙咀茶餐厅</strong><span class="detail">菠萝油、沙嗲牛肉面、冻奶茶，人均约 HK$75。</span></div>
+          <div class="time">13:30</div><div class="event"><strong>天星小轮 → 中环</strong><span class="detail">中环摩天轮、半山扶梯、PMQ 元创方 / 大馆。</span></div>
+          <div class="time">17:30</div><div class="event"><strong>西营盘 → 坚尼地城日落</strong><span class="detail">沿港岛线顺路向西，免费海滨与街景取代排队较久的山顶。</span></div>
+          <div class="time">20:00</div><div class="event"><strong>西九龙返回深圳</strong><span class="detail">坚尼地城乘港岛线转东涌线 / 屯马线回西九龙，返程不要卡末班。</span></div>
         </div></article>
 
-        <article id="day3" class="day-card editable-block"><h2>Day 3 · 香港九龙街拍与小店线</h2><p class="route">MONG KOK EAST → YAU MA TEI → JORDAN · SHAM SHUI PO OPTIONAL · OCT 03</p><div class="timeline">
-          <div class="time">08:00</div><div class="event"><strong>深圳北 → 香港西九龙</strong><span class="detail">第二次香港签注；抵港后去旺角东，从北向南走，避免旺角—庙街之间来回折返。</span></div>
-          <div class="time">09:30</div><div class="event"><strong>花墟 → 雀鸟花园 → 金鱼街</strong><span class="detail">花墙、铁栏、旧楼与市场色彩适合人物街拍；店内和摊主近照先征得同意，雀鸟花园人多则快速通过。</span></div>
-          <div class="time">11:00</div><div class="event"><strong>花园街 → 女人街 → 旺角商场</strong><span class="detail">波鞋街与招牌街景；亚皆老街中心、信和中心等作为小店候选，按兴趣选 1—2 个，不为购物拖慢全日。</span></div>
-          <div class="time">12:30</div><div class="event"><strong>旺角美食候选池</strong><span class="detail">点心、冰室常餐、滑蛋饭、烧味、车仔面、牛腩、鸡蛋仔、豆腐花任选；两人共享小份可多尝几种。</span></div>
-          <div class="time">14:00</div><div class="event"><strong>果栏 → 油麻地警署 → 庙街</strong><span class="detail">果栏只在公共道路拍摄，警署看外观；庙街白天更适合建筑人物照，夜市氛围需等入夜但不强求。</span></div>
-          <div class="time">16:30</div><div class="event"><strong>深水埗支线（现场二选一）</strong><span class="detail">体力好再去鸭寮街、北河街和旧楼街景；否则留在佐敦吃饭并提早回西九龙，绝不再折返庙街。</span></div>
-          <div class="time">18:00</div><div class="event"><strong>九龙晚餐候选 → 返回深圳</strong><span class="detail">煲仔饭、烧鹅、豆腐花、砵仔糕、港式糖水可选；海鲜时价、来源不明电子产品和药房推销直接避开。</span></div>
+        <article id="day3" class="day-card editable-block"><h2>Day 3 · 香港市井深度线</h2><p class="route">MONG KOK → YAU MA TEI → SHAM SHUI PO · OCT 03</p><div class="timeline">
+          <div class="time">08:30</div><div class="event"><strong>深圳北 → 香港西九龙</strong><span class="detail">抵达后乘地铁前往旺角。</span></div>
+          <div class="time">09:45</div><div class="event"><strong>金鱼街 → 花园街 → 女人街</strong><span class="detail">香港市井风情与港片街景，控制购物时间。</span></div>
+          <div class="time">12:00</div><div class="event"><strong>旺角地道午餐</strong><span class="detail">冰室常餐，人均约 HK$60—80。</span></div>
+          <div class="time">13:30</div><div class="event"><strong>油麻地警署 → 庙街 → 深水埗</strong><span class="detail">鸭寮街电子市场；如体力不足可删去深水埗。</span></div>
+          <div class="time">18:30</div><div class="event"><strong>庙街夜市晚餐</strong><span class="detail">咖喱鱼蛋、煲仔饭等，注意现金与营业时间。</span></div>
+          <div class="time">20:00</div><div class="event"><strong>返回深圳并整理行李</strong><span class="detail">次日退房，检查澳门签注。</span></div>
         </div></article>
 
-        <article id="day4" class="day-card editable-block"><h2>Day 4 · 澳门半岛摄影线</h2><p class="route">BORDER GATE → GUIA → OLD TOWN → FISHERMAN'S WHARF · OCT 04</p><div class="timeline">
+        <article id="day4" class="day-card editable-block"><h2>Day 4 · 澳门半岛历史线</h2><p class="route">SHENZHEN NORTH → ZHUHAI → MACAU · OCT 04</p><div class="timeline">
           <div class="time">07:30</div><div class="event"><strong>退房，前往珠海站</strong><span class="detail">深圳北—珠海车次与是否直达须在购票时确认。</span></div>
           <div class="time">10:00</div><div class="event"><strong>拱北口岸入澳门 → 酒店寄存</strong><span class="detail">可利用酒店免费接驳车进入半岛。</span></div>
-          <div class="time">11:00</div><div class="event"><strong>东望洋灯塔 → 疯堂斜巷</strong><span class="detail">先拍山顶白色灯塔、教堂和城市层次，再下行至彩色葡式街区；口岸耗时过长则灯塔改为可删项。</span></div>
-          <div class="time">12:45</div><div class="event"><strong>大三巴侧机位 → 恋爱巷</strong><span class="detail">避开正中主阶梯人潮，从侧巷、哪吒庙方向和恋爱巷取景；人物用长焦压缩彩色墙面。</span></div>
-          <div class="time">14:00</div><div class="event"><strong>澳门老城美食候选池</strong><span class="detail">葡挞、猪扒包、牛杂、虾子捞面、水蟹粥、云吞、咖喱、双皮奶、木糠布甸任选；热门店超过 20 分钟换同类。</span></div>
-          <div class="time">15:00</div><div class="event"><strong>玫瑰堂 → 议事亭前地</strong><span class="detail">教堂黄色立面、葡式波浪地砖、市政署回廊；广场过密时用窄巷与建筑局部拍人物。</span></div>
-          <div class="time">17:15</div><div class="event"><strong>渔人码头日落（可替换）</strong><span class="detail">用拱门框景拍人物和外港日落；若老城延误或天气差，直接回酒店休整，不额外追夜景项目。</span></div>
+          <div class="time">11:00</div><div class="event"><strong>大三巴 → 恋爱巷 → 玫瑰堂</strong><span class="detail">步行串联澳门历史城区，景点免费。</span></div>
+          <div class="time">13:30</div><div class="event"><strong>议事亭前地 → 疯堂斜巷</strong><span class="detail">午餐可选营地街市，之后前往东望洋灯塔。</span></div>
+          <div class="time">17:30</div><div class="event"><strong>渔人码头日落</strong><span class="detail">晚餐后看永利发财树 / 酒店夜景，按体力取舍。</span></div>
         </div></article>
 
-        <article id="day5" class="day-card editable-block"><h2>Day 5 · 氹仔与路氹人物摄影线</h2><p class="route">TAIPA HOUSES → RUA DO CUNHA → COTAI → ZHUHAI · OCT 05</p><div class="timeline">
+        <article id="day5" class="day-card editable-block"><h2>Day 5 · 氹仔打卡与返回深圳</h2><p class="route">COTAI → ZHUHAI → SHENZHEN · OCT 05</p><div class="timeline">
           <div class="time">09:30</div><div class="event"><strong>退房并寄存行李</strong><span class="detail">轻装前往路氹酒店群。</span></div>
-          <div class="time">10:00</div><div class="event"><strong>龙环葡韵 → 氹仔旧城区</strong><span class="detail">薄荷绿建筑、花园和湖边是本日人物照重点；趁上午人少先拍，再步行去官也街。</span></div>
-          <div class="time">11:30</div><div class="event"><strong>官也街美食候选池</strong><span class="detail">葡挞、猪扒包、牛杂、木糠布甸、杏仁饼、蛋卷、榴莲雪糕任选；共享小份、排队超过 20 分钟就换。</span></div>
-          <div class="time">13:00</div><div class="event"><strong>威尼斯人 → 伦敦人 → 巴黎人</strong><span class="detail">以外立面、连廊和花园人物照为主；室内运河仅作休息，贡多拉和观景台时间紧可全部删除。</span></div>
-          <div class="time">14:45</div><div class="event"><strong>永利皇宫湖景（可选）</strong><span class="detail">仅在人少且缆车排队不超过 30 分钟时保留；否则直接取行李，返程缓冲比免费项目重要。</span></div>
+          <div class="time">10:30</div><div class="event"><strong>威尼斯人 → 伦敦人 → 巴黎人</strong><span class="detail">免费游览与拍照，贡多拉可按预算删减。</span></div>
+          <div class="time">12:30</div><div class="event"><strong>官也街午餐</strong><span class="detail">蛋挞、牛杂、木糠布甸、猪扒包，错峰更舒适。</span></div>
+          <div class="time">14:30</div><div class="event"><strong>永利皇宫缆车与喷泉</strong><span class="detail">游览后返回酒店取行李，前往关闸。</span></div>
           <div class="time">17:00</div><div class="event"><strong>澳门 → 珠海 → 深圳</strong><span class="detail">过关及跨城交通预留充足时间，当晚在深圳住宿。</span></div>
           <div class="time">晚上</div><div class="event"><strong>入住深圳酒店</strong><span class="detail">休息并整理行李，确认次日 ZH9205 航班与前往宝安机场 T3 的交通。</span></div>
         </div></article>
@@ -542,7 +537,7 @@
       <section class="section"><span class="section-kicker">Notes & Preparation</span><div class="cards editable-block">
         <div class="info-card"><h3><svg class="icon" viewBox="0 0 24 24"><path d="M15.75 5.25a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 22.5a7.5 7.5 0 0 1 15 0"/></svg>证件与通讯</h3><ul class="md-list"><li><strong>港澳通行证：</strong>香港 2 次签注 + 澳门 1 次签注。</li><li><strong>网络：</strong>支付宝境外流量包，或提前购买港澳通用卡。</li><li><strong>电源：</strong>英标转换插头、≤ 20000mAh 充电宝。</li></ul></div>
         <div class="info-card"><h3><svg class="icon" viewBox="0 0 24 24"><path d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6H2.25m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75A.75.75 0 0 0 21 6h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125V15m0 0h-.75a.75.75 0 0 0-.75.75v.75m1.5-1.5h-18m16.5 1.5v.75a.75.75 0 0 1-.75.75h-.75M3.75 16.5v.75c0 .414.336.75.75.75h.75m9-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>支付与现金</h3><ul class="md-list"><li><strong>港币：</strong>约 HK$500—800 / 人，覆盖小店与交通。</li><li><strong>澳门币：</strong>约 MOP$300—500 / 人；公交现金不找零。</li><li><strong>支付：</strong>微信 / 支付宝 + 银联卡，避免人民币 1:1 消费。</li></ul></div>
-        <div class="info-card"><h3><svg class="icon" viewBox="0 0 24 24"><path d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>交通与拍摄提醒</h3><ul class="md-list"><li><strong>香港：</strong>游客全日通从首次入闸起连续 24 小时；当前成人 HK$75，不含高铁、机场快线、东铁头等/罗湖/落马洲。两天路线单日乘车不密集，现场算价后再买。</li><li><strong>澳门：</strong>公交正常票价 MOP$6；内地支付宝 / 微信乘车码可用但无车资及转乘优惠，准备零钱更稳。</li><li><strong>拍摄：</strong>港澳车辆靠左；不站车道、不占居民入口，商店、摊位及人物近照先征得同意。国庆优先人物与顺路线，不强求空镜。</li></ul></div>
+        <div class="info-card"><h3><svg class="icon" viewBox="0 0 24 24"><path d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>通用提醒</h3><ul class="md-list"><li>港澳车辆靠左行驶，过马路先看右侧。</li><li>地铁车厢内不要饮食；扶梯按现场标识通行。</li><li>国庆客流大，跨境交通、酒店与门票需尽早预订。</li></ul></div>
         <div class="info-card"><h3><svg class="icon" viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0-13.5v5.25l3.75 2.25"/></svg>紧急信息</h3><ul class="md-list"><li><strong>内地报警：</strong>110</li><li><strong>香港 / 澳门：</strong>999</li><li><strong>原则：</strong>证件随身、重要订单离线截图、保留返程缓冲。</li></ul></div>
       </div></section>
 
@@ -563,7 +558,7 @@
     <div id="toast" class="toast" role="status"></div>
     <script>
       (() => {
-        const KEY = "hk_mc_travel_v4";
+        const KEY = "hk_mc_travel_v3";
         const state = JSON.parse(localStorage.getItem(KEY) || "{}");
         const blocks = [...document.querySelectorAll(".editable-block")];
         const status = document.getElementById("saveStatus");
@@ -572,14 +567,8 @@
 
         const persist = () => { localStorage.setItem(KEY, JSON.stringify(state)); status.textContent = "刚刚自动保存 · 数据仅存于当前浏览器"; };
         const notify = text => { toast.textContent = text; toast.classList.add("show"); clearTimeout(timer); timer = setTimeout(() => toast.classList.remove("show"), 1800); };
-        const ROUTE_MAPS = {
-          day0: "assets/route-shenzhen-day1.jpg",
-          day1: "assets/route-shenzhen-day1.jpg",
-          day2: "assets/route-hongkong-day2.jpg",
-          day3: "assets/route-hongkong-day3.jpg",
-          day4: "assets/route-macau-day4.jpg",
-          day5: "assets/route-macau-day5.jpg"
-        };
+        const IMG_SHENZHEN = "assets/shenzhen-halfday.png";
+        const IMG_PANORAMA = "assets/hk-macau-panorama.png";
         const d = (summary, transport, visit, photo, eat, buy, tip, scene = "shenzhen") => ({ summary, transport, visit, photo, eat, buy, tip, scene });
         const DETAILS = {
           "西安咸阳国际机场 T2": d("夜航出发，建议把值机、安检和接机联系方式一次确认完。", "建议最晚 20:10 到达 T2；先托运行李，再过安检前往登机口。", "确认 ZH9208 登机口、两人座位与行李额度；充电宝随身携带。", "航显屏或登机口合影即可，证件号码与登机牌条码不要公开。", "机场简单用餐，避免太油；带空水杯过安检后接水。", "不建议在机场临时采购旅行用品，价格通常较高。", "22:10 起飞，夜航可能调整登机口，留意航司短信。"),
@@ -616,41 +605,17 @@
           "入住深圳酒店": d("返程前一晚住深圳，避免 10 月 6 日从澳门赶飞机。", "深圳北抵达后入住交通方便的酒店；次日建议 11:00 左右出发前往宝安机场 T3。", "确认 ZH9205、14:00 起飞、两位座位和行李额度。", "无。", "晚餐清淡，早点休息。", "最后检查不能带入航空客舱/内地的物品。", "至少提前 2 小时到机场；国庆建议再增加缓冲。", "shenzhen")
         };
 
-        Object.assign(DETAILS, {
-          "尖东 → K11 MUSEA → 星光大道": d("从尖东一路向西拍到维港，不折返。", "尖东站 J 口附近进入 K11 MUSEA 与海滨；商场未营业就先走星光大道，之后不必回头。", "K11 公共建筑空间、星光大道、金像奖雕塑、维港栏杆与港岛天际线。", "广角拍建筑线条，人物离背景 3—5 米；海滨用长焦压缩港岛楼群，避开正午顶光可在骑楼下补拍。", "第一餐留到尖沙咀街区，途中只补水。", "商场只逛感兴趣楼层，不因购物打乱路线。", "海滨无遮阴；国庆人多时不要占据通道、攀爬栏杆或拍到陌生人正脸。", "tst"),
-          "文化中心 → 钟楼 → 1881": d("把尖沙咀西端的几组经典建筑一次拍完。", "从星光大道沿海滨向西，经文化中心到钟楼，再穿梭巴士总站到 1881；结束后就近午餐或回天星码头。", "文化中心几何墙、钟楼、天星小轮、1881 白色回廊和台阶。", "钟楼用低机位带入人物和天空；等小轮进入画面再连拍；1881 以拱门框住人物。", "附近可选茶餐厅、烧味、云吞面、咖喱或甜品。", "海港城只作为洗手间、补水与避暑点。", "1881 婚拍和游客较多，等空隙而非长时间占位；不要把海港城购物加入硬性行程。", "tst"),
-          "尖沙咀美食候选池": d("以区域候选替代单店打卡，现场根据排队选择。", "钟楼、乐道、金马伦道、加拿分道之间步行择店，吃完向天星码头移动。", "茶餐厅、老式冰室与街巷招牌也可作为生活感照片背景。", "食物靠窗自然光俯拍；拼桌时不要拍到邻桌。", "菠萝油、沙嗲牛肉面/通粉、滑蛋饭、叉烧或烧鹅、云吞面、咖喱鱼蛋、鸡蛋仔、蛋挞、港式糖水、冻奶茶可任选共享。", "曲奇和小包装手信先看价格、保质期与入境限制。", "排队超过 30 分钟就换同类；先问冻饮加价、茶位费、最低消费和是否只收现金。", "tst"),
-          "天星小轮 → 中环 → 大馆": d("坐小轮过海后沿中环向上走，不去山顶排队。", "尖沙咀乘天星小轮到中环；码头步行经摩天轮外观、街市与半山扶梯到大馆，PMQ 仅体力充足时保留。", "小轮甲板、中环码头、密集楼群、半山扶梯、街市壁画与大馆红砖院落。", "小轮靠窗拍人物侧影；中环用仰拍突出楼群，大馆用拱廊重复线条框住人物。", "可补云吞面、烧味、蛋挞或咖啡，正餐不必再排网红店。", "PMQ 文创按预算选购。", "半山扶梯有固定运行方向且坡多；大馆活动和开放区域以当天现场为准。", "central"),
-          "西营盘街景 → 坚尼地城日落": DETAILS["西营盘 → 坚尼地城日落"],
-          "港岛西美食候选 → 返回西九龙": d("晚餐和返程必须服从已购跨境车次。", "坚尼地城乘港岛线到中环，步行到香港站转东涌线至九龙站，再沿通道到西九龙；按车次倒推至少 90 分钟离开。", "如时间宽裕可在公共海滨看蓝调时刻，之后不再增加景点。", "蓝调时刻拍人物剪影；天黑后注意随身设备。", "西多士、糖水、煲仔饭、烧味、车仔面或茶餐厅常餐任选；时间紧就在站内吃简餐。", "无。", "不要购买末班或过晚车次，不为吃饭错过列车。", "central"),
-          "花墟 → 雀鸟花园 → 金鱼街": d("Day 3 从旺角东北端向南顺走，是色彩最丰富的上午街拍段。", "旺角东站出发，先花墟与雀鸟花园，再沿太子道东行到金鱼街，约 1.5 公里。", "花束色块、铁栏、旧楼、街市招牌与金鱼店外展示。", "用长焦把人物置于花墙和密集招牌前；店内、摊主、鸟笼和顾客近照先征得同意。", "沿途只吃鸡蛋仔、咖喱鱼蛋或豆腐花小份，正餐留旺角。", "花店小物按携带便利程度选择。", "雀鸟花园气味或人流不适可直接删；不使用闪光灯拍动物。", "mongkok"),
-          "花园街 → 女人街 → 旺角商场": d("街景与小店二选一控制时间，主路线持续向南。", "金鱼街转花园街/波鞋街、女人街，再到亚皆老街中心或信和中心；商场最多选 1—2 个。", "密集招牌、天桥视角、街市棚架和小型商场里的本地流行文化店铺。", "傍晚前街道反差大，用店铺阴影给人物补光；天桥只在允许停留的位置快速拍。", "小食不要一次买满，为午餐留胃口。", "鞋服、唱片、模型与小众饰品先比价并检查品质。", "所谓低价名牌、无明码标价商品和强行推销直接离开；女人街上午未开齐也不用等待。", "mongkok"),
-          "旺角美食候选池": d("两人共享小份，多尝几种，拒绝为单一网红店排长队。", "在旺角—油麻地弥敦道两侧择店，饭后继续向南。", "老冰室、点心铺和街边招牌可补拍生活感画面。", "靠窗位拍餐点，不开闪光灯、不拍拼桌客人。", "虾饺、烧卖、肠粉、滑蛋饭、烧味、车仔面、牛腩面、菠萝油、鸡蛋仔、豆腐花、冻奶茶任选；两人先点 2—3 份再加。", "正规连锁或明码标价商户购买药妆。", "超过 30 分钟换店；先问茶位、加一、最低消费和支付方式。", "mongkok"),
-          "果栏 → 油麻地警署 → 庙街": d("从旺角一路南下到佐敦，保留最有港片感的一段。", "午餐后步行至油麻地果栏、警署外观，再到庙街牌坊；全程约 1.5—2 公里。", "果栏外街、蓝白警署外观、弥敦道旧楼和庙街牌坊。", "果栏仅在公共道路用长焦拍环境；警署不进入受限区域；庙街用牌坊和灯笼形成纵深。", "庙街可选煲仔饭、咖喱鱼蛋或糖水，但不必等到很晚。", "夜市小物只做小额购买。", "果栏作业区车辆频繁，不进入装卸区；海鲜时价先问清，不接受药房拉客。", "mongkok"),
-          "深水埗支线（现场二选一）": d("这是可删支线，不与庙街来回折返。", "体力好时从油麻地乘荃湾线到深水埗，逛鸭寮街、北河街后直接乘地铁回佐敦/尖沙咀；疲惫则留在佐敦。", "旧楼、市场棚架、霓虹招牌、布料和电子市场。", "用长焦拍街道层次，尊重摊主和居民；不要在狭窄人行道架三脚架。", "烧鹅、豆腐花、砵仔糕、糖水、粥面任选小份。", "鸭寮街电子产品不懂不买。", "现场 16:30 前才决定；如果返程时间紧、下雨或步数超标就删。", "mongkok"),
-          "九龙晚餐候选 → 返回深圳": d("晚餐可在深水埗或佐敦完成，不再回头补景点。", "按所在位置乘荃湾线/屯马线前往西九龙，至少为过关候车留 60 分钟。", "无新增必拍点，蓝调街景只随手记录。", "夜间街拍提高快门，注意相机和手机。", "煲仔饭、烧鹅、牛腩面、糖水、豆腐花或砵仔糕任选；两人约 HK$180—320。", "无。", "返程列车优先；海鲜时价、电子市场低价货和药房推销全部避开。", "mongkok"),
-          "东望洋灯塔 → 疯堂斜巷": d("先高处再下行老城，天气好时保留；过关晚就删灯塔。", "酒店放行李后乘公交/出租到东望洋山附近，上山拍灯塔与教堂，再向疯堂斜巷方向下行。", "白色灯塔、教堂、炮台视野、彩色葡式建筑和石板街。", "灯塔用阶梯引导线拍全身；疯堂斜巷用建筑色块和长焦拍人物。", "途中补水即可，正餐留老城区。", "文创小店按预算选择。", "澳门坡多且石板雨天湿滑；口岸耽误超过 60 分钟就直接去大三巴。", "macau"),
-          "大三巴侧机位 → 恋爱巷": d("正面人潮密集，侧巷和后方更适合人物照。", "从疯堂斜巷步行至大三巴，先走哪吒庙一侧和遗址后方，再到恋爱巷，最后向玫瑰堂方向下行。", "大三巴侧立面、遗址拱门、哪吒庙、恋爱巷彩色墙。", "长焦从侧巷压缩立面；恋爱巷避开门口、用墙面色块做背景；不在主阶梯久站。", "葡挞或牛杂先共享小份。", "手信先试吃，集中到最后再买。", "国庆中午主阶梯最拥挤；不要为了空镜堵路或忽视随身物品。", "macau"),
-          "澳门老城美食候选池": d("把热门美食做成候选池，现场按排队选择。", "大三巴至议事亭、新马路和营地街市一带步行择店。", "老字号招牌与葡式街巷可随手拍，不额外绕路。", "食物用自然光近拍，不影响狭窄店铺通行。", "葡挞、猪扒包、牛杂、虾子捞面、水蟹粥、云吞、咖喱鱼蛋、双皮奶、木糠布甸、柠檬茶任选共享。", "杏仁饼、蛋卷先买小盒，核对肉类手信入境要求。", "排队超过 20 分钟换同类；海鲜时价先问清，避免人民币 1:1 付款。", "macau"),
-          "玫瑰堂 → 议事亭前地": d("老城最集中的葡式建筑段，适合建筑与人物同拍。", "从玫瑰堂步行几分钟到议事亭前地和市政署外观；拍完按导航前往渔人码头或酒店。", "玫瑰堂黄墙、波浪地砖、喷泉、市政署回廊和周边窄巷。", "低机位利用地砖曲线，人物站在广场边缘；人太多改拍门窗、瓷砖和窄巷局部。", "可补糖水或柠檬茶。", "手信不要在第一家集中购买。", "广场下午人流很大，空镜不是硬目标；教堂内部遵守开放和拍摄规则。", "macau"),
-          "渔人码头日落（可替换）": DETAILS["渔人码头日落"],
-          "龙环葡韵 → 氹仔旧城区": d("薄荷绿建筑比拥挤的官也街更适合上午人物照。", "乘公交/接驳到氹仔，先龙环葡韵与湖边，再沿步道前往旧城区和官也街。", "薄荷绿住宅、花园、湖面、石阶与氹仔旧街。", "上午柔光在绿墙前拍半身和全身；利用树影、门窗和栏杆构图。", "先不吃饱，官也街再共享小食。", "无。", "室内开放时间以现场为准；即使闭馆，外部建筑和花园也足够拍摄。", "cotai"),
-          "官也街美食候选池": d("错峰、共享、多尝几种，不为一家店消耗返程时间。", "从龙环葡韵步行至官也街和周边支巷，吃完前往路氹酒店群。", "主街招牌、旧城区支巷与附近彩色建筑。", "主街人密时转入支巷拍人物；不要边走边吃堵住通道。", "葡挞、猪扒包、牛杂、木糠布甸、杏仁饼、蛋卷、榴莲雪糕、柠檬茶任选；两人每样一份共享。", "杏仁饼和蛋卷先买小盒，肉类手信核对入境规定。", "排队超过 20 分钟换同类；网红店不是必选，先看明码标价。", "cotai"),
-          "永利皇宫湖景（可选）": DETAILS["永利皇宫缆车与喷泉"]
-        });
-
         const dialog = document.getElementById("tripDialog");
         const dialogVisual = document.getElementById("dialogVisual");
         const dialogTitle = document.getElementById("dialogTitle");
         const dialogSummary = document.getElementById("dialogSummary");
         const dialogDetails = document.getElementById("dialogDetails");
-        const openDetail = (title, source) => {
+        const openDetail = (title) => {
           const data = DETAILS[title] || d("此项为行程节点，按当天实时导航与现场开放情况执行。", "打开高德地图或 Google Maps，以当前位置查询公共交通。", "围绕当前节点轻松游览，不额外跨区。", "在公共区域拍摄并尊重他人隐私。", "就近选择明码标价、排队合理的餐厅。", "非必需不买，贵重商品先比价。", "国庆期间客流较大，所有时间均需留有弹性。", "shenzhen");
-          const dayId = source?.closest(".day-card")?.id || "day1";
           dialogTitle.textContent = title;
           dialogSummary.textContent = data.summary;
-          dialogVisual.className = "dialog-visual";
-          dialogVisual.style.backgroundImage = `url(${ROUTE_MAPS[dayId] || ROUTE_MAPS.day1})`;
+          dialogVisual.className = "dialog-visual" + (data.scene === "shenzhen" ? "" : " panorama scene-" + data.scene);
+          dialogVisual.style.backgroundImage = `url(${data.scene === "shenzhen" ? IMG_SHENZHEN : IMG_PANORAMA})`;
           dialogDetails.innerHTML = [["怎么走",data.transport],["看与逛",data.visit],["拍照",data.photo],["两人吃什么",data.eat],["买什么",data.buy],["避雷 / 取舍",data.tip]].map(([label,value], i) => `<div class="detail-item${i === 5 ? " tip" : ""}"><span class="detail-label">${label}</span><p class="detail-value">${value}</p></div>`).join("");
           dialog.showModal();
         };
@@ -678,8 +643,8 @@
           done.onclick = e => { e.stopPropagation(); const n = Number(event.dataset.mark); state.completed ||= []; state.marks ||= []; event.classList.toggle("completed"); if (event.classList.contains("completed")) { event.classList.remove("marked"); state.marks = state.marks.filter(x => x !== n); state.completed = [...new Set([...state.completed, n])]; } else { state.completed = state.completed.filter(x => x !== n); } persist(); notify(event.classList.contains("completed") ? "该行程已完成" : "已恢复为待完成"); };
           event.tabIndex = 0;
           event.title = "点击查看路线与游玩详情";
-          event.onclick = e => { if (editing || e.target.closest("button")) return; openDetail(event.querySelector("strong")?.textContent.trim() || "行程详情", event); };
-          event.onkeydown = e => { if (!editing && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openDetail(event.querySelector("strong")?.textContent.trim() || "行程详情", event); } };
+          event.onclick = e => { if (editing || e.target.closest("button")) return; openDetail(event.querySelector("strong")?.textContent.trim() || "行程详情"); };
+          event.onkeydown = e => { if (!editing && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openDetail(event.querySelector("strong")?.textContent.trim() || "行程详情"); } };
         });
         decorateEvents();
 
