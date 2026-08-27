@@ -765,19 +765,16 @@
 
       .ticket-stage {
         position: relative;
-        display: grid;
-        min-height: 0;
-        gap: 20px;
-        perspective: none;
+        min-height: 470px;
+        perspective: 1200px;
         overflow: visible;
       }
       .boarding-pass,
       .boarding-pass:first-of-type,
       .boarding-pass:last-of-type {
-        position: relative;
-        inset: auto;
+        position: absolute;
         display: grid;
-        width: 100%;
+        width: min(740px, calc(100% - 56px));
         min-height: 214px;
         grid-template-columns: minmax(0, 1fr) 168px;
         overflow: hidden;
@@ -785,14 +782,77 @@
         border: 1px solid var(--line);
         border-radius: 16px;
         box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
-        transform: none;
+        transform-origin: center;
+        cursor: pointer;
+        transition: transform .42s cubic-bezier(.2, .8, .2, 1), box-shadow .3s ease;
       }
-      .boarding-pass:hover,
+      .boarding-pass:first-of-type {
+        top: 42px;
+        left: 1%;
+        z-index: 1;
+        transform: rotate(-4deg) translateZ(0);
+      }
+      .boarding-pass:last-of-type {
+        right: 1%;
+        bottom: 35px;
+        z-index: 2;
+        transform: rotate(3deg) translateZ(30px);
+      }
       .boarding-pass:first-of-type:hover,
-      .boarding-pass:last-of-type:hover {
-        z-index: auto;
-        transform: translateY(-4px);
-        box-shadow: 0 16px 40px rgba(0, 0, 0, .11);
+      .boarding-pass:first-of-type:focus,
+      .boarding-pass:first-of-type:focus-within {
+        z-index: 4;
+        transform: rotate(-1deg) translateY(-10px) scale(1.02);
+        box-shadow: 0 28px 70px rgba(50, 70, 130, .23);
+      }
+      .boarding-pass:last-of-type:hover,
+      .boarding-pass:last-of-type:focus,
+      .boarding-pass:last-of-type:focus-within {
+        z-index: 4;
+        transform: rotate(1deg) translateY(-10px) scale(1.02);
+        box-shadow: 0 28px 70px rgba(50, 70, 130, .23);
+      }
+      .boarding-pass:active {
+        z-index: 5;
+        transform: rotate(0) translateY(-6px) scale(1.01);
+      }
+      @media (max-width: 760px) {
+        .ticket-stage {
+          min-height: 410px;
+        }
+        .boarding-pass,
+        .boarding-pass:first-of-type,
+        .boarding-pass:last-of-type {
+          position: absolute;
+          width: calc(100% - 36px);
+          grid-template-columns: minmax(0, 1fr) 92px;
+        }
+        .boarding-pass:first-of-type {
+          top: 28px;
+          left: 14px;
+          right: auto;
+          bottom: auto;
+          transform: rotate(-2deg);
+        }
+        .boarding-pass:last-of-type {
+          top: auto;
+          left: auto;
+          right: 14px;
+          bottom: 38px;
+          transform: rotate(2deg);
+        }
+      }
+      @media (max-width: 480px) {
+        .ticket-stage {
+          min-height: 400px;
+          margin-inline: -4px;
+        }
+        .boarding-pass,
+        .boarding-pass:first-of-type,
+        .boarding-pass:last-of-type {
+          min-height: 190px;
+          grid-template-columns: minmax(0, 1fr) 76px;
+        }
       }
       .ticket-main {
         padding: 28px 32px;
@@ -1263,13 +1323,12 @@
         to { opacity: 1; transform: translateY(0); }
       }
       .metric,
-      .boarding-pass,
       .day-card,
       .info-card,
       .check-item {
         animation: reveal-up .7s var(--spring) both;
       }
-      .metric:nth-child(2), .boarding-pass:nth-child(2), .info-card:nth-child(2), .check-item:nth-child(2) { animation-delay: .08s; }
+      .metric:nth-child(2), .info-card:nth-child(2), .check-item:nth-child(2) { animation-delay: .08s; }
       .metric:nth-child(3), .info-card:nth-child(3), .check-item:nth-child(3) { animation-delay: .16s; }
       .metric:nth-child(4), .info-card:nth-child(4), .check-item:nth-child(4) { animation-delay: .24s; }
       @supports (animation-timeline: view()) {
@@ -1405,9 +1464,26 @@
         .boarding-pass,
         .boarding-pass:first-of-type,
         .boarding-pass:last-of-type {
+          position: absolute;
           min-height: 190px;
-          grid-template-columns: minmax(0, 1fr) 84px;
+          width: calc(100% - 36px);
+          grid-template-columns: minmax(0, 1fr) 92px;
           border-radius: 16px;
+        }
+        .ticket-stage { min-height: 410px; }
+        .boarding-pass:first-of-type {
+          top: 28px;
+          left: 14px;
+          right: auto;
+          bottom: auto;
+          transform: rotate(-2deg);
+        }
+        .boarding-pass:last-of-type {
+          top: auto;
+          left: auto;
+          right: 14px;
+          bottom: 38px;
+          transform: rotate(2deg);
         }
         .ticket-main { padding: 18px 14px; }
         .ticket-head { align-items: flex-start; }
@@ -1467,6 +1543,19 @@
         .toast { bottom: 88px; max-width: calc(100% - 24px); text-align: center; }
       }
 
+      @media (max-width: 480px) {
+        .ticket-stage {
+          min-height: 400px;
+          margin-inline: -4px;
+        }
+        .boarding-pass,
+        .boarding-pass:first-of-type,
+        .boarding-pass:last-of-type {
+          min-height: 190px;
+          grid-template-columns: minmax(0, 1fr) 76px;
+        }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after {
           scroll-behavior: auto !important;
@@ -1517,11 +1606,11 @@
       <section class="section" aria-labelledby="flight-title">
         <span id="flight-title" class="section-kicker">Confirmed Flight · 2 Boarding Passes</span>
         <div class="ticket-stage">
-          <article class="boarding-pass" aria-label="旅客一机票">
+          <article class="boarding-pass" tabindex="0" aria-label="旅客一机票">
             <div class="ticket-main"><div class="ticket-head"><span class="airline"><span class="plane-dot">✈</span>深圳航空</span><span class="flight-no">ZH9206 · SEP 30 WED · A320</span></div><div class="airport-row"><div class="airport"><span class="airport-code">XIY</span><span class="airport-name">西安咸阳 · T2</span></div><div class="flight-path"><svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h-6l-2-2H1l2 4-2 4h1.5l2-2h6l-2 8h2l5-8H20a2 2 0 0 0 0-4h-4.5l-5-8h-2l2 8Z"/></svg></div><div class="airport"><span class="airport-code">SZX</span><span class="airport-name">深圳宝安 · T3</span></div></div><div class="ticket-foot"><span>DEPART · 18:15</span><span>ARRIVE · 21:15</span></div></div>
             <div class="ticket-stub"><span class="seat-label">SEAT</span><strong class="seat">XX</strong><span class="passenger">HUANG 先生</span></div>
           </article>
-          <article class="boarding-pass" aria-label="旅客二机票">
+          <article class="boarding-pass" tabindex="0" aria-label="旅客二机票">
             <div class="ticket-main"><div class="ticket-head"><span class="airline"><span class="plane-dot">✈</span>深圳航空</span><span class="flight-no">ZH9206 · SEP 30 WED · A320</span></div><div class="airport-row"><div class="airport"><span class="airport-code">XIY</span><span class="airport-name">西安咸阳 · T2</span></div><div class="flight-path"><svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h-6l-2-2H1l2 4-2 4h1.5l2-2h6l-2 8h2l5-8H20a2 2 0 0 0 0-4h-4.5l-5-8h-2l2 8Z"/></svg></div><div class="airport"><span class="airport-code">SZX</span><span class="airport-name">深圳宝安 · T3</span></div></div><div class="ticket-foot"><span>DEPART · 18:15</span><span>ARRIVE · 21:15</span></div></div>
             <div class="ticket-stub"><span class="seat-label">SEAT</span><strong class="seat">XX</strong><span class="passenger">DUAN 女士</span></div>
           </article>
@@ -1599,11 +1688,11 @@
         <section class="section" aria-labelledby="return-flight-title">
           <span id="return-flight-title" class="section-kicker">Confirmed Return Flight · Oct 06 Tue</span>
           <div class="ticket-stage">
-            <article class="boarding-pass" aria-label="HUANG 先生返程机票">
+            <article class="boarding-pass" tabindex="0" aria-label="HUANG 先生返程机票">
               <div class="ticket-main"><div class="ticket-head"><span class="airline"><span class="plane-dot">✈</span>深圳航空</span><span class="flight-no">ZH9205 · OCT 06 TUE</span></div><div class="airport-row"><div class="airport"><span class="airport-code">SZX</span><span class="airport-name">深圳宝安 · T3</span></div><div class="flight-path"><svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h-6l-2-2H1l2 4-2 4h1.5l2-2h6l-2 8h2l5-8H20a2 2 0 0 0 0-4h-4.5l-5-8h-2l2 8Z"/></svg></div><div class="airport"><span class="airport-code">XIY</span><span class="airport-name">西安咸阳 · T2</span></div></div><div class="ticket-foot"><span>DEPART · 14:00</span><span>ARRIVE · 16:50</span></div></div>
               <div class="ticket-stub"><span class="seat-label">SEAT</span><strong class="seat">XX</strong><span class="passenger">HUANG 先生</span></div>
             </article>
-            <article class="boarding-pass" aria-label="DUAN 女士返程机票">
+            <article class="boarding-pass" tabindex="0" aria-label="DUAN 女士返程机票">
               <div class="ticket-main"><div class="ticket-head"><span class="airline"><span class="plane-dot">✈</span>深圳航空</span><span class="flight-no">ZH9205 · OCT 06 TUE</span></div><div class="airport-row"><div class="airport"><span class="airport-code">SZX</span><span class="airport-name">深圳宝安 · T3</span></div><div class="flight-path"><svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h-6l-2-2H1l2 4-2 4h1.5l2-2h6l-2 8h2l5-8H20a2 2 0 0 0 0-4h-4.5l-5-8h-2l2 8Z"/></svg></div><div class="airport"><span class="airport-code">XIY</span><span class="airport-name">西安咸阳 · T2</span></div></div><div class="ticket-foot"><span>DEPART · 14:00</span><span>ARRIVE · 16:50</span></div></div>
               <div class="ticket-stub"><span class="seat-label">SEAT</span><strong class="seat">XX</strong><span class="passenger">DUAN 女士</span></div>
             </article>
