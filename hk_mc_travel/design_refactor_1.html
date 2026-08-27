@@ -1170,19 +1170,12 @@
       .dialog-visual {
         position: relative;
         height: auto;
-        aspect-ratio: auto;
+        aspect-ratio: 16 / 9;
         overflow: hidden;
         background-color: #f5f5f7;
+        background-position: center;
+        background-size: cover;
         border-radius: 16px;
-      }
-      .dialog-visual img {
-        display: block;
-        width: auto;
-        height: auto;
-        max-width: 100%;
-        max-height: calc(90vh - 56px);
-        margin: 0 auto;
-        object-fit: contain;
       }
       .dialog-close {
         position: fixed;
@@ -1461,7 +1454,6 @@
           border-radius: 28px 28px 0 0;
         }
         .dialog-shell { max-height: 100dvh; padding: 28px 14px 0; }
-        .dialog-visual img { max-height: calc(100dvh - 56px); }
         .dialog-body { padding-bottom: 30px; }
         .dialog-title { font-size: 22px; }
         .toast { bottom: 88px; max-width: calc(100% - 24px); text-align: center; }
@@ -1554,26 +1546,24 @@
           <div class="time">20:00</div><div class="event"><strong>检查证件与次日车票</strong><span class="detail">确认香港 2 次签注、流量包和深圳北—西九龙车票。</span></div>
         </div></article>
 
-        <article id="day2" class="day-card editable-block"><h2>Day 2 · 港岛线 / 维港摄影线</h2><p class="route">WEST KOWLOON → TSIM SHA TSUI → WAN CHAI → CENTRAL → KENNEDY TOWN · OCT 02</p><div class="timeline">
+        <article id="day2" class="day-card editable-block"><h2>Day 2 · 香港维港人物摄影线</h2><p class="route">WEST KOWLOON → TSIM SHA TSUI → CENTRAL → KENNEDY TOWN · OCT 02</p><div class="timeline">
           <div class="time">07:15</div><div class="event"><strong>深圳北乘高铁赴香港</strong><span class="detail">至少提前 45—60 分钟到站；西九龙完成一地两检，早餐尽量在深圳解决。</span></div>
-          <div class="time">09:15</div><div class="event"><strong>西九龙 → 2 元纯净水店 → 重庆大厦街景</strong><span class="detail">抵港后先进入尖沙咀街区补给；按笔记定位核对店名与营业状态，顺拍弥敦道和重庆大厦外观，再向尖东方向前往 K11。</span></div>
-          <div class="time">10:00</div><div class="event"><strong>K11 MUSEA → 星光大道</strong><span class="detail">从 K11 接入海滨后一路向西，拍建筑线条、金像奖雕塑和维港；上午顺光，长焦可压缩港岛楼群。</span></div>
-          <div class="time">11:00</div><div class="event"><strong>文化中心 → 钟楼 → 海港城 / 1881</strong><span class="detail">文化中心几何墙、钟楼与小轮同框、1881 白色回廊；海港城只作午餐、洗手间和避暑点。</span></div>
-          <div class="time">12:30</div><div class="event"><strong>天星小轮（尖沙咀 → 湾仔）</strong><span class="detail">上层靠窗拍维港与人物侧影；先到最东端湾仔，再沿港岛线一路向西，不跨区折返。</span></div>
-          <div class="time">13:00</div><div class="event"><strong>湾仔海滨 → 中环 → 上环</strong><span class="detail">湾仔会展海滨起步，经中环码头、街市、半山扶梯与大馆，再到上环西港城；PMQ 视体力删除。</span></div>
-          <div class="time">15:45</div><div class="event"><strong>西营盘 → 香港大学 → 石塘咀</strong><span class="detail">西营盘正街斜坡、港大本部建筑与石塘咀旧街依次向西；坡道用长焦压缩，避免站入车道。</span></div>
-          <div class="time">17:20</div><div class="event"><strong>坚尼地城海旁日落 → 返回西九龙</strong><span class="detail">在公共海滨拍电车、街景与日落，不占居民入口；按已购车次倒推至少 90 分钟返程。</span></div>
+          <div class="time">09:15</div><div class="event"><strong>尖东 → K11 MUSEA → 星光大道</strong><span class="detail">从尖东向西顺走：K11 建筑与旋梯、海滨栏杆、电影金像奖雕塑；商场未开门时直接先拍海滨。</span></div>
+          <div class="time">10:45</div><div class="event"><strong>文化中心 → 钟楼 → 1881</strong><span class="detail">钟楼与天星小轮同框、文化中心几何墙面、1881 白色回廊；人物照优先，海港城仅作空调休整。</span></div>
+          <div class="time">12:15</div><div class="event"><strong>尖沙咀美食候选池</strong><span class="detail">茶餐厅常餐、烧味、云吞面、咖喱、蛋挞、鸡蛋仔、糖水任选；单店排队超过 30 分钟立即换附近同类。</span></div>
+          <div class="time">13:30</div><div class="event"><strong>天星小轮 → 中环 → 大馆</strong><span class="detail">上层靠窗拍维港；中环码头、摩天轮外观、半山扶梯、街市壁画、大馆红砖按体力顺走，PMQ 可删。</span></div>
+          <div class="time">16:30</div><div class="event"><strong>西营盘街景 → 坚尼地城日落</strong><span class="detail">正街斜坡与旧楼适合长焦人物照；日落改到公共海滨，不占居民出入口、不冒险站车道。</span></div>
+          <div class="time">18:30</div><div class="event"><strong>港岛西美食候选 → 返回西九龙</strong><span class="detail">糖水、煲仔饭、西多士、烧味或茶餐厅任选；最迟按已购车次倒推 90 分钟离开坚尼地城。</span></div>
         </div></article>
 
-        <article id="day3" class="day-card editable-block"><h2>Day 3 · 九龙市井 / 港岛东摄影线</h2><p class="route">MONG KOK → YAU MA TEI → TSIM SHA TSUI → NORTH POINT → QUARRY BAY · OCT 03</p><div class="timeline">
+        <article id="day3" class="day-card editable-block"><h2>Day 3 · 香港九龙街拍与小店线</h2><p class="route">MONG KOK EAST → YAU MA TEI → JORDAN · SHAM SHUI PO OPTIONAL · OCT 03</p><div class="timeline">
           <div class="time">08:00</div><div class="event"><strong>深圳北 → 香港西九龙</strong><span class="detail">第二次香港签注；抵港后去旺角东，从北向南走，避免旺角—庙街之间来回折返。</span></div>
           <div class="time">09:30</div><div class="event"><strong>花墟 → 雀鸟花园 → 金鱼街</strong><span class="detail">花墙、铁栏、旧楼与市场色彩适合人物街拍；店内和摊主近照先征得同意，雀鸟花园人多则快速通过。</span></div>
-          <div class="time">11:00</div><div class="event"><strong>花园街 → 女人街 → 旺角宝藏小店</strong><span class="detail">沿波鞋街、女人街向南，亚皆老街中心或信和中心只选 1—2 处；拍密集招牌，也为午餐留时间。</span></div>
-          <div class="time">12:30</div><div class="event"><strong>旺角午餐 → 果栏 → 油麻地警署</strong><span class="detail">午餐后继续向南；果栏只在公共道路拍环境，警署只看外观，不进入装卸区或受限区域。</span></div>
-          <div class="time">14:15</div><div class="event"><strong>庙街 → 佐敦 → 尖沙咀街道</strong><span class="detail">以庙街牌坊、弥敦道旧楼和重庆大厦周边街道为主，沿九龙半岛一路向南，不折返等夜市。</span></div>
-          <div class="time">15:45</div><div class="event"><strong>尖沙咀 → 北角</strong><span class="detail">乘港铁前往北角；北角春秧街拍电车穿过市集的生活感画面，使用长焦并与车辆保持安全距离。</span></div>
-          <div class="time">17:00</div><div class="event"><strong>鲗鱼涌怪兽大厦</strong><span class="detail">鲗鱼涌站 A 口步行前往益昌大厦内院；广角仰拍密集楼体，长焦拍几何窗格，安静拍摄并尊重居民。</span></div>
-          <div class="time">18:15</div><div class="event"><strong>港岛东晚餐 → 返回深圳</strong><span class="detail">北角或鲗鱼涌就近用餐，不回九龙补景点；按跨境车次预留至少 90 分钟前往西九龙。</span></div>
+          <div class="time">11:00</div><div class="event"><strong>花园街 → 女人街 → 旺角商场</strong><span class="detail">波鞋街与招牌街景；亚皆老街中心、信和中心等作为小店候选，按兴趣选 1—2 个，不为购物拖慢全日。</span></div>
+          <div class="time">12:30</div><div class="event"><strong>旺角美食候选池</strong><span class="detail">点心、冰室常餐、滑蛋饭、烧味、车仔面、牛腩、鸡蛋仔、豆腐花任选；两人共享小份可多尝几种。</span></div>
+          <div class="time">14:00</div><div class="event"><strong>果栏 → 油麻地警署 → 庙街</strong><span class="detail">果栏只在公共道路拍摄，警署看外观；庙街白天更适合建筑人物照，夜市氛围需等入夜但不强求。</span></div>
+          <div class="time">16:30</div><div class="event"><strong>深水埗支线（现场二选一）</strong><span class="detail">体力好再去鸭寮街、北河街和旧楼街景；否则留在佐敦吃饭并提早回西九龙，绝不再折返庙街。</span></div>
+          <div class="time">18:00</div><div class="event"><strong>九龙晚餐候选 → 返回深圳</strong><span class="detail">煲仔饭、烧鹅、豆腐花、砵仔糕、港式糖水可选；海鲜时价、来源不明电子产品和药房推销直接避开。</span></div>
         </div></article>
 
         <article id="day4" class="day-card editable-block"><h2>Day 4 · 澳门半岛摄影线</h2><p class="route">BORDER GATE → GUIA → OLD TOWN → FISHERMAN'S WHARF · OCT 04</p><div class="timeline">
@@ -1628,7 +1618,7 @@
     </main>
     <dialog id="tripDialog" class="trip-dialog">
       <div class="dialog-shell">
-        <div id="dialogVisual" class="dialog-visual"><img id="dialogImage" alt="" /><button id="dialogClose" class="dialog-close" aria-label="关闭详情"><svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" d="m6 6 12 12M18 6 6 18"/></svg></button></div>
+        <div id="dialogVisual" class="dialog-visual"><button id="dialogClose" class="dialog-close" aria-label="关闭详情"><svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" d="m6 6 12 12M18 6 6 18"/></svg></button></div>
         <div class="dialog-body"><span id="dialogEyebrow" class="dialog-eyebrow">Route Detail</span><h2 id="dialogTitle" class="dialog-title"></h2><p id="dialogSummary" class="dialog-summary"></p><div id="dialogDetails" class="detail-grid"></div></div>
       </div>
     </dialog>
@@ -1711,25 +1701,8 @@
           "永利皇宫湖景（可选）": DETAILS["永利皇宫缆车与喷泉"]
         });
 
-        Object.assign(DETAILS, {
-          "西九龙 → 2 元纯净水店 → 重庆大厦街景": d("抵港后先完成尖沙咀补给和内街拍摄，再接入海滨向西走。", "从香港西九龙站步行或乘屯马线一站到尖东／尖沙咀街区；2 元水店的准确店名、门牌和营业状态以链接笔记及当天地图为准，补水后经重庆大厦外观向东步行至 K11 MUSEA。", "平价小店门面、弥敦道巴士与重庆大厦街头层次。", "拍照处：尖沙咀站 E 口及重庆大厦外围公共街道；用 50—85mm 长焦压缩巴士、招牌和行人，上午 9 点后光线较柔；不在店内或人流口久站。", "纯净水作为上午补给；附近小食只少量尝试。", "小店商品先看明码标价。", "“2 元”信息可能随时间变化，现场先确认价格；不把未核实门牌写死，若歇业就就近便利店补水。", "tst"),
-          "K11 MUSEA → 星光大道": d("从 K11 接入海滨后持续向西，直达文化中心、钟楼和天星码头。", "由重庆大厦一带向东步行至 K11 MUSEA；参观公共建筑空间后从海滨出口进入星光大道，之后沿维港向西，不再返回内街。", "K11 公共建筑空间、星光大道、金像奖雕塑、维港栏杆与港岛天际线。", "拍照处：尖东站 J 口及 K11 海滨出口附近；24—35mm 拍建筑线条，70—200mm 压缩港岛楼群，上午 10 点左右光线较稳定。", "途中只补水，午餐留到海港城／尖沙咀西端。", "商场只逛感兴趣楼层，不因购物打乱路线。", "商场未营业就直接进入海滨；不要占据通道、攀爬栏杆或近拍陌生人。", "tst"),
-          "文化中心 → 钟楼 → 海港城 / 1881": d("由尖沙咀海滨继续向西，一次拍完西端建筑。", "沿星光大道步行至文化中心、钟楼，再到海港城与 1881；结束后直接去天星码头。", "文化中心几何墙、钟楼、小轮、1881 拱廊与白色台阶。", "拍照处：钟楼海旁观景位；24—35mm 低机位拍钟楼与人物，70—200mm 等小轮入画。1881 用拱门框景；11 点前后注意顶光，可在回廊阴影补拍。", "海港城内就近午餐或简餐。", "海港城只作补给，购物不列为硬任务。", "婚拍和游客多时等短暂空隙，不占路、不攀栏杆。", "tst"),
-          "天星小轮（尖沙咀 → 湾仔）": d("先抵达港岛最东端的湾仔，再一路向西，避免港岛段折返。", "尖沙咀天星码头乘往湾仔航线；抵达后沿会展海滨步行。", "小轮甲板、维港两岸、会展与金紫荆广场外景。", "拍照处：上层靠窗或船尾公共位置；35—85mm 拍人物侧影，长焦压缩岸线，约 12:30 光硬时优先拍剪影与反光。", "船前补水，晕船者少吃油腻食物。", "无。", "航线班次和营运状态以当天码头公告为准；不跨越围栏或阻挡上下船。", "central"),
-          "湾仔海滨 → 中环 → 上环": d("从湾仔向西串联港岛核心街区。", "湾仔会展步行或短乘港铁至中环；经中环码头、街市、半山扶梯、大馆，再下行往上环西港城。", "湾仔海滨、中环楼群、扶梯街景、大馆红砖与上环旧招牌。", "拍照处：会展站 B3／湾仔站 A5 一带起步；中环 D2 口附近仰拍楼群，大馆拱廊用 35—50mm，半山坡道用 85mm；13:00—15:30 利用楼缝光影。", "中环或上环选茶餐厅、云吞面、烧味简餐。", "PMQ 文创按兴趣选购。", "半山扶梯有固定方向且坡多；大馆开放区域以现场为准，体力不足删 PMQ。", "central"),
-          "西营盘 → 香港大学 → 石塘咀": d("上环之后持续向西，串联斜坡、校园和旧社区。", "港岛线西营盘站 B2 口附近拍正街；再到香港大学站 A2 口进入校园公共区域，最后沿皇后大道西向石塘咀。", "正街斜坡与旧楼、港大本部建筑、石塘咀电车与街市。", "拍照处：西营盘 B2 口外公共人行道，用 85—200mm 压缩斜坡车流；港大本部大楼用 24—35mm，石塘咀用 50—85mm 拍电车。15:45 后侧光更立体。", "石塘咀可补糖水或咖啡。", "校园商店与社区小店按需选择。", "校园教学区遵守访客安排；不站车道、不挡居民和店铺入口。", "central"),
-          "坚尼地城海旁日落 → 返回西九龙": d("把港岛最西端作为 Day 2 收尾，不再增加东向景点。", "石塘咀沿海旁向西，或乘港岛线到坚尼地城站 C 口后步行至公共海滨；返程乘港岛线至中环，转东涌线到九龙站并步行至西九龙。", "海旁、电车、街道尽头的海面与日落人物剪影。", "拍照处：坚尼地城站 C 口往新海旁街公共海滨；70—200mm 拍电车与海面压缩，24—35mm 拍人物环境照，日落前 45 分钟至蓝调最佳。", "按返程时间在港岛西简餐，时间紧则站内解决。", "无。", "不采用占居民入口或站车道的网红机位；按车次倒推至少 90 分钟离开。", "central"),
-          "花园街 → 女人街 → 旺角宝藏小店": d("由旺角北向南逛街拍与小店，最多挑两处室内点。", "金鱼街转花园街／波鞋街、女人街，再选亚皆老街中心或信和中心；之后沿弥敦道向油麻地。", "棚架、运动鞋店、密集招牌、唱片模型与本地小店。", "拍照处：旺角东站 D 口起步，亚皆老街天桥只在允许停留处拍；35mm 拍环境，85mm 压缩招牌，11 点左右利用骑楼阴影；店内拍摄先询问。", "沿途小食共享一份，正餐留旺角。", "唱片、模型、饰品先比价验货。", "女人街未开齐不等待；无明码标价、低价名牌和强推销直接离开。", "mongkok"),
-          "旺角午餐 → 果栏 → 油麻地警署": d("午餐后继续向南，没有区域回头路。", "旺角弥敦道两侧择店，饭后经油麻地果栏外围到警署外观。", "冰室食物、果栏外街、蓝白警署建筑和旧楼。", "拍照处：油麻地站 B2 口一带；果栏只在公共行人道用 85—200mm 拍环境，警署外观用 35—50mm；午后反差大，避免直拍陌生人正脸。", "点心、滑蛋饭、烧味、车仔面或牛腩面，两人共享 2—3 份。", "正规明码标价商户购买药妆。", "果栏车辆频繁，绝不进入装卸区；排队超过 30 分钟换同类餐厅。", "mongkok"),
-          "庙街 → 佐敦 → 尖沙咀街道": d("从油麻地继续沿九龙半岛向南，不等夜市、不折返。", "经庙街牌坊和佐敦街巷，沿弥敦道步行或短乘巴士到尖沙咀重庆大厦周边。", "庙街牌坊、旧楼、巴士、霓虹招牌与重庆大厦外部街景。", "拍照处：佐敦站 A 口附近庙街牌坊、尖沙咀站 E 口周边；35mm 拍街道纵深，85—135mm 压缩巴士与招牌，14:30—15:30 利用楼间光。", "可补咖喱鱼蛋或糖水，不安排第二顿正餐。", "夜市小物仅小额购买。", "重庆大厦只拍公共街道和正常营业区域；不跟随拉客、不挡通道。", "tst"),
-          "尖沙咀 → 北角": d("九龙段走到最南端后一次过海，随后只向东。", "尖沙咀站乘荃湾线至金钟，转港岛线到北角；由北角站 B1 口往春秧街市集。", "电车穿过春秧街市、旧式招牌与社区生活。", "拍照处：北角站 B1 口至春秧街公共人行道；70—200mm 隔安全距离拍电车穿市集，35mm 拍环境，16:15 左右侧光较好。", "北角可补蛋挞、奶茶或豆腐花。", "街市小店先征得同意再拍或购买。", "电车和货车混行，绝不站路中央；人物近照必须先获同意。", "mongkok"),
-          "鲗鱼涌怪兽大厦": d("北角之后向东一站收尾，是港岛东的最终机位。", "港岛线至鲗鱼涌站 A 口，步行前往英皇道益昌大厦／海山楼建筑群；按现场开放指引进入公共可达区域。", "密集住宅天井、几何窗格与楼体尺度。", "拍照处：鲗鱼涌站 A 口步行约 8—10 分钟；16—24mm 仰拍天井，70—200mm 截取窗格细节；17:00 后光线柔和，但不要使用无人机、闪光灯或大型脚架。", "拍完在鲗鱼涌或北角就近晚餐。", "无。", "这里是居民住宅，保持安静、快速拍摄；如现场禁止进入或人流过密，立即放弃。", "mongkok"),
-          "港岛东晚餐 → 返回深圳": d("在路线终点就餐后直接返程，不回九龙补拍。", "鲗鱼涌乘港岛线至中环，步行转香港站乘东涌线到九龙站，再到西九龙高铁站。", "仅随手记录蓝调街景，不新增必拍点。", "夜间用较高快门拍电车或街景，设备不离手；返程优先。", "烧味、车仔面、云吞面或糖水任选；时间不足直接在车站简餐。", "无。", "按已购高铁倒推至少 90 分钟离开港岛东，勿因晚餐排队误车。", "mongkok")
-        });
-
         const dialog = document.getElementById("tripDialog");
         const dialogVisual = document.getElementById("dialogVisual");
-        const dialogImage = document.getElementById("dialogImage");
         const dialogTitle = document.getElementById("dialogTitle");
         const dialogSummary = document.getElementById("dialogSummary");
         const dialogDetails = document.getElementById("dialogDetails");
@@ -1739,8 +1712,7 @@
           dialogTitle.textContent = title;
           dialogSummary.textContent = data.summary;
           dialogVisual.className = "dialog-visual";
-          dialogImage.src = ROUTE_MAPS[dayId] || ROUTE_MAPS.day1;
-          dialogImage.alt = `${dayId.replace("day", "Day ")} 行程路线图`;
+          dialogVisual.style.backgroundImage = `url(${ROUTE_MAPS[dayId] || ROUTE_MAPS.day1})`;
           dialogDetails.innerHTML = [["怎么走",data.transport],["看与逛",data.visit],["拍照",data.photo],["两人吃什么",data.eat],["买什么",data.buy],["避雷 / 取舍",data.tip]].map(([label,value], i) => `<div class="detail-item${i === 5 ? " tip" : ""}"><span class="detail-label">${label}</span><p class="detail-value">${value}</p></div>`).join("");
           dialog.showModal();
         };

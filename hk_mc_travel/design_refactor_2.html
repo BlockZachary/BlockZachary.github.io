@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f1ea" />
+    <title>港澳旅行计划 · 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,700&amp;display=swap" rel="stylesheet" />
+    <style id="travel-scrapbook-refactor">
+      :root {
+        --paper: #f4f1ea;
+        --paper-light: #faf8f3;
+        --paper-deep: #eee6d9;
+        --ink: #2c241b;
+        --muted: #8c7e6a;
+        --faded: #b8aa96;
+        --aviation: #2e5c8a;
+        --stamp: #c44d34;
+        --kraft: #b8956a;
+        --line: #e8e0d4;
+        --green: #697d60;
+        --orange: #c98455;
+        --purple: #76627c;
+        --shadow-sm: 0 4px 12px rgba(44, 36, 27, .08);
+        --shadow-md: 0 10px 24px rgba(44, 36, 27, .13);
+        --shadow-lg: 0 24px 60px rgba(44, 36, 27, .2);
+        --spring: cubic-bezier(.34, 1.56, .64, 1);
+      }
+
+      *, *::before, *::after { box-sizing: border-box; transition-timing-function: var(--spring) !important; }
+      html { scroll-behavior: smooth; }
+      body {
+        position: relative;
+        margin: 0;
+        min-height: 100vh;
+        padding: 42px 18px 70px;
+        overflow-x: hidden;
+        color: var(--ink);
+        background:
+          linear-gradient(90deg, rgba(82, 59, 38, .07) 1px, transparent 1px) 0 0 / 36px 100%,
+          repeating-linear-gradient(8deg, rgba(255,255,255,.08) 0 2px, transparent 2px 8px),
+          linear-gradient(135deg, #e5ddd0, #d4c8b8 58%, #dfd4c4);
+        font: 400 15px/1.75 "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        width: auto;
+        height: auto;
+        border-radius: 0;
+        background:
+          radial-gradient(circle at 22% 18%, rgba(255,255,255,.22), transparent 22%),
+          radial-gradient(circle at 78% 72%, rgba(83,58,35,.07), transparent 26%);
+        filter: none;
+        pointer-events: none;
+      }
+      body::after { display: none; }
+      button, input { font: inherit; }
+      button { color: inherit; }
+      a { color: var(--aviation); text-decoration: none; }
+      a:hover { text-decoration: underline dashed; text-underline-offset: 4px; }
+
+      .container {
+        position: relative;
+        display: block;
+        width: 100%;
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 44px 48px 38px;
+        background:
+          linear-gradient(90deg, transparent 49.7%, rgba(86,63,42,.035) 50%, transparent 50.3%),
+          radial-gradient(circle at 16% 12%, rgba(105,81,55,.035) 0 1px, transparent 1.5px) 0 0 / 17px 19px,
+          var(--paper);
+        border: 1px solid rgba(91,70,49,.14);
+        border-radius: 5px 12px 10px 4px;
+        box-shadow: 0 4px 0 rgba(255,255,255,.38), var(--shadow-lg);
+        backdrop-filter: none;
+      }
+      .container::before,
+      .container::after {
+        content: "";
+        position: absolute;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .container::before {
+        inset: 10px 8px -7px 12px;
+        border: 1px solid rgba(100,75,49,.12);
+        border-radius: 5px;
+        transform: rotate(.18deg);
+      }
+      .container::after {
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 24px;
+        background: linear-gradient(90deg, transparent, rgba(64,45,28,.025), rgba(255,255,255,.14), transparent);
+        transform: translateX(-50%);
+      }
+      .container > * { position: relative; z-index: 1; }
+
+      .icon {
+        width: 20px;
+        height: 20px;
+        flex: 0 0 auto;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .hero {
+        position: relative;
+        display: flex;
+        min-height: 245px;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 30px;
+        padding: 62px 42px 35px;
+        overflow: hidden;
+        isolation: isolate;
+        color: var(--ink);
+        background:
+          repeating-linear-gradient(0deg, rgba(78,55,33,.025) 0 1px, transparent 1px 5px),
+          linear-gradient(145deg, #d6ba8f, #c9a878 56%, #d8bd93);
+        border: 1px solid rgba(92,61,31,.22);
+        border-radius: 8px 7px 11px 6px;
+        box-shadow: inset 0 0 38px rgba(85,54,26,.08), 2px 9px 20px rgba(44,36,27,.15);
+      }
+      .hero::before {
+        content: "AIR MAIL  ·  航空邮件";
+        position: absolute;
+        top: 20px;
+        left: 25px;
+        z-index: 1;
+        width: 205px;
+        height: 38px;
+        display: grid;
+        place-items: center;
+        color: var(--aviation);
+        background:
+          linear-gradient(#f8f3e8, #f8f3e8) padding-box,
+          repeating-linear-gradient(135deg, var(--stamp) 0 8px, #f6efe4 8px 14px, var(--aviation) 14px 22px, #f6efe4 22px 28px) border-box;
+        border: 6px solid transparent;
+        border-radius: 2px;
+        font: 600 10px "JetBrains Mono", monospace;
+        letter-spacing: 1.5px;
+        transform: rotate(-2deg);
+        box-shadow: 0 3px 7px rgba(44,36,27,.13);
+      }
+      .hero::after {
+        content: "已确认\A CONFIRMED";
+        position: absolute;
+        top: 24px;
+        right: 32px;
+        z-index: 1;
+        width: 104px;
+        height: 104px;
+        display: grid;
+        place-items: center;
+        padding: 18px 8px;
+        color: var(--stamp);
+        background: transparent;
+        border: 3px double currentColor;
+        border-radius: 50%;
+        font: 700 12px/1.25 "JetBrains Mono", "PingFang SC", sans-serif;
+        letter-spacing: .7px;
+        text-align: center;
+        white-space: pre;
+        text-shadow: .5px .5px rgba(196,77,52,.15);
+        transform: rotate(10deg);
+        opacity: .86;
+        box-shadow: inset 0 0 0 5px transparent, inset 0 0 0 6px currentColor;
+      }
+      .hero > div:first-child { max-width: 610px; }
+      h1, .day-card h2, .dialog-title { font-family: "Playfair Display", "PingFang SC", serif; }
+      h1 {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 0;
+        font-size: clamp(34px, 5vw, 42px);
+        font-style: italic;
+        font-weight: 700;
+        line-height: 1.08;
+        letter-spacing: -.8px;
+      }
+      .hero h1 > .icon {
+        width: 38px !important;
+        height: 38px !important;
+        padding: 8px;
+        color: #f6eee0;
+        background: var(--aviation);
+        border: 1px solid rgba(255,255,255,.5);
+        border-radius: 48% 52% 45% 55%;
+        transform: rotate(-4deg);
+      }
+      .badge {
+        align-self: center;
+        margin-left: 4px;
+        padding: 4px 10px;
+        color: #f8f3e8;
+        background: var(--stamp);
+        border: 1px dashed #f5d6c9;
+        border-radius: 2px;
+        font: 600 10px "JetBrains Mono", monospace;
+        letter-spacing: .7px;
+        transform: rotate(3deg);
+      }
+      .subtitle {
+        margin: 14px 0 0 51px;
+        color: #5e4935;
+        font-size: 14px;
+      }
+      .hero-meta {
+        align-self: flex-end;
+        display: flex;
+        max-width: 220px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 7px;
+      }
+      .pill {
+        padding: 5px 9px;
+        color: var(--ink);
+        background: rgba(250,248,243,.5);
+        border: 1px solid rgba(68,49,31,.18);
+        border-radius: 2px;
+        font: 600 10px "JetBrains Mono", monospace;
+        white-space: nowrap;
+        backdrop-filter: none;
+      }
+      .hero-meta .pill:first-child {
+        width: 100%;
+        padding: 0;
+        color: var(--stamp);
+        background: transparent;
+        border: 0;
+        font: 700 22px "Caveat", "PingFang SC", cursive;
+        text-align: right;
+        transform: rotate(-2deg);
+      }
+
+      .status-bar {
+        display: flex;
+        width: max-content;
+        max-width: calc(100% - 20px);
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px auto 28px;
+        padding: 8px 17px;
+        color: var(--muted);
+        background: rgba(250,248,243,.74);
+        border: 1px dashed #cabca9;
+        border-radius: 2px;
+        box-shadow: 1px 3px 7px rgba(44,36,27,.05);
+        font: 500 11px "JetBrains Mono", monospace;
+        transform: rotate(.25deg);
+        backdrop-filter: none;
+      }
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--green);
+        border: 1px solid #53674c;
+        border-radius: 46% 54% 50% 44%;
+        box-shadow: 0 0 0 3px rgba(105,125,96,.14);
+      }
+
+      .toolbar {
+        position: sticky;
+        top: 10px;
+        z-index: 20;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 12px;
+        margin: 0 0 42px;
+        padding: 0 6px;
+        background: linear-gradient(180deg, transparent 0 40%, rgba(188,166,136,.28) 40% 100%);
+        border: 0;
+        border-bottom: 1px solid rgba(89,68,46,.15);
+        border-radius: 0;
+        box-shadow: none;
+        backdrop-filter: blur(8px);
+      }
+      .toolbar::before { display: none; }
+      .tabs, .tools { display: flex; width: auto; flex-direction: row; gap: 5px; padding: 0; border: 0; }
+      .tabs { min-width: 0; overflow-x: auto; scrollbar-width: none; }
+      .tabs::-webkit-scrollbar { display: none; }
+      .tab, .tool-btn {
+        position: relative;
+        overflow: hidden;
+        border: 0;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: transform .25s var(--spring), box-shadow .25s var(--spring), background-color .25s var(--spring);
+        -webkit-tap-highlight-color: transparent;
+      }
+      .tab {
+        width: auto;
+        min-width: 72px;
+        padding: 10px 16px 9px;
+        color: #6e604e;
+        background: #d8c8b2;
+        border: 1px solid #cbb89f;
+        border-bottom: 0;
+        border-radius: 9px 9px 0 0;
+        box-shadow: inset 0 -5px 8px rgba(75,54,33,.06);
+        font: 600 13px "Caveat", "PingFang SC", cursive;
+        text-align: center;
+      }
+      .tab::before { display: none; }
+      .tab:hover { color: var(--aviation); transform: translateY(-2px); }
+      .tab.active {
+        color: var(--ink);
+        background: var(--paper-light);
+        border-color: #ded3c4;
+        box-shadow: 0 -3px 8px rgba(44,36,27,.07);
+        transform: translateY(1px);
+      }
+      .tab.active::after {
+        content: "";
+        position: absolute;
+        right: 9px;
+        bottom: 5px;
+        width: 13px;
+        height: 7px;
+        border-bottom: 2px solid var(--stamp);
+        border-radius: 50%;
+        transform: rotate(-9deg);
+      }
+      .tools { padding-bottom: 5px; }
+      .tool-btn {
+        display: inline-flex;
+        width: auto;
+        min-height: 36px;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 8px 13px;
+        color: #f9f4eb;
+        background: var(--aviation);
+        border: 1px solid #244d74;
+        border-radius: 3px;
+        box-shadow: 1px 3px 7px rgba(44,36,27,.12);
+        font-size: 11px;
+        font-weight: 600;
+      }
+      .tool-btn.secondary { display: inline-flex; color: var(--ink); background: #efe6d8; border-color: #d2c3ae; }
+      .tool-btn:hover { filter: none; box-shadow: var(--shadow-sm); transform: translateY(-2px) rotate(-.4deg); }
+      .tool-btn:active, .tab:active, .day-nav:active, .check-item:active { transform: translateY(1px); }
+      .press-wave { display: none !important; }
+
+      .section { min-width: 0; margin-top: 56px; scroll-margin-top: 86px; }
+      .section-kicker {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 0 0 22px 3px;
+        color: var(--ink);
+        font: 600 24px/1.25 "Playfair Display", "PingFang SC", serif;
+        letter-spacing: -.2px;
+        text-transform: none;
+      }
+      .section-kicker::before {
+        content: "";
+        width: 30px;
+        height: 18px;
+        flex: 0 0 auto;
+        background: repeating-linear-gradient(135deg, var(--stamp) 0 4px, transparent 4px 8px, var(--aviation) 8px 12px, transparent 12px 16px);
+        border: 1px solid rgba(86,63,40,.12);
+        opacity: .8;
+        transform: rotate(-4deg);
+      }
+
+      .overview-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: auto;
+        gap: 16px;
+        padding: 8px 4px 13px;
+      }
+      .metric, .metric:nth-child(n) {
+        position: relative;
+        grid-column: auto;
+        grid-row: auto;
+        min-height: 170px;
+        padding: 17px 15px 38px;
+        overflow: visible;
+        background:
+          linear-gradient(145deg, rgba(74,92,98,.08), rgba(184,149,106,.12)),
+          #e4ddd2;
+        border: 10px solid #fbfaf6;
+        border-bottom-width: 32px;
+        border-radius: 1px;
+        box-shadow: 1px 5px 12px rgba(44,36,27,.13);
+        transition: transform .3s var(--spring), box-shadow .3s var(--spring);
+      }
+      .metric:nth-child(1) { transform: rotate(-1.2deg); }
+      .metric:nth-child(2) { transform: rotate(1deg); background-color: #dfded2; }
+      .metric:nth-child(3) { transform: rotate(-.5deg); background-color: #e7d8ca; }
+      .metric:nth-child(4) { transform: rotate(1.4deg); background-color: #d7ded7; }
+      .metric::after {
+        content: "";
+        position: absolute;
+        right: 9px;
+        bottom: -23px;
+        width: 24px;
+        height: 12px;
+        background: transparent;
+        border: 2px solid rgba(196,77,52,.58);
+        border-left-color: transparent;
+        border-radius: 50%;
+        transform: rotate(-12deg);
+      }
+      .metric:hover, .metric:nth-child(n):hover { z-index: 2; box-shadow: var(--shadow-md); transform: translateY(-7px) rotate(0); }
+      .metric-label { color: var(--aviation); font: 600 9px "JetBrains Mono", monospace; letter-spacing: .8px; }
+      .metric-value { display: block; margin-top: 18px; font: 700 24px/1.2 "Playfair Display", "PingFang SC", serif; letter-spacing: -.5px; }
+      .metric-note { position: absolute; right: 3px; bottom: -26px; left: 3px; display: block; color: #655845; font: 600 15px/1.1 "Caveat", "PingFang SC", cursive; text-align: center; }
+      .notice {
+        position: relative;
+        margin-top: 19px;
+        padding: 18px 22px 17px 28px;
+        color: #675437;
+        background: #f3e6b8;
+        border: 1px solid #dfcf91;
+        border-radius: 1px 4px 2px 5px;
+        box-shadow: 2px 4px 9px rgba(44,36,27,.08);
+        font-size: 12px;
+        line-height: 1.8;
+        transform: rotate(-.2deg);
+      }
+      .notice::before {
+        content: "";
+        position: absolute;
+        top: -8px;
+        left: 45%;
+        width: 92px;
+        height: 18px;
+        background: rgba(215,183,104,.48);
+        transform: rotate(1.5deg) translateX(-50%);
+      }
+
+      .ticket-stage { position: relative; min-height: 438px; perspective: none; overflow: visible; }
+      .boarding-pass {
+        position: absolute;
+        display: grid;
+        width: min(700px, calc(100% - 52px));
+        min-height: 202px;
+        grid-template-columns: minmax(0, 1fr) 136px;
+        overflow: visible;
+        color: #342b22;
+        background:
+          radial-gradient(circle at 6px 0, var(--paper) 0 3px, transparent 3.5px) top left / 12px 8px repeat-x,
+          radial-gradient(circle at 6px 100%, var(--paper) 0 3px, transparent 3.5px) bottom left / 12px 8px repeat-x,
+          repeating-linear-gradient(0deg, rgba(91,65,39,.018) 0 1px, transparent 1px 5px),
+          #f0e6d3;
+        border: 1px solid #d2c1a4;
+        border-radius: 2px;
+        box-shadow: 3px 10px 22px rgba(44,36,27,.16);
+        transform-origin: center;
+        transition: transform .35s var(--spring), box-shadow .35s var(--spring);
+      }
+      .boarding-pass::before {
+        content: "";
+        position: absolute;
+        top: -15px;
+        left: 35%;
+        z-index: 3;
+        width: 118px;
+        height: 31px;
+        background:
+          repeating-linear-gradient(90deg, rgba(215,194,127,.56) 0 14px, rgba(239,220,157,.48) 14px 27px);
+        border-inline: 1px dashed rgba(120,94,53,.2);
+        transform: rotate(2.6deg);
+        box-shadow: 0 2px 4px rgba(44,36,27,.06);
+      }
+      .boarding-pass::after {
+        content: "GATE  —   BOARDING TIME  —";
+        position: absolute;
+        right: 156px;
+        bottom: 12px;
+        color: rgba(66,53,39,.44);
+        font: 500 8px "JetBrains Mono", monospace;
+        letter-spacing: 1px;
+      }
+      .boarding-pass:first-of-type { top: 30px; left: 2%; z-index: 1; transform: rotate(-2.6deg); }
+      .boarding-pass:last-of-type { right: 2%; bottom: 27px; z-index: 2; transform: rotate(2.1deg); }
+      .boarding-pass:first-of-type:hover { z-index: 4; transform: translateY(-8px) rotate(-.6deg); box-shadow: var(--shadow-md); }
+      .boarding-pass:last-of-type:hover { z-index: 4; transform: translateY(-8px) rotate(.6deg); box-shadow: var(--shadow-md); }
+      .ticket-main { padding: 24px 25px 31px; background: transparent; }
+      .ticket-head, .ticket-foot, .airport-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+      .ticket-head { padding-bottom: 9px; border-bottom: 1px solid rgba(71,55,38,.15); }
+      .airline { display: flex; align-items: center; gap: 9px; font-family: "Playfair Display", "PingFang SC", serif; font-size: 13px; font-weight: 700; }
+      .plane-dot { display: grid; place-items: center; width: 31px; height: 31px; color: #f8f1e5; background: var(--aviation); border: 2px double #d9e1e6; border-radius: 50%; box-shadow: none; }
+      .flight-no { color: var(--muted); font: 600 10px "JetBrains Mono", monospace; }
+      .airport-row { margin: 22px 0 17px; }
+      .airport { min-width: 90px; }
+      .airport:last-child { text-align: right; }
+      .airport-code { display: block; font: 700 32px "JetBrains Mono", monospace; letter-spacing: -1.5px; }
+      .airport-name { display: block; margin-top: 2px; color: var(--muted); font-size: 9px; }
+      .flight-path { position: relative; flex: 1; height: 28px; border-bottom: 2px dashed #a99a84; }
+      .flight-path .icon { position: absolute; left: 50%; bottom: -10px; width: 20px; height: 20px; padding: 2px; color: var(--stamp); background: #f0e6d3; transform: translateX(-50%) rotate(2deg); }
+      .ticket-foot { padding-right: 150px; color: #6d5e4c; font: 600 9px "JetBrains Mono", monospace; }
+      .ticket-stub {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 18px;
+        overflow: hidden;
+        background: rgba(222,207,182,.42);
+        border-left: 2px dashed #b6a58c;
+      }
+      .ticket-stub::before, .ticket-stub::after { content: ""; position: absolute; left: -10px; width: 19px; height: 19px; background: var(--paper); border: 1px solid #d2c1a4; border-radius: 50%; }
+      .ticket-stub::before { top: -10px; }
+      .ticket-stub::after { bottom: -10px; }
+      .seat-label { color: var(--stamp); font: 600 9px "JetBrains Mono", monospace; letter-spacing: 1.5px; }
+      .seat { color: var(--aviation); font: 700 38px "JetBrains Mono", monospace; letter-spacing: -2px; }
+      .passenger { color: var(--muted); font: 600 9px "JetBrains Mono", monospace; }
+
+      #itinerary {
+        display: grid;
+        grid-template-columns: 112px minmax(0, 1fr);
+        column-gap: 24px;
+        align-items: start;
+      }
+      #itinerary > .section-kicker { grid-column: 1 / -1; }
+      .day-grid {
+        position: sticky;
+        top: 80px;
+        z-index: 8;
+        grid-column: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        padding: 6px 0;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        backdrop-filter: none;
+      }
+      .day-nav {
+        position: relative;
+        min-width: 0;
+        padding: 11px 9px 10px 14px;
+        overflow: visible;
+        color: #655746;
+        background: #ddcdb8;
+        border: 1px solid #c9b69d;
+        border-right: 0;
+        border-radius: 8px 2px 2px 8px;
+        box-shadow: inset -6px 0 9px rgba(71,52,32,.06), 1px 2px 4px rgba(44,36,27,.07);
+        cursor: pointer;
+        transform: translateX(7px);
+        transition: transform .28s var(--spring), background-color .28s var(--spring), box-shadow .28s var(--spring);
+      }
+      .day-nav:nth-child(2n) { background: #d8d7c4; }
+      .day-nav:nth-child(3n) { background: #e2cbb8; }
+      .day-nav::after {
+        content: "";
+        position: absolute;
+        right: -10px;
+        top: 0;
+        display: block;
+        width: 12px;
+        height: 100%;
+        background: inherit;
+        clip-path: polygon(0 0, 100% 12%, 100% 88%, 0 100%);
+      }
+      .day-nav:hover { color: var(--aviation); background: var(--paper-light); border-color: #c8b8a2; box-shadow: var(--shadow-sm); transform: translateX(13px); }
+      .day-num { color: var(--stamp); font: 700 15px/1 "Caveat", cursive; }
+      .day-nav strong { display: block; margin: 6px 0 0; font-size: 11px; line-height: 1.35; }
+      .day-nav small { display: none; }
+      .day-card {
+        position: relative;
+        grid-column: 2;
+        margin: 0 0 28px;
+        padding: 0 28px 25px;
+        overflow: visible;
+        color: var(--ink);
+        background:
+          repeating-linear-gradient(to bottom, transparent 0 27px, rgba(65,93,117,.09) 27px 28px),
+          var(--paper-light);
+        border: 1px solid var(--line);
+        border-radius: 3px 7px 5px 2px;
+        box-shadow: var(--shadow-sm);
+        transition: transform .3s var(--spring), box-shadow .3s var(--spring);
+      }
+      .day-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px) rotate(.08deg); }
+      .day-card::before {
+        content: "";
+        position: absolute;
+        top: -11px;
+        left: 50%;
+        width: 136px;
+        height: 27px;
+        background: repeating-linear-gradient(90deg, rgba(180,197,153,.56) 0 18px, rgba(202,213,177,.5) 18px 36px);
+        border-inline: 1px dashed rgba(80,95,59,.15);
+        opacity: 1;
+        transform: translateX(-50%) rotate(-1.2deg);
+      }
+      .day-card:nth-of-type(3n)::before { background: repeating-linear-gradient(90deg, rgba(221,166,120,.5) 0 18px, rgba(234,190,149,.46) 18px 36px); transform: translateX(-50%) rotate(1deg); }
+      .day-card:nth-of-type(3n+1)::before { background: repeating-linear-gradient(90deg, rgba(214,192,122,.5) 0 18px, rgba(232,214,155,.46) 18px 36px); }
+      .day-card > h2 {
+        position: relative;
+        margin: 0;
+        padding: 29px 62px 5px 0;
+        color: var(--ink);
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1.25;
+        cursor: pointer;
+      }
+      .day-card > .route { margin: 0; padding: 0 62px 18px 0; color: var(--stamp); font: 600 17px "Caveat", "JetBrains Mono", cursive; letter-spacing: .3px; }
+      .day-card > .timeline {
+        display: grid;
+        grid-template-columns: 76px minmax(0, 1fr);
+        gap: 0 14px;
+        max-height: 1800px;
+        margin: 0;
+        opacity: 1;
+        transition: max-height .46s var(--spring), opacity .26s var(--spring), margin .3s var(--spring);
+      }
+      .collapse-btn {
+        position: absolute;
+        top: 22px;
+        right: 0;
+        display: grid;
+        width: 37px;
+        height: 37px;
+        place-items: center;
+        padding: 0;
+        color: var(--aviation);
+        background: #e9dcbf;
+        border: 1px dashed #b9a57c;
+        border-radius: 48% 52% 46% 54%;
+        box-shadow: 1px 2px 5px rgba(44,36,27,.09);
+        cursor: pointer;
+        transform: rotate(2deg);
+        transition: transform .32s var(--spring), box-shadow .25s var(--spring);
+      }
+      .collapse-btn:hover { background: #f1e7ce; box-shadow: var(--shadow-sm); transform: rotate(-4deg) scale(1.06); }
+      .collapse-btn svg { width: 16px; height: 16px; }
+      .day-card.collapsed { box-shadow: 1px 3px 8px rgba(44,36,27,.07); }
+      .day-card.collapsed > .timeline { max-height: 0; margin: 0; opacity: 0; overflow: hidden; pointer-events: none; }
+      .day-card.collapsed .collapse-btn { transform: rotate(-90deg); }
+      .time { padding: 10px 0; color: var(--stamp); font: 700 18px/1.35 "Caveat", "PingFang SC", cursive; text-align: right; }
+      .event {
+        position: relative;
+        margin: 0;
+        padding: 8px 68px 15px 17px;
+        color: var(--ink);
+        background: transparent;
+        border: 0;
+        border-left: 2px dashed var(--stamp);
+        border-radius: 0;
+        outline: none;
+        font-size: 13px;
+        line-height: 1.65;
+        cursor: pointer;
+        transition: transform .24s var(--spring), color .24s var(--spring), opacity .24s var(--spring);
+      }
+      .event:hover { background: transparent; transform: translateX(4px) rotate(-.08deg); }
+      .event::before {
+        content: "";
+        position: absolute;
+        top: 13px;
+        left: -6px;
+        width: 10px;
+        height: 10px;
+        background: var(--paper-light);
+        border: 2px solid var(--stamp);
+        border-radius: 48% 52% 45% 55%;
+        transform: rotate(12deg);
+      }
+      .event strong { font-weight: 600; }
+      .event .detail { display: block; color: var(--muted); font-size: 12px; }
+      .event-hint { margin-left: 5px; color: var(--aviation); font-size: 10px; opacity: .72; }
+      .event.marked { margin: 0; background: transparent; border-left-color: var(--stamp); border-radius: 0; }
+      .event.marked strong { background: linear-gradient(transparent 58%, rgba(255,235,100,.48) 58% 92%, transparent 92%); }
+      .event.completed { color: var(--faded); opacity: .75; }
+      .event.completed strong, .event.completed .detail { color: var(--faded); text-decoration: line-through; text-decoration-thickness: 1px; }
+      .event.completed::before { content: "✓"; display: grid; width: 16px; height: 16px; place-items: center; left: -9px; top: 10px; color: var(--green); background: var(--paper-light); border-color: var(--green); font: 700 12px "Caveat", cursive; }
+      .mark-btn, .complete-btn {
+        position: absolute;
+        top: 5px;
+        display: grid;
+        width: 29px;
+        height: 29px;
+        place-items: center;
+        padding: 5px;
+        color: var(--faded);
+        background: transparent;
+        border: 0;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      .mark-btn { right: 34px; }
+      .complete-btn { right: 3px; }
+      .mark-btn:hover, .complete-btn:hover { color: var(--aviation); background: rgba(184,149,106,.12); }
+      .marked .mark-btn { color: #a78321; }
+      .completed .complete-btn { color: var(--green); }
+      [contenteditable="true"] { cursor: text; border-radius: 3px; outline: 2px dashed var(--kraft); outline-offset: 5px; box-shadow: none; }
+      #itinerary > .section { grid-column: 1 / -1; width: 100%; }
+
+      .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 18px; }
+      .info-card {
+        position: relative;
+        min-height: 0;
+        padding: 25px 23px 22px;
+        color: var(--ink);
+        background: #f9f3e7;
+        border: 1px solid #dfd3c1;
+        border-radius: 2px 5px 3px 7px;
+        box-shadow: var(--shadow-sm);
+        transition: transform .28s var(--spring), box-shadow .28s var(--spring);
+      }
+      .cards .info-card:nth-child(1) { transform: rotate(-.5deg); }
+      .cards .info-card:nth-child(2) { background: #edf0e4; transform: rotate(.6deg); }
+      .cards .info-card:nth-child(3) { background: #f3e5d9; transform: rotate(.35deg); }
+      .cards .info-card:nth-child(4) { background: #e8ece9; transform: rotate(-.45deg); }
+      .cards .info-card::before {
+        content: "";
+        position: absolute;
+        top: -8px;
+        left: 50%;
+        width: 76px;
+        height: 17px;
+        background: rgba(204,177,113,.48);
+        transform: translateX(-50%) rotate(-2deg);
+      }
+      .cards .info-card::after {
+        content: "";
+        position: absolute;
+        top: 8px;
+        right: 14px;
+        width: 10px;
+        height: 10px;
+        background: var(--stamp);
+        border: 2px solid #a43d2a;
+        border-radius: 50%;
+        box-shadow: 2px 4px 4px rgba(44,36,27,.24), 0 9px 0 -4px #80634a;
+      }
+      .cards .info-card:hover { z-index: 2; box-shadow: var(--shadow-md); transform: translateY(-5px) rotate(0); }
+      .info-card h3 { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; font: 600 18px "Playfair Display", "PingFang SC", serif; }
+      .info-card h3 .icon { width: 25px; height: 25px; padding: 3px; color: var(--aviation); background: transparent; border: 1px solid currentColor; border-radius: 48% 52% 44% 56%; }
+      .md-list { margin: 0; padding-left: 19px; color: var(--muted); font-size: 12px; line-height: 1.9; }
+      .md-list strong { color: var(--ink); }
+
+      #budget .info-card { padding: 14px; overflow-x: auto; background: var(--paper-light); border-radius: 2px; transform: rotate(.15deg); }
+      table { width: 100%; border: 2px solid var(--muted); border-collapse: collapse; font-size: 12px; }
+      th, td { padding: 12px 10px; text-align: left; border: 1px solid rgba(140,126,106,.65); }
+      th { color: var(--ink); background: #e8e0d4; font-family: "Playfair Display", "PingFang SC", serif; font-weight: 600; }
+      td:last-child, th:last-child { text-align: right; }
+      .total td { color: var(--ink); background: rgba(232,224,212,.45); border-bottom: 4px double var(--ink); font-weight: 700; }
+
+      .checklist { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 14px; }
+      .check-item {
+        position: relative;
+        display: flex;
+        min-height: 52px;
+        align-items: center;
+        gap: 11px;
+        padding: 12px 15px;
+        overflow: hidden;
+        background: rgba(250,248,243,.82);
+        border: 1px solid #dfd5c7;
+        border-radius: 2px 5px 2px 4px;
+        box-shadow: 1px 3px 7px rgba(44,36,27,.05);
+        cursor: pointer;
+        font-size: 12px;
+        transition: transform .22s var(--spring), box-shadow .22s var(--spring);
+      }
+      .check-item:nth-child(3n+1) { transform: rotate(-.25deg); }
+      .check-item:nth-child(3n) { transform: rotate(.25deg); }
+      .check-item:hover { background: var(--paper-light); box-shadow: var(--shadow-sm); transform: translateY(-2px) rotate(0); }
+      .check-item:has(input:checked) { background: rgba(218,224,207,.64); border-color: #bfc8b4; }
+      .check-item input { width: 18px; height: 18px; accent-color: var(--stamp); }
+      .check-item:has(input:checked) span { color: var(--muted); text-decoration: line-through; }
+
+      .footer {
+        margin-top: 56px;
+        padding-top: 25px;
+        color: var(--muted);
+        border-top: 1px dashed #cbbda9;
+        text-align: center;
+        font: 500 12px/1.8 "Caveat", "PingFang SC", cursive;
+      }
+      .footer::after { content: "— Page 1 of 1 —"; display: block; margin-top: 12px; color: var(--ink); font-size: 15px; letter-spacing: 1px; }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 24px;
+        z-index: 50;
+        padding: 11px 17px;
+        color: #f8f3e8;
+        background: var(--ink);
+        border: 1px dashed #d0bda5;
+        border-radius: 3px;
+        box-shadow: var(--shadow-lg);
+        font: 600 12px "Caveat", "PingFang SC", cursive;
+        transform: translate(-50%, 80px) rotate(-2deg);
+        opacity: 0;
+        transition: transform .3s var(--spring), opacity .3s var(--spring);
+      }
+      .toast.show { opacity: 1; transform: translate(-50%, 0) rotate(-1deg); }
+
+      .trip-dialog {
+        width: min(780px, calc(100% - 34px));
+        max-height: min(88vh, 850px);
+        padding: 0;
+        overflow: visible;
+        color: var(--ink);
+        background: var(--paper-light);
+        border: 1px solid #d8cdbd;
+        border-radius: 4px;
+        box-shadow: 0 30px 100px rgba(44,36,27,.4);
+        backdrop-filter: none;
+        animation: notebookOpen .4s var(--spring);
+      }
+      .trip-dialog::backdrop { background: rgba(44,36,27,.6); backdrop-filter: blur(5px); }
+      @keyframes notebookOpen { from { opacity: 0; transform: scale(.9) rotate(-2deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+      .dialog-shell {
+        position: relative;
+        max-height: min(88vh, 850px);
+        padding-left: 27px;
+        overflow-y: auto;
+        background:
+          radial-gradient(circle at 15% 12%, rgba(88,64,40,.035) 0 1px, transparent 1.5px) 0 0 / 18px 21px,
+          var(--paper-light);
+      }
+      .dialog-shell::before {
+        content: "";
+        position: absolute;
+        top: 90px;
+        left: 9px;
+        z-index: 4;
+        width: 17px;
+        height: 357px;
+        background:
+          radial-gradient(circle, #cfc9bd 0 22%, #777268 27% 36%, #d7d2c8 43% 58%, #777268 62% 68%, transparent 72%) top center / 17px 17px no-repeat,
+          radial-gradient(circle, #cfc9bd 0 22%, #777268 27% 36%, #d7d2c8 43% 58%, #777268 62% 68%, transparent 72%) center / 17px 17px no-repeat,
+          radial-gradient(circle, #cfc9bd 0 22%, #777268 27% 36%, #d7d2c8 43% 58%, #777268 62% 68%, transparent 72%) bottom center / 17px 17px no-repeat;
+      }
+      .dialog-shell::after {
+        content: "";
+        position: absolute;
+        top: -8px;
+        left: 23%;
+        z-index: 5;
+        width: 210px;
+        height: 30px;
+        background: repeating-linear-gradient(90deg, rgba(198,170,105,.55) 0 24px, rgba(222,198,132,.5) 24px 48px);
+        transform: rotate(-1.2deg);
+      }
+      .dialog-visual {
+        position: relative;
+        width: calc(100% - 46px);
+        height: auto;
+        aspect-ratio: 16 / 9;
+        margin: 31px 22px 0 24px;
+        background-color: #e8ddca;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        border: 10px solid #fffdf8;
+        border-bottom-width: 25px;
+        box-shadow: 2px 7px 17px rgba(44,36,27,.16);
+        transform: rotate(-.65deg);
+      }
+      .dialog-visual.panorama { background-size: 500% auto; }
+      .dialog-visual.scene-tst { background-position: 0% center; }
+      .dialog-visual.scene-central { background-position: 25% center; }
+      .dialog-visual.scene-mongkok { background-position: 50% center; }
+      .dialog-visual.scene-macau { background-position: 75% center; }
+      .dialog-visual.scene-cotai { background-position: 100% center; }
+      .dialog-close {
+        position: absolute;
+        top: -17px;
+        right: -17px;
+        z-index: 6;
+        display: grid;
+        width: 39px;
+        height: 39px;
+        place-items: center;
+        padding: 0;
+        color: var(--ink);
+        background: #eee2c9;
+        border: 1px dashed #a79578;
+        border-radius: 48% 52% 43% 57%;
+        box-shadow: 1px 4px 8px rgba(44,36,27,.18);
+        cursor: pointer;
+        backdrop-filter: none;
+        transition: transform .24s var(--spring);
+      }
+      .dialog-close:hover { color: var(--stamp); background: #f4ead7; transform: rotate(8deg) scale(1.08); }
+      .dialog-close .icon { width: 18px; height: 18px; }
+      .dialog-body { padding: 29px 34px 36px 45px; }
+      .dialog-eyebrow { color: var(--stamp); font: 700 16px "Caveat", "PingFang SC", cursive; letter-spacing: .5px; text-transform: none; }
+      .dialog-title { margin: 6px 0 7px; font-size: 28px; font-weight: 600; letter-spacing: -.4px; }
+      .dialog-summary { margin: 0 0 22px; color: var(--muted); font-size: 12px; line-height: 1.8; }
+      .detail-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .detail-item {
+        padding: 15px 16px;
+        background: rgba(250,248,243,.66);
+        border: 1px dashed #baa98f;
+        border-radius: 2px;
+      }
+      .detail-label { display: block; margin-bottom: 7px; color: var(--aviation); font: 600 10px "JetBrains Mono", monospace; letter-spacing: .5px; }
+      .detail-value { margin: 0; font-size: 12px; line-height: 1.75; }
+      .detail-item.tip { grid-column: 1 / -1; background: #f3e6b8; border-color: #cdbb78; }
+      .detail-item.tip .detail-label { color: var(--stamp); }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+      }
+      @media (max-width: 760px) {
+        body { padding: 18px 8px 34px; }
+        .container { max-width: none; padding: 24px 20px 34px; border-radius: 3px; }
+        .container::after { display: none; }
+        .hero { min-height: 310px; flex-direction: column; align-items: flex-start; justify-content: flex-end; padding: 78px 27px 28px; }
+        .hero::after { top: 18px; right: 24px; width: 88px; height: 88px; font-size: 10px; }
+        .hero-meta { align-self: auto; max-width: 100%; justify-content: flex-start; }
+        .hero-meta .pill:first-child { text-align: left; }
+        .subtitle { margin-left: 0; }
+        .toolbar { top: 6px; flex-direction: column; align-items: stretch; gap: 6px; padding-inline: 5px; }
+        .tabs { width: 100%; }
+        .tab { flex: 1; min-width: 66px; padding-inline: 10px; }
+        .tools { width: 100%; justify-content: flex-end; }
+        .tool-btn { width: auto; min-height: 36px; padding-inline: 12px; }
+        .tool-btn span, .tool-btn.secondary { display: inline-flex; }
+        .overview-grid { grid-template-columns: repeat(2, 1fr); }
+        .metric { min-height: 155px; }
+        .ticket-stage { min-height: 420px; }
+        .boarding-pass { width: calc(100% - 22px); grid-template-columns: minmax(0, 1fr) 98px; }
+        .boarding-pass:first-of-type { left: 2px; }
+        .boarding-pass:last-of-type { right: 2px; }
+        .ticket-main { padding: 20px 17px 28px; }
+        .airport-code { font-size: 26px; }
+        .ticket-foot { padding-right: 0; }
+        .boarding-pass::after { display: none; }
+        #itinerary { display: block; }
+        .day-grid { position: sticky; top: 109px; display: flex; flex-direction: row; margin-inline: -20px; padding: 7px 20px 12px; overflow-x: auto; background: rgba(244,241,234,.9); border-block: 1px solid rgba(93,72,49,.12); scrollbar-width: none; }
+        .day-grid::-webkit-scrollbar { display: none; }
+        .day-nav { flex: 0 0 112px; transform: none; border-right: 1px solid #c9b69d; border-radius: 7px 7px 2px 2px; }
+        .day-nav::after { display: none; }
+        .day-nav:hover { transform: translateY(-3px); }
+        .day-card { margin-top: 25px; }
+        .cards { grid-template-columns: 1fr; }
+        .checklist { grid-template-columns: 1fr; }
+        .trip-dialog { width: calc(100% - 20px); max-height: 94vh; }
+        .dialog-shell { max-height: 94vh; padding-left: 15px; }
+        .dialog-shell::before { left: 2px; }
+        .dialog-visual { width: calc(100% - 30px); margin-inline: 17px 13px; }
+        .dialog-body { padding: 25px 22px 30px 29px; }
+      }
+      @media (max-width: 480px) {
+        body { padding: 0; }
+        .container { padding: 14px 12px 28px; border: 0; }
+        .hero { min-height: 340px; padding: 78px 20px 24px; }
+        .hero::before { left: 16px; width: 170px; }
+        .hero::after { right: 16px; }
+        h1 { flex-wrap: wrap; font-size: 33px; }
+        .badge { margin-left: 0; }
+        .hero-meta { gap: 5px; }
+        .pill { font-size: 9px; }
+        .toolbar { margin-bottom: 34px; }
+        .tab { min-width: 58px; padding-inline: 8px; }
+        .tool-btn { flex: 1; }
+        .overview-grid { gap: 11px; padding-inline: 0; }
+        .metric { min-height: 143px; padding: 12px 9px 35px; border-width: 8px; border-bottom-width: 29px; }
+        .metric-value { font-size: 19px; }
+        .metric-note { font-size: 13px; }
+        .section-kicker { font-size: 21px; }
+        .ticket-stage { min-height: 390px; margin-inline: -4px; }
+        .boarding-pass { min-height: 180px; grid-template-columns: minmax(0, 1fr) 78px; }
+        .ticket-main { padding: 15px 12px 25px; }
+        .airline { font-size: 10px; }
+        .flight-no { font-size: 8px; }
+        .airport-row { gap: 8px; }
+        .airport { min-width: 57px; }
+        .airport-code { font-size: 22px; }
+        .airport-name { font-size: 7px; }
+        .ticket-foot { font-size: 7px; gap: 5px; }
+        .ticket-stub { padding: 8px; }
+        .seat { font-size: 29px; }
+        .passenger { font-size: 7px; text-align: center; }
+        .day-grid { top: 110px; margin-inline: -12px; padding-inline: 12px; }
+        .day-card { padding-inline: 15px; }
+        .day-card > h2 { padding-right: 48px; font-size: 20px; }
+        .day-card > .route { padding-right: 45px; font-size: 15px; }
+        .day-card > .timeline { grid-template-columns: 55px minmax(0, 1fr); gap: 0 8px; }
+        .time { font-size: 15px; }
+        .event { padding-right: 60px; padding-left: 13px; }
+        .dialog-shell::after { width: 130px; }
+        .dialog-title { font-size: 23px; }
+        .detail-grid { grid-template-columns: 1fr; }
+        .detail-item.tip { grid-column: auto; }
+        th, td { padding: 9px 6px; font-size: 10px; }
+      }
+      @media print {
+        body { padding: 0; background: #fff; }
+        .container { max-width: none; padding: 20px; border: 0; box-shadow: none; }
+        .toolbar, .mark-btn, .complete-btn, .toast { display: none !important; }
+        .day-card, .info-card, .boarding-pass { break-inside: avoid; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <header class="hero">
+        <div>
+          <h1><svg class="icon" viewBox="0 0 24 24" style="width:24px;height:24px"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V5.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 4.252a1.125 1.125 0 0 0-1.006 0L3.622 6.689A1.125 1.125 0 0 0 3 7.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"/></svg>HK · MC Travel <span class="badge">PLAN</span></h1>
+          <p class="subtitle">西安出发 · 深圳 / 香港 / 澳门 · Day 0 + 5 天旅行计划</p>
+        </div>
+        <div class="hero-meta"><span class="pill">2026.09.30—10.06</span><span class="pill">2 TRAVELERS</span><span class="pill">BUDGET ≤ ¥10K</span></div>
+      </header>
+
+      <div class="status-bar"><span class="status-dot"></span><span id="saveStatus">计划已就绪 · 所有操作自动保存至本机</span></div>
+
+      <nav class="toolbar" aria-label="页面导航与编辑工具">
+        <div class="tabs"><button class="tab active" data-target="overview">概览</button><button class="tab" data-target="itinerary">行程</button><button class="tab" data-target="budget">预算</button><button class="tab" data-target="checklist">清单</button></div>
+        <div class="tools"><button id="editBtn" class="tool-btn"><svg class="icon" viewBox="0 0 24 24"><path d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82 3 21l1.18-3.832L16.862 4.487Z"/></svg><span>编辑内容</span></button><button id="resetBtn" class="tool-btn secondary" title="恢复 HTML 中的初始内容">重置</button></div>
+      </nav>
+
+      <section id="overview" class="section">
+        <span class="section-kicker">Trip Overview</span>
+        <div class="overview-grid">
+          <div class="metric"><span class="metric-label">DURATION</span><span class="metric-value">Day 0 + 5 天</span><span class="metric-note">9 月 30 日 18:15 启程</span></div>
+          <div class="metric"><span class="metric-label">ROUTE</span><span class="metric-value">西安 → 深港澳</span><span class="metric-note">香港两日 · 澳门两日</span></div>
+          <div class="metric"><span class="metric-label">BUDGET</span><span class="metric-value">约 ¥9,197</span><span class="metric-note">两人合计 · 已确认支出 ¥3,947</span></div>
+          <div class="metric"><span class="metric-label">PACE</span><span class="metric-value">每天 2 万步</span><span class="metric-note">轻装 · 舒适运动鞋</span></div>
+        </div>
+        <div class="notice"><strong>待最终确认：</strong>国庆航班、酒店、跨境列车时刻及价格会变化；当前数字来自两份初稿且存在冲突。出票前请逐项核验。澳门路线暂采用“深圳北—珠海—拱北”往返，以便行程闭环。</div>
+      </section>
+
+      <section class="section" aria-labelledby="flight-title">
+        <span id="flight-title" class="section-kicker">Confirmed Flight · 2 Boarding Passes</span>
+        <div class="ticket-stage">
+          <article class="boarding-pass" aria-label="旅客一机票">
+            <div class="ticket-main"><div class="ticket-head"><span class="airline"><span class="plane-dot">✈</span>深圳航空</span><span class="flight-no">ZH9206 · SEP 30 WED · A320</span></div><div class="airport-row"><div class="airport"><span class="airport-code">XIY</span><span class="airport-name">西安咸阳 · T2</span></div><div class="flight-path"><svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h-6l-2-2H1l2 4-2 4h1.5l2-2h6l-2 8h2l5-8H20a2 2 0 0 0 0-4h-4.5l-5-8h-2l2 8Z"/></svg></div><div class="airport"><span class="airport-code">SZX</span><span class="airport-name">深圳宝安 · T3</span></div></div><div class="ticket-foot"><span>DEPART · 18:15</span><span>ARRIVE · 21:15</span></div></div>
+            <div class="ticket-stub"><span class="seat-label">SEAT</span><strong class="seat">XX</strong><span class="passenger">HUANG 先生</span></div>
+          </article>
+          <article class="boarding-pass" aria-label="旅客二机票">
+            <div class="ticket-main"><div class="ticket-head"><span class="airline"><span class="plane-dot">✈</span>深圳航空</span><span class="flight-no">ZH9206 · SEP 30 WED · A320</span></div><div class="airport-row"><div class="airport"><span class="airport-code">XIY</span><span class="airport-name">西安咸阳 · T2</span></div><div class="flight-path"><svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h-6l-2-2H1l2 4-2 4h1.5l2-2h6l-2 8h2l5-8H20a2 2 0 0 0 0-4h-4.5l-5-8h-2l2 8Z"/></svg></div><div class="airport"><span class="airport-code">SZX</span><span class="airport-name">深圳宝安 · T3</span></div></div><div class="ticket-foot"><span>DEPART · 18:15</span><span>ARRIVE · 21:15</span></div></div>
+            <div class="ticket-stub"><span class="seat-label">SEAT</span><strong class="seat">XX</strong><span class="passenger">DUAN 女士</span></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="itinerary" class="section">
+        <span class="section-kicker">Daily Itinerary</span>
+        <div class="day-grid">
+          <div class="day-nav" data-day="day0"><span class="day-num">DAY 00</span><strong>西安启程</strong><small>值机 · 抵达深圳</small></div>
+          <div class="day-nav" data-day="day1"><span class="day-num">DAY 01</span><strong>抵达深圳</strong><small>城市漫游 · 日落</small></div>
+          <div class="day-nav" data-day="day2"><span class="day-num">DAY 02</span><strong>维港摄影线</strong><small>尖沙咀 · 中环 · 港岛西</small></div>
+          <div class="day-nav" data-day="day3"><span class="day-num">DAY 03</span><strong>九龙街拍线</strong><small>旺角 · 油麻地 · 可选深水埗</small></div>
+          <div class="day-nav" data-day="day4"><span class="day-num">DAY 04</span><strong>澳门老城线</strong><small>东望洋 · 大三巴 · 海边日落</small></div>
+          <div class="day-nav" data-day="day5"><span class="day-num">DAY 05</span><strong>氹仔路氹线</strong><small>龙环葡韵 · 官也街 · 酒店群</small></div>
+        </div>
+
+        <article id="day0" class="day-card editable-block"><h2>Day 0 · 西安启程</h2><p class="route">XI'AN XIANYANG T2 · SEP 30 WED</p><div class="timeline">
+          <div class="time">16:15 前</div><div class="event"><strong>西安咸阳国际机场 T2</strong><span class="detail">办理深圳航空 ZH9206 值机与行李托运；空客 A320（中），两位旅客座位号暂为 XX。</span></div>
+          <div class="time">18:15</div><div class="event"><strong>飞往深圳宝安国际机场 T3</strong><span class="detail">深圳航空 ZH9206，预计飞行 3 小时，当晚抵达深圳。</span></div>
+          <div class="time">21:15</div><div class="event"><strong>抵达深圳宝安国际机场 T3</strong><span class="detail">提取行李后联系悦美四季酒店接机，确认接机层与上车点。</span></div>
+          <div class="time">约 22:15</div><div class="event"><strong>入住悦美四季酒店</strong><span class="detail">当晚入住休息；酒店接送机服务仍需提前确认时间、等候位置和司机联系方式。</span></div>
+        </div></article>
+
+        <article id="day1" class="day-card editable-block"><h2>Day 1 · 深圳初见</h2><p class="route">SHENZHEN · OCT 01 THU</p><div class="timeline">
+          <div class="time">上午</div><div class="event"><strong>休息与自由安排</strong><span class="detail">9 月 30 日周三已入住 1 晚；10 月 1 日周四 14:00 前离店，可正常休息后按体力安排上午活动。</span></div>
+          <div class="time">14:00 前</div><div class="event"><strong>退房并转往全季酒店</strong><span class="detail">全季酒店（深圳北站民治地铁站店）：龙华区民治街道民治大道东边商务大楼 1 楼。</span></div>
+          <div class="time">14:30</div><div class="event"><strong>莲花山公园 → 市民中心</strong><span class="detail">免费城市景观线，登顶约 20 分钟。</span></div>
+          <div class="time">17:00</div><div class="event"><strong>深圳湾公园看日落</strong><span class="detail">沿海岸散步，晚餐可选椰子鸡或广式早茶。</span></div>
+          <div class="time">20:00</div><div class="event"><strong>检查证件与次日车票</strong><span class="detail">确认香港 2 次签注、流量包和深圳北—西九龙车票。</span></div>
+        </div></article>
+
+        <article id="day2" class="day-card editable-block"><h2>Day 2 · 香港维港人物摄影线</h2><p class="route">WEST KOWLOON → TSIM SHA TSUI → CENTRAL → KENNEDY TOWN · OCT 02</p><div class="timeline">
+          <div class="time">07:15</div><div class="event"><strong>深圳北乘高铁赴香港</strong><span class="detail">至少提前 45—60 分钟到站；西九龙完成一地两检，早餐尽量在深圳解决。</span></div>
+          <div class="time">09:15</div><div class="event"><strong>尖东 → K11 MUSEA → 星光大道</strong><span class="detail">从尖东向西顺走：K11 建筑与旋梯、海滨栏杆、电影金像奖雕塑；商场未开门时直接先拍海滨。</span></div>
+          <div class="time">10:45</div><div class="event"><strong>文化中心 → 钟楼 → 1881</strong><span class="detail">钟楼与天星小轮同框、文化中心几何墙面、1881 白色回廊；人物照优先，海港城仅作空调休整。</span></div>
+          <div class="time">12:15</div><div class="event"><strong>尖沙咀美食候选池</strong><span class="detail">茶餐厅常餐、烧味、云吞面、咖喱、蛋挞、鸡蛋仔、糖水任选；单店排队超过 30 分钟立即换附近同类。</span></div>
+          <div class="time">13:30</div><div class="event"><strong>天星小轮 → 中环 → 大馆</strong><span class="detail">上层靠窗拍维港；中环码头、摩天轮外观、半山扶梯、街市壁画、大馆红砖按体力顺走，PMQ 可删。</span></div>
+          <div class="time">16:30</div><div class="event"><strong>西营盘街景 → 坚尼地城日落</strong><span class="detail">正街斜坡与旧楼适合长焦人物照；日落改到公共海滨，不占居民出入口、不冒险站车道。</span></div>
+          <div class="time">18:30</div><div class="event"><strong>港岛西美食候选 → 返回西九龙</strong><span class="detail">糖水、煲仔饭、西多士、烧味或茶餐厅任选；最迟按已购车次倒推 90 分钟离开坚尼地城。</span></div>
+        </div></article>
+
+        <article id="day3" class="day-card editable-block"><h2>Day 3 · 香港九龙街拍与小店线</h2><p class="route">MONG KOK EAST → YAU MA TEI → JORDAN · SHAM SHUI PO OPTIONAL · OCT 03</p><div class="timeline">
+          <div class="time">08:00</div><div class="event"><strong>深圳北 → 香港西九龙</strong><span class="detail">第二次香港签注；抵港后去旺角东，从北向南走，避免旺角—庙街之间来回折返。</span></div>
+          <div class="time">09:30</div><div class="event"><strong>花墟 → 雀鸟花园 → 金鱼街</strong><span class="detail">花墙、铁栏、旧楼与市场色彩适合人物街拍；店内和摊主近照先征得同意，雀鸟花园人多则快速通过。</span></div>
+          <div class="time">11:00</div><div class="event"><strong>花园街 → 女人街 → 旺角商场</strong><span class="detail">波鞋街与招牌街景；亚皆老街中心、信和中心等作为小店候选，按兴趣选 1—2 个，不为购物拖慢全日。</span></div>
+          <div class="time">12:30</div><div class="event"><strong>旺角美食候选池</strong><span class="detail">点心、冰室常餐、滑蛋饭、烧味、车仔面、牛腩、鸡蛋仔、豆腐花任选；两人共享小份可多尝几种。</span></div>
+          <div class="time">14:00</div><div class="event"><strong>果栏 → 油麻地警署 → 庙街</strong><span class="detail">果栏只在公共道路拍摄，警署看外观；庙街白天更适合建筑人物照，夜市氛围需等入夜但不强求。</span></div>
+          <div class="time">16:30</div><div class="event"><strong>深水埗支线（现场二选一）</strong><span class="detail">体力好再去鸭寮街、北河街和旧楼街景；否则留在佐敦吃饭并提早回西九龙，绝不再折返庙街。</span></div>
+          <div class="time">18:00</div><div class="event"><strong>九龙晚餐候选 → 返回深圳</strong><span class="detail">煲仔饭、烧鹅、豆腐花、砵仔糕、港式糖水可选；海鲜时价、来源不明电子产品和药房推销直接避开。</span></div>
+        </div></article>
+
+        <article id="day4" class="day-card editable-block"><h2>Day 4 · 澳门半岛摄影线</h2><p class="route">BORDER GATE → GUIA → OLD TOWN → FISHERMAN'S WHARF · OCT 04</p><div class="timeline">
+          <div class="time">07:30</div><div class="event"><strong>退房，前往珠海站</strong><span class="detail">深圳北—珠海车次与是否直达须在购票时确认。</span></div>
+          <div class="time">10:00</div><div class="event"><strong>拱北口岸入澳门 → 酒店寄存</strong><span class="detail">可利用酒店免费接驳车进入半岛。</span></div>
+          <div class="time">11:00</div><div class="event"><strong>东望洋灯塔 → 疯堂斜巷</strong><span class="detail">先拍山顶白色灯塔、教堂和城市层次，再下行至彩色葡式街区；口岸耗时过长则灯塔改为可删项。</span></div>
+          <div class="time">12:45</div><div class="event"><strong>大三巴侧机位 → 恋爱巷</strong><span class="detail">避开正中主阶梯人潮，从侧巷、哪吒庙方向和恋爱巷取景；人物用长焦压缩彩色墙面。</span></div>
+          <div class="time">14:00</div><div class="event"><strong>澳门老城美食候选池</strong><span class="detail">葡挞、猪扒包、牛杂、虾子捞面、水蟹粥、云吞、咖喱、双皮奶、木糠布甸任选；热门店超过 20 分钟换同类。</span></div>
+          <div class="time">15:00</div><div class="event"><strong>玫瑰堂 → 议事亭前地</strong><span class="detail">教堂黄色立面、葡式波浪地砖、市政署回廊；广场过密时用窄巷与建筑局部拍人物。</span></div>
+          <div class="time">17:15</div><div class="event"><strong>渔人码头日落（可替换）</strong><span class="detail">用拱门框景拍人物和外港日落；若老城延误或天气差，直接回酒店休整，不额外追夜景项目。</span></div>
+        </div></article>
+
+        <article id="day5" class="day-card editable-block"><h2>Day 5 · 氹仔与路氹人物摄影线</h2><p class="route">TAIPA HOUSES → RUA DO CUNHA → COTAI → ZHUHAI · OCT 05</p><div class="timeline">
+          <div class="time">09:30</div><div class="event"><strong>退房并寄存行李</strong><span class="detail">轻装前往路氹酒店群。</span></div>
+          <div class="time">10:00</div><div class="event"><strong>龙环葡韵 → 氹仔旧城区</strong><span class="detail">薄荷绿建筑、花园和湖边是本日人物照重点；趁上午人少先拍，再步行去官也街。</span></div>
+          <div class="time">11:30</div><div class="event"><strong>官也街美食候选池</strong><span class="detail">葡挞、猪扒包、牛杂、木糠布甸、杏仁饼、蛋卷、榴莲雪糕任选；共享小份、排队超过 20 分钟就换。</span></div>
+          <div class="time">13:00</div><div class="event"><strong>威尼斯人 → 伦敦人 → 巴黎人</strong><span class="detail">以外立面、连廊和花园人物照为主；室内运河仅作休息，贡多拉和观景台时间紧可全部删除。</span></div>
+          <div class="time">14:45</div><div class="event"><strong>永利皇宫湖景（可选）</strong><span class="detail">仅在人少且缆车排队不超过 30 分钟时保留；否则直接取行李，返程缓冲比免费项目重要。</span></div>
+          <div class="time">17:00</div><div class="event"><strong>澳门 → 珠海 → 深圳</strong><span class="detail">过关及跨城交通预留充足时间，当晚在深圳住宿。</span></div>
+          <div class="time">晚上</div><div class="event"><strong>入住深圳酒店</strong><span class="detail">休息并整理行李，确认次日 ZH9205 航班与前往宝安机场 T3 的交通。</span></div>
+        </div></article>
+
+        <section class="section" aria-labelledby="return-flight-title">
+          <span id="return-flight-title" class="section-kicker">Confirmed Return Flight · Oct 06 Tue</span>
+          <div class="ticket-stage">
+            <article class="boarding-pass" aria-label="HUANG 先生返程机票">
+              <div class="ticket-main"><div class="ticket-head"><span class="airline"><span class="plane-dot">✈</span>深圳航空</span><span class="flight-no">ZH9205 · OCT 06 TUE</span></div><div class="airport-row"><div class="airport"><span class="airport-code">SZX</span><span class="airport-name">深圳宝安 · T3</span></div><div class="flight-path"><svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h-6l-2-2H1l2 4-2 4h1.5l2-2h6l-2 8h2l5-8H20a2 2 0 0 0 0-4h-4.5l-5-8h-2l2 8Z"/></svg></div><div class="airport"><span class="airport-code">XIY</span><span class="airport-name">西安咸阳 · T2</span></div></div><div class="ticket-foot"><span>DEPART · 14:00</span><span>ARRIVE · 16:50</span></div></div>
+              <div class="ticket-stub"><span class="seat-label">SEAT</span><strong class="seat">XX</strong><span class="passenger">HUANG 先生</span></div>
+            </article>
+            <article class="boarding-pass" aria-label="DUAN 女士返程机票">
+              <div class="ticket-main"><div class="ticket-head"><span class="airline"><span class="plane-dot">✈</span>深圳航空</span><span class="flight-no">ZH9205 · OCT 06 TUE</span></div><div class="airport-row"><div class="airport"><span class="airport-code">SZX</span><span class="airport-name">深圳宝安 · T3</span></div><div class="flight-path"><svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h-6l-2-2H1l2 4-2 4h1.5l2-2h6l-2 8h2l5-8H20a2 2 0 0 0 0-4h-4.5l-5-8h-2l2 8Z"/></svg></div><div class="airport"><span class="airport-code">XIY</span><span class="airport-name">西安咸阳 · T2</span></div></div><div class="ticket-foot"><span>DEPART · 14:00</span><span>ARRIVE · 16:50</span></div></div>
+              <div class="ticket-stub"><span class="seat-label">SEAT</span><strong class="seat">XX</strong><span class="passenger">DUAN 女士</span></div>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <section class="section"><span class="section-kicker">Notes & Preparation</span><div class="cards editable-block">
+        <div class="info-card"><h3><svg class="icon" viewBox="0 0 24 24"><path d="M15.75 5.25a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 22.5a7.5 7.5 0 0 1 15 0"/></svg>证件与通讯</h3><ul class="md-list"><li><strong>港澳通行证：</strong>香港 2 次签注 + 澳门 1 次签注。</li><li><strong>网络：</strong>支付宝境外流量包，或提前购买港澳通用卡。</li><li><strong>电源：</strong>英标转换插头、≤ 20000mAh 充电宝。</li></ul></div>
+        <div class="info-card"><h3><svg class="icon" viewBox="0 0 24 24"><path d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6H2.25m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75A.75.75 0 0 0 21 6h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125V15m0 0h-.75a.75.75 0 0 0-.75.75v.75m1.5-1.5h-18m16.5 1.5v.75a.75.75 0 0 1-.75.75h-.75M3.75 16.5v.75c0 .414.336.75.75.75h.75m9-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>支付与现金</h3><ul class="md-list"><li><strong>港币：</strong>约 HK$500—800 / 人，覆盖小店与交通。</li><li><strong>澳门币：</strong>约 MOP$300—500 / 人；公交现金不找零。</li><li><strong>支付：</strong>微信 / 支付宝 + 银联卡，避免人民币 1:1 消费。</li></ul></div>
+        <div class="info-card"><h3><svg class="icon" viewBox="0 0 24 24"><path d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>交通与拍摄提醒</h3><ul class="md-list"><li><strong>香港：</strong>游客全日通从首次入闸起连续 24 小时；当前成人 HK$75，不含高铁、机场快线、东铁头等/罗湖/落马洲。两天路线单日乘车不密集，现场算价后再买。</li><li><strong>澳门：</strong>公交正常票价 MOP$6；内地支付宝 / 微信乘车码可用但无车资及转乘优惠，准备零钱更稳。</li><li><strong>拍摄：</strong>港澳车辆靠左；不站车道、不占居民入口，商店、摊位及人物近照先征得同意。国庆优先人物与顺路线，不强求空镜。</li></ul></div>
+        <div class="info-card"><h3><svg class="icon" viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0-13.5v5.25l3.75 2.25"/></svg>紧急信息</h3><ul class="md-list"><li><strong>内地报警：</strong>110</li><li><strong>香港 / 澳门：</strong>999</li><li><strong>原则：</strong>证件随身、重要订单离线截图、保留返程缓冲。</li></ul></div>
+      </div></section>
+
+      <section id="budget" class="section editable-block"><span class="section-kicker">Budget Estimate · 2 People</span><div class="info-card"><table><thead><tr><th>项目</th><th>说明</th><th>预算</th></tr></thead><tbody><tr><td>往返机票</td><td>西安 ↔ 深圳 · 已购买</td><td>¥3,737</td></tr><tr><td>港澳通行证及签注</td><td>两人合计 · 已办理</td><td>¥210</td></tr><tr><td>住宿</td><td>深圳 3 晚 + 澳门 1 晚</td><td>¥1,750</td></tr><tr><td>跨境 / 城际交通</td><td>香港高铁、珠海往返</td><td>¥1,000</td></tr><tr><td>当地交通与门票</td><td>地铁、小轮等</td><td>¥700</td></tr><tr><td>餐饮</td><td>5 天，两人</td><td>¥1,500</td></tr><tr><td>流量与杂费</td><td>预留</td><td>¥300</td></tr><tr class="total"><td>当前预算合计</td><td>已确认支出 ¥3,947，其余待更新</td><td>¥9,197</td></tr></tbody></table><div class="notice"><strong>预算提示：</strong>往返机票与港澳通行证、签注的已确认支出共 ¥3,947；当前总预算约 ¥9,197，距离 ¥10,000 上限还剩 ¥803，建议其中至少保留 ¥500 作为应急金。</div></div></section>
+
+      <section id="checklist" class="section"><span class="section-kicker">Departure Checklist</span><div class="checklist">
+        <label class="check-item"><input type="checkbox" data-check="permit"><span>港澳通行证及签注有效</span></label><label class="check-item"><input type="checkbox" data-check="flight"><span>ZH9206 去程航班信息已确认</span></label><label class="check-item"><input type="checkbox" data-check="return-flight"><span>ZH9205 返程航班信息已确认</span></label><label class="check-item"><input type="checkbox" data-check="pickup"><span>已联系悦美四季确认接机</span></label><label class="check-item"><input type="checkbox" data-check="hotel"><span>深圳 / 澳门酒店已预订</span></label><label class="check-item"><input type="checkbox" data-check="rail"><span>跨境高铁与珠海车次已确认</span></label><label class="check-item"><input type="checkbox" data-check="network"><span>流量包 / SIM 卡已准备</span></label><label class="check-item"><input type="checkbox" data-check="cash"><span>港币、澳门币零钱已准备</span></label><label class="check-item"><input type="checkbox" data-check="plug"><span>转换插头与充电宝已装包</span></label><label class="check-item"><input type="checkbox" data-check="offline"><span>订单、地图与证件已离线备份</span></label>
+      </div></section>
+
+      <footer class="footer">STATIC TRAVEL NOTE · 点击「编辑内容」可修改正文；点击时间线右侧书签可标记重点<br />修改、标记与清单仅保存在当前浏览器，不会同步到其他设备。</footer>
+    </main>
+    <dialog id="tripDialog" class="trip-dialog">
+      <div class="dialog-shell">
+        <div id="dialogVisual" class="dialog-visual"><button id="dialogClose" class="dialog-close" aria-label="关闭详情"><svg class="icon" viewBox="0 0 24 24"><path stroke-linecap="round" d="m6 6 12 12M18 6 6 18"/></svg></button></div>
+        <div class="dialog-body"><span id="dialogEyebrow" class="dialog-eyebrow">Route Detail</span><h2 id="dialogTitle" class="dialog-title"></h2><p id="dialogSummary" class="dialog-summary"></p><div id="dialogDetails" class="detail-grid"></div></div>
+      </div>
+    </dialog>
+    <div id="toast" class="toast" role="status"></div>
+    <script>
+      (() => {
+        const KEY = "hk_mc_travel_v5";
+        const state = JSON.parse(localStorage.getItem(KEY) || "{}");
+        const blocks = [...document.querySelectorAll(".editable-block")];
+        const status = document.getElementById("saveStatus");
+        const toast = document.getElementById("toast");
+        let editing = false, timer;
+
+        const persist = () => { localStorage.setItem(KEY, JSON.stringify(state)); status.textContent = "刚刚自动保存 · 数据仅存于当前浏览器"; };
+        const notify = text => { toast.textContent = text; toast.classList.add("show"); clearTimeout(timer); timer = setTimeout(() => toast.classList.remove("show"), 1800); };
+        const ROUTE_MAPS = {
+          day0: "assets/route-shenzhen-day1.jpg",
+          day1: "assets/route-shenzhen-day1.jpg",
+          day2: "assets/route-hongkong-day2.jpg",
+          day3: "assets/route-hongkong-day3.jpg",
+          day4: "assets/route-macau-day4.jpg",
+          day5: "assets/route-macau-day5.jpg"
+        };
+        const d = (summary, transport, visit, photo, eat, buy, tip, scene = "shenzhen") => ({ summary, transport, visit, photo, eat, buy, tip, scene });
+        const DETAILS = {
+          "西安咸阳国际机场 T2": d("傍晚航班出发，建议把值机、安检和接机联系方式一次确认完。", "建议最晚 16:15 到达 T2；先托运行李，再过安检前往登机口。", "确认 ZH9206 登机口、空客 A320、两人座位与行李额度；充电宝随身携带。", "航显屏或登机口合影即可，证件号码与登机牌条码不要公开。", "机场提前吃简餐；带空水杯过安检后接水。", "不建议在机场临时采购旅行用品，价格通常较高。", "18:15 起飞，登机口可能调整，留意航司短信。"),
+          "飞往深圳宝安国际机场 T3": d("ZH9206 当晚抵达深圳，接机与入住全部计入 Day 0。", "登机前将酒店名称、地址和电话保存为离线截图；落地开机后联系接机司机。", "贵重物品与港澳通行证随身放置，确认空客 A320 客舱行李要求。", "如需拍摄舷窗景色，请关闭闪光灯。", "起飞前吃完晚餐，机上只准备少量独立包装零食。", "无需购买。", "预计 21:15 抵达；航班动态和实际落地时间以深圳航空通知为准。"),
+          "抵达深圳宝安国际机场 T3": d("21:15 落地后提取行李，直接联系酒店接机。", "取完行李后按酒店约定前往接机层和上车点；提前把航班号 ZH9206、21:15 落地、两位乘客和行李数量发给酒店。", "核对行李、洗手间补给、联系接机；不在机场长时间逗留。", "T3 到达大厅可简单记录，避免拍到其他旅客证件。", "便利店补水即可，晚餐建议起飞前解决。", "无。", "接送机必须提前确认服务时段、等候位置和司机联系方式。"),
+          "入住悦美四季酒店": d("预计当晚 22:15 左右入住，时间比原计划充裕。", "优先酒店接机；地址：宝安区航城街道三围社区航空路 3 号兆丰工业园 A 栋 1 层。", "前台确认次日 14:00 前离店、早餐时间、接送机规则与能否延迟退房。", "不安排专门拍照。", "若仍需进食，选择清淡夜宵。", "补充饮用水即可。", "酒店订单仍应覆盖 9 月 30 日当晚。"),
+          "休息与自由安排": d("航班已提前到当晚抵达，上午无需专门补觉，可按状态自由安排。", "酒店休息；起床后整理行李并叫车前往民治。", "检查通行证、签注、充电设备和第二天高铁票。", "无。", "可在酒店附近吃肠粉、粥或云吞，两人控制在 ¥50—80。", "便利店补水、防晒和纸巾。", "下午仍以莲花山—市民中心为主；若想保持体力，深圳湾继续作为可删项。"),
+          "退房并转往全季酒店": d("带行李从宝安转移到民治，打车最省体力；到店放下行李后再开始半日游。", "推荐网约车直达全季酒店（深圳北站民治地铁站店），约 45—60 分钟，费用随国庆路况浮动。省钱方案：先到固戍站乘地铁 1 号线，在会展中心转 4 号线到民治，再步行或短途打车，但带行李不推荐。", "地址：龙华区民治街道民治大道东边商务大楼 1 楼。确认入住、寄存与次日去深圳北站的路线。", "酒店只作为换宿节点，不必专门拍照。", "民治周边午餐可选隆江猪脚饭、潮汕汤粉或烧腊，两人约 ¥70—120。", "补充八达通/流量卡所需物品。", "国庆拥堵明显，14:00 退房后不要把 14:30 的游览时间卡得太死。"),
+          "莲花山公园 → 市民中心": d("深圳半日最值得保留的免费城市线，景观集中且从民治出发顺路。", "民治站乘 4 号线到少年宫站，F1/F2 口步行至莲花山南门；登顶后下山步行至市民中心，整体约 2—2.5 小时。", "山顶城市中轴线、邓小平铜像、市民中心屋顶和福田 CBD。", "山顶平台拍城市中轴；傍晚在市民中心广场用低机位拍建筑对称线。", "下午补给可选中心书城附近糖水或简餐；晚餐推荐椰子鸡，两人点小锅鸡、竹荪/马蹄、青菜和煲仔饭，约 ¥180—260。", "不必在景区买纪念品。", "雨天或太晒时缩短登山，改逛中心书城和市民中心室内区域。"),
+          "深圳湾公园看日落": d("海边日落漂亮但与民治、福田有一定距离，体力好再去。", "从市民中心乘 2 号线到景田，转 9 号线到深圳湾公园站；出站即海边。返程按导航乘地铁回民治。", "海岸栈道、红树林远景与城市天际线；预留约 60—90 分钟。", "日落前 30 分钟沿海边拍逆光剪影；不要进入湿地保护区域。", "建议看完日落回福田或民治吃椰子鸡/潮汕牛肉粿条。", "无。", "国庆地铁和公园都拥挤；若 Day 1 很疲惫，优先删除此项。"),
+          "检查证件与次日车票": d("回酒店完成第二天香港往返的闭环检查。", "从晚餐地点返回民治，全季酒店到深圳北站可乘 4 号线一站或短途打车。", "核对两次香港签注、往返车次、港币/支付、流量和充电。", "无。", "准备次日早餐或便携面包，避免早晨赶车。", "如需要，购买两瓶水和纸巾。", "跨境高铁建议至少提前 45—60 分钟到深圳北站。"),
+          "深圳北乘高铁赴香港": d("Day 2 只走尖沙咀—中环—港岛西线，避免跨区折返。", "全季酒店到民治站，乘 4 号线一站到深圳北；抵港后从西九龙步行或乘屯马线一站到尖东。", "一地两检后先解决八达通/支付，再开始海滨路线。", "西九龙站外可拍建筑曲线，但不要在过关区拍摄。", "早餐建议在深圳解决，香港第一餐留给尖沙咀。", "游客八达通是否划算按实际乘车次数判断；两天多次乘车可考虑。", "不要把跨境段算进香港 MTR 游客日票；官方日票也不含罗湖/落马洲往返。", "tst"),
+          "星光大道 → 尖沙咀钟楼": d("全程沿维港步行，地标集中且免费，是首次到香港最稳的一段。", "尖东站 J 口附近进入星光大道，沿海滨向西依次经过艺术馆、文化中心、钟楼与天星码头，约 1.5 公里。", "明星手印、维港天际线、香港电影金像奖雕塑和钟楼。", "上午顺光时在星光大道护栏拍港岛；钟楼前用海港与天星小轮作背景。", "途中不急着吃网红小店，把午餐放在尖沙咀街区。", "K11、海港城可逛但不建议在首日上午大量购物。", "海滨无遮挡，10 月仍晒；带伞、防晒和水。", "tst"),
+          "尖沙咀茶餐厅": d("选择离下一站天星码头不远的茶餐厅，减少排队与回头路。", "从钟楼向金马伦道/乐道步行约 10—15 分钟；用地图查看实时排队，超过 30 分钟就换附近同类店。", "体验茶餐厅点单与港式常餐，不追单一网红店。", "食物拍摄靠窗自然光，不开闪光灯影响邻桌。", "两人推荐：菠萝油 1 个、沙嗲牛肉面/通粉 1 份、滑蛋饭或叉烧饭 1 份、冻奶茶 2 杯，约 HK$150—220。", "可在附近买曲奇或小包装手信，先看保质期。", "留意加冰、冻饮、餐位费等附加价；繁忙时段可能需要拼桌。", "tst"),
+          "天星小轮 → 中环": d("用天星小轮过维港，比绕地铁更有旅行感，落地后步行串联中环。", "尖沙咀天星码头乘船到中环；下船后步行经摩天轮、街市，再到半山扶梯、大馆，景点间以步行为主。", "上层甲板维港、中环码头、半山扶梯、大馆红砖建筑。", "小轮靠窗拍两岸；大馆内院拍红砖与拱廊，注意展览区规则。", "中环可选云吞面、烧腊或蛋挞，两人小食约 HK$80—150。", "PMQ 文创小物按预算购买，避免背一整天。", "半山扶梯有固定运行方向；中环坡多，穿防滑鞋。", "central"),
+          "西营盘 → 坚尼地城日落": d("沿港岛线向西移动，免费街景与海滨比山顶更轻松，也更适合当天返深。", "中环乘港岛线到西营盘，走正街/东边街街景；再乘地铁两站到坚尼地城，步行到卑路乍湾海滨。", "西营盘坡道、旧楼层叠感、坚尼地城海滨与电车终点附近街景。", "西营盘利用坡道压缩远处海景；坚尼地城在海滨拍日落，不要站在车道或居民楼入口。", "可吃港式糖水、煲仔饭或小份西多士；两人约 HK$150—250。", "西区小店可买咖啡豆/文创，不专门排长队。", "网红篮球场可能影响居民且机位受管制，优先公共海滨；18:30 左右开始返程更稳。", "central"),
+          "西九龙返回深圳": d("从港岛西区回西九龙，至少为跨境列车预留 60 分钟。", "坚尼地城乘港岛线到中环，步行至香港站乘东涌线到九龙站，再沿室内通道前往西九龙；也可按实时导航选择荃湾线转屯马线。", "到站后直接过关候车。", "无。", "若时间紧，在站内买简餐，不为晚餐错过列车。", "无。", "不要购买末班或过晚车次；国庆排队和步行换乘时间会放大。", "central"),
+          "深圳北 → 香港西九龙": d("Day 3 集中在九龙旺角—油麻地—深水埗，不跨海。", "与 Day 2 相同，从民治经深圳北乘跨境高铁；抵港后乘荃湾线/屯马线转往旺角东或旺角。", "检查第二次香港签注与返程票。", "无。", "早餐在深圳解决。", "无。", "当天路线步行多，穿舒适鞋并轻装。", "mongkok"),
+          "金鱼街 → 花园街 → 女人街": d("三个街区相邻，按北向南步行，不绕路。", "旺角东站步行到金鱼街，再转花园街/波鞋街，最后到通菜街女人街，全程约 1.5—2 公里。", "老社区店铺、街市陈列、运动鞋街与旺角密集招牌。", "在公开街道拍纵深与招牌，不近拍摊主和顾客；金鱼店内先询问能否拍摄。", "沿途可尝鸡蛋仔或咖喱鱼蛋，两人共买一份尝味即可。", "运动鞋先比价；街市小商品注意品质，非必需不买。", "女人街上午可能尚未完全开档；不要只为它久等。", "mongkok"),
+          "旺角地道午餐": d("不绑定单一网红店，选旺角—油麻地之间排队合理的冰室或点心店。", "从花园街步行到弥敦道两侧餐厅；饭后继续向南走油麻地。", "观察本地常餐菜单与拼桌文化。", "拍餐点即可，避免拍到拼桌客人。", "两人推荐：鲜虾肠粉/烧卖各 1、叉烧饭或干炒牛河 1、奶茶 2 杯，约 HK$180—260。", "附近药房购物只去明码标价连锁或正规商户。", "排队超过 30 分钟就换店；点餐前确认现金、最低消费和冻饮加价。", "mongkok"),
+          "油麻地警署 → 庙街 → 深水埗": d("先向南看油麻地，再乘一小段地铁向北到深水埗，路线清楚。", "旺角沿弥敦道步行到油麻地警署外观和庙街；之后油麻地站乘荃湾线到深水埗，逛鸭寮街和基隆街。", "警署只看外观；庙街牌坊、果栏街区、鸭寮街电子市场与老社区。", "庙街牌坊拍街道纵深；深水埗拍旧楼与市场色彩，尊重摊贩。", "深水埗可尝豆腐花、砵仔糕或烧鹅，两人共享小份。", "鸭寮街电子产品水深，不懂不买；布料与生活小物可小额选购。", "不要购买来历不明的电子设备、药品或所谓低价奢侈品。", "mongkok"),
+          "庙街夜市晚餐": d("若已去深水埗，不必再折返庙街；可在深水埗早晚餐后直接回西九龙。", "推荐在深水埗用餐后乘荃湾线到佐敦，再步行西九龙；只有特别想看夜市时才回庙街。", "市井夜景与大排档氛围。", "用小相机/手机低调拍摄，不阻挡通道。", "两人推荐：煲仔饭 1、炒菜 1、饮品 2，约 HK$220—320；避免海鲜时价。", "无。", "为不走回头路，本计划把庙街视为可选项；返程列车优先。", "mongkok"),
+          "返回深圳并整理行李": d("结束第二次香港当日往返，为次日澳门搬运行李。", "从九龙区域步行/地铁到西九龙，乘高铁回深圳北，再由 4 号线一站到民治。", "回酒店整理澳门过夜小包与通行证。", "无。", "时间紧就在西九龙或深圳北解决晚餐。", "无。", "确认澳门签注、珠海车票和澳门酒店订单。", "mongkok"),
+          "退房，前往珠海站": d("推荐维持 Day 4 直接去澳门住宿，不增加香港酒店成本和搬运行李次数。", "从民治前往深圳北，乘高铁到珠海站；没有合适直达车时按 12306 实时方案换乘。珠海站出站后步行前往拱北口岸。", "沿途以转场为主。", "无。", "早餐在深圳解决，带少量便携食物。", "无。", "国庆车票和口岸排队不可低估；不要照搬旧攻略里的固定车次。", "macau"),
+          "拱北口岸入澳门 → 酒店寄存": d("过关后先放行李，再步行游老城。", "拱北步行过关到关闸；优先酒店接驳车，若线路不合适则乘公交或正规出租车。", "确认酒店入住和次日寄存安排。", "口岸不安排拍摄。", "进城后再吃午餐。", "可在便利店换零钱，澳门公交现金 MOP$6 且不找零。", "发财车路线与乘车资格会变，以现场标识为准；不要为免费车绕远。", "macau"),
+          "大三巴 → 恋爱巷 → 玫瑰堂": d("澳门半岛经典景点可全程步行串联，上午先去大三巴避开最拥挤时段。", "从酒店/新马路步行到大三巴，侧边进入恋爱巷，再沿卖草地街走到玫瑰堂，约 1—1.5 公里。", "大三巴立面与遗址后方、恋爱巷彩色墙、玫瑰堂内部。", "大三巴在阶梯下方偏侧拍全景；恋爱巷用长焦压缩彩色建筑。", "途中蛋挞两人各 1 个即可，正餐留给营地街市或新马路。", "手信先试吃，最后一天再集中购买。", "大三巴主阶梯中午极拥挤，早到并保管好随身物品。", "macau"),
+          "议事亭前地 → 疯堂斜巷": d("从玫瑰堂顺路到议事亭，再向东北走疯堂斜巷，保持老城步行线。", "玫瑰堂步行 3 分钟到议事亭；午餐后步行约 15—20 分钟到疯堂斜巷，可按体力决定是否继续东望洋。", "葡式波浪地砖、市政署外观、彩色建筑与疯堂斜巷。", "议事亭用低机位拍地砖曲线；疯堂斜巷拍建筑色块。", "两人可点虾子捞面 1、云吞/水蟹粥 1、饮品 2，约 MOP$180—280。", "杏仁饼、肉脯需注意入境内地限制和保质期。", "澳门坡道和石板路较滑，下雨时删掉远端支线。", "macau"),
+          "渔人码头日落": d("老城之后前往海边看日落，免费且空间比热门广场宽松。", "从疯堂斜巷/东望洋附近乘公交或出租车到渔人码头，步行游览后再回酒店区。", "海滨、仿古建筑和外港景观。", "傍晚用建筑拱门框住海面；海边风大注意设备。", "晚餐回新马路或酒店附近，避免景区高价随意点海鲜。", "无。", "若当天过关耗时过长，优先保留老城，渔人码头可删。", "macau"),
+          "退房并寄存行李": d("Day 5 轻装走氹仔—路氹线，下午取行李返深圳。", "在酒店前台寄存，确认最晚取件时间；乘公交/接驳车到路氹。", "检查返程交通与 10 月 6 日航班。", "无。", "早餐不要吃太饱，官也街留胃口。", "无。", "贵重物品和证件不要寄存在普通行李内。", "cotai"),
+          "威尼斯人 → 伦敦人 → 巴黎人": d("三个酒店群相邻，以室内连廊和步行为主，免费外观已经足够。", "到威尼斯人后按商场指示步行至伦敦人、巴黎人；全程约 2—3 公里，室内空调较冷。", "运河街景、伦敦人外立面、巴黎人花园与铁塔远景。", "巴黎人花园拍铁塔全景；酒店公共区域拍照遵守现场规则。", "不在酒店群吃高价正餐，把午餐留给官也街。", "只逛不买也可以；奢侈品退税与价格需自行比价。", "贡多拉、观景台等付费项目性价比一般，时间有限可全部跳过。", "cotai"),
+          "官也街午餐": d("错峰吃澳门小吃，两人用共享方式多尝几种，不要每家都排长队。", "从路氹酒店群步行或公交到官也街；逛完可步行至龙环葡韵。", "官也街巷道、氹仔旧城区和附近龙环葡韵。", "龙环葡韵薄荷绿建筑比拥挤的主街更适合合影。", "两人推荐：蛋挞 2 个、猪扒包 1 个、牛杂小份 1、木糠布甸 1，约 MOP$160—230。", "杏仁饼/蛋卷先买小盒；肉类手信入境限制更严格。", "网红店排队超过 20 分钟就换同类店；不要在最拥挤路段边走边吃。", "cotai"),
+          "永利皇宫缆车与喷泉": d("作为路氹收尾项目，免费体验即可，不为排队耽误返程。", "官也街乘公交或短途出租到永利皇宫；结束后回酒店取行李并前往关闸。", "喷泉湖、酒店外观和缆车视角。", "喷泉开启时从湖边斜侧拍全景。", "此时只补水，避免再次安排正餐。", "无。", "免费缆车可能暂停或排长队，超过 30 分钟直接放弃。", "cotai"),
+          "澳门 → 珠海 → 深圳": d("从澳门经拱北回珠海，再乘高铁回深圳，给过关留足缓冲。", "酒店取行李后乘公交/出租到关闸，步行过关至珠海站；按已购车次前往深圳北。", "以转场为主。", "无。", "可在珠海站或深圳北吃简餐。", "手信检查海关限制后再携带。", "澳门公交官方现金票价为 MOP$6、不找零；国庆口岸排队可能很长。", "cotai"),
+          "入住深圳酒店": d("返程前一晚住深圳，避免 10 月 6 日从澳门赶飞机。", "深圳北抵达后入住交通方便的酒店；次日建议 11:00 左右出发前往宝安机场 T3。", "确认 ZH9205、14:00 起飞、两位座位和行李额度。", "无。", "晚餐清淡，早点休息。", "最后检查不能带入航空客舱/内地的物品。", "至少提前 2 小时到机场；国庆建议再增加缓冲。", "shenzhen")
+        };
+
+        Object.assign(DETAILS, {
+          "尖东 → K11 MUSEA → 星光大道": d("从尖东一路向西拍到维港，不折返。", "尖东站 J 口附近进入 K11 MUSEA 与海滨；商场未营业就先走星光大道，之后不必回头。", "K11 公共建筑空间、星光大道、金像奖雕塑、维港栏杆与港岛天际线。", "广角拍建筑线条，人物离背景 3—5 米；海滨用长焦压缩港岛楼群，避开正午顶光可在骑楼下补拍。", "第一餐留到尖沙咀街区，途中只补水。", "商场只逛感兴趣楼层，不因购物打乱路线。", "海滨无遮阴；国庆人多时不要占据通道、攀爬栏杆或拍到陌生人正脸。", "tst"),
+          "文化中心 → 钟楼 → 1881": d("把尖沙咀西端的几组经典建筑一次拍完。", "从星光大道沿海滨向西，经文化中心到钟楼，再穿梭巴士总站到 1881；结束后就近午餐或回天星码头。", "文化中心几何墙、钟楼、天星小轮、1881 白色回廊和台阶。", "钟楼用低机位带入人物和天空；等小轮进入画面再连拍；1881 以拱门框住人物。", "附近可选茶餐厅、烧味、云吞面、咖喱或甜品。", "海港城只作为洗手间、补水与避暑点。", "1881 婚拍和游客较多，等空隙而非长时间占位；不要把海港城购物加入硬性行程。", "tst"),
+          "尖沙咀美食候选池": d("以区域候选替代单店打卡，现场根据排队选择。", "钟楼、乐道、金马伦道、加拿分道之间步行择店，吃完向天星码头移动。", "茶餐厅、老式冰室与街巷招牌也可作为生活感照片背景。", "食物靠窗自然光俯拍；拼桌时不要拍到邻桌。", "菠萝油、沙嗲牛肉面/通粉、滑蛋饭、叉烧或烧鹅、云吞面、咖喱鱼蛋、鸡蛋仔、蛋挞、港式糖水、冻奶茶可任选共享。", "曲奇和小包装手信先看价格、保质期与入境限制。", "排队超过 30 分钟就换同类；先问冻饮加价、茶位费、最低消费和是否只收现金。", "tst"),
+          "天星小轮 → 中环 → 大馆": d("坐小轮过海后沿中环向上走，不去山顶排队。", "尖沙咀乘天星小轮到中环；码头步行经摩天轮外观、街市与半山扶梯到大馆，PMQ 仅体力充足时保留。", "小轮甲板、中环码头、密集楼群、半山扶梯、街市壁画与大馆红砖院落。", "小轮靠窗拍人物侧影；中环用仰拍突出楼群，大馆用拱廊重复线条框住人物。", "可补云吞面、烧味、蛋挞或咖啡，正餐不必再排网红店。", "PMQ 文创按预算选购。", "半山扶梯有固定运行方向且坡多；大馆活动和开放区域以当天现场为准。", "central"),
+          "西营盘街景 → 坚尼地城日落": DETAILS["西营盘 → 坚尼地城日落"],
+          "港岛西美食候选 → 返回西九龙": d("晚餐和返程必须服从已购跨境车次。", "坚尼地城乘港岛线到中环，步行到香港站转东涌线至九龙站，再沿通道到西九龙；按车次倒推至少 90 分钟离开。", "如时间宽裕可在公共海滨看蓝调时刻，之后不再增加景点。", "蓝调时刻拍人物剪影；天黑后注意随身设备。", "西多士、糖水、煲仔饭、烧味、车仔面或茶餐厅常餐任选；时间紧就在站内吃简餐。", "无。", "不要购买末班或过晚车次，不为吃饭错过列车。", "central"),
+          "花墟 → 雀鸟花园 → 金鱼街": d("Day 3 从旺角东北端向南顺走，是色彩最丰富的上午街拍段。", "旺角东站出发，先花墟与雀鸟花园，再沿太子道东行到金鱼街，约 1.5 公里。", "花束色块、铁栏、旧楼、街市招牌与金鱼店外展示。", "用长焦把人物置于花墙和密集招牌前；店内、摊主、鸟笼和顾客近照先征得同意。", "沿途只吃鸡蛋仔、咖喱鱼蛋或豆腐花小份，正餐留旺角。", "花店小物按携带便利程度选择。", "雀鸟花园气味或人流不适可直接删；不使用闪光灯拍动物。", "mongkok"),
+          "花园街 → 女人街 → 旺角商场": d("街景与小店二选一控制时间，主路线持续向南。", "金鱼街转花园街/波鞋街、女人街，再到亚皆老街中心或信和中心；商场最多选 1—2 个。", "密集招牌、天桥视角、街市棚架和小型商场里的本地流行文化店铺。", "傍晚前街道反差大，用店铺阴影给人物补光；天桥只在允许停留的位置快速拍。", "小食不要一次买满，为午餐留胃口。", "鞋服、唱片、模型与小众饰品先比价并检查品质。", "所谓低价名牌、无明码标价商品和强行推销直接离开；女人街上午未开齐也不用等待。", "mongkok"),
+          "旺角美食候选池": d("两人共享小份，多尝几种，拒绝为单一网红店排长队。", "在旺角—油麻地弥敦道两侧择店，饭后继续向南。", "老冰室、点心铺和街边招牌可补拍生活感画面。", "靠窗位拍餐点，不开闪光灯、不拍拼桌客人。", "虾饺、烧卖、肠粉、滑蛋饭、烧味、车仔面、牛腩面、菠萝油、鸡蛋仔、豆腐花、冻奶茶任选；两人先点 2—3 份再加。", "正规连锁或明码标价商户购买药妆。", "超过 30 分钟换店；先问茶位、加一、最低消费和支付方式。", "mongkok"),
+          "果栏 → 油麻地警署 → 庙街": d("从旺角一路南下到佐敦，保留最有港片感的一段。", "午餐后步行至油麻地果栏、警署外观，再到庙街牌坊；全程约 1.5—2 公里。", "果栏外街、蓝白警署外观、弥敦道旧楼和庙街牌坊。", "果栏仅在公共道路用长焦拍环境；警署不进入受限区域；庙街用牌坊和灯笼形成纵深。", "庙街可选煲仔饭、咖喱鱼蛋或糖水，但不必等到很晚。", "夜市小物只做小额购买。", "果栏作业区车辆频繁，不进入装卸区；海鲜时价先问清，不接受药房拉客。", "mongkok"),
+          "深水埗支线（现场二选一）": d("这是可删支线，不与庙街来回折返。", "体力好时从油麻地乘荃湾线到深水埗，逛鸭寮街、北河街后直接乘地铁回佐敦/尖沙咀；疲惫则留在佐敦。", "旧楼、市场棚架、霓虹招牌、布料和电子市场。", "用长焦拍街道层次，尊重摊主和居民；不要在狭窄人行道架三脚架。", "烧鹅、豆腐花、砵仔糕、糖水、粥面任选小份。", "鸭寮街电子产品不懂不买。", "现场 16:30 前才决定；如果返程时间紧、下雨或步数超标就删。", "mongkok"),
+          "九龙晚餐候选 → 返回深圳": d("晚餐可在深水埗或佐敦完成，不再回头补景点。", "按所在位置乘荃湾线/屯马线前往西九龙，至少为过关候车留 60 分钟。", "无新增必拍点，蓝调街景只随手记录。", "夜间街拍提高快门，注意相机和手机。", "煲仔饭、烧鹅、牛腩面、糖水、豆腐花或砵仔糕任选；两人约 HK$180—320。", "无。", "返程列车优先；海鲜时价、电子市场低价货和药房推销全部避开。", "mongkok"),
+          "东望洋灯塔 → 疯堂斜巷": d("先高处再下行老城，天气好时保留；过关晚就删灯塔。", "酒店放行李后乘公交/出租到东望洋山附近，上山拍灯塔与教堂，再向疯堂斜巷方向下行。", "白色灯塔、教堂、炮台视野、彩色葡式建筑和石板街。", "灯塔用阶梯引导线拍全身；疯堂斜巷用建筑色块和长焦拍人物。", "途中补水即可，正餐留老城区。", "文创小店按预算选择。", "澳门坡多且石板雨天湿滑；口岸耽误超过 60 分钟就直接去大三巴。", "macau"),
+          "大三巴侧机位 → 恋爱巷": d("正面人潮密集，侧巷和后方更适合人物照。", "从疯堂斜巷步行至大三巴，先走哪吒庙一侧和遗址后方，再到恋爱巷，最后向玫瑰堂方向下行。", "大三巴侧立面、遗址拱门、哪吒庙、恋爱巷彩色墙。", "长焦从侧巷压缩立面；恋爱巷避开门口、用墙面色块做背景；不在主阶梯久站。", "葡挞或牛杂先共享小份。", "手信先试吃，集中到最后再买。", "国庆中午主阶梯最拥挤；不要为了空镜堵路或忽视随身物品。", "macau"),
+          "澳门老城美食候选池": d("把热门美食做成候选池，现场按排队选择。", "大三巴至议事亭、新马路和营地街市一带步行择店。", "老字号招牌与葡式街巷可随手拍，不额外绕路。", "食物用自然光近拍，不影响狭窄店铺通行。", "葡挞、猪扒包、牛杂、虾子捞面、水蟹粥、云吞、咖喱鱼蛋、双皮奶、木糠布甸、柠檬茶任选共享。", "杏仁饼、蛋卷先买小盒，核对肉类手信入境要求。", "排队超过 20 分钟换同类；海鲜时价先问清，避免人民币 1:1 付款。", "macau"),
+          "玫瑰堂 → 议事亭前地": d("老城最集中的葡式建筑段，适合建筑与人物同拍。", "从玫瑰堂步行几分钟到议事亭前地和市政署外观；拍完按导航前往渔人码头或酒店。", "玫瑰堂黄墙、波浪地砖、喷泉、市政署回廊和周边窄巷。", "低机位利用地砖曲线，人物站在广场边缘；人太多改拍门窗、瓷砖和窄巷局部。", "可补糖水或柠檬茶。", "手信不要在第一家集中购买。", "广场下午人流很大，空镜不是硬目标；教堂内部遵守开放和拍摄规则。", "macau"),
+          "渔人码头日落（可替换）": DETAILS["渔人码头日落"],
+          "龙环葡韵 → 氹仔旧城区": d("薄荷绿建筑比拥挤的官也街更适合上午人物照。", "乘公交/接驳到氹仔，先龙环葡韵与湖边，再沿步道前往旧城区和官也街。", "薄荷绿住宅、花园、湖面、石阶与氹仔旧街。", "上午柔光在绿墙前拍半身和全身；利用树影、门窗和栏杆构图。", "先不吃饱，官也街再共享小食。", "无。", "室内开放时间以现场为准；即使闭馆，外部建筑和花园也足够拍摄。", "cotai"),
+          "官也街美食候选池": d("错峰、共享、多尝几种，不为一家店消耗返程时间。", "从龙环葡韵步行至官也街和周边支巷，吃完前往路氹酒店群。", "主街招牌、旧城区支巷与附近彩色建筑。", "主街人密时转入支巷拍人物；不要边走边吃堵住通道。", "葡挞、猪扒包、牛杂、木糠布甸、杏仁饼、蛋卷、榴莲雪糕、柠檬茶任选；两人每样一份共享。", "杏仁饼和蛋卷先买小盒，肉类手信核对入境规定。", "排队超过 20 分钟换同类；网红店不是必选，先看明码标价。", "cotai"),
+          "永利皇宫湖景（可选）": DETAILS["永利皇宫缆车与喷泉"]
+        });
+
+        const dialog = document.getElementById("tripDialog");
+        const dialogVisual = document.getElementById("dialogVisual");
+        const dialogTitle = document.getElementById("dialogTitle");
+        const dialogSummary = document.getElementById("dialogSummary");
+        const dialogDetails = document.getElementById("dialogDetails");
+        const openDetail = (title, source) => {
+          const data = DETAILS[title] || d("此项为行程节点，按当天实时导航与现场开放情况执行。", "打开高德地图或 Google Maps，以当前位置查询公共交通。", "围绕当前节点轻松游览，不额外跨区。", "在公共区域拍摄并尊重他人隐私。", "就近选择明码标价、排队合理的餐厅。", "非必需不买，贵重商品先比价。", "国庆期间客流较大，所有时间均需留有弹性。", "shenzhen");
+          const dayId = source?.closest(".day-card")?.id || "day1";
+          dialogTitle.textContent = title;
+          dialogSummary.textContent = data.summary;
+          dialogVisual.className = "dialog-visual";
+          dialogVisual.style.backgroundImage = `url(${ROUTE_MAPS[dayId] || ROUTE_MAPS.day1})`;
+          dialogDetails.innerHTML = [["怎么走",data.transport],["看与逛",data.visit],["拍照",data.photo],["两人吃什么",data.eat],["买什么",data.buy],["避雷 / 取舍",data.tip]].map(([label,value], i) => `<div class="detail-item${i === 5 ? " tip" : ""}"><span class="detail-label">${label}</span><p class="detail-value">${value}</p></div>`).join("");
+          dialog.showModal();
+        };
+        document.getElementById("dialogClose").onclick = () => dialog.close();
+        dialog.addEventListener("click", e => { if (e.target === dialog) dialog.close(); });
+
+        blocks.forEach((block, i) => {
+          block.dataset.block = i;
+          if (state.blocks?.[i]) block.innerHTML = state.blocks[i];
+          block.addEventListener("input", () => { state.blocks ||= {}; state.blocks[i] = block.innerHTML; persist(); });
+        });
+
+        const decorateEvents = () => document.querySelectorAll(".event").forEach((event, i) => {
+          event.dataset.mark = i;
+          if (state.marks?.includes(i)) event.classList.add("marked");
+          if (state.completed?.includes(i)) {
+            event.classList.add("completed");
+            event.classList.remove("marked");
+          }
+          let btn = event.querySelector(".mark-btn");
+          if (!btn) { btn = document.createElement("button"); btn.className = "mark-btn"; btn.title = "标记重点"; btn.setAttribute("aria-label", "标记重点"); btn.innerHTML = "<svg class='icon' viewBox='0 0 24 24'><path d='M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.5 48.5 0 0 1 11.186 0Z'/></svg>"; event.appendChild(btn); }
+          btn.onclick = e => { e.stopPropagation(); const n = Number(event.dataset.mark); state.marks ||= []; state.completed ||= []; if (event.classList.contains("completed")) { event.classList.remove("completed"); state.completed = state.completed.filter(x => x !== n); } event.classList.toggle("marked"); state.marks = event.classList.contains("marked") ? [...new Set([...state.marks, n])] : state.marks.filter(x => x !== n); persist(); notify(event.classList.contains("marked") ? "已标记重点" : "已取消标记"); };
+          let done = event.querySelector(".complete-btn");
+          if (!done) { done = document.createElement("button"); done.className = "complete-btn"; done.title = "标记完成"; done.setAttribute("aria-label", "标记完成"); done.innerHTML = "<svg class='icon' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' d='m4.5 12.75 4.5 4.5 10.5-10.5'/></svg>"; event.appendChild(done); }
+          done.onclick = e => { e.stopPropagation(); const n = Number(event.dataset.mark); state.completed ||= []; state.marks ||= []; event.classList.toggle("completed"); if (event.classList.contains("completed")) { event.classList.remove("marked"); state.marks = state.marks.filter(x => x !== n); state.completed = [...new Set([...state.completed, n])]; } else { state.completed = state.completed.filter(x => x !== n); } persist(); notify(event.classList.contains("completed") ? "该行程已完成" : "已恢复为待完成"); };
+          event.tabIndex = 0;
+          event.title = "点击查看路线与游玩详情";
+          event.onclick = e => { if (editing || e.target.closest("button")) return; openDetail(event.querySelector("strong")?.textContent.trim() || "行程详情", event); };
+          event.onkeydown = e => { if (!editing && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openDetail(event.querySelector("strong")?.textContent.trim() || "行程详情", event); } };
+        });
+        decorateEvents();
+
+        document.getElementById("editBtn").onclick = e => {
+          editing = !editing;
+          blocks.forEach(block => block.contentEditable = editing ? "true" : "false");
+          e.currentTarget.querySelector("span").textContent = editing ? "完成编辑" : "编辑内容";
+          status.textContent = editing ? "编辑模式 · 点击正文即可修改" : "计划已就绪 · 所有操作自动保存至本机";
+          notify(editing ? "编辑模式已开启" : "修改已保存");
+        };
+        document.getElementById("resetBtn").onclick = () => {
+          if (!confirm("确定恢复 HTML 中的初始内容？本机的编辑、标记和勾选将被清除。")) return;
+          localStorage.removeItem(KEY); location.reload();
+        };
+        document.querySelectorAll("[data-check]").forEach(input => {
+          input.checked = !!state.checks?.[input.dataset.check];
+          input.onchange = () => { state.checks ||= {}; state.checks[input.dataset.check] = input.checked; persist(); };
+        });
+        document.querySelectorAll(".tab").forEach(tab => tab.onclick = () => {
+          document.querySelectorAll(".tab").forEach(x => x.classList.remove("active")); tab.classList.add("active"); document.getElementById(tab.dataset.target).scrollIntoView({behavior:"smooth"});
+        });
+        document.querySelectorAll(".day-nav").forEach(card => card.onclick = () => document.getElementById(card.dataset.day).scrollIntoView({behavior:"smooth", block:"start"}));
+
+        document.querySelectorAll(".day-card").forEach(card => {
+          const heading = card.querySelector(":scope > h2");
+          if (!heading) return;
+          const button = document.createElement("button");
+          button.className = "collapse-btn";
+          button.type = "button";
+          button.title = "折叠行程";
+          button.setAttribute("aria-label", `折叠${heading.textContent}`);
+          button.setAttribute("aria-expanded", "true");
+          button.innerHTML = "<svg class='icon' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/></svg>";
+          heading.appendChild(button);
+          const toggle = () => {
+            card.classList.toggle("collapsed");
+            const expanded = !card.classList.contains("collapsed");
+            button.setAttribute("aria-expanded", String(expanded));
+            button.setAttribute("aria-label", `${expanded ? "折叠" : "展开"}${heading.childNodes[0].textContent.trim()}`);
+            button.title = expanded ? "折叠行程" : "展开行程";
+          };
+          button.onclick = e => { e.stopPropagation(); toggle(); };
+          heading.onclick = e => { if (!editing && !e.target.closest("button")) toggle(); };
+        });
+
+        const observedSections = [...document.querySelectorAll("#overview, #itinerary, #budget, #checklist")];
+        const sectionObserver = new IntersectionObserver(entries => {
+          const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+          if (!visible) return;
+          document.querySelectorAll(".tab").forEach(tab => tab.classList.toggle("active", tab.dataset.target === visible.target.id));
+        }, { rootMargin: "-20% 0px -62%", threshold: [0, .15, .4] });
+        observedSections.forEach(section => sectionObserver.observe(section));
+
+        document.addEventListener("pointerdown", e => {
+          const target = e.target.closest(".tab, .tool-btn, .day-nav, .collapse-btn, .check-item");
+          if (!target) return;
+          const rect = target.getBoundingClientRect();
+          const wave = document.createElement("span");
+          wave.className = "press-wave";
+          wave.style.left = `${e.clientX - rect.left}px`;
+          wave.style.top = `${e.clientY - rect.top}px`;
+          target.appendChild(wave);
+          wave.addEventListener("animationend", () => wave.remove(), { once: true });
+        });
+      })();
+    </script>
+  </body>
+</html>
